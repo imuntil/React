@@ -1,0 +1,17 @@
+@import "../../styles/declaration";
+.home-section {
+  &.common-section {
+    margin-top: 1rem;
+  }
+  .section-title {
+    text-align: center;
+    padding-bottom: .2rem;
+    img {
+      width: 16%;
+      min-width: 120px;
+    }
+  }
+  .border-bottom {
+    border-bottom: 2px solid $main-color2;
+  }
+}

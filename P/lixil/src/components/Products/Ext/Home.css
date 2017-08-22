@@ -1,0 +1,30 @@
+.pro-ext-home {
+  padding-bottom: .6rem; }
+  .pro-ext-home .group {
+    padding: .35rem 0; }
+  .pro-ext-home .cart-box {
+    width: 100%; }
+  .pro-ext-home .border-box {
+    border: 1px solid #d2d2d2;
+    border-top: none; }
+  .pro-ext-home p.title {
+    font-size: 16px;
+    color: #f55a00;
+    line-height: 2;
+    padding-left: 1%; }
+    [data-dpr="2"] .pro-ext-home p.title {
+      font-size: 32px; }
+    [data-dpr="3"] .pro-ext-home p.title {
+      font-size: 48px; }
+  .pro-ext-home img.pic {
+    width: 100%; }
+  .pro-ext-home p.desc {
+    padding: .3rem .2rem;
+    font-size: 14px;
+    line-height: 1.6; }
+    [data-dpr="2"] .pro-ext-home p.desc {
+      font-size: 28px; }
+    [data-dpr="3"] .pro-ext-home p.desc {
+      font-size: 42px; }
+
+/*# sourceMappingURL=Home.css.map */

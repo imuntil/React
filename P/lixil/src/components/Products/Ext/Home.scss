@@ -1,0 +1,28 @@
+@import "../../../styles/declaration";
+.pro-ext-home {
+  padding-bottom: .6rem;
+  .group {
+    padding: .35rem 0;
+  }
+  .cart-box {
+    width: 100%;
+  }
+  .border-box {
+    border: 1px solid #d2d2d2;
+    border-top: none;
+  }
+  p.title {
+    @include font-dpr(16px);
+    color: $main-color2;
+    line-height: 2;
+    padding-left: 1%;
+  }
+  img.pic {
+    width: 100%;
+  }
+  p.desc {
+    padding: .3rem .2rem;
+    @include font-dpr(14px);
+    line-height: 1.6;
+  }
+}

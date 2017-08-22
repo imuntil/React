@@ -1,0 +1,18 @@
+.banner-section .img-box {
+  width: 100%; }
+  .banner-section .img-box img {
+    width: 100%; }
+.banner-section .slick-arrow {
+  width: 1rem;
+  height: 1rem;
+  z-index: 10; }
+  .banner-section .slick-arrow:before {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem; }
+.banner-section .slick-prev {
+  left: .5rem; }
+.banner-section .slick-next {
+  right: .5rem; }
+
+/*# sourceMappingURL=Carousel.css.map */

@@ -1,0 +1,12 @@
+.x-main {
+  width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+  display: block;
+  position: relative;
+}
+@media screen and (max-width: 1400px) {
+  .x-main {
+    width: 100%;
+  }
+}

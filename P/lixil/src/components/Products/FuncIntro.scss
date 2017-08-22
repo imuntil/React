@@ -1,0 +1,42 @@
+@import "../../styles/declaration";
+
+$b: 9px;
+.func-intro-section {
+  .func-tab {
+    width: 100%;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background-color: $main-color2;
+  }
+  .func-tab ul {
+    @extend .func-tab;
+    width: 80%;
+    margin: 0 auto;
+    li {
+      float: left;
+      width: 20%;
+    }
+    a {
+      display: block;
+      padding: .28rem 0;
+      text-align: center;
+      color: #ffffff;
+      position: relative;
+      &::after {
+        content: ' ';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: ($b - 4px) solid transparent;
+        border-right: ($b - 4px) solid transparent;
+        border-top: $b solid #ffffff;
+        background-color: transparent;
+        left: 0;
+        right: 0;
+        bottom: 4px;
+        margin: 0 auto;
+      }
+    }
+  }
+}

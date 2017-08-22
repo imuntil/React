@@ -1,0 +1,76 @@
+@import "../styles/declaration";
+
+.products-layout {
+  $b: 10px;
+  .tab-bar {
+    width: 100%;
+    border-bottom: 1px solid #d2d2d2;
+    border-top: 1px solid #d2d2d2;
+    background-color: #ffffff;
+    z-index: 100;
+    .tab-btn {
+      padding: 1.5% 0;
+      position: relative;
+      a {
+        text-align: center;
+        width: 100%;
+        padding: .13rem 0;
+        border-left: 1px solid #d2d2d2;
+        color: $font-color;
+        position: relative;
+        @include font-dpr(16px);
+        &::after {
+          content: ' ';
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          border-left: ($b - 4px) solid transparent;
+          border-right: ($b - 4px) solid transparent;
+          border-bottom: $b solid $main-color2;
+          background-color: transparent;
+          left: 0;
+          right: 0;
+          bottom: -6px;
+          margin: 0 auto;
+          opacity: 0;
+          transition: opacity .3s;
+        }
+      }
+    }
+    a.active-link::after,
+    .tab-btn:hover a::after {
+      opacity: 1;
+    }
+  }
+  .bar-content {
+    position: relative;
+    overflow: hidden;
+  }
+  .fadeOutRight, .fadeOut {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .fade-in-left {
+    opacity: 0;
+    transform: translate(-50px, 0);
+  }
+  .fade-in-left.fade-in-left-active {
+    opacity: 1;
+    transform: translate(0, 0);
+    transition: all .4s;
+  }
+  .fade-out-right {
+    opacity: 1;
+    transform: translate(0, 0);
+    position: absolute;
+    width: 100%;
+    top: 0;
+  }
+  .fade-out-right.fade-out-right-active {
+    opacity: 0;
+    transform: translate(50px, 0);
+    transition: all .4s;
+  }
+}

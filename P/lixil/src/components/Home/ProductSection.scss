@@ -1,0 +1,36 @@
+@import "../../styles/declaration";
+.product-section {
+  .section-title {
+    text-align: center;
+  }
+  .group {
+    margin-top: .4rem;
+    border-bottom: 1px solid #ccc;
+  }
+  .infos {
+    text-align: center;
+    border-top: 2px solid $main-color;
+    position: relative;
+    p {
+      color: $font-color;
+      @include font-dpr(16px);
+      line-height: 1.4;
+    }
+    .titles {
+      @include font-dpr(20px);
+      color: $main-color;
+      font-weight: 500;
+      margin: .3rem 0;
+      line-height: 1.4;
+    }
+    a {
+      color: #fb3e00;
+      font-weight: 500;
+      @include font-dpr(20px);
+      margin-top: 8%;
+    }
+  }
+  .view-s-768 {
+    display: none;
+  }
+}

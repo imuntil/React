@@ -1,0 +1,30 @@
+.news-page .common-section {
+  padding: .8rem .3rem; }
+  .news-page .common-section .news-box > p {
+    text-align: center; }
+  .news-page .common-section .title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: .3rem; }
+    [data-dpr="2"] .news-page .common-section .title {
+      font-size: 36px; }
+    [data-dpr="3"] .news-page .common-section .title {
+      font-size: 54px; }
+  .news-page .common-section .date {
+    font-size: 14px;
+    margin-bottom: .6rem; }
+    [data-dpr="2"] .news-page .common-section .date {
+      font-size: 28px; }
+    [data-dpr="3"] .news-page .common-section .date {
+      font-size: 42px; }
+  .news-page .common-section .content {
+    line-height: 1.8;
+    font-size: 15px; }
+    [data-dpr="2"] .news-page .common-section .content {
+      font-size: 30px; }
+    [data-dpr="3"] .news-page .common-section .content {
+      font-size: 45px; }
+    .news-page .common-section .content p:empty {
+      display: none; }
+
+/*# sourceMappingURL=News.css.map */

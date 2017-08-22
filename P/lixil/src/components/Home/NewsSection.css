@@ -1,0 +1,23 @@
+.news-section .news-box {
+  padding-top: .5rem; }
+  .news-section .news-box p {
+    display: block;
+    width: 100%;
+    padding: .15rem .1rem; }
+  .news-section .news-box a {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 16px; }
+    [data-dpr="2"] .news-section .news-box a {
+      font-size: 32px; }
+    [data-dpr="3"] .news-section .news-box a {
+      font-size: 48px; }
+    .news-section .news-box a span:first-child {
+      flex: 0 0 70%;
+      overflow: hidden;
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis; }
+
+/*# sourceMappingURL=NewsSection.css.map */

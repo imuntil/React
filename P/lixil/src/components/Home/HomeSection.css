@@ -1,0 +1,12 @@
+.home-section.common-section {
+  margin-top: 1rem; }
+.home-section .section-title {
+  text-align: center;
+  padding-bottom: .2rem; }
+  .home-section .section-title img {
+    width: 16%;
+    min-width: 120px; }
+.home-section .border-bottom {
+  border-bottom: 2px solid #f55a00; }
+
+/*# sourceMappingURL=HomeSection.css.map */

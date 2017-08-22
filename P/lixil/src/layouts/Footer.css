@@ -1,0 +1,63 @@
+.down-section {
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+  padding: .2rem;
+  line-height: 2; }
+  [data-dpr="2"] .down-section {
+    font-size: 28px; }
+  [data-dpr="3"] .down-section {
+    font-size: 42px; }
+  .down-section span {
+    display: inline-block; }
+
+footer, .upper-section {
+  width: 100%;
+  background-color: #fff; }
+
+.upper-section {
+  background-color: #f3f3f3;
+  padding: 50px 0; }
+  .upper-section .common-section {
+    padding: 0 25px; }
+  .upper-section ul > li {
+    line-height: 1.8;
+    font-size: 14px;
+    cursor: pointer; }
+    [data-dpr="2"] .upper-section ul > li {
+      font-size: 28px; }
+    [data-dpr="3"] .upper-section ul > li {
+      font-size: 42px; }
+    .upper-section ul > li.title {
+      font-size: 18px;
+      color: #515151;
+      font-weight: 600;
+      padding-bottom: .3rem; }
+      [data-dpr="2"] .upper-section ul > li.title {
+        font-size: 36px; }
+      [data-dpr="3"] .upper-section ul > li.title {
+        font-size: 54px; }
+    .upper-section ul > li a {
+      color: #666; }
+  .upper-section .last > li:first-child {
+    padding-bottom: .1rem; }
+  .upper-section .last img {
+    width: 100%;
+    padding: .1rem 0; }
+
+@media screen and (max-width: 768px) {
+  .upper-section .foot-logo img {
+    padding: 0 .2rem .3rem; }
+  .upper-section .last img {
+    width: auto; }
+  .upper-section ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: .2rem; }
+    .upper-section ul li {
+      padding: 0 .2rem; }
+    .upper-section ul li.title {
+      width: 100%;
+      padding-bottom: .1rem; } }
+
+/*# sourceMappingURL=Footer.css.map */

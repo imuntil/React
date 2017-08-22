@@ -1,0 +1,33 @@
+:global(.slick-dots) {
+  bottom: 5%;
+}
+.slick_arrow {
+  z-index: 9999;
+  width: 5%;
+  min-width: 1rem;
+  max-width: 4rem;
+}
+:global(.banner-slick .slick-prev) {
+  &:extend(.slick_arrow);
+  left: 10%;
+  &:before {
+    content: '';
+    height: 0;
+    width: 0;
+  }
+  img {
+    width: 100%;
+  }
+}
+:global(.banner-slick .slick-next) {
+  &:extend(.slick_arrow);
+  right: 10%;
+  &:before {
+    content: '';
+    height: 0;
+    width: 0;
+  }
+  img {
+    width: 100%;
+  }
+}

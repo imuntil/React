@@ -1,0 +1,101 @@
+@import "../styles/declaration";
+
+.detail-page {
+  padding: .5rem 0;
+  .detail-box, .null {
+    min-height: 300px;
+  }
+  .detail-breadcrumb {
+    margin-bottom: .4rem;
+    padding-left: .4rem;
+    a {
+      display: inline-block;
+    }
+  }
+  .left-box {
+    border-top: 2px solid $main-color;
+    border-bottom: 1px solid #d2d2d2;
+    display: inline-block;
+    position: relative;
+    padding: .1rem .2rem;
+  }
+  .placeholder {
+    visibility: hidden;
+  }
+  .product-category {
+    color: $main-color2;
+    font-weight: 600;
+    line-height: .5rem;
+    span {
+      color: $font-color;
+      @include font-dpr(20px);
+    }
+  }
+  .box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: .25rem;
+    min-height: 100px;
+  }
+  .box .down-box {
+    position: absolute;
+    left: .25rem;
+    bottom: .25rem;
+    .product-desc {
+      @include font-dpr(16px);
+      margin-bottom: .75rem;
+      line-height: 1.8;
+      padding-right: .25rem;
+    }
+    a {
+      display: inline-block;
+      color: $main-color2;
+      border: 2px solid $main-color2;
+      border-radius: 5px;
+      height: 32px;
+      line-height: 30px;
+      padding:0 .12rem;
+      img {
+        height: 100%;
+        display: inline-block;
+      }
+      span {
+        float: right;
+        padding: 0 .12rem 0 .15rem;
+      }
+    }
+    a:first-child {
+      margin-right: .12rem;
+    }
+  }
+  .rich-img {
+    display: block;
+    overflow: hidden;
+    img {
+      width: 48%;
+      float: left;
+    }
+    .w-40 {
+      width: 40%;
+      margin-right: 0;
+    }
+    .w-20 {
+      width: 20%;
+    }
+  }
+  .rich-img-full {
+    display: block;
+    overflow: hidden;
+    img {
+      width: auto;
+      max-width: 100%;
+    }
+    .w-60 {
+      width: 58%;
+      display: block;
+    }
+  }
+}

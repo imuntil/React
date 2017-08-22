@@ -1,0 +1,6 @@
+@import "../styles/declaration";
+
+.home-page {
+  position: relative;
+  @include font-dpr(16px)
+}

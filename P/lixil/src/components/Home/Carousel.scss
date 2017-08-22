@@ -1,0 +1,24 @@
+.banner-section {
+  .img-box {
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
+  .slick-arrow {
+    width: 1rem;
+    height: 1rem;
+    z-index: 10;
+    &:before {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+  .slick-prev {
+    left: .5rem;
+  }
+  .slick-next {
+    right: .5rem;
+  }
+}

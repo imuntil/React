@@ -1,0 +1,78 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/*路由切换动画——左移动*/
+.left-enter {
+  position: absolute;
+  top: 0;
+  background: #fff;
+  z-index: 10000;
+  opacity: 1;
+  width: 100%;
+  transform: translateX(100%);
+}
+
+.left-enter.left-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all .4s ease-out;
+}
+
+.left-leave {
+  opacity: 1;
+  width: 100%;
+  transform: translateX(0);
+}
+
+.left-leave.left-leave-active {
+  opacity: 1;
+  transform: translateX(-100%);
+  transition: all .4s ease-out;
+}
+
+/*路由切换动画——右移动*/
+.right-enter {
+  transform: translateX(-100%);
+}
+
+.right-enter.right-enter-active {
+  transform: translateX(0);
+  transition: all 0.4s ease-out;
+}
+
+.right-leave {
+  position: absolute;
+  top: 0;
+  background: #fff;
+  z-index: 10000;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.right-leave.right-leave-active {
+  opacity: 1;
+  transform: translateX(100%);
+  transition: all 0.4s ease-out;
+}

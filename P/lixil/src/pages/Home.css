@@ -1,0 +1,9 @@
+.home-page {
+  position: relative;
+  font-size: 16px; }
+  [data-dpr="2"] .home-page {
+    font-size: 32px; }
+  [data-dpr="3"] .home-page {
+    font-size: 48px; }
+
+/*# sourceMappingURL=Home.css.map */

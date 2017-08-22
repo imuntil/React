@@ -1,0 +1,30 @@
+.left-nav {
+  position: fixed;
+  left: .3rem;
+  top: 40%;
+  z-index: 99; }
+  .left-nav li {
+    margin-bottom: 2px; }
+  .left-nav a {
+    display: block;
+    background-color: #f55a00;
+    padding: .15rem .25rem .15rem .5rem;
+    color: #ffffff;
+    border-radius: 5px; }
+  .left-nav span {
+    width: .21rem;
+    height: .21rem;
+    color: #ffffff;
+    background-color: #fff;
+    border-radius: .25rem;
+    display: inline-block;
+    margin-left: .15rem;
+    visibility: hidden; }
+  .left-nav .current span {
+    visibility: visible; }
+
+@media screen and (max-width: 768px) {
+  .left-nav {
+    display: none; } }
+
+/*# sourceMappingURL=LeftNav.css.map */

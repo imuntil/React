@@ -1,0 +1,50 @@
+@import "../../styles/declaration";
+
+.products-section {
+  min-height: 400px;
+  .auto-img {
+    padding: .1rem .2rem;
+    p {
+      text-align: center;
+      padding: .1rem 0 .4rem;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $font-color;
+    }
+    img {
+      cursor: pointer;
+      display: inline-block;
+      box-shadow: 0 0 6px #999;
+    }
+  }
+  .title {
+    color: $main-color2;
+    @include font-dpr(20px);
+    display: table;
+    font-weight: 600;
+    padding: .4rem 0 .12rem;
+    span {
+      width: 16px;
+      height: 16px;
+      display: table-cell;
+      img {
+        width: inherit;
+      }
+    }
+  }
+  .group {
+    padding-bottom: .6rem;
+    display: block;
+    overflow: hidden;
+  }
+  @media screen and (max-width: 768px) {
+    .group p {
+      @include font-dpr(12px);
+    }
+    .group .title {
+      @include font-dpr(16px);
+    }
+  }
+}

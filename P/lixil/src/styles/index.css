@@ -1,0 +1,38 @@
+html, body {
+  font-family: 'Microsoft YaHei UI', 'Avenir', Helvetica, Arial, sans-serif;
+  color: #666666;
+  font-size: 16px; }
+  [data-dpr="2"] html, [data-dpr="2"] body {
+    font-size: 32px; }
+  [data-dpr="3"] html, [data-dpr="3"] body {
+    font-size: 48px; }
+
+html, body {
+  height: 100%; }
+
+#app, .main, .x-main {
+  height: inherit; }
+
+.auto-img img {
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block; }
+
+.common-section {
+  width: 1000px;
+  overflow: hidden;
+  margin: 0 auto; }
+
+.banner-img {
+  width: 100%; }
+
+@media screen and (max-width: 1112px) {
+  .common-section {
+    width: 90%; } }
+@media screen and (max-width: 768px) {
+  body .android {
+    height: 100%;
+    overflow: scroll; } }
+
+/*# sourceMappingURL=index.css.map */

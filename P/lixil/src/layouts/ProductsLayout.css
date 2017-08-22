@@ -1,0 +1,65 @@
+.products-layout .tab-bar {
+  width: 100%;
+  border-bottom: 1px solid #d2d2d2;
+  border-top: 1px solid #d2d2d2;
+  background-color: #ffffff;
+  z-index: 100; }
+  .products-layout .tab-bar .tab-btn {
+    padding: 1.5% 0;
+    position: relative; }
+    .products-layout .tab-bar .tab-btn a {
+      text-align: center;
+      width: 100%;
+      padding: .13rem 0;
+      border-left: 1px solid #d2d2d2;
+      color: #666666;
+      position: relative;
+      font-size: 16px; }
+      [data-dpr="2"] .products-layout .tab-bar .tab-btn a {
+        font-size: 32px; }
+      [data-dpr="3"] .products-layout .tab-bar .tab-btn a {
+        font-size: 48px; }
+      .products-layout .tab-bar .tab-btn a::after {
+        content: ' ';
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 10px solid #f55a00;
+        background-color: transparent;
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        margin: 0 auto;
+        opacity: 0;
+        transition: opacity .3s; }
+  .products-layout .tab-bar a.active-link::after,
+  .products-layout .tab-bar .tab-btn:hover a::after {
+    opacity: 1; }
+.products-layout .bar-content {
+  position: relative;
+  overflow: hidden; }
+.products-layout .fadeOutRight, .products-layout .fadeOut {
+  position: absolute;
+  top: 0;
+  width: 100%; }
+.products-layout .fade-in-left {
+  opacity: 0;
+  transform: translate(-50px, 0); }
+.products-layout .fade-in-left.fade-in-left-active {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all .4s; }
+.products-layout .fade-out-right {
+  opacity: 1;
+  transform: translate(0, 0);
+  position: absolute;
+  width: 100%;
+  top: 0; }
+.products-layout .fade-out-right.fade-out-right-active {
+  opacity: 0;
+  transform: translate(50px, 0);
+  transition: all .4s; }
+
+/*# sourceMappingURL=ProductsLayout.css.map */

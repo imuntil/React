@@ -1,0 +1,25 @@
+@import "../styles/declaration";
+.news-page {
+  .common-section {
+    padding: .8rem .3rem;
+    .news-box>p {
+      text-align: center;
+    }
+    .title {
+      @include font-dpr(18px);
+      font-weight: 600;
+      margin-bottom: .3rem;
+    }
+    .date {
+      @include font-dpr(14px);
+      margin-bottom: .6rem;
+    }
+    .content {
+      line-height: 1.8;
+      @include font-dpr(15px);
+      p:empty {
+        display: none;
+      }
+    }
+  }
+}

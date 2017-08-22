@@ -1,0 +1,39 @@
+.box {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.normal {
+  width: 80%;
+  position: relative;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+  p {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+}
+.start {
+  width: 7rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8%;
+  margin: 0 auto;
+  animation-delay: @delay + .6s;
+}
+@delay: .8s;
+.d1 {
+  animation-delay: @delay;
+}
+.d2 {
+  animation-delay: @delay + .2s;
+}
+.d3 {
+  animation-delay: @delay + .4s;
+}
+

@@ -1,0 +1,38 @@
+@import "../styles/declaration";
+.contact-page {
+  .common-section {
+    padding: .5rem .4rem 1.6rem;
+  }
+  .contact-methods {
+    p {
+      line-height: 2.5;
+      @include font-dpr(18px);
+      &:first-child {
+        @include font-dpr(20px);
+        font-weight: 600;
+      }
+    }
+  }
+  .title {
+    width: 100%;
+    border-bottom: 2px solid #f55a00;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    .first {
+      background-color: #f55a00;
+      color: #ffffff;
+      padding: .15rem .5rem;
+      display: inline-block;
+      border-radius: 5px;
+      position: relative;
+      @include font-dpr(16px);
+    }
+  }
+  #map {
+    width: 90%;
+    height: 250px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+  }
+}

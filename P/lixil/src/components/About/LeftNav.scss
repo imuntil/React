@@ -1,0 +1,36 @@
+@import "../../styles/declaration";
+
+.left-nav {
+  position: fixed;
+  left: .3rem;
+  top: 40%;
+  z-index: 99;
+  li {
+    margin-bottom: 2px;
+  }
+  a {
+    display: block;
+    background-color: $main-color2;
+    padding:.15rem .25rem .15rem .5rem;
+    color: #ffffff;
+    border-radius: 5px;
+  }
+  span {
+    width: .21rem;
+    height: .21rem;
+    color: #ffffff;
+    background-color: #fff;
+    border-radius: .25rem;
+    display: inline-block;
+    margin-left: .15rem;
+    visibility: hidden;
+  }
+  .current span {
+    visibility: visible;
+  }
+}
+@media screen and (max-width: 768px){
+  .left-nav {
+    display: none;
+  }
+}

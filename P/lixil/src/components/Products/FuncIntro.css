@@ -1,0 +1,33 @@
+.func-intro-section .func-tab, .func-intro-section .func-tab ul {
+  width: 100%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background-color: #f55a00; }
+.func-intro-section .func-tab ul {
+  width: 80%;
+  margin: 0 auto; }
+  .func-intro-section .func-tab ul li {
+    float: left;
+    width: 20%; }
+  .func-intro-section .func-tab ul a {
+    display: block;
+    padding: .28rem 0;
+    text-align: center;
+    color: #ffffff;
+    position: relative; }
+    .func-intro-section .func-tab ul a::after {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 9px solid #ffffff;
+      background-color: transparent;
+      left: 0;
+      right: 0;
+      bottom: 4px;
+      margin: 0 auto; }
+
+/*# sourceMappingURL=FuncIntro.css.map */

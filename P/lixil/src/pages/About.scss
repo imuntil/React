@@ -1,0 +1,67 @@
+@import "../styles/declaration";
+.about-page {
+  .animated.bounceInLeft,
+  .animated.bounceOutLeft {
+    animation-duration: 500ms;
+  }
+  .as-title {
+    @include font-dpr(20px);
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid $main-color2;
+    padding: .15rem .05rem;
+    img {
+      margin-right: .1rem;
+    }
+  }
+  .box {
+    margin-top: .2rem;
+    padding: .1rem;
+    p {
+      line-height: 1.8;
+      @include font-dpr(14px);
+      color: $font-color;
+      padding: .1rem;
+      span {
+        color: $main-color2;
+      }
+    }
+  }
+  .enterprise-idea {
+    width: 100%;
+    position: relative;
+    img {
+      width: 70%;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+  .enterprise-idea-desc {
+    width: 100%;
+    padding: .2rem .6rem;
+    p {
+      width: 100%;
+      text-align: center;
+      color: #333;
+      @include font-dpr(18px);
+      span {
+        color: $main-color2;
+      }
+    }
+    .g-2 {
+      text-align: left;
+      margin-top: 1rem;
+    }
+  }
+  .last-box {
+    padding-bottom: 1rem;
+    padding-top: .4rem;
+    .left-box {
+      line-height: 2;
+      @include font-dpr(18px);
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+}

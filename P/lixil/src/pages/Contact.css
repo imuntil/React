@@ -1,0 +1,41 @@
+.contact-page .common-section {
+  padding: .5rem .4rem 1.6rem; }
+.contact-page .contact-methods p {
+  line-height: 2.5;
+  font-size: 18px; }
+  [data-dpr="2"] .contact-page .contact-methods p {
+    font-size: 36px; }
+  [data-dpr="3"] .contact-page .contact-methods p {
+    font-size: 54px; }
+  .contact-page .contact-methods p:first-child {
+    font-size: 20px;
+    font-weight: 600; }
+    [data-dpr="2"] .contact-page .contact-methods p:first-child {
+      font-size: 40px; }
+    [data-dpr="3"] .contact-page .contact-methods p:first-child {
+      font-size: 60px; }
+.contact-page .title {
+  width: 100%;
+  border-bottom: 2px solid #f55a00;
+  overflow: hidden;
+  margin-bottom: 1rem; }
+  .contact-page .title .first {
+    background-color: #f55a00;
+    color: #ffffff;
+    padding: .15rem .5rem;
+    display: inline-block;
+    border-radius: 5px;
+    position: relative;
+    font-size: 16px; }
+    [data-dpr="2"] .contact-page .title .first {
+      font-size: 32px; }
+    [data-dpr="3"] .contact-page .title .first {
+      font-size: 48px; }
+.contact-page #map {
+  width: 90%;
+  height: 250px;
+  margin: 0 auto;
+  display: block;
+  position: relative; }
+
+/*# sourceMappingURL=Contact.css.map */

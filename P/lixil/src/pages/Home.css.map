@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,UAAW;EACT,QAAQ,EAAE,QAAQ;ECQlB,SAAS,EDPS,IAAI;ECStB,yBAAiB;IACf,SAAS,EAAE,IAAc;EAG3B,yBAAiB;IACf,SAAS,EAAE,IAAc",
+"sources": ["Home.scss","../styles/declaration.scss"],
+"names": [],
+"file": "Home.css"
+}
