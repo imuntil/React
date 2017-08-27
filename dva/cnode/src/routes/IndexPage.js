@@ -118,27 +118,19 @@ class IndexPage extends React.Component {
   lv = null
 
   render() {
-    console.log('—————————————————————renders————————————————');
-    console.log('rowIDs', this.rowIDs);
-    console.log('index', index);
     const { list } = this.props
-    console.log('list.length', list.length);
     const row = (rowData, sectionId, rowID) => {
       if (index > list.length - 1) index = 0
-      console.log(index);
       const obj = list[index++]
       return (
         <div className={styles.list_item} key={rowID}>
-          {/* <Link to={'/'}>
-           <p>{obj.title}</p>
-           <em>{obj.author.loginname}</em>
-           <em>{obj.reply_count}/{obj.visit_count}</em>
-           </Link> */}
-          <p>{index}-{obj.title}</p>
-          <p className={styles.p_foot}>
-            <em>{obj.reply_count}/{obj.visit_count}</em>
-            <em>{obj.author.loginname}</em>
-          </p>
+          <Link to={`/post/${obj.id}`}>
+            <p>{index}-{obj.title}</p>
+            <div className={styles.p_foot}>
+              <em>{obj.reply_count}/{obj.visit_count}</em>
+              <em>{obj.author.loginname}</em>
+            </div>
+          </Link>
         </div>
       );
     };

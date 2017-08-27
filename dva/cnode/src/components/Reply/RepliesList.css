@@ -1,0 +1,23 @@
+
+.normal {
+  display: block;
+  width: 100%;
+}
+.reply_item {
+  display: flex;
+  flex-direction: row;
+  padding: .2rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+.avatar {
+  flex: 0 0 10%;
+}
+.avatar img {
+  width: 100%;
+}
+.right_part {
+  flex: 0 0 85%
+}

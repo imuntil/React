@@ -7,7 +7,6 @@ export default {
 
   state: {
     list: [],
-    byID: [],
     page: null,
   },
 
@@ -63,9 +62,6 @@ export default {
   reducers: {
     save(state, action) {
       return { ...state, ...action.payload };
-    },
-    clear(state) {
-      return { ...state, list: [] }
     },
   },
 

@@ -23,12 +23,8 @@
     "react/prefer-stateless-function": [0],
     "react/prop-types": [0],
     "require-yield": [1],
-    "semi": [0],
-    "no-plusplus": [0],
     "quotes": [0],
-    "comma-dangle": [0],
-    "no-script-url": [0],
-    "camelcase": [0]
+    "semi": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {

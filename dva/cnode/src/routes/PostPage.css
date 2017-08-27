@@ -1,0 +1,22 @@
+
+.normal {
+  width: 100%;
+  padding: .2rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.topic_content {
+  width: 100%;
+  font-size: 30px;
+  color: #444444;
+}
+.topic_content img {
+  width: 90%;
+  display: block;
+  margin: .2rem auto;
+}
+.topic_title p {
+  font-size: 26px;
+  color: #666;
+}
