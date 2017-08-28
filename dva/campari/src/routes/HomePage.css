@@ -1,19 +1,35 @@
 
 .normal {
   background-color: #fff;
+  height: 100%;
+  width: 100%;
+  padding-right: 15px;
+  overflow-y: scroll;
+  display: block;
 }
 .section {
   border-bottom: 1px solid #b2b2b2;
 }
 .title {
   padding-bottom: .1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.title a {
+  padding: .1rem .5rem;
+  font-size: 30px;
+  color: #e41035;
+  display: flex;
+  align-items: center;
 }
 .title h3 {
 }
 .title em {
   display: block;
   margin: .1rem 0;
-  font-size: 26px;
+  font-size: 24px;
   color: #666;
   font-style: normal;
 }

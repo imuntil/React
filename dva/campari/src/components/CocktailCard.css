@@ -1,0 +1,13 @@
+
+.normal {
+  padding: .1rem;
+}
+.normal img {
+  width: 100%;
+}
+.normal p {
+  text-align: center;
+  font-size: 26px;
+  margin-top: .1rem;
+  text-transform: uppercase;
+}

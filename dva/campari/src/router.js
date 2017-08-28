@@ -25,6 +25,7 @@ function RouterConfig({ history, app }) {
           name: 'HomePage',
           getIndexRoute(nextState, cb) {
             require.ensure([], (require) => {
+              document.title = '首页精选'
               cb(null, { component: require('./routes/HomePage') })
             })
           }
@@ -34,6 +35,7 @@ function RouterConfig({ history, app }) {
           name: 'ProAllPage',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
+              document.title = '全部商品'
               cb(null, require('./routes/Product/All'))
             })
           }

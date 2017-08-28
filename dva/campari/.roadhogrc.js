@@ -1,7 +1,7 @@
 const pxtorem = require('postcss-pxtorem')
 const path = require('path')
 const svgSpriteDirs = [
-  require.resolve('antd-mobile').replace('/warn\.js$/, ')
+  require.resolve('antd-mobile').replace(/warn\.js$/, '')
 ]
 
 export default {

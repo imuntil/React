@@ -8,7 +8,7 @@ function DefaultLayout({ children, location }) {
     <div className={styles.normal}>
       <div className={styles.main}>
         <QueueAnim type={'bottom'} style={{ position: 'relative', width: '100%', height: '100%' }}>
-          <div key={location.pathname} style={{ position: 'absolute', width: '100%' }}>
+          <div key={location.pathname} style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'hidden' }}>
             {children}
           </div>
         </QueueAnim>
