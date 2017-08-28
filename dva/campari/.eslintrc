@@ -24,7 +24,9 @@
     "react/prop-types": [0],
     "require-yield": [1],
     "quotes": [0],
-    "semi": [0]
+    "semi": [0],
+    "spaced-comment": [0],
+    "comma-dangle": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {

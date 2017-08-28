@@ -108,6 +108,7 @@ GitHub.sublime-settings
 node_modules
 jspm_packages
 dist
+ig-dir
 
 .gitignore
 .DS_Store

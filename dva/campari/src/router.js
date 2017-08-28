@@ -1,28 +1,83 @@
 import React from 'react';
-import { Router, Route } from 'dva/router';
-import IndexPage from './routes/IndexPage';
+import { Router } from 'dva/router';
 
-import HomePage from "./routes/HomePage.js";
+const cached = {}
+function registerModel(app, model) {
+  if (!cached[model.namespace]) {
+    app.model(model)
+    cached[model.namespace] = 1
+  }
+}
 
-import ProductAll from './routes/Product/All.js'
-import ProductFilter from './routes/Product/Filter.js'
-
-import CocktailPage from "./routes/CocktailPage.js";
-
-import CartPage from "./routes/CartPage.js";
-
-
-function RouterConfig({ history }) {
-  return (
-    <Router history={history}>
-      <Route path="/" component={IndexPage} />
-      <Route path="/Home" component={HomePage} />
-      <Route path="/product/all" component={ProductAll} />
-      <Route path="/product/filter" component={ProductFilter} />
-      <Route path="/Cocktail" component={CocktailPage} />
-      <Route path="/Cart" component={CartPage} />
-    </Router>
-  );
+function RouterConfig({ history, app }) {
+  const routes = [
+    {
+      path: '/',
+      name: 'Layout',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {
+          cb(null, require('./components/Layouts/DefaultLayout'))
+        })
+      },
+      childRoutes: [
+        {
+          path: '',
+          name: 'HomePage',
+          getIndexRoute(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, { component: require('./routes/HomePage') })
+            })
+          }
+        },
+        {
+          path: 'product/all',
+          name: 'ProAllPage',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/Product/All'))
+            })
+          }
+        },
+        {
+          path: 'product/filter',
+          name: 'ProFilterPage',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/Product/Filter'))
+            })
+          }
+        },
+        {
+          path: 'cocktail',
+          name: 'CocktailPage',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/CocktailPage'))
+            })
+          }
+        },
+        {
+          path: 'cart',
+          name: 'CartPage',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/CartPage'))
+            })
+          }
+        },
+        {
+          path: 'user',
+          name: 'UserIndexPage',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/User/IndexPage'))
+            })
+          }
+        },
+      ]
+    }
+  ]
+  return <Router history={history} routes={routes} />
 }
 
 export default RouterConfig;

@@ -1,0 +1,23 @@
+
+.normal {
+  width: 100%;
+}
+.slide {
+  width: inherit;
+}
+.slide img {
+  width: inherit;
+}
+.en,
+.cn {
+  margin: 0.1rem 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #000;
+}
+.en {
+  margin-top: .25rem;
+}
+:global(.am-carousel-wrap) {
+  margin-bottom: 12%;
+}
