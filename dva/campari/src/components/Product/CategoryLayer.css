@@ -1,0 +1,18 @@
+
+.normal {
+  width: 100%;
+  display: block;
+  position: absolute;
+}
+.btns {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.btns a {
+  width: 33.333333%;
+  height: 33%;
+}

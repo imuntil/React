@@ -1,17 +1,21 @@
 import React from 'react';
-import { ListView, ActivityIndicator } from 'antd-mobile'
+import { ListView, ActivityIndicator, WingBlank } from 'antd-mobile'
 import styles from './ProListView.css';
 import { ALL_PRO_PER_PAGE } from '../../constant.js'
+import Card from '../Card.js'
 
 function MyBody({ children }) {
   return (
-    <div
-      className={styles.list_body}
-    >
-      {children}
-    </div>
+    <WingBlank>
+      <div
+        className={styles.list_body}
+      >
+        {children}
+      </div>
+    </WingBlank>
   )
 }
+
 class ProListView extends React.Component {
   constructor(props) {
     super(props)
@@ -24,9 +28,10 @@ class ProListView extends React.Component {
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     })
 
-    this.dataBlob = {}
-    this.sectionIDs = []
-    this.rowIDs = []
+    const { data: { dataBlob, sectionIDs, rowIDs } } = this.props
+    this.dataBlob = dataBlob
+    this.sectionIDs = sectionIDs
+    this.rowIDs = rowIDs
     this.index = 0
     this.genData = (pIndex = 0) => {
       const sectionName = `Section ${pIndex}`
@@ -45,17 +50,27 @@ class ProListView extends React.Component {
     this.state = {
       dataSource: dataSource
         .cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),
-      isLoading: true
+      isLoading: false
     }
   }
 
+  // componentDidMount() {
+  //   setTimeout(this.lv.scrollTo({ y: 50 }), 2000)
+  // }
+
   componentWillReceiveProps(nextProps) {
+    console.log('will');
     this.genData(nextProps.page);
     this.setState({
       dataSource: this.state.dataSource
         .cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),
       isLoading: false
     })
+  }
+
+  componentWillUnmount() {
+    const { onUpdate } = this.props
+    onUpdate(this.dataBlob, this.sectionIDs, this.rowIDs)
   }
 
   onEndReached = () => {
@@ -70,7 +85,14 @@ class ProListView extends React.Component {
     }, 1000)
   }
 
+  onScroll = (e) => {
+    console.log(e.target.scrollTop);
+  }
+
+  lv = null
+
   render() {
+    console.log('render');
     const { lists } = this.props
     const row = (rowDta, sectionId, rowID) => {
       if (this.index > lists.length - 1) {
@@ -78,24 +100,19 @@ class ProListView extends React.Component {
       }
       const pro = lists[this.index++]
       return (
-        <div className={styles.pro_item} key={rowID}>
-          <a href="javascript:;">
-            <p>{this.index}</p>
-            <p>aaaa</p>
-            <p>cccc</p>
-          </a>
-        </div>
+        <Card key={rowID} customStyle={{ marginTop: '.25rem' }} data={pro} />
       )
     }
     return (
-      <div style={{ height: 1000 }}>
+      <div className={styles.list_wrapper}>
         <ListView
+          ref={(el) => { this.lv = el }}
           dataSource={this.state.dataSource}
           renderFooter={() => (
-            <div className="list_footer">
+            <div className="list_footer" style={{ display: 'flex', justifyContent: 'center' }}>
               {
                 this.state.isLoading
-                  ? <ActivityIndicator text="loading" size="small" />
+                  ? <ActivityIndicator text="加载中..." size="small" />
                   : null
               }
             </div>
@@ -110,6 +127,7 @@ class ProListView extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
           scrollerOptions={{ scrollbars: true }}
+          // onScroll={this.onScroll}
         />
       </div>
     )

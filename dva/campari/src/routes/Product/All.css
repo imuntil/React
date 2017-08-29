@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
 }
-.center-box {
+.center_box {
   display: block;
   flex: auto;
+  position: relative;
 }

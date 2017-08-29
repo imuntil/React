@@ -31,8 +31,8 @@ function HomePage() {
             <a href="javascript:;">查看更多 <Icon type="right" /></a>
           </div>
           <div className={styles.box}>
-            <Card />
-            <Card />
+            <Card data={{}} />
+            <Card data={{}} />
           </div>
           <WhiteSpace size="lg" />
         </div>

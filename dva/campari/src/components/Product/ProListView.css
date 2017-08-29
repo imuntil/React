@@ -2,18 +2,29 @@
 .normal {
 }
 .pro_item {
-  width: 48%;
-  height: 400px;
+  width: 47%;
+  margin-top: .25rem;
 }
 .list_box {
   height: 100%;
+  background-color: #fff;
 }
 .list_body {
   display: block;
   position: relative;
+  padding-bottom: .15rem;
+  padding-top: .1rem;
 }
 .list_body>div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
+}
+.list_wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }

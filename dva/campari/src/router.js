@@ -37,6 +37,7 @@ function RouterConfig({ history, app }) {
             require.ensure([], (require) => {
               document.title = '全部商品'
               registerModel(app, require('./models/product/all'))
+              registerModel(app, require('./models/lvStatus'))
               // registerModel(app, require('./models/all'))
               cb(null, require('./routes/Product/All'))
             })
