@@ -52,6 +52,7 @@ class IndexPage extends React.Component {
       // new object ref
       this.sectionIDs = [].concat(this.sectionIDs);
       this.rowIDs = [].concat(this.rowIDs);
+      console.log(this.rowIDs);
     };
 
     this.state = {
@@ -119,6 +120,7 @@ class IndexPage extends React.Component {
 
   render() {
     const { list } = this.props
+    console.log(this.state.dataSource);
     const row = (rowData, sectionId, rowID) => {
       if (index > list.length - 1) index = 0
       const obj = list[index++]

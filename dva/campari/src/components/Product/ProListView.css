@@ -1,0 +1,19 @@
+
+.normal {
+}
+.pro_item {
+  width: 48%;
+  height: 400px;
+}
+.list_box {
+  height: 100%;
+}
+.list_body {
+  display: block;
+  position: relative;
+}
+.list_body>div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

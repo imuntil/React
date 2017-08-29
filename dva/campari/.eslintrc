@@ -27,7 +27,9 @@
     "semi": [0],
     "spaced-comment": [0],
     "comma-dangle": [0],
-    "no-script-url": [0]
+    "no-script-url": [0],
+    "no-plusplus": [0],
+    "no-trailing-spaces": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {
