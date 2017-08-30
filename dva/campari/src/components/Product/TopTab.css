@@ -3,6 +3,7 @@
   width: 100%;
   display: block;
   background-color: #f6f6f6;
+  overflow: visible;
 }
 .tabs {
   display: flex;
