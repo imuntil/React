@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './CocktailPage.css';
+import CTListView from '../components/Product/ProListView.js'
 
-function CocktailPage() {
-  return (
-    <div className={styles.normal}>
-      Route Component: CocktailPage
-    </div>
-  );
+class CocktailPage extends React.Component {
+  render() {
+    return (
+      <div className={styles.normal}>
+        Route Component: CocktailPage
+      </div>
+    );
+  }
 }
 
 function mapStateToProps() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './CocktailCard.css';
 
-function CocktailCard({ more, width = '48%' }) {
+function CocktailCard({ more, width = '48%', data }) {
   return (
     <div className={styles.normal} style={{ width }}>
       <img src={require('../assets/ig-dir/cocktail-1.jpg')} alt="" />

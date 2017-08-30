@@ -57,6 +57,9 @@ function RouterConfig({ history, app }) {
           name: 'CocktailPage',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
+              document.title = '经典鸡尾酒'
+              registerModel(app, require('./models/cocktail'))
+              registerModel(app, require('./models/lvStatus'))
               cb(null, require('./routes/CocktailPage'))
             })
           }

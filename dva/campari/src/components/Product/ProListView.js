@@ -35,6 +35,7 @@ class ProListView extends React.Component {
     this.index = 0
     this.genData = (pIndex = 0) => {
       const sectionName = `Section ${pIndex}`
+      if (this.sectionIDs.includes(sectionName)) return
       this.sectionIDs.push(sectionName)
       this.dataBlob[sectionName] = sectionName
       this.rowIDs[pIndex] = []
@@ -66,6 +67,10 @@ class ProListView extends React.Component {
         .cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),
       isLoading: false
     })
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
   }
 
   componentWillUnmount() {

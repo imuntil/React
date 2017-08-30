@@ -5,6 +5,9 @@ import './index.css';
 const app = dva();
 
 
+// app.model(require("./models/cocktail"));
+
+
 // 2. Plugins
 // app.use({});
 
