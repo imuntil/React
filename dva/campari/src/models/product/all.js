@@ -14,8 +14,6 @@ export default {
   },
   reducers: {
     saveList(state, action) {
-      console.log(state);
-      console.log(action);
       return {
         ...state,
         ...action.payload

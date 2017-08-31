@@ -61,7 +61,11 @@ class ProListView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('will');
+    console.log('page', nextProps.page);
+    if (nextProps.page === null) return
     this.genData(nextProps.page);
+    console.log('rowIDs', this.rowIDs);
+    console.log('sectionIDs', this.sectionIDs);
     this.setState({
       dataSource: this.state.dataSource
         .cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),

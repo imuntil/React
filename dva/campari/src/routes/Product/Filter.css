@@ -1,3 +1,12 @@
 
 .normal {
 }
+
+.img_box {
+
+}
+.body_box {
+  width: 100%;
+  display: block;
+  background-color: #f6f6f6;
+}

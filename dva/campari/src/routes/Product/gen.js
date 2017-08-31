@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
-import styles from './Filter.css';
+import styles from './All.css';
 import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
-import CategoryLayer from '../../components/Product/CategoryLayer.js'
-import SortLayer from '../../components/Product/SortLayer.js'
+import { CategoryLayer, CategoryLayerF } from '../../components/Product/CategoryLayer.js'
+import { SortLayer, SortLayerF } from '../../components/Product/SortLayer.js'
 
-function gen(pro, lv) {
+function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
   class Component extends React.Component {
     constructor(props) {
       super(props)
@@ -32,27 +32,33 @@ function gen(pro, lv) {
         : (this.setState({ sortLayerShow: !sortLayerShow, cateLayerShow: false }))
     }
     hideAll = () => {
+      const { cateLayerShow, sortLayerShow } = this.state
+      if (!cateLayerShow && !sortLayerShow) return
       this.setState({
         cateLayerShow: false,
         sortLayerShow: false
       })
     }
+    handleParamsChange = ({ ...payload }) => {
+      console.log(payload);
+    }
     render() {
       const { cls, page, hasMore, dispatch, data } = this.props
       const { cateLayerShow, sortLayerShow } = this.state
+      const [CL, SL] = replace ? [CategoryLayerF, SortLayerF] : [CategoryLayer, SortLayer]
       return (
         <div className={styles.normal}>
           <QueueAnim type={'top'}>
             {
               cateLayerShow
-                ? <div className={styles.layer} key={`${pro}-1`}><CategoryLayer /></div>
+                ? <div className={styles.layer} key={`${pro}-1`}><CL changeParams={this.handleParamsChange} /></div>
                 : null
             }
           </QueueAnim>
           <QueueAnim type={'top'}>
             {
               sortLayerShow
-                ? <div className={styles.layer} key={`${pro}-2`}><SortLayer /></div>
+                ? <div className={styles.layer} key={`${pro}-2`}><SL changeParams={this.handleParamsChange} /></div>
                 : null
             }
           </QueueAnim>
@@ -66,6 +72,8 @@ function gen(pro, lv) {
               page={page}
               hasMore={hasMore}
               data={data}
+              RowComponent={RowComponent}
+              BodyComponent={BodyComponent}
               onLoadMore={() => {
                 dispatch({
                   type: `product-${pro}/updateCLs`,
@@ -93,7 +101,12 @@ function gen(pro, lv) {
 
   function mapStateToProps(state) {
     const { page, cls, hasMore } = state[`product-${pro}`]
-    const { [lv.toLowerCase()]: data } = state.lvStatus
+    const { dataBlob, sectionIDs, rowIDs } = state.lvStatus[lv.toLowerCase()]
+    const data = {
+      dataBlob: { ...dataBlob },
+      sectionIDs: [...sectionIDs] ,
+      rowIDs: [...rowIDs]
+    }
     return { page, cls, hasMore, data };
   }
 

@@ -10,8 +10,7 @@ export default {
     // currentList
     cls: [],
     total: null,
-    hasMore: true,
-    params: {}
+    hasMore: true
   },
   reducers: {
     saveList(state, action) {
@@ -33,12 +32,27 @@ export default {
   },
   effects: {
     *fetchFilter({ payload: { params } }, { call, put, select }) {
-      const preParams = yield select(state => state['product-filter'].params)
+      const preParams = yield select(state => state['filter-params'])
+      console.log('00000000');
       // 如果查询条件没有变，则不请求服务器
-      if (_.isEqual(preParams, params)) return true
+      if (_.isEqual(preParams, params)) {
+        console.log('xxxxxxxxxxx');
+        return true
+      }
       // 查询条件变化，重置lvState b
+      // 更新filter-params
+      console.log('11111111');
+      yield put({
+        type: 'filter-params/update',
+        payload: {
+          ...params
+        }
+      })
+      console.log('22222222');
+      // 请求服务器获取新的数据
       const { data } = yield call(api.fetchFilerPros, { ...params })
       const { resultcode, result: res } = data
+      console.log('33333333');
       if (+resultcode !== 1) {
         yield put({
           type: 'error/fetchDataError',
@@ -47,6 +61,7 @@ export default {
           }
         })
       } else {
+        console.log('444444444444');
         yield put({
           type: 'saveList',
           payload: {
@@ -54,10 +69,10 @@ export default {
             page: 0,
             cls: res.slice(0, ALL_PRO_PER_PAGE),
             total: Math.ceil(res.length / ALL_PRO_PER_PAGE) - 1,
-            hasMore: true,
-            params
+            hasMore: true
           }
         })
+        console.log(55555555);
       }
     }
   },
