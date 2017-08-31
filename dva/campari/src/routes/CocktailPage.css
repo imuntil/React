@@ -1,3 +1,14 @@
 
 .normal {
 }
+.list_body {
+  display: block;
+  position: relative;
+  padding: .8rem 2% .1rem;
+}
+.list_body>* {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

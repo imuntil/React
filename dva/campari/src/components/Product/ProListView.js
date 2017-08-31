@@ -98,7 +98,7 @@ class ProListView extends React.Component {
 
   render() {
     console.log('render');
-    const { lists, PER_PAGE = 10 } = this.props
+    const { lists, PER_PAGE = 10, RowComponent = Card, BodyComponent = MyBody } = this.props
     console.log(this.rowIDs);
     const row = (rowDta, sectionId, rowID) => {
       if (this.index > lists.length - 1) {
@@ -106,7 +106,7 @@ class ProListView extends React.Component {
       }
       const pro = lists[this.index++]
       return (
-        <Card key={rowID} customStyle={{ marginTop: '.25rem' }} data={pro} />
+        <RowComponent key={rowID} customStyle={{ marginTop: '.25rem' }} data={pro} />
       )
     }
     return (
@@ -123,7 +123,7 @@ class ProListView extends React.Component {
               }
             </div>
           )}
-          renderBodyComponent={() => <MyBody />}
+          renderBodyComponent={() => <BodyComponent />}
           className={styles.list_box}
           renderRow={row}
           initialListSize={PER_PAGE - 2}

@@ -2,6 +2,20 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './CocktailPage.css';
 import CTListView from '../components/Product/ProListView.js'
+import CocktailCard from '../components/CocktailCard.js'
+
+function Card(props) {
+  return <CocktailCard more width="46%" {...props} />
+}
+function Body({ children }) {
+  return (
+    <div
+      className={styles.list_body}
+    >
+      {children}
+    </div>
+  )
+}
 
 class CocktailPage extends React.Component {
   render() {
@@ -13,6 +27,8 @@ class CocktailPage extends React.Component {
           page={page}
           hasMore={hasMore}
           data={c}
+          RowComponent={Card}
+          BodyComponent={Body}
           onLoadMore={() => {
             dispatch({
               type: 'cocktail/updateCLs',
