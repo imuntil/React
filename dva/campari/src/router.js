@@ -44,10 +44,13 @@ function RouterConfig({ history, app }) {
           }
         },
         {
-          path: 'product/filter',
+          path: 'product/filter/:flag/:sort/:type',
           name: 'ProFilterPage',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
+              document.title = '全部商品'
+              registerModel(app, require('./models/product/filter'))
+              registerModel(app, require('./models/lvStatus'))
               cb(null, require('./routes/Product/Filter'))
             })
           }

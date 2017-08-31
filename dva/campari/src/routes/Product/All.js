@@ -86,7 +86,12 @@ class All extends React.Component {
 
 function mapStateToProps(state) {
   const { page, cls, hasMore } = state['product-all']
-  const { a } = state.lvStatus
+  const { a: { dataBlob, sectionIDs, rowIDs } } = state.lvStatus
+  const a = {
+    dataBlob: { ...dataBlob },
+    sectionIDs: [...sectionIDs],
+    rowIDs: [...rowIDs]
+  }
   return { page, cls, hasMore, a };
 }
 

@@ -4,7 +4,7 @@
 .list_body {
   display: block;
   position: relative;
-  padding: .8rem 2% .1rem;
+  padding: .5rem 2% .1rem;
 }
 .list_body>* {
   display: flex;

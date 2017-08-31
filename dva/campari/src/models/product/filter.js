@@ -1,21 +1,20 @@
-// import _ from 'lodash'
+import _ from 'lodash'
 import * as api from '../../services/product'
 import { ALL_PRO_PER_PAGE } from '../../constant'
 
 export default {
-  namespace: 'product-all',
+  namespace: 'product-filter',
   state: {
     lists: [],
     page: null,
     // currentList
     cls: [],
     total: null,
-    hasMore: true
+    hasMore: true,
+    params: {}
   },
   reducers: {
     saveList(state, action) {
-      console.log(state);
-      console.log(action);
       return {
         ...state,
         ...action.payload
@@ -33,10 +32,12 @@ export default {
     }
   },
   effects: {
-    *fetchAll({ payload }, { call, put, select }) {
-      const lists = yield select(state => state['product-all'].lists)
-      if (lists && lists.length) return true
-      const { data } = yield call(api.fetchAllPros, { ...payload })
+    *fetchFilter({ payload: { params } }, { call, put, select }) {
+      const preParams = yield select(state => state['product-filter'].params)
+      // 如果查询条件没有变，则不请求服务器
+      if (_.isEqual(preParams, params)) return true
+      // 查询条件变化，重置lvState b
+      const { data } = yield call(api.fetchFilerPros, { ...params })
       const { resultcode, result: res } = data
       if (+resultcode !== 1) {
         yield put({
@@ -53,22 +54,13 @@ export default {
             page: 0,
             cls: res.slice(0, ALL_PRO_PER_PAGE),
             total: Math.ceil(res.length / ALL_PRO_PER_PAGE) - 1,
-            hasMore: true
+            hasMore: true,
+            params
           }
         })
       }
     }
   },
   subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        if (pathname === '/product/all') {
-          dispatch({
-            type: 'fetchAll',
-            payload: { flag: 1, sort: 1 }
-          })
-        }
-      })
-    }
   },
 };

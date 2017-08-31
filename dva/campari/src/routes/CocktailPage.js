@@ -55,7 +55,12 @@ class CocktailPage extends React.Component {
 
 function mapStateToProps(state) {
   const { page, cls, hasMore } = state.cocktail
-  const { c } = state.lvStatus
+  const { c: { dataBlob, sectionIDs, rowIDs } } = state.lvStatus
+  const c = {
+    dataBlob: { ...dataBlob },
+    sectionIDs: [...sectionIDs],
+    rowIDs: [...rowIDs]
+  }
   return { page, cls, hasMore, c };
 }
 
