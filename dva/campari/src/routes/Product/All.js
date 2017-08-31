@@ -50,7 +50,7 @@ class All extends React.Component {
           onLeftClick={() => { this.handleClick('L') }}
           onRightClick={() => { this.handleClick('R') }}
         />
-        <div className={styles.center_box}  onClick={this.hideAll}>
+        <div className={styles.center_box} onClick={this.hideAll}>
           <ProListView
             lists={cls}
             page={page}

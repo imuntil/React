@@ -1,9 +1,11 @@
-import { ALL_COCKTAIL_PER_PAGE } from '../constant'
+import { ALL_COCKTAIL_PER_PAGE, cocktails } from '../constant'
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
   namespace: 'cocktail',
   state: {
-    lists: [],
+    lists: cocktails,
     page: null,
     // currentList
     cls: [],
@@ -11,17 +13,39 @@ export default {
     hasMore: true
   },
   reducers: {
-    updateCls(state, action) {
-      const { list, total } = state
+    updateCLs(state, action) {
+      const { lists, total } = state
       const { page } = action.payload
       return {
         ...state,
         page,
-        cls: list.slice(0, (page + 1) * ALL_COCKTAIL_PER_PAGE),
+        cls: lists.slice(0, (page + 1) * ALL_COCKTAIL_PER_PAGE),
         hasMore: total > page
       }
     }
   },
-  effects: {},
-  subscriptions: {},
+  effects: {
+    *init({ payload }, { call, put, select }) {
+      const cls = yield select(state => state.cocktail.cls)
+      if (cls && cls.length) return true
+      yield call(delay, 100)
+      yield put({
+        type: 'updateCLs',
+        payload: {
+          page: 0,
+        }
+      })
+    }
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname }) => {
+        if (pathname === '/cocktail') {
+          dispatch({
+            type: 'init'
+          })
+        }
+      })
+    }
+  },
 };

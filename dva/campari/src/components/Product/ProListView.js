@@ -1,7 +1,6 @@
 import React from 'react';
 import { ListView, ActivityIndicator, WingBlank } from 'antd-mobile'
 import styles from './ProListView.css';
-import { ALL_PRO_PER_PAGE } from '../../constant.js'
 import Card from '../Card.js'
 
 function MyBody({ children }) {
@@ -28,7 +27,8 @@ class ProListView extends React.Component {
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     })
 
-    const { data: { dataBlob, sectionIDs, rowIDs } } = this.props
+    const { data: { dataBlob, sectionIDs, rowIDs, PER_PAGE = 10 } } = this.props
+    console.log('rowIds', rowIDs);
     this.dataBlob = dataBlob
     this.sectionIDs = sectionIDs
     this.rowIDs = rowIDs
@@ -39,7 +39,7 @@ class ProListView extends React.Component {
       this.sectionIDs.push(sectionName)
       this.dataBlob[sectionName] = sectionName
       this.rowIDs[pIndex] = []
-      for (let i = 0; i < ALL_PRO_PER_PAGE; i++) {
+      for (let i = 0; i < PER_PAGE; i++) {
         const rowName = `S${pIndex}, R${i}`
         this.rowIDs[pIndex].push(rowName)
         this.dataBlob[rowName] = rowName
@@ -98,7 +98,8 @@ class ProListView extends React.Component {
 
   render() {
     console.log('render');
-    const { lists } = this.props
+    const { lists, PER_PAGE = 10 } = this.props
+    console.log(this.rowIDs);
     const row = (rowDta, sectionId, rowID) => {
       if (this.index > lists.length - 1) {
         return null
@@ -125,8 +126,8 @@ class ProListView extends React.Component {
           renderBodyComponent={() => <MyBody />}
           className={styles.list_box}
           renderRow={row}
-          initialListSize={ALL_PRO_PER_PAGE - 2}
-          pageSize={ALL_PRO_PER_PAGE >> 1}
+          initialListSize={PER_PAGE - 2}
+          pageSize={PER_PAGE >> 1}
           scrollRenderAheadDistance={500}
           scrollEventThrottle={200}
           onEndReached={this.onEndReached}
