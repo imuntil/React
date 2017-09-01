@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash'
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
 import styles from './All.css';
@@ -25,6 +26,17 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
         })
       }
     }
+    componentWillReceiveProps(nextProps) {
+      // const { fp, history } = this.props
+      // const { fp: nfp } = nextProps
+      // if (!_.isEqual(fp, nfp)) {
+      //   console.log(nfp);
+      //   const { flag, sort, type } = nfp
+      //   const path = `product/filter/${flag}/${sort}/${type}`
+      //   replace ? history.replace(path) : history.push(path)
+      //   return
+      // }
+    }
     handleClick = (type) => {
       const { cateLayerShow, sortLayerShow } = this.state
       type === 'L'
@@ -40,7 +52,29 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
       })
     }
     handleParamsChange = ({ ...payload }) => {
-      console.log(payload);
+      const { dispatch, fp, history } = this.props
+      console.log('fp', fp);
+      console.log('payload', payload);
+      if (_.isEqual(fp, payload)) return
+      if (replace) {
+        if (payload.sort && payload.sort === fp.sort) return
+        const pl2 = _.omit(fp, 'sort')
+        if (_.isEqual(pl2, payload)) return
+      }
+      console.log('lalala');
+      const nfp = Object.assign({}, fp, payload)
+      dispatch({
+        type: 'filter-params/update',
+        payload: {
+          ...nfp
+        }
+      })
+      const { flag, sort, type } = nfp
+      if (replace) {
+        history.replace(`/product/filter/${flag}/${sort}/${type}`)
+      } else {
+        history.push(`/product/filter/${flag}/${sort}/${type}`)
+      }
     }
     render() {
       const { cls, page, hasMore, dispatch, data } = this.props
@@ -74,6 +108,7 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
               data={data}
               RowComponent={RowComponent}
               BodyComponent={BodyComponent}
+              replace={replace}
               onLoadMore={() => {
                 dispatch({
                   type: `product-${pro}/updateCLs`,
@@ -102,16 +137,16 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
   function mapStateToProps(state) {
     const { page, cls, hasMore } = state[`product-${pro}`]
     const { dataBlob, sectionIDs, rowIDs } = state.lvStatus[lv.toLowerCase()]
+    const filterParams = state['filter-params']
     const data = {
       dataBlob: { ...dataBlob },
       sectionIDs: [...sectionIDs] ,
       rowIDs: [...rowIDs]
     }
-    return { page, cls, hasMore, data };
+    return { page, cls, hasMore, data, fp: filterParams };
   }
 
   return connect(mapStateToProps)(Component)
 }
 
 export default gen
-

@@ -28,7 +28,6 @@ class ProListView extends React.Component {
     })
 
     const { data: { dataBlob, sectionIDs, rowIDs, PER_PAGE = 10 } } = this.props
-    console.log('rowIds', rowIDs);
     this.dataBlob = dataBlob
     this.sectionIDs = sectionIDs
     this.rowIDs = rowIDs
@@ -61,11 +60,8 @@ class ProListView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('will');
-    console.log('page', nextProps.page);
     if (nextProps.page === null) return
     this.genData(nextProps.page);
-    console.log('rowIDs', this.rowIDs);
-    console.log('sectionIDs', this.sectionIDs);
     this.setState({
       dataSource: this.state.dataSource
         .cloneWithRowsAndSections(this.dataBlob, this.sectionIDs, this.rowIDs),
@@ -74,6 +70,12 @@ class ProListView extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    const { replace } = this.props
+    if (!replace) return true
+    const { BodyComponent } = nextProps
+    if (!BodyComponent) return false
+    console.log('next', nextProps);
+    console.log('current', this.props);
     return true
   }
 
@@ -103,7 +105,6 @@ class ProListView extends React.Component {
   render() {
     console.log('render');
     const { lists, PER_PAGE = 10, RowComponent = Card, BodyComponent = MyBody } = this.props
-    console.log(this.rowIDs);
     const row = (rowDta, sectionId, rowID) => {
       if (this.index > lists.length - 1) {
         return null
