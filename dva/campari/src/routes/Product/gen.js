@@ -7,6 +7,7 @@ import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayer, CategoryLayerF } from '../../components/Product/CategoryLayer.js'
 import { SortLayer, SortLayerF } from '../../components/Product/SortLayer.js'
+import { test } from '../../services/status'
 
 function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
   class Component extends React.Component {
@@ -63,12 +64,15 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
       }
       console.log('lalala');
       const nfp = Object.assign({}, fp, payload)
-      dispatch({
-        type: 'filter-params/update',
-        payload: {
-          ...nfp
-        }
-      })
+      if (replace) {
+        dispatch({
+          type: 'filter-params/update',
+          payload: {
+            ...nfp
+          }
+        })
+      }
+
       const { flag, sort, type } = nfp
       if (replace) {
         history.replace(`/product/filter/${flag}/${sort}/${type}`)
@@ -140,7 +144,7 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
     const filterParams = state['filter-params']
     const data = {
       dataBlob: { ...dataBlob },
-      sectionIDs: [...sectionIDs] ,
+      sectionIDs: [...sectionIDs],
       rowIDs: [...rowIDs]
     }
     return { page, cls, hasMore, data, fp: filterParams };
