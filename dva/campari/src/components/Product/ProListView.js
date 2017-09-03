@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash'
 import { ListView, ActivityIndicator, WingBlank } from 'antd-mobile'
 import styles from './ProListView.css';
 import Card from '../Card.js'
@@ -15,6 +16,7 @@ function MyBody({ children }) {
   )
 }
 
+let index = 0
 class ProListView extends React.Component {
   constructor(props) {
     super(props)
@@ -26,12 +28,12 @@ class ProListView extends React.Component {
       rowHasChanged: (row1, row2) => row1 !== row2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     })
-
+    console.log('ccccccccccccccc');
     const { data: { dataBlob, sectionIDs, rowIDs, PER_PAGE = 10 } } = this.props
     this.dataBlob = dataBlob
     this.sectionIDs = sectionIDs
     this.rowIDs = rowIDs
-    this.index = 0
+    index = 0
     this.genData = (pIndex = 0) => {
       const sectionName = `Section ${pIndex}`
       if (this.sectionIDs.includes(sectionName)) return
@@ -54,12 +56,13 @@ class ProListView extends React.Component {
     }
   }
 
-  // componentDidMount() {
-  //   setTimeout(this.lv.scrollTo({ y: 50 }), 2000)
-  // }
+  componentWillMount() {
+    index = 0
+  }
 
   componentWillReceiveProps(nextProps) {
-    console.log('will');
+    console.log('........................will');
+    console.log('index in will is ', index);
     if (nextProps.page === null) return
     this.genData(nextProps.page);
     this.setState({
@@ -69,13 +72,17 @@ class ProListView extends React.Component {
     })
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     const { replace } = this.props
     if (!replace) return true
     const { BodyComponent } = nextProps
     if (!BodyComponent) return false
-    console.log('next', nextProps);
-    console.log('current', this.props);
+    if (_.isEmpty(nextProps.store)) return false
+    // if (index >= 8) return false
+    // console.log('...............');
+    // console.log(nextProps.lists);
+    // console.log(this.props.lists);
+    // console.log('oooooooooooooooooooo');
     return true
   }
 
@@ -104,42 +111,53 @@ class ProListView extends React.Component {
 
   render() {
     console.log('render');
-    const { lists, PER_PAGE = 10, RowComponent = Card, BodyComponent = MyBody } = this.props
+    console.log('index in render .................................', index);
+    const { lists, PER_PAGE = 10, RowComponent = Card,
+      BodyComponent = MyBody, store, fetching } = this.props
     const row = (rowDta, sectionId, rowID) => {
-      if (this.index > lists.length - 1) {
-        return null
-      }
-      const pro = lists[this.index++]
+      console.log('list.length', lists.length);
+      // if (index > lists.length - 1) {
+      //   return null
+      // }
+      console.log(index);
+      const pro = lists[index]
+      index += 1
+      if (!pro) return null
       return (
-        <RowComponent key={rowID} customStyle={{ marginTop: '.25rem' }} data={pro} />
+        <RowComponent key={rowID} customStyle={{ marginTop: '.25rem' }} data={store[pro]} />
       )
     }
     return (
       <div className={styles.list_wrapper}>
-        <ListView
-          ref={(el) => { this.lv = el }}
-          dataSource={this.state.dataSource}
-          renderFooter={() => (
-            <div className="list_footer" style={{ display: 'flex', justifyContent: 'center' }}>
-              {
-                this.state.isLoading
-                  ? <ActivityIndicator text="加载中..." size="small" />
-                  : null
-              }
-            </div>
-          )}
-          renderBodyComponent={() => <BodyComponent />}
-          className={styles.list_box}
-          renderRow={row}
-          initialListSize={PER_PAGE - 2}
-          pageSize={PER_PAGE >> 1}
-          scrollRenderAheadDistance={500}
-          scrollEventThrottle={200}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={10}
-          scrollerOptions={{ scrollbars: true }}
-          // onScroll={this.onScroll}
-        />
+        {
+          fetching
+            ? null
+            : (
+              <ListView
+                ref={(el) => { this.lv = el }}
+                dataSource={this.state.dataSource}
+                renderFooter={() => (
+                  <div className="list_footer" style={{ display: 'flex', justifyContent: 'center' }}>
+                    {
+                      this.state.isLoading
+                        ? <ActivityIndicator text="加载中..." size="small" />
+                        : null
+                    }
+                  </div>
+                )}
+                renderBodyComponent={() => <BodyComponent />}
+                className={styles.list_box}
+                renderRow={row}
+                initialListSize={PER_PAGE - 2}
+                pageSize={PER_PAGE >> 1}
+                scrollRenderAheadDistance={500}
+                scrollEventThrottle={200}
+                onEndReached={this.onEndReached}
+                onEndReachedThreshold={10}
+                scrollerOptions={{ scrollbars: true }}
+              />
+            )
+        }
       </div>
     )
   }

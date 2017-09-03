@@ -1,42 +1,56 @@
 import _ from 'lodash'
 import * as api from '../../services/product'
 import { ALL_PRO_PER_PAGE } from '../../constant'
+import { normalizes } from '../../services/tools-fun'
 
 export default {
   namespace: 'product-filter',
   state: {
-    lists: [],
+    idList: [],
     page: null,
     // currentList
     cls: [],
     total: null,
-    hasMore: true
+    hasMore: true,
+    fetching: true
   },
   reducers: {
     saveList(state, action) {
+      const { idList, cls, page, total, hasMore } = action.payload
       return {
         ...state,
-        ...action.payload
+        idList: [...idList] ,
+        cls: [...cls] ,
+        page,
+        total,
+        hasMore
       }
     },
     updateCLs(state, action) {
-      const { lists, total } = state
+      const { idList, total } = state
       const { page } = action.payload
       return {
         ...state,
-        page,
-        cls: lists.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
-        hasMore: total > page
+        oth: {
+          page,
+          cls: idList.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
+          hasMore: total > page
+        }
+      }
+    },
+    toggleFetching(state, action) {
+      return {
+        ...state,
+        fetching: action.payload
       }
     }
   },
   effects: {
-    *fetchFilter({ payload: { params } }, { call, put, select }) {
-      const preParams = yield select(state => state['filter-params'])
-      // 如果查询条件没有变，则不请求服务器
-      if (_.isEqual(preParams, params)) {
-        return true
-      }
+    *fetchFilter({ payload: { params } }, { call, put }) {
+      yield put({
+        type: 'toggleFetching',
+        payload: true
+      })
       console.log('xxxxxxxxxxxx');
       // 查询条件变化，重置lvState b
       // 更新filter-params
@@ -57,15 +71,28 @@ export default {
           }
         })
       } else {
+        const { idList, list } = normalizes(res)
+        yield [
+          put({
+            type: 'saveList',
+            payload: {
+              idList,
+              page: 0,
+              cls: idList.slice(0, ALL_PRO_PER_PAGE),
+              total: Math.ceil(idList.length / ALL_PRO_PER_PAGE) - 1,
+              hasMore: true
+            }
+          }),
+          put({
+            type: 'list-store/add',
+            payload: {
+              ...list
+            }
+          })
+        ]
         yield put({
-          type: 'saveList',
-          payload: {
-            lists: res,
-            page: 0,
-            cls: res.slice(0, ALL_PRO_PER_PAGE),
-            total: Math.ceil(res.length / ALL_PRO_PER_PAGE) - 1,
-            hasMore: true
-          }
+          type: 'toggleFetching',
+          payload: false
         })
       }
     }
@@ -73,3 +100,4 @@ export default {
   subscriptions: {
   },
 };
+

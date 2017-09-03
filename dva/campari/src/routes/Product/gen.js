@@ -7,7 +7,6 @@ import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayer, CategoryLayerF } from '../../components/Product/CategoryLayer.js'
 import { SortLayer, SortLayerF } from '../../components/Product/SortLayer.js'
-import { test } from '../../services/status'
 
 function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
   class Component extends React.Component {
@@ -17,8 +16,10 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
         cateLayerShow: false,
         sortLayerShow: false
       }
+      console.log('constructor');
     }
     componentWillMount() {
+      console.log('will mount');
       const { params, route: { name }, dispatch } = this.props
       if (name === 'ProFilterPage') {
         dispatch({
@@ -27,17 +28,7 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
         })
       }
     }
-    componentWillReceiveProps(nextProps) {
-      // const { fp, history } = this.props
-      // const { fp: nfp } = nextProps
-      // if (!_.isEqual(fp, nfp)) {
-      //   console.log(nfp);
-      //   const { flag, sort, type } = nfp
-      //   const path = `product/filter/${flag}/${sort}/${type}`
-      //   replace ? history.replace(path) : history.push(path)
-      //   return
-      // }
-    }
+
     handleClick = (type) => {
       const { cateLayerShow, sortLayerShow } = this.state
       type === 'L'
@@ -53,25 +44,22 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
       })
     }
     handleParamsChange = ({ ...payload }) => {
-      const { dispatch, fp, history } = this.props
-      console.log('fp', fp);
-      console.log('payload', payload);
-      if (_.isEqual(fp, payload)) return
+      const { params, history } = this.props
       if (replace) {
-        if (payload.sort && payload.sort === fp.sort) return
-        const pl2 = _.omit(fp, 'sort')
+        if (payload.sort && payload.sort === params.sort) return
+        const pl2 = _.omit(params, 'sort')
         if (_.isEqual(pl2, payload)) return
       }
-      console.log('lalala');
-      const nfp = Object.assign({}, fp, payload)
-      if (replace) {
-        dispatch({
-          type: 'filter-params/update',
-          payload: {
-            ...nfp
-          }
-        })
-      }
+      console.log('reload');
+      const nfp = Object.assign({}, params, payload)
+      // if (replace) {
+      //   dispatch({
+      //     type: 'filter-params/update',
+      //     payload: {
+      //       ...nfp
+      //     }
+      //   })
+      // }
 
       const { flag, sort, type } = nfp
       if (replace) {
@@ -81,7 +69,7 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
       }
     }
     render() {
-      const { cls, page, hasMore, dispatch, data } = this.props
+      const { cls, page, hasMore, dispatch, data, store, fetching } = this.props
       const { cateLayerShow, sortLayerShow } = this.state
       const [CL, SL] = replace ? [CategoryLayerF, SortLayerF] : [CategoryLayer, SortLayer]
       return (
@@ -106,6 +94,7 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
           />
           <div className={styles.center_box} onClick={this.hideAll}>
             <ProListView
+              store={store}
               lists={cls}
               page={page}
               hasMore={hasMore}
@@ -113,6 +102,7 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
               RowComponent={RowComponent}
               BodyComponent={BodyComponent}
               replace={replace}
+              fetching={fetching}
               onLoadMore={() => {
                 dispatch({
                   type: `product-${pro}/updateCLs`,
@@ -139,15 +129,15 @@ function gen(pro, lv, RowComponent, BodyComponent, replace = false) {
   }
 
   function mapStateToProps(state) {
-    const { page, cls, hasMore } = state[`product-${pro}`]
+    const { page, cls, hasMore, fetching } = state[`product-${pro}`]
+    const store = state['list-store']
     const { dataBlob, sectionIDs, rowIDs } = state.lvStatus[lv.toLowerCase()]
-    const filterParams = state['filter-params']
     const data = {
       dataBlob: { ...dataBlob },
       sectionIDs: [...sectionIDs],
       rowIDs: [...rowIDs]
     }
-    return { page, cls, hasMore, data, fp: filterParams };
+    return { page, cls, hasMore, data, store, fetching };
   }
 
   return connect(mapStateToProps)(Component)

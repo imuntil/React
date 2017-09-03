@@ -1,11 +1,12 @@
 // import _ from 'lodash'
 import * as api from '../../services/product'
 import { ALL_PRO_PER_PAGE } from '../../constant'
+import { normalizes } from '../../services/tools-fun'
 
 export default {
   namespace: 'product-all',
   state: {
-    lists: [],
+    idList: [],
     page: null,
     // currentList
     cls: [],
@@ -20,19 +21,19 @@ export default {
       }
     },
     updateCLs(state, action) {
-      const { lists, total } = state
+      const { idList, total } = state
       const { page } = action.payload
       return {
         ...state,
         page,
-        cls: lists.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
+        cls: idList.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
         hasMore: total > page
       }
     }
   },
   effects: {
     *fetchAll({ payload }, { call, put, select }) {
-      const lists = yield select(state => state['product-all'].lists)
+      const lists = yield select(state => state['product-all'].idList)
       if (lists && lists.length) return true
       const { data } = yield call(api.fetchAllPros, { ...payload })
       const { resultcode, result: res } = data
@@ -44,12 +45,19 @@ export default {
           }
         })
       } else {
+        const { idList, list } = normalizes(res)
+        yield put({
+          type: 'list-store/add',
+          payload: {
+            ...list
+          }
+        })
         yield put({
           type: 'saveList',
           payload: {
-            lists: res,
+            idList,
             page: 0,
-            cls: res.slice(0, ALL_PRO_PER_PAGE),
+            cls: idList.slice(0, ALL_PRO_PER_PAGE),
             total: Math.ceil(res.length / ALL_PRO_PER_PAGE) - 1,
             hasMore: true
           }

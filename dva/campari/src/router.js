@@ -36,6 +36,7 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '全部商品'
+              registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/product/all'))
               registerModel(app, require('./models/lvStatus'))
               registerModel(app, require('./models/product/filter-params'))
@@ -49,6 +50,7 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '全部商品'
+              registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/product/filter'))
               registerModel(app, require('./models/lvStatus'))
               registerModel(app, require('./models/product/filter-params'))
