@@ -49,7 +49,6 @@ export default {
         type: 'toggleFetching',
         payload: true
       })
-      console.log('xxxxxxxxxxxx');
       // 查询条件变化，重置lvState b
       // 更新filter-params
       yield put({

@@ -6,7 +6,8 @@ import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayerF } from "../../components/Product/CategoryLayer.js";
 import { SortLayerF } from "../../components/Product/SortLayer.js";
-import Row from '../../components/Item.js'
+import Item from '../../components/Item.js'
+import Loading from '../../components/Loading.js'
 import styles from './Filter.css'
 
 function Body({ children }) {
@@ -18,12 +19,14 @@ function Body({ children }) {
     </div>
   )
 }
+function Row(props) {
+  return <Item {...props} />
+}
 
 
 class Filter extends React.Component {
   constructor(props) {
     super(props)
-    console.log('filter-constructor');
     this.state = {
       cateLayerShow: false,
       sortLayerShow: false
@@ -72,66 +75,71 @@ class Filter extends React.Component {
 
   nfp = {}
   render() {
-    const { cls, page, hasMore, dispatch, data, store, fetching } = this.props
+    const { cls, page, hasMore, dispatch, data, store, fetching, loading } = this.props
     const { cateLayerShow, sortLayerShow } = this.state
     return (
-      <div className={styles.normal}>
-        <QueueAnim type={'top'}>
-          {
-            cateLayerShow
-              ? (
-                <div className={styles.layer} key={`filter-1`}>
-                  <CategoryLayerF changeParams={this.handleParamsChange} />
-                </div>
-              )
-              : null
-          }
-        </QueueAnim>
-        <QueueAnim type={'top'}>
-          {
-            sortLayerShow
-              ? (
-                <div className={styles.layer} key={`filter-2`}>
-                  <SortLayerF changeParams={this.handleParamsChange} />
-                </div>
-              )
-              : null
-          }
-        </QueueAnim>
-        <TopTabs
-          onLeftClick={() => { this.handleClick('L') }}
-          onRightClick={() => { this.handleClick('R') }}
-        />
-        <div className={styles.center_box} onClick={this.hideAll}>
-          <ProListView
-            store={store}
-            lists={cls}
-            page={page}
-            hasMore={hasMore}
-            data={data}
-            RowComponent={Row}
-            BodyComponent={Body}
-            replace
-            fetching={fetching}
-            onLoadMore={() => {
-              dispatch({
-                type: `product-filter/updateCLs`,
-                payload: {
-                  page: page + 1
-                }
-              })
-            }}
-            // onUpdate={(dataBlob, sectionIDs, rowIDs) => {
-            //   dispatch({
-            //     type: `lvStatus/clearB`,
-            //     payload: {
-            //       dataBlob,
-            //       sectionIDs,
-            //       rowIDs
-            //     }
-            //   })
-            // }}
+      <div style={{ position: 'relative', display: 'block', width: '100%', height: '100%' }}>
+        {
+          loading ? <Loading /> : null
+        }
+        <div className={styles.normal} style={{ visibility: loading ? 'hidden' : 'visible' }}>
+          <QueueAnim type={'top'}>
+            {
+              cateLayerShow
+                ? (
+                  <div className={styles.layer} key={`filter-1`}>
+                    <CategoryLayerF changeParams={this.handleParamsChange} />
+                  </div>
+                )
+                : null
+            }
+          </QueueAnim>
+          <QueueAnim type={'top'}>
+            {
+              sortLayerShow
+                ? (
+                  <div className={styles.layer} key={`filter-2`}>
+                    <SortLayerF changeParams={this.handleParamsChange} />
+                  </div>
+                )
+                : null
+            }
+          </QueueAnim>
+          <TopTabs
+            onLeftClick={() => { this.handleClick('L') }}
+            onRightClick={() => { this.handleClick('R') }}
           />
+          <div className={styles.center_box} onClick={this.hideAll}>
+            <ProListView
+              store={store}
+              lists={cls}
+              page={page}
+              hasMore={hasMore}
+              data={data}
+              RowComponent={Row}
+              BodyComponent={Body}
+              replace
+              fetching={fetching}
+              onLoadMore={() => {
+                dispatch({
+                  type: `product-filter/updateCLs`,
+                  payload: {
+                    page: page + 1
+                  }
+                })
+              }}
+              // onUpdate={(dataBlob, sectionIDs, rowIDs) => {
+              //   dispatch({
+              //     type: `lvStatus/clearB`,
+              //     payload: {
+              //       dataBlob,
+              //       sectionIDs,
+              //       rowIDs
+              //     }
+              //   })
+              // }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -147,7 +155,7 @@ function mapStateToProps(state) {
   //   sectionIDs: [...sectionIDs],
   //   rowIDs: [...rowIDs]
   // }
-  return { page, cls, hasMore, store, fetching };
+  return { page, cls, hasMore, store, fetching, loading: state.loading.models['product-filter'] };
 }
 
 export default connect(mapStateToProps)(Filter)

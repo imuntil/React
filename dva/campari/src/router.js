@@ -59,6 +59,18 @@ function RouterConfig({ history, app }) {
           }
         },
         {
+          path: 'product/:id',
+          name: 'ProductDetail',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              document.title = '详情'
+              registerModel(app, require('./models/product/detail'))
+              registerModel(app, require('./models/product/list-store'))
+              cb(null, require('./routes/Product/Detail'))
+            })
+          }
+        },
+        {
           path: 'cocktail',
           name: 'CocktailPage',
           getComponent(nextState, cb) {

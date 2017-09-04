@@ -60,10 +60,12 @@ class ProListView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { page } = nextProps
-    if (page === null || nextProps.fetching) return
-    console.log('will receive props, and page is ', page);
-    console.log('問題はここ');
-    // if (page === 0) index = 0
+    if (page === null) return
+    if (nextProps.fetching) {
+      index = 0
+      return
+    }
+    // console.log('will receive props, and page is ', page, ' index is ', index);
     this.genData(nextProps.page);
     this.setState({
       dataSource: this.state.dataSource
@@ -103,14 +105,12 @@ class ProListView extends React.Component {
 
   render() {
     console.log('render');
-    console.log('index in render:', index);
     const { lists, PER_PAGE = 10, RowComponent = Card,
       BodyComponent = MyBody, store, fetching } = this.props
     const row = (rowDta, sectionId, rowID) => {
       const pro = lists[index]
       index += 1
       if (!pro) return null
-      console.log('row index: ', index);
       return (
         <RowComponent key={rowID} customStyle={{ marginTop: '.25rem' }} data={store[pro]} />
       )
