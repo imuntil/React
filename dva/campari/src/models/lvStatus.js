@@ -38,7 +38,7 @@ export default {
         b: _.cloneDeep(action.payload)
       }
     },
-    clearB(state, action) {
+    clearB(state) {
       return {
         ...state,
         b: {

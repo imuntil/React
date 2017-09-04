@@ -19,8 +19,8 @@ export default {
       const { idList, cls, page, total, hasMore } = action.payload
       return {
         ...state,
-        idList: [...idList] ,
-        cls: [...cls] ,
+        idList: [...idList],
+        cls: [...cls],
         page,
         total,
         hasMore
@@ -31,11 +31,9 @@ export default {
       const { page } = action.payload
       return {
         ...state,
-        oth: {
-          page,
-          cls: idList.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
-          hasMore: total > page
-        }
+        page,
+        cls: idList.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
+        hasMore: total > page
       }
     },
     toggleFetching(state, action) {

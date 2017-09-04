@@ -19,7 +19,7 @@ function Body({ children }) {
 
 class CocktailPage extends React.Component {
   render() {
-    const { page, cls, hasMore, c, dispatch } = this.props
+    const { page, cls, hasMore, c, dispatch, store } = this.props
     return (
       <div className={styles.normal}>
         <CTListView
@@ -27,6 +27,7 @@ class CocktailPage extends React.Component {
           page={page}
           hasMore={hasMore}
           data={c}
+          store={store}
           RowComponent={Card}
           BodyComponent={Body}
           onLoadMore={() => {
@@ -54,14 +55,14 @@ class CocktailPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { page, cls, hasMore } = state.cocktail
+  const { page, cls, hasMore, list } = state.cocktail
   const { c: { dataBlob, sectionIDs, rowIDs } } = state.lvStatus
   const c = {
     dataBlob: { ...dataBlob },
     sectionIDs: [...sectionIDs],
     rowIDs: [...rowIDs]
   }
-  return { page, cls, hasMore, c };
+  return { page, cls, hasMore, c, store: list };
 }
 
 export default connect(mapStateToProps)(CocktailPage);

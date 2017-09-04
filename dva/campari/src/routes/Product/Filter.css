@@ -1,5 +1,9 @@
 
 .normal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .img_box {
@@ -9,4 +13,16 @@
   width: 100%;
   display: block;
   background-color: #f6f6f6;
+}
+.center_box {
+  display: block;
+  flex: auto;
+  position: relative;
+}
+.layer {
+  position: absolute;
+  top: 93px;
+  width: 100%;
+  left: 0;
+  z-index: 1;
 }

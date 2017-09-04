@@ -1,11 +1,15 @@
 import { ALL_COCKTAIL_PER_PAGE, cocktails } from '../constant'
+import { normalizes } from '../services/tools-fun'
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const res = normalizes(cocktails)
+// const total = Math.ceil(idList.length / ALL_COCKTAIL_PER_PAGE) - 1
 
 export default {
   namespace: 'cocktail',
   state: {
-    lists: cocktails,
+    list: res.list,
+    idList: res.idList,
     page: null,
     // currentList
     cls: [],
@@ -14,12 +18,12 @@ export default {
   },
   reducers: {
     updateCLs(state, action) {
-      const { lists, total } = state
+      const { idList, total } = state
       const { page } = action.payload
       return {
         ...state,
         page,
-        cls: lists.slice(0, (page + 1) * ALL_COCKTAIL_PER_PAGE),
+        cls: idList.slice(0, (page + 1) * ALL_COCKTAIL_PER_PAGE),
         hasMore: total > page
       }
     }

@@ -10,6 +10,7 @@ import { SortLayer } from '../../components/Product/SortLayer.js'
 class All extends React.Component {
   constructor(props) {
     super(props)
+    console.log('all-constructor');
     this.state = {
       cateLayerShow: false,
       sortLayerShow: false

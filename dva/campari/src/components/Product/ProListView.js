@@ -28,12 +28,10 @@ class ProListView extends React.Component {
       rowHasChanged: (row1, row2) => row1 !== row2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     })
-    console.log('ccccccccccccccc');
-    const { data: { dataBlob, sectionIDs, rowIDs, PER_PAGE = 10 } } = this.props
-    this.dataBlob = dataBlob
-    this.sectionIDs = sectionIDs
-    this.rowIDs = rowIDs
-    index = 0
+    const { data = {}, PER_PAGE = 10 } = this.props
+    this.dataBlob = data.dataBlob || {}
+    this.sectionIDs = data.sectionIDs || []
+    this.rowIDs = data.rowIDs || []
     this.genData = (pIndex = 0) => {
       const sectionName = `Section ${pIndex}`
       if (this.sectionIDs.includes(sectionName)) return
@@ -61,9 +59,11 @@ class ProListView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('........................will');
-    console.log('index in will is ', index);
-    if (nextProps.page === null) return
+    const { page } = nextProps
+    if (page === null || nextProps.fetching) return
+    console.log('will receive props, and page is ', page);
+    console.log('問題はここ');
+    // if (page === 0) index = 0
     this.genData(nextProps.page);
     this.setState({
       dataSource: this.state.dataSource
@@ -72,23 +72,15 @@ class ProListView extends React.Component {
     })
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { replace } = this.props
-    if (!replace) return true
-    const { BodyComponent } = nextProps
-    if (!BodyComponent) return false
-    if (_.isEmpty(nextProps.store)) return false
-    // if (index >= 8) return false
-    // console.log('...............');
-    // console.log(nextProps.lists);
-    // console.log(this.props.lists);
-    // console.log('oooooooooooooooooooo');
+  shouldComponentUpdate() {
+    const { replace, BodyComponent, store, fetching } = this.props
+    if (!replace || !BodyComponent || _.isEmpty(store) || fetching) return true
     return true
   }
 
   componentWillUnmount() {
     const { onUpdate } = this.props
-    onUpdate(this.dataBlob, this.sectionIDs, this.rowIDs)
+    if (onUpdate) onUpdate(this.dataBlob, this.sectionIDs, this.rowIDs)
   }
 
   onEndReached = () => {
@@ -111,18 +103,14 @@ class ProListView extends React.Component {
 
   render() {
     console.log('render');
-    console.log('index in render .................................', index);
+    console.log('index in render:', index);
     const { lists, PER_PAGE = 10, RowComponent = Card,
       BodyComponent = MyBody, store, fetching } = this.props
     const row = (rowDta, sectionId, rowID) => {
-      console.log('list.length', lists.length);
-      // if (index > lists.length - 1) {
-      //   return null
-      // }
-      console.log(index);
       const pro = lists[index]
       index += 1
       if (!pro) return null
+      console.log('row index: ', index);
       return (
         <RowComponent key={rowID} customStyle={{ marginTop: '.25rem' }} data={store[pro]} />
       )

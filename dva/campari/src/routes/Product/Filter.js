@@ -4,8 +4,8 @@ import QueueAnim from 'rc-queue-anim'
 import _ from 'lodash'
 import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
-import { CategoryLayerF } from "../../components/Product/CategoryLayer";
-import { SortLayerF } from "../../components/Product/SortLayer";
+import { CategoryLayerF } from "../../components/Product/CategoryLayer.js";
+import { SortLayerF } from "../../components/Product/SortLayer.js";
 import Row from '../../components/Item.js'
 import styles from './Filter.css'
 
@@ -23,21 +23,18 @@ function Body({ children }) {
 class Filter extends React.Component {
   constructor(props) {
     super(props)
+    console.log('filter-constructor');
     this.state = {
       cateLayerShow: false,
       sortLayerShow: false
     }
-    console.log('constructor');
   }
   componentWillMount() {
-    console.log('will mount');
-    const { params, route: { name }, dispatch } = this.props
-    if (name === 'ProFilterPage') {
-      dispatch({
-        type: 'product-filter/fetchFilter',
-        payload: { params }
-      })
-    }
+    const { params, dispatch } = this.props
+    dispatch({
+      type: 'product-filter/fetchFilter',
+      payload: { params }
+    })
   }
 
   handleClick = (type) => {
@@ -55,24 +52,25 @@ class Filter extends React.Component {
     })
   }
   handleParamsChange = ({ ...payload }) => {
-    const { params, history } = this.props
-    if (payload.sort && payload.sort === params.sort) return
-    const pl2 = _.omit(params, 'sort')
+    const { params, dispatch } = this.props
+    const nfp = _.isEmpty(this.nfp) ? params : this.nfp
+    if (payload.sort && payload.sort === nfp.sort) return
+    const pl2 = _.omit(nfp, 'sort')
     if (_.isEqual(pl2, payload)) return
-    const nfp = Object.assign({}, params, payload)
-    // if (replace) {
-    //   dispatch({
-    //     type: 'filter-params/update',
-    //     payload: {
-    //       ...nfp
-    //     }
-    //   })
-    // }
-
-    const { flag, sort, type } = nfp
-    history.replace(`/product/filter/${flag}/${sort}/${type}`)
+    this.setState({
+      cateLayerShow: false,
+      sortLayerShow: false
+    })
+    this.nfp = Object.assign({}, nfp, payload)
+    // const { flag, sort, type } = nfp
+    // history.replace(`/product/filter/${flag}/${sort}/${type}`)
+    dispatch({
+      type: 'product-filter/fetchFilter',
+      payload: { params: this.nfp }
+    })
   }
 
+  nfp = {}
   render() {
     const { cls, page, hasMore, dispatch, data, store, fetching } = this.props
     const { cateLayerShow, sortLayerShow } = this.state
@@ -123,16 +121,16 @@ class Filter extends React.Component {
                 }
               })
             }}
-            onUpdate={(dataBlob, sectionIDs, rowIDs) => {
-              dispatch({
-                type: `lvStatus/updateB`,
-                payload: {
-                  dataBlob,
-                  sectionIDs,
-                  rowIDs
-                }
-              })
-            }}
+            // onUpdate={(dataBlob, sectionIDs, rowIDs) => {
+            //   dispatch({
+            //     type: `lvStatus/clearB`,
+            //     payload: {
+            //       dataBlob,
+            //       sectionIDs,
+            //       rowIDs
+            //     }
+            //   })
+            // }}
           />
         </div>
       </div>
@@ -143,13 +141,13 @@ class Filter extends React.Component {
 function mapStateToProps(state) {
   const { page, cls, hasMore, fetching } = state[`product-filter`]
   const store = state['list-store']
-  const { dataBlob, sectionIDs, rowIDs } = state.lvStatus.b
-  const data = {
-    dataBlob: { ...dataBlob },
-    sectionIDs: [...sectionIDs],
-    rowIDs: [...rowIDs]
-  }
-  return { page, cls, hasMore, data, store, fetching };
+  // const { dataBlob, sectionIDs, rowIDs } = state.lvStatus.b
+  // const data = {
+  //   dataBlob: { ...dataBlob },
+  //   sectionIDs: [...sectionIDs],
+  //   rowIDs: [...rowIDs]
+  // }
+  return { page, cls, hasMore, store, fetching };
 }
 
 export default connect(mapStateToProps)(Filter)
