@@ -1,3 +1,73 @@
 
 .normal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: #d2d2d2;
+}
+.section {
+  width: 100%;
+  padding: .25rem 0;
+  background-color: #fff;
+}
+.small-section,
+.ss {
+  width: 90%;
+  margin: 0 auto;
+}
+.font {
+  composes: ss;
+  width: 100%;
+  color: #444;
+  font-size: 36px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+.info {
+  composes: ss;
+  display: flex;
+  flex-direction: row;
+}
+.name {
+  flex: 0 1 70%;
+  display: block;
+  overflow: hidden;
+}
+.heart {
+  flex: 0 1 30%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 5%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.content {
+  composes: font;
+  width: 90%;
+}
+.price {
+  composes: font;
+  color: #e41035;
+  width: 90%;
+}
+.pro_params {
+  composes: ss;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: .2rem;
+  border-top: 1px solid #999;
+}
+.pro_params span {
+  display: inline-block;
+  width: 50%;
+  font-size: 28px;
+  color: #999;
+  line-height: 1.5;
+}
+.pro_params span:last-child {
+  width: 100%;
 }

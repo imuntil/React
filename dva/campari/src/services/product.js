@@ -7,3 +7,6 @@ export function fetchAllPros({ flag, sort }) {
 export function fetchFilerPros({ flag, sort, type }) {
   return request(`${BASEURL}productShowPro.action?flag=${flag}&sort=${sort}&type=${type}`)
 }
+export function fetchProDetail({ id }) {
+  return request(`${BASEURL}productShowOnePro.action?id=${id}`)
+}
