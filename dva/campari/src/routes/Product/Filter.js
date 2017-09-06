@@ -33,10 +33,10 @@ class Filter extends React.Component {
     }
   }
   componentWillMount() {
-    const { params, dispatch } = this.props
+    const { params, dispatch, location } = this.props
     dispatch({
       type: 'product-filter/fetchFilter',
-      payload: { params }
+      payload: { params, action: location.action }
     })
   }
 

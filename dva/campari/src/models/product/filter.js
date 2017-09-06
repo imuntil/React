@@ -44,12 +44,16 @@ export default {
     }
   },
   effects: {
-    *fetchFilter({ payload: { params } }, { call, put }) {
+    *fetchFilter({ payload: { params, action } }, { call, put, select }) {
       yield put({
         type: 'toggleFetching',
         payload: true
       })
       // 查询条件变化，重置lvState b
+      const cls = select(state => state.cls)
+      if (action === 'POP' && cls.length) {
+        return true
+      }
       // 更新filter-params
       yield put({
         type: 'filter-params/update',

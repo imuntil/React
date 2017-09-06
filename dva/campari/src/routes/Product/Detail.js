@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
 import { WhiteSpace as WS } from 'antd-mobile'
 import styles from './Detail.css';
-import { IMGURL, mustLikeIds } from '../../constant'
+import { IMGURL, mustLikeIds, types } from '../../constant'
 import Loading from '../../components/Loading.js'
 import Like from '../../components/Like/Like.js'
 
@@ -66,7 +66,7 @@ class Detail extends React.Component {
                   <div className={styles.pro_params}>
                     <span>酒精度:{data.proalcoholic}%</span>
                     <span>来自:{data.proarea}</span>
-                    <span>类别:{data.prolabel}</span>
+                    <span>类别:{types[data.prolabel]}</span>
                     <span>重量:{data.proweight}g</span>
                     <span>饮用方式:{data.drnk}</span>
                   </div>

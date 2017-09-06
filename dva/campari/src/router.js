@@ -15,8 +15,13 @@ function RouterConfig({ history, app }) {
       path: '/',
       name: 'Layout',
       getComponent(nextState, cb) {
+        const name = nextState.routes[1].name
         require.ensure([], (require) => {
-          cb(null, require('./components/Layouts/DefaultLayout'))
+          if (name === 'ProductDetail') {
+            cb(null, require('./components/Layouts/BuyBarLayout'))
+          } else {
+            cb(null, require('./components/Layouts/DefaultLayout'))
+          }
         })
       },
       childRoutes: [
