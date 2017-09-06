@@ -84,3 +84,5 @@ export const cocktails = [
     id: 13
   }
 ]
+
+export const mustLikeIds = [102, 103]

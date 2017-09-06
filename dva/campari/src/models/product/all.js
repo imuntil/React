@@ -32,37 +32,27 @@ export default {
     }
   },
   effects: {
-    *fetchAll({ payload }, { call, put, select }) {
+    *fetchAll({ payload }, { put, select }) {
       const lists = yield select(state => state['product-all'].idList)
       if (lists && lists.length) return true
-      const { data } = yield call(api.fetchAllPros, { ...payload })
-      const { resultcode, result: res } = data
-      if (+resultcode !== 1) {
-        yield put({
-          type: 'error/fetchDataError',
-          payload: {
-            msg: '获取列表失败'
-          }
-        })
-      } else {
-        const { idList, list } = normalizes(res)
-        yield put({
-          type: 'list-store/add',
-          payload: {
-            ...list
-          }
-        })
-        yield put({
-          type: 'saveList',
-          payload: {
-            idList,
-            page: 0,
-            cls: idList.slice(0, ALL_PRO_PER_PAGE),
-            total: Math.ceil(res.length / ALL_PRO_PER_PAGE) - 1,
-            hasMore: true
-          }
-        })
-      }
+      yield put({
+        type: 'list-store/fillStore',
+        payload: {
+          all: true
+        }
+      })
+    },
+    *setStateData({ payload: { idList } }, { put }) {
+      yield put({
+        type: 'saveList',
+        payload: {
+          idList,
+          page: 0,
+          cls: idList.slice(0, ALL_PRO_PER_PAGE),
+          total: Math.ceil(idList.length / ALL_PRO_PER_PAGE) - 1,
+          hasMore: true
+        }
+      })
     }
   },
   subscriptions: {

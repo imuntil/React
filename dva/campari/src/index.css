@@ -3,3 +3,38 @@ html, body, :global(#root) {
   height: 100%;
 }
 
+:global(.section) {
+  width: 100%;
+  padding: .25rem 0 .3rem;
+  background-color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid #b2b2b2;
+}
+:global(.section_title) {
+  width: 100%;
+  font-size: 34px;
+  font-weight: 600;
+  color: #444444;
+  text-align: center;
+  padding: .2rem 0 .4rem;
+  margin-bottom: .2rem;
+  position: relative;
+}
+:global(.pd-section) {
+  width: 92%;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+:global(.section_title::after) {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 6px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: #d2d2d2;
+}

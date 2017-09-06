@@ -1,7 +1,6 @@
 import { ALL_COCKTAIL_PER_PAGE, cocktails } from '../constant'
-import { normalizes } from '../services/tools-fun'
+import { normalizes, delay } from '../services/tools-fun'
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 const res = normalizes(cocktails)
 // const total = Math.ceil(idList.length / ALL_COCKTAIL_PER_PAGE) - 1
 

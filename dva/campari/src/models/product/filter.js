@@ -68,25 +68,17 @@ export default {
           }
         })
       } else {
-        const { idList, list } = normalizes(res)
-        yield [
-          put({
-            type: 'saveList',
-            payload: {
-              idList,
-              page: 0,
-              cls: idList.slice(0, ALL_PRO_PER_PAGE),
-              total: Math.ceil(idList.length / ALL_PRO_PER_PAGE) - 1,
-              hasMore: true
-            }
-          }),
-          put({
-            type: 'list-store/add',
-            payload: {
-              ...list
-            }
-          })
-        ]
+        const { idList } = normalizes(res)
+        yield put({
+          type: 'saveList',
+          payload: {
+            idList,
+            page: 0,
+            cls: idList.slice(0, ALL_PRO_PER_PAGE),
+            total: Math.ceil(idList.length / ALL_PRO_PER_PAGE) - 1,
+            hasMore: true
+          }
+        })
         yield put({
           type: 'toggleFetching',
           payload: false

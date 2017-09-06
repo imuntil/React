@@ -4,8 +4,9 @@ import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
 import { WhiteSpace as WS } from 'antd-mobile'
 import styles from './Detail.css';
-import { IMGURL } from '../../constant'
+import { IMGURL, mustLikeIds } from '../../constant'
 import Loading from '../../components/Loading.js'
+import Like from '../../components/Like/Like.js'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -18,8 +19,14 @@ class Detail extends React.Component {
     const { params: { id }, dispatch } = this.props
     dispatch({
       type: 'detail/fetchDetail',
-      payload: { id }
+      payload: [id, ...mustLikeIds]
     })
+  }
+  shouldComponentUpdate() {
+    console.log('should');
+    const { current = {}, must = [] } = this.props
+    if (!current.id || !must.length) return false
+    return true
   }
   handleClick = () => {
     const { more } = this.state
@@ -28,16 +35,17 @@ class Detail extends React.Component {
     })
   }
   render() {
-    const { data, loading } = this.props
+    const { current: data, loading, must, maybe } = this.props
     const { more } = this.state
+    console.log('xxxxxxxxxx');
     return (
       <div style={{ width: '100%', height: '100%', display: 'block' }}>
         {
-          loading
+          loading || !data || !data.id
             ? <Loading />
             : (
               <div className={styles.normal}>
-                <div className={styles.section} style={{ paddingTop: 0 }}>
+                <div className="section" style={{ paddingTop: 0 }}>
                   <img src={IMGURL + data.image1} alt="" />
                   <WS />
                   <div className={styles.info}>
@@ -64,13 +72,13 @@ class Detail extends React.Component {
                   </div>
                 </div>
                 <WS />
-                <div className={styles.section}>
+                <div className="section">
                   <div className={styles.rich} dangerouslySetInnerHTML={{ __html: data.prodes }} />
                 </div>
                 <WS />
-                <div className={styles.section}>
+                <div className="section">
                   <div className={styles.after_service}>
-                    <p className={styles.title}>配送及售后说明</p>
+                    <p className="section_title">配送及售后说明</p>
                     <div className={styles.box}>
                       <p className={styles.fc}>
                         <span>关于图片：店内商品均为实物拍摄，由于显示器的不同可能会出现一些色差，请以实物为准</span>
@@ -101,6 +109,9 @@ class Detail extends React.Component {
                   </div>
                 </div>
                 <WS />
+                <Like title={'猜你喜欢'} data={maybe} />
+                <WS />
+                <Like title={'一定喜欢'} data={must} />
               </div>
             )
         }
@@ -110,8 +121,15 @@ class Detail extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const data = state.detail
-  return { data, loading: state.loading.models.detail };
+  const { current, maybe, must } = state.detail
+  const store = state['list-store']
+  return {
+    current,
+    maybe,
+    must,
+    store,
+    loading: state.loading.models.detail
+  };
 }
 
 export default connect(mapStateToProps)(Detail);
