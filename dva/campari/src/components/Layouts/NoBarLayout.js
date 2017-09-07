@@ -4,11 +4,9 @@ import styles from './NoBarLayout.css';
 
 function NoBarLayout({ children }) {
   return (
-    <QueueAnim type={'right'}>
+    <QueueAnim type={'right'} className={styles.normal}>
       <div key="l3" className={styles.normal}>
-        <div>
-          {children}
-        </div>
+        {children}
       </div>
     </QueueAnim>
   );

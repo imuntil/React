@@ -4,50 +4,55 @@
   display: block;
   background: url("../../assets/ig-dir/log-on.jpg");
 }
-.login_box {
+.reg_box {
   width: 90%;
-  position: absolute;
   left: 5%;
   bottom: 5%;
+  position: absolute;
 }
 .group {
   width: 100%;
   font-size: 36px;
-  padding: .25rem 0.05rem;
   box-sizing: border-box;
-  border-bottom: 4px solid #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   color: #ffffff;
 }
-
-.group label, .group input {
-  font-size: inherit;
-}
 .group label {
-  color: #ffffff;
+  color: inherit;
   flex: 0 1 22%;
   display: block;
   text-align: justify;
   text-align-last: justify;
+  font-size: inherit;
 }
 .group input {
+  font-size: inherit;
   flex: 0 1 70%;
   padding: 15px;
   border: none;
   box-sizing: border-box;
   background-color: transparent;
 }
-.btns {
+.group2 {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
-.btns a {
-  color: #ffffff;
-  font-size: 32px;
+.group2 p {
+  display: flex;
+  flex: 0 1 65%;
+}
+.group2 p label {
+  flex: 0 1 33.846%;
+}
+.group2 a {
   display: inline-block;
-  padding: .2rem 0;
-  box-sizing: border-box;
+  font-size: 30px;
+  padding: .1rem .2rem;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
 }

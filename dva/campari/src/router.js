@@ -15,7 +15,6 @@ function RouterConfig({ history, app }) {
       path: '/',
       name: 'Layout',
       getComponent(nextState, cb) {
-        console.log(nextState);
         const { layout = 'DefaultLayout' } = nextState.routes[1]
         require.ensure([], (require) => {
           cb(null, require(`./components/Layouts/${layout}`))
@@ -111,6 +110,17 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               cb(null, require('./routes/User/LoginPage'))
+            })
+          }
+        },
+        {
+          path: 'user/register',
+          name: 'UserRegisterPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            document.title = '注册'
+            require.ensure([], (require) => {
+              cb(null, require('./routes/User/Register'))
             })
           }
         }
