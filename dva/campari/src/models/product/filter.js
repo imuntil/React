@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import * as api from '../../services/product'
 import { ALL_PRO_PER_PAGE } from '../../constant'
-import { normalizes } from '../../services/tools-fun'
+import { normalizes, delay } from '../../services/tools-fun'
 
 export default {
   namespace: 'product-filter',
@@ -49,11 +49,6 @@ export default {
         type: 'toggleFetching',
         payload: true
       })
-      // 查询条件变化，重置lvState b
-      const cls = select(state => state.cls)
-      if (action === 'POP' && cls.length) {
-        return true
-      }
       // 更新filter-params
       yield put({
         type: 'filter-params/update',
@@ -72,7 +67,8 @@ export default {
           }
         })
       } else {
-        const { idList } = normalizes(res)
+        const { idList, list } = normalizes(res)
+        yield put({ type: 'list-store/add', payload: { ...list } })
         yield put({
           type: 'saveList',
           payload: {
@@ -88,6 +84,17 @@ export default {
           payload: false
         })
       }
+    },
+    *forceRender(n, { call, put }) {
+      yield put({
+        type: 'toggleFetching',
+        payload: true
+      })
+      yield call(delay, 100)
+      yield put({
+        type: 'toggleFetching',
+        payload: false
+      })
     }
   },
   subscriptions: {

@@ -33,11 +33,20 @@ class Filter extends React.Component {
     }
   }
   componentWillMount() {
-    const { params, dispatch, location } = this.props
-    dispatch({
-      type: 'product-filter/fetchFilter',
-      payload: { params, action: location.action }
-    })
+    const { params, dispatch, location, cls } = this.props
+    if (location.action === 'POP' && cls.length) {
+      dispatch({ type: 'product-filter/forceRender' })
+    } else {
+      dispatch({
+        type: 'product-filter/fetchFilter',
+        payload: { params }
+      })
+    }
+  }
+  shouldComponentUpdate() {
+    const { cls, store } = this.props
+    if (!cls.length || _.isEmpty(store)) return false
+    return true
   }
 
   handleClick = (type) => {
@@ -65,8 +74,6 @@ class Filter extends React.Component {
       sortLayerShow: false
     })
     this.nfp = Object.assign({}, nfp, payload)
-    // const { flag, sort, type } = nfp
-    // history.replace(`/product/filter/${flag}/${sort}/${type}`)
     dispatch({
       type: 'product-filter/fetchFilter',
       payload: { params: this.nfp }

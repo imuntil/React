@@ -15,13 +15,10 @@ function RouterConfig({ history, app }) {
       path: '/',
       name: 'Layout',
       getComponent(nextState, cb) {
-        const name = nextState.routes[1].name
+        console.log(nextState);
+        const { layout = 'DefaultLayout' } = nextState.routes[1]
         require.ensure([], (require) => {
-          if (name === 'ProductDetail') {
-            cb(null, require('./components/Layouts/BuyBarLayout'))
-          } else {
-            cb(null, require('./components/Layouts/DefaultLayout'))
-          }
+          cb(null, require(`./components/Layouts/${layout}`))
         })
       },
       childRoutes: [
@@ -65,6 +62,7 @@ function RouterConfig({ history, app }) {
         },
         {
           path: 'product/:id',
+          layout: 'BuyBarLayout',
           name: 'ProductDetail',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
@@ -99,12 +97,23 @@ function RouterConfig({ history, app }) {
         {
           path: 'user',
           name: 'UserIndexPage',
+          layout: 'NoBarLayout',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               cb(null, require('./routes/User/IndexPage'))
             })
           }
         },
+        {
+          path: 'user/login',
+          name: 'UserLoginPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/User/LoginPage'))
+            })
+          }
+        }
       ]
     }
   ]

@@ -9,6 +9,9 @@
   height: 100%;
   background-color: #fff;
 }
+.list_box>div {
+  width: 100%;
+}
 .list_body {
   display: block;
   position: relative;

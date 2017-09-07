@@ -37,7 +37,6 @@ class Detail extends React.Component {
   render() {
     const { current: data, loading, must, maybe } = this.props
     const { more } = this.state
-    console.log('xxxxxxxxxx');
     return (
       <div style={{ width: '100%', height: '100%', display: 'block' }}>
         {
