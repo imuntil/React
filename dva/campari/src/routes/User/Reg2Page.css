@@ -4,11 +4,11 @@
   display: block;
   background: url("../../assets/ig-dir/log-on.jpg");
 }
-.login_box {
+.reg2_box {
   width: 90%;
   position: absolute;
   left: 5%;
-  bottom: 5%;
+  bottom: 0%;
 }
 .group {
   width: 100%;
@@ -40,15 +40,4 @@
   box-sizing: border-box;
   color: #ffffff;
   background-color: transparent;
-}
-.btns {
-  display: flex;
-  justify-content: space-between;
-}
-.btns a {
-  color: #ffffff;
-  font-size: 32px;
-  display: inline-block;
-  padding: .2rem 0;
-  box-sizing: border-box;
 }

@@ -19,6 +19,8 @@
   justify-content: space-between;
   align-items: center;
   color: #ffffff;
+  padding: .2rem .05rem;
+  border-bottom: 4px solid #ffffff;
 }
 .group label {
   color: inherit;
@@ -31,10 +33,12 @@
 .group input {
   font-size: inherit;
   flex: 0 1 70%;
+  width: 70%;
   padding: 15px;
   border: none;
   box-sizing: border-box;
   background-color: transparent;
+  color: #ffffff;
 }
 .group2 {
   display: flex;
@@ -44,15 +48,47 @@
 .group2 p {
   display: flex;
   flex: 0 1 65%;
+  overflow: hidden;
+  justify-content: flex-start;
+  padding: .2rem 0;
+  border-bottom: 4px solid #ffffff;
+  align-items: center;
 }
 .group2 p label {
-  flex: 0 1 33.846%;
+  flex: 0 0 33.846%;
+  color: #ffffff;
+  font-size: 36px;
+  text-align: justify;
+  text-align-last:justify;
+}
+.group2 p input {
+  width: 50%;
+  padding: 15px;
+  border: none;
+  box-sizing: border-box;
+  margin-left: 12.3077%;
+  font-size: 36px;
+  background-color: transparent;
+  color: #ffffff;
 }
 .group2 a {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 30px;
   padding: .1rem .2rem;
   color: #ffffff;
-  border: 2px solid #ffffff;
+  border: 4px solid #ffffff;
   border-radius: 5px;
+  margin-top: .4rem;
+}
+.plane_btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.plane_btn a {
+  font-size: 30px;
+  padding: .2rem;
+  color: #ffffff;
 }

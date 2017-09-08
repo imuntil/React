@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Link } from 'dva/router'
 import styles from './LoginPage.css';
 
 class LoginPage extends React.Component {
@@ -29,9 +30,9 @@ class LoginPage extends React.Component {
             <label htmlFor="密码">密&nbsp;码:</label>
             <input type="password" value={password} onChange={this.handleInputChange.bind(this, 'password')} />
           </p>
-          <a href="javascript:;" className="common-btn" style={{ marginTop: '.6rem' }}>登录</a>
+          <a href="javascript:;" className="common-btn" style={{ marginTop: '.8rem' }}>登录</a>
           <p className={styles.btns}>
-            <a href="javascript:;">用户注册</a>
+            <Link to="/user/register">用户注册</Link>
             <a href="javascript:;">忘记密码</a>
           </p>
         </div>

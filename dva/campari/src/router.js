@@ -123,6 +123,17 @@ function RouterConfig({ history, app }) {
               cb(null, require('./routes/User/Register'))
             })
           }
+        },
+        {
+          path: 'user/reg2',
+          name: 'UserReg2Page',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            document.title = '注册'
+            require.ensure([], (require) => {
+              cb(null, require('./routes/User/Reg2Page'))
+            })
+          }
         }
       ]
     }
