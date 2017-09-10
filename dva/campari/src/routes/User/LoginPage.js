@@ -1,36 +1,85 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router'
+import { Toast } from 'antd-mobile'
+import { login } from '../../services/user'
+import ZInput from '../../components/Form/ZInput.js'
 import styles from './LoginPage.css';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      phone: '',
-      password: ''
+      phone: { v: '', valid: false },
+      password: { v: '', valid: false },
+      submit: false
     }
   }
-  handleInputChange = (status, e) => {
-    const v = e.target.value.trim()
-    this.setState({
-      [status]: v
-    })
+  setSubmit = () => {
+    this.setState({ submit: true })
+    setTimeout(() => {
+      this.setState({ submit: false })
+    }, 600)
+  }
+  handleInputChange = (status, v, msg) => {
+    const { error } = msg
+    if (error) {
+      this.setState({ [status]: { v: '', valid: false } })
+    } else {
+      this.setState({ [status]: { v, valid: true } })
+    }
+  }
+  handleLogin = async () => {
+    const { phone, password, submit } = this.state
+    if (submit) return
+    this.setSubmit()
+    if (password.valid && phone.valid) {
+      const { data, err } = await login({ phone: phone.v, password: password.v })
+      if (err) {
+        Toast.fail('位置错误，请稍后重试', 1)
+      } else {
+        const { result: res, resultcode } = data
+        if (+resultcode !== 1) {
+          Toast.fail(res, 1)
+        } else {
+          Toast.success('登录成功', 1)
+          this.props.dispatch({
+            type: 'user-info/saveToLocal',
+            payload: res
+          })
+        }
+      }
+    }
   }
   render() {
-    const { phone, password } = this.state
+    const { phone, password, submit } = this.state
     return (
       <div className={styles.normal}>
         <div className={styles.login_box}>
           <p className={styles.group}>
             <label htmlFor="phone">手机号:</label>
-            <input type="tel" value={phone} onChange={this.handleInputChange.bind(this, 'phone')} />
+            <ZInput
+              className="xxx" shake={submit && !phone.valid}
+              name="手机号码" required type="tel" minL={11} maxL={11} reg="^(1[3|4|5|7|8])[0-9]{9}$"
+              onZInputChange={this.handleInputChange.bind(this, 'phone')}
+            />
           </p>
           <p className={styles.group}>
             <label htmlFor="密码">密&nbsp;码:</label>
-            <input type="password" value={password} onChange={this.handleInputChange.bind(this, 'password')} />
+            <ZInput
+              shake={submit && !password.valid}
+              name="密码" required type="password" minL={6} maxL={20} reg="^[A-z0-9_]{6,20}$"
+              onZInputChange={this.handleInputChange.bind(this, 'password')}
+            />
           </p>
-          <a href="javascript:;" className="common-btn" style={{ marginTop: '.8rem' }}>登录</a>
+          <a
+            href="javascript:;"
+            className="common-btn"
+            style={{ marginTop: '.8rem' }}
+            onClick={this.handleLogin}
+          >
+            登录
+          </a>
           <p className={styles.btns}>
             <Link to="/user/register">用户注册</Link>
             <a href="javascript:;">忘记密码</a>
@@ -40,6 +89,7 @@ class LoginPage extends React.Component {
     );
   }
 }
+
 
 function mapStateToProps() {
   return {};

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
+// import ZInput from '../../components/Form/ZInput.js'
 import styles from './Register.css'
 
 class Register extends React.Component {

@@ -109,6 +109,8 @@ function RouterConfig({ history, app }) {
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
+              document.title = '登录'
+              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/LoginPage'))
             })
           }

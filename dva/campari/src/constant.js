@@ -95,3 +95,6 @@ export const types = {
   6: '起泡葡萄酒',
   7: '鸡尾酒套餐'
 }
+
+
+export const USER_INFO_KEY = '1QAZXSW23ECCVFR4'

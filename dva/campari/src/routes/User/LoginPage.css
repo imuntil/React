@@ -33,8 +33,11 @@
   text-align: justify;
   text-align-last: justify;
 }
-.group input {
+.group span {
   flex: 0 1 70%;
+}
+.group input {
+  width: 100%;
   padding: 15px;
   border: none;
   box-sizing: border-box;

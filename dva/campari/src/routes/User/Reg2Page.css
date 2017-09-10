@@ -8,7 +8,7 @@
   width: 90%;
   position: absolute;
   left: 5%;
-  bottom: 0%;
+  bottom: 5%;
 }
 .group {
   width: 100%;
@@ -28,16 +28,18 @@
 }
 .group label {
   color: #ffffff;
-  flex: 0 1 22%;
+  flex: 0 1 29%;
   display: block;
   text-align: justify;
   text-align-last: justify;
 }
 .group input {
-  flex: 0 1 70%;
+  flex: 0 1 65%;
+  width: 65%;
   padding: 15px;
   border: none;
   box-sizing: border-box;
   color: #ffffff;
   background-color: transparent;
+  font-size: 32px;
 }
