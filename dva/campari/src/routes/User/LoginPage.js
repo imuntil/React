@@ -60,7 +60,7 @@ class LoginPage extends React.Component {
             <label htmlFor="phone">手机号:</label>
             <ZInput
               className="xxx" shake={submit && !phone.valid}
-              name="手机号码" required type="tel" minL={11} maxL={11} reg="^(1[3|4|5|7|8])[0-9]{9}$"
+              name="手机号码" required type="tel" length={11} reg="^(1[3|4|5|7|8])[0-9]{9}$"
               onZInputChange={this.handleInputChange.bind(this, 'phone')}
             />
           </p>

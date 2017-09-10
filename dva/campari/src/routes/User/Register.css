@@ -30,10 +30,12 @@
   text-align-last: justify;
   font-size: inherit;
 }
+.group>span {
+  flex: 0 1 70%;
+}
 .group input {
   font-size: inherit;
-  flex: 0 1 70%;
-  width: 70%;
+  width: 100%;
   padding: 15px;
   border: none;
   box-sizing: border-box;
@@ -61,12 +63,15 @@
   text-align: justify;
   text-align-last:justify;
 }
-.group2 p input {
+.group2 p>span {
   width: 50%;
+  margin-left: 12.3077%;
+}
+.group2 p input {
+  width: 100%;
   padding: 15px;
   border: none;
   box-sizing: border-box;
-  margin-left: 12.3077%;
   font-size: 36px;
   background-color: transparent;
   color: #ffffff;
