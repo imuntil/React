@@ -41,7 +41,7 @@ class ZInput extends React.Component {
     }
     return { error: false, msg: 'ok' }
   }
-  animation = { boxShadow: '0 0 8px 4px #e43145', translateX: '4%', yoyo: true, repeat: 9, duration: 50 }
+  animation = { translateX: '4%', yoyo: true, repeat: 9, duration: 50 }
   render() {
     const {
       type = 'text',
@@ -63,6 +63,7 @@ class ZInput extends React.Component {
         component="span"
       >
         <input
+          style={shake ? { boxShadow: '0 0 4px 2px #e41035' } : {}}
           type={type} maxLength={length || maxL} minLength={length || minL} required={required}
           placeholder={placeholder} value={value} onChange={this.handleChange} {...rest}
         />

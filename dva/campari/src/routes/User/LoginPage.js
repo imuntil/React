@@ -31,12 +31,12 @@ class LoginPage extends React.Component {
   }
   handleLogin = async () => {
     const { phone, password, submit } = this.state
-    if (submit) return
+    if (submit) return false
     this.setSubmit()
     if (password.valid && phone.valid) {
       const { data, err } = await login({ phone: phone.v, password: password.v })
       if (err) {
-        Toast.fail('位置错误，请稍后重试', 1)
+        Toast.fail('未知错误，请稍后重试', 1)
       } else {
         const { result: res, resultcode } = data
         if (+resultcode !== 1) {
