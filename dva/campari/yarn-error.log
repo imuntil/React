@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js upgrade normalizr
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add md5
 
 PATH: 
   C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;D:\Program Files\TortoiseSVN\bin;D:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin;D:\Program Files\Ruby22-x64\bin;D:\Program Files (x86)\python\Scripts\;D:\Program Files (x86)\python\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\斌\AppData\Local\Microsoft\WindowsApps;d:\Program Files\Heroku\bin;D:\Program Files\Git\bin;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\斌\AppData\Roaming\npm;C:\Users\斌\AppData\Local\Yarn\bin
@@ -28,10 +28,14 @@ npm manifest:
       "antd-mobile": "^1.6.3",
       "babel-runtime": "^6.9.2",
       "dva": "^1.2.1",
-      "dva-loading": "^0.2.1",
+      "dva-loading": "^0.2.3",
       "lodash": "^4.17.4",
+      "md5": "^2.2.1",
       "normalizr": "^3.2.3",
+      "prop-types": "^15.5.10",
+      "rc-animate": "^2.4.1",
       "rc-queue-anim": "^1.2.2",
+      "rc-tween-one": "^1.4.5",
       "react": "^15.4.0",
       "react-dom": "^15.4.0"
     },
@@ -1335,6 +1339,10 @@ Lockfile:
       escape-string-regexp "^1.0.5"
       supports-color "^4.0.0"
   
+  charenc@~0.0.1:
+    version "0.0.2"
+    resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+  
   cheerio@^0.22.0:
     version "0.22.0"
     resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-0.22.0.tgz#a9baa860a3f9b595a6b81b1a86873121ed3a269e"
@@ -1664,6 +1672,10 @@ Lockfile:
       shebang-command "^1.2.0"
       which "^1.2.9"
   
+  crypt@~0.0.1:
+    version "0.0.2"
+    resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+  
   cryptiles@2.x.x:
     version "2.0.5"
     resolved "https://registry.yarnpkg.com/cryptiles/-/cryptiles-2.0.5.tgz#3bdfecdc608147c1c67202fa291e7dca59eaa3b8"
@@ -1975,9 +1987,9 @@ Lockfile:
     version "0.1.1"
     resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
   
-  dva-loading@^0.2.1:
-    version "0.2.1"
-    resolved "https://registry.yarnpkg.com/dva-loading/-/dva-loading-0.2.1.tgz#fad76b8eeb28c3663a2ee1874cc118702940c63c"
+  dva-loading@^0.2.3:
+    version "0.2.3"
+    resolved "https://registry.yarnpkg.com/dva-loading/-/dva-loading-0.2.3.tgz#b5889668bda8d17da7e9e5c7b38dd942e9d029a4"
     dependencies:
       babel-runtime "^6.11.6"
   
@@ -3150,7 +3162,7 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/is-boolean-object/-/is-boolean-object-1.0.0.tgz#98f8b28030684219a95f375cfbd88ce3405dff93"
   
-  is-buffer@^1.1.5:
+  is-buffer@^1.1.5, is-buffer@~1.1.1:
     version "1.1.5"
     resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
   
@@ -3806,6 +3818,14 @@ Lockfile:
   math-expression-evaluator@^1.2.14:
     version "1.2.17"
     resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
+  
+  md5@^2.2.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
+    dependencies:
+      charenc "~0.0.1"
+      crypt "~0.0.1"
+      is-buffer "~1.1.1"
   
   media-typer@0.3.0:
     version "0.3.0"
@@ -4872,7 +4892,7 @@ Lockfile:
       prop-types "^15.5.8"
       rc-util "4.x"
   
-  rc-animate@2.x:
+  rc-animate@2.x, rc-animate@^2.4.1:
     version "2.4.1"
     resolved "https://registry.yarnpkg.com/rc-animate/-/rc-animate-2.4.1.tgz#df3e0f56fe106afe4bf52ff408ced241c5178919"
     dependencies:
@@ -5030,6 +5050,17 @@ Lockfile:
       rc-align "2.x"
       rc-animate "2.x"
       rc-util "4.x"
+  
+  rc-tween-one@^1.4.5:
+    version "1.4.5"
+    resolved "https://registry.yarnpkg.com/rc-tween-one/-/rc-tween-one-1.4.5.tgz#16599c2602b588379d5cf8852abcd7527540b0e5"
+    dependencies:
+      babel-runtime "6.x"
+      deep-eql "~2.0.1"
+      prop-types "^15.5.0"
+      raf "~3.3.0"
+      style-utils "~0.1.13"
+      tween-functions "~1.2.0"
   
   rc-tween-one@~1.4.2:
     version "1.4.4"
@@ -6648,5 +6679,5 @@ Lockfile:
       raf "^3.3.0"
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\LR\React\dva\campari\node_modules\acorn-jsx\node_modules\.bin'
+  Error: EPERM: operation not permitted, unlink 'D:\LR\React\dva\campari\node_modules\babel-generator\node_modules\.bin'
       at Error (native)

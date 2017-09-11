@@ -41,7 +41,7 @@ class ZInput extends React.Component {
     }
     return { error: false, msg: 'ok' }
   }
-  animation = { boxShadow: '0 0 8px 4px #e43145', translateX: '7%', yoyo: true, repeat: 9, duration: 50 }
+  animation = { boxShadow: '0 0 8px 4px #e43145', translateX: '4%', yoyo: true, repeat: 9, duration: 50 }
   render() {
     const {
       type = 'text',

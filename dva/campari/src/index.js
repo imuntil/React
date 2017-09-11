@@ -9,6 +9,8 @@ const app = dva();
 // 2. Plugins
 app.use(createLoading());
 
+app.model(require("./models/error"));
+
 // 3. Model
 // app.model(require('./models/example'));
 

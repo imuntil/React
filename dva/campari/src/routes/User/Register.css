@@ -97,3 +97,8 @@
   padding: .2rem;
   color: #ffffff;
 }
+/*@media screen and (max-height: 1000px) {*/
+  /*.reg_box {*/
+    /*bottom: -5%;*/
+  /*}*/
+/*}*/
