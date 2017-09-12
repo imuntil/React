@@ -1,6 +1,9 @@
 import React from 'react';
 import { Router } from 'dva/router';
 
+import ModifyPage from "./routes/User/ModifyPage.js";
+
+/* eslint-disable no-undef */
 const cached = {}
 function registerModel(app, model) {
   if (!cached[model.namespace]) {
@@ -98,6 +101,7 @@ function RouterConfig({ history, app }) {
           name: 'UserIndexPage',
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
+            document.title = '我的'
             require.ensure([], (require) => {
               cb(null, require('./routes/User/IndexPage'))
             })
@@ -136,11 +140,33 @@ function RouterConfig({ history, app }) {
               cb(null, require('./routes/User/Reg2Page'))
             })
           }
+        },
+        {
+          path: 'user/safe',
+          name: 'UserSafePage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            document.title = '账户安全'
+            require.ensure([], require => {
+              cb(null, require('./routes/User/SafePage'))
+            })
+          }
+        },
+        {
+          path: 'user/modify',
+          name: 'UserModifyPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            document.title = '修改密码'
+            require.ensure([], require => {
+              cb(null, require('./routes/User/ModifyPage'))
+            })
+          }
         }
       ]
     }
   ]
-  return <Router history={history} routes={routes} />
+  return <Router history={history} routes={routes} />;
 }
 
 export default RouterConfig;

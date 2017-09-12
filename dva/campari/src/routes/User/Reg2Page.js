@@ -54,8 +54,8 @@ class Reg2Page extends React.Component {
             <label htmlFor="password">登录密码:</label>
             <ZInput
               name={'登录密码'} onZInputChange={this.handleInputChange.bind(this, 'password')}
-              minL={6} maxL={20} required shake={submit && !password.valid} reg={regexp.password.str}
-              type={'password'} placeholder={'6-20位字母、数字'}
+              minL={6} maxL={20} required shake={submit && !password.valid}
+              reg={regexp.password.str} type={'password'} placeholder={'6-20位字母、数字'}
             />
           </p>
           <p className={styles.group}>

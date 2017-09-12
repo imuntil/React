@@ -1,0 +1,41 @@
+
+.normal {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+.header {
+  composes: normal;
+  height: auto;
+  padding: .4rem 0;
+  background: url("../../assets/ig-dir/watermark.jpg") repeat;
+}
+.avatar {
+  width: 22%;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+}
+.avatar img {
+  width: 100%;
+}
+.nick {
+  margin-top: .5rem;
+  width: 100%;
+  text-align: center;
+}
+.nick a {
+  padding: .05rem;
+  display: block;
+  font-size: 32px;
+  color: #444444;
+}
+.edit_avatar {
+  position: absolute;
+  left: 115%;
+  top: 45%;
+  word-break: keep-all;
+  font-size: 24px;
+  color: #555;
+}
