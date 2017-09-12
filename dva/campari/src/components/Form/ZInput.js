@@ -22,13 +22,13 @@ class ZInput extends React.Component {
     onZInputChange(value, this.valid(value))
   }
   valid = (v) => {
-    const { required, minL = 0, maxL, reg, name, length } = this.props
+    const { required, minL = 0, maxL, reg, name, length, confirm } = this.props
     if (required && !v.length) return { error: true, msg: `${name}是必填的` }
     if (length) {
       if (length !== v.length) return { error: true, msg: `${name}的长度必须为${length}` }
     } else {
       if (minL !== undefined && maxL && minL > maxL) throw new Error('minL must be less than or equal to maxL')
-      if (minL !== undefined && !maxL && v.length < minL) return { error: true, msg: `${name}长度必须大于或等于${minL}` }
+      if (minL !== undefined && v.length < minL) return { error: true, msg: `${name}长度必须大于或等于${minL}` }
       if (maxL && v.length > maxL) return { error: true, msg: `${name}长度必须小于或等于${maxL}` }
     }
     if (reg) {
@@ -38,6 +38,9 @@ class ZInput extends React.Component {
       } catch (e) {
         return '不合法的正则'
       }
+    }
+    if (confirm) {
+      if (`${v}` !== `${confirm}`) return { error: true, msg: '两次密码不一致'}
     }
     return { error: false, msg: 'ok' }
   }
@@ -54,6 +57,7 @@ class ZInput extends React.Component {
       /* eslint-disable no-unused-vars */
       reg,
       onZInputChange,
+      confirm,
       ...rest
     } = this.props
     const { value } = this.state
@@ -82,6 +86,7 @@ ZInput.propTypes = {
   reg: PropTypes.string,
   onZInputChange: PropTypes.func.isRequired,
   shake: PropTypes.bool,
+  confirm: PropTypes.string,
   length(props, propName, componentName) {
     if (props.hasOwnProperty(propName) && !/^[1-9]\d*$/.test(props[propName])) {
       return new Error(

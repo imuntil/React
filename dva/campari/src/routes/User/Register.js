@@ -69,19 +69,19 @@ class Register extends React.Component {
     this.setState({ codeRun: false })
   }
   handleRegister = () => {
-    const { code, submit } = this.state
-    if (submit) return false
-    this.setSubmit()
-    if (code.valid) {
-      const res = Base64.encode(code.v) === this.code
-      if (res) {
-        this.setState({ codeRun: false })
-        this.props.history.push('/user/reg2')
-      } else {
-        Toast.fail('验证码有误', 2)
-      }
-    }
-    // this.props.history.push('/user/reg2')
+    // const { code, submit } = this.state
+    // if (submit) return false
+    // this.setSubmit()
+    // if (code.valid) {
+    //   const res = Base64.encode(code.v) === this.code
+    //   if (res) {
+    //     this.setState({ codeRun: false })
+    //     this.props.history.push('/user/reg2')
+    //   } else {
+    //     Toast.fail('验证码有误', 2)
+    //   }
+    // }
+    this.props.history.push('/user/reg2')
   }
   code = null
   render() {
