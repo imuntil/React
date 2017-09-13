@@ -30,7 +30,7 @@ function DefaultLayout({ children, location }) {
           <img src={require('../../assets/ig-dir/nav-4.jpg')} alt="" />
           <img className="active-icon" src={require('../../assets/ig-dir/nav-4-a.jpg')} alt="" />
         </Link>
-        <Link activeClassName={styles.active} to="/user/login">
+        <Link activeClassName={styles.active} to="/user">
           <img src={require('../../assets/ig-dir/nav-5.jpg')} alt="" />
           <img className="active-icon" src={require('../../assets/ig-dir/nav-5-a.jpg')} alt="" />
         </Link>

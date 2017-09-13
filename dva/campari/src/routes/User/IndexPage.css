@@ -13,9 +13,16 @@
 }
 .avatar {
   width: 22%;
-  border-radius: 50%;
   margin: 0 auto;
   position: relative;
+  line-height: 0;
+}
+.radius_box {
+  composes: avatar;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
 }
 .avatar img {
   width: 100%;
@@ -38,4 +45,10 @@
   word-break: keep-all;
   font-size: 24px;
   color: #555;
+}
+.missing {
+  composes: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

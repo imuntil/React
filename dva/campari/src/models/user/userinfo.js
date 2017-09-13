@@ -33,7 +33,6 @@ export default {
       const { usersid } = yield select(state => state['user-info'])
       if (!usersid) {
         const user = yield call(zStorage.getValue, USER_INFO_KEY)
-        console.log(user);
         yield put({
           type: 'save',
           payload: user

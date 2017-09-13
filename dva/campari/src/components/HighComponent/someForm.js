@@ -2,6 +2,7 @@ import React from 'react'
 
 function someForm(state, FnComponent, onSubmit) {
   class SomeForm extends React.Component {
+    state = { ...state, submit: false }
     setSubmit = () => {
       this.setState({ submit: true })
       setTimeout(() => {
@@ -23,7 +24,6 @@ function someForm(state, FnComponent, onSubmit) {
         }
       })
     }
-    state = { ...state, submit: false }
     render() {
       return (
         <FnComponent

@@ -40,3 +40,10 @@ export const zStorage = {
     s.removeItem(key)
   }
 }
+export function formatPhone(phone) {
+  const p = phone.toString()
+  if (p.length === 11) {
+    return `${p.slice(0, 3)}****${p.slice(-4)}`
+  }
+  throw new Error('电话号码长度需为11')
+}

@@ -149,6 +149,7 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '账户安全'
+              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/SafePage'))
             })
           }
@@ -160,7 +161,32 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '修改密码'
+              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/ModifyPage'))
+            })
+          }
+        },
+        {
+          path: 'user/modify-nick',
+          name: 'UserModifyNickPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              document.title = '修改昵称'
+              registerModel(app, require('./models/user/userinfo'))
+              cb(null, require('./routes/User/ModifyNick'))
+            })
+          }
+        },
+        {
+          path: 'user/modify-avatar',
+          name: 'UserModifyAvatarPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              document.title = '修改头像'
+              registerModel(app, require('./models/user/userinfo'))
+              cb(null, require('./routes/User/ModifyAvatar'))
             })
           }
         }
