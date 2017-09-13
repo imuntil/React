@@ -4,6 +4,7 @@ import { Link } from 'dva/router'
 import { Toast } from 'antd-mobile'
 import { login } from '../../services/user'
 import ZInput from '../../components/Form/ZInput.js'
+import { delay } from '../../services/tools-fun'
 import styles from './LoginPage.css';
 
 class LoginPage extends React.Component {
@@ -47,6 +48,8 @@ class LoginPage extends React.Component {
             type: 'user-info/saveToLocal',
             payload: res
           })
+          await delay(800)
+          this.props.history.push('/user')
         }
       }
     }

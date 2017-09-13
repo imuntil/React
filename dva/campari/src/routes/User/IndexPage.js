@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
 import { List, WhiteSpace } from 'antd-mobile'
+import { IMGURL } from '../../constant'
 import styles from './IndexPage.css';
 
 const { Item } = List
 
-function IndexPage({ history }) {
+function IndexPage({ history, user }) {
   function push(path) {
     history.push(path)
   }
@@ -13,11 +14,11 @@ function IndexPage({ history }) {
     <div className={styles.normal}>
       <div className={styles.header}>
         <div className={styles.avatar}>
-          <img src={require('../../assets/ig-dir/avatar-0.png')} alt="" />
+          <img src={IMGURL + user.imagename} alt="" />
           <a href="javascript:;" className={styles.edit_avatar}>编辑头像</a>
         </div>
         <p className={styles.nick}>
-          <a href="javascript:;">复活节</a>
+          <a href="javascript:;">{user.name}</a>
         </p>
       </div>
       <div className="list_body">
@@ -37,8 +38,9 @@ function IndexPage({ history }) {
   );
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const user = state['user-info']
+  return { user };
 }
 
 export default connect(mapStateToProps)(IndexPage);

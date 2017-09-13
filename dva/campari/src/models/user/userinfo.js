@@ -28,7 +28,24 @@ export default {
         type: 'save',
         payload
       })
+    },
+    *getFromLocal(empty, { put, call, select }) {
+      const { usersid } = yield select(state => state['user-info'])
+      if (!usersid) {
+        const user = yield call(zStorage.getValue, USER_INFO_KEY)
+        console.log(user);
+        yield put({
+          type: 'save',
+          payload: user
+        })
+      }
     }
   },
-  subscriptions: {},
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(() => {
+        dispatch({ type: 'getFromLocal' })
+      })
+    }
+  },
 };

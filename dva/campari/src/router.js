@@ -101,8 +101,9 @@ function RouterConfig({ history, app }) {
           name: 'UserIndexPage',
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
-            document.title = '我的'
             require.ensure([], (require) => {
+              document.title = '我的'
+              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/IndexPage'))
             })
           }
@@ -124,8 +125,8 @@ function RouterConfig({ history, app }) {
           name: 'UserRegisterPage',
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
-            document.title = '注册'
             require.ensure([], (require) => {
+              document.title = '注册'
               cb(null, require('./routes/User/Register'))
             })
           }
@@ -135,8 +136,8 @@ function RouterConfig({ history, app }) {
           name: 'UserReg2Page',
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
-            document.title = '注册'
             require.ensure([], (require) => {
+              document.title = '注册'
               cb(null, require('./routes/User/Reg2Page'))
             })
           }
@@ -146,8 +147,8 @@ function RouterConfig({ history, app }) {
           name: 'UserSafePage',
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
-            document.title = '账户安全'
             require.ensure([], require => {
+              document.title = '账户安全'
               cb(null, require('./routes/User/SafePage'))
             })
           }
@@ -157,8 +158,8 @@ function RouterConfig({ history, app }) {
           name: 'UserModifyPage',
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
-            document.title = '修改密码'
             require.ensure([], require => {
+              document.title = '修改密码'
               cb(null, require('./routes/User/ModifyPage'))
             })
           }

@@ -24,7 +24,7 @@ export const zStorage = {
       s.setItem(key, value)
     }
   },
-  setValue: (key, isSs) => {
+  getValue: (key, isSs) => {
     const s = isSs ? window.sessionStorage : window.localStorage
     let value = null
     try {
