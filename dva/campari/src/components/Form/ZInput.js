@@ -87,6 +87,10 @@ ZInput.propTypes = {
   onZInputChange: PropTypes.func.isRequired,
   shake: PropTypes.bool,
   confirm: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   length(props, propName, componentName) {
     if (props.hasOwnProperty(propName) && !/^[1-9]\d*$/.test(props[propName])) {
       return new Error(

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Link } from 'dva/router'
 import { List, WhiteSpace } from 'antd-mobile'
 import { BASEURL } from '../../constant'
 import MissData from '../../components/Error/MissData.js'
@@ -22,7 +23,7 @@ class IndexPage extends React.Component {
                 <a href="javascript:;" className={styles.edit_avatar}>编辑头像</a>
               </div>
               <p className={styles.nick}>
-                <a href="javascript:;">{user.name}</a>
+                <Link to="user/modify-nick">{user.name}</Link>
               </p>
             </div>
             <div className={styles.list_body}>

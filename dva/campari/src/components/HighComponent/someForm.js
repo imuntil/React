@@ -2,7 +2,16 @@ import React from 'react'
 
 function someForm(state, FnComponent, onSubmit) {
   class SomeForm extends React.Component {
-    state = { ...state, submit: false }
+    constructor(props) {
+      super(props)
+      const { user } = this.props
+      const s = { ...state }
+      if (user && user.name) {
+        s.v = user.name
+        s.valid = true
+      }
+      this.state = { ...s,  submit: false }
+    }
     setSubmit = () => {
       this.setState({ submit: true })
       setTimeout(() => {
@@ -27,7 +36,8 @@ function someForm(state, FnComponent, onSubmit) {
     render() {
       return (
         <FnComponent
-          {...this.state}
+          { ...this.state }
+          { ...this.props }
           handleSubmit={this.handleSubmit}
           handleInputChange={this.handleInputChange}
         />
