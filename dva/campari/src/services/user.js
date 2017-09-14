@@ -11,6 +11,6 @@ export async function verifyPhone({ phone }) {
 export async function getVerifyCode({ phone, flag = 1 }) {
   return request(`${BASEURL}resIdcodeSsm.action?phone=${phone}&flag=${flag}`)
 }
-// export async function () {
-//
-// }
+export async function modifyNick({ phone, nickname }) {
+  return request(`${BASEURL}updatenicknameUsr.action?phone=${phone}&nickname=${nickname}`)
+}

@@ -15,6 +15,12 @@ class ZInput extends React.Component {
       value
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps
+    if (value === false) {
+      this.setState({ value: '' })
+    }
+  }
   handleChange = (e) => {
     const { onZInputChange } = this.props
     const value = e.target.value.trim()
@@ -58,6 +64,7 @@ class ZInput extends React.Component {
       reg,
       onZInputChange,
       confirm,
+      value: init,
       ...rest
     } = this.props
     const { value } = this.state
@@ -89,7 +96,8 @@ ZInput.propTypes = {
   confirm: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.bool
   ]),
   length(props, propName, componentName) {
     if (props.hasOwnProperty(propName) && !/^[1-9]\d*$/.test(props[propName])) {
