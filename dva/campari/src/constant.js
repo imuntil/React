@@ -98,3 +98,15 @@ export const types = {
 
 
 export const USER_INFO_KEY = '1QAZXSW23ECCVFR4'
+
+export const avatars = [
+  require('./assets/ig-dir/avatar-1.jpg'),
+  require('./assets/ig-dir/avatar-2.jpg'),
+  require('./assets/ig-dir/avatar-3.jpg'),
+  require('./assets/ig-dir/avatar-4.jpg'),
+  require('./assets/ig-dir/avatar-5.jpg'),
+  require('./assets/ig-dir/avatar-6.jpg'),
+  require('./assets/ig-dir/avatar-7.jpg'),
+  require('./assets/ig-dir/avatar-8.jpg'),
+  require('./assets/ig-dir/avatar-9.jpg')
+]

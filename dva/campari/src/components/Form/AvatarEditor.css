@@ -1,0 +1,87 @@
+
+.editor_wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  padding: 5%;
+  box-sizing: border-box;
+}
+.editor_box {
+  width: 100%;
+  background-color: #f2f2f2;
+  border: 2px solid #d2d2d2;
+  border-radius: .25rem;
+  height: 90%;
+  overflow: auto;
+}
+.editor_box canvas {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #d2d2d2;
+  border-radius: .25rem;
+}
+.choose_file {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 5%;
+  box-sizing: border-box;
+}
+.btn {
+  font-size: 30px;
+  color: #444;
+  padding: 10px 20px;
+  position: relative;
+  border: 2px solid #d2d2d2;
+  border-radius: 5px;
+}
+.choose_file input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.fn_bar {
+  padding: 0 5%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.fn_bar>div:first-child {
+  padding-bottom: 40px;
+}
+.rotate_btns {
+  width: 100%;
+}
+.rotate {
+  padding: 12px 10px 8px;
+  margin-right: 25px;
+  border: 2px solid #d2d2d2;
+  border-radius: 10px;
+  display: inline-block;
+  color: #e41035;
+}
+.rotate:active {
+  background-color: rgba(255, 0, 13, 0.16);
+}
+.op_btns {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.ok {
+  composes: btn;
+  color: #82d8ee;
+  border: 2px solid #82d8ee;
+}
+.cancel {
+  composes: btn;
+  color: #d2d2d2;
+  margin-right: .25rem;
+}

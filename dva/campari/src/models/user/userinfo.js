@@ -22,12 +22,13 @@ export default {
     }
   },
   effects: {
-    *saveToLocal({ payload }, { put, call }) {
-      yield call(zStorage.putValue, USER_INFO_KEY, payload)
+    *saveToLocal({ payload }, { put, call, select }) {
       yield put({
         type: 'save',
         payload
       })
+      const user = yield select(state => state['user-info'])
+      yield call(zStorage.putValue, USER_INFO_KEY, user)
     },
     *getFromLocal(empty, { put, call, select }) {
       const { usersid } = yield select(state => state['user-info'])

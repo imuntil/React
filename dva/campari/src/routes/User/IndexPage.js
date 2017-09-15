@@ -20,7 +20,7 @@ class IndexPage extends React.Component {
                 <div className={styles.radius_box}>
                   <img src={`${BASEURL}upload/${user.imgname}`} alt="" />
                 </div>
-                <a href="javascript:;" className={styles.edit_avatar}>编辑头像</a>
+                <Link to="user/modify-avatar" className={styles.edit_avatar}>编辑头像</Link>
               </div>
               <p className={styles.nick}>
                 <Link to="user/modify-nick">{user.name}</Link>

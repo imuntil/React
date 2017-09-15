@@ -49,7 +49,7 @@ class LoginPage extends React.Component {
             payload: res
           })
           await delay(800)
-          this.props.history.push('/user')
+          this.props.history.replace('/user')
         }
       }
     }

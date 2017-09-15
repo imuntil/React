@@ -72,3 +72,6 @@ a, a:link, a:visited, a:hover, a:active {
   display: block;
   margin: .4rem 0;
 }
+:global(.common-btn:active) {
+  box-shadow: 1px 1px 4px 1px #a60009;
+}

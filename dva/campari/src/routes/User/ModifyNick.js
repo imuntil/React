@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'dva'
-import { WingBlank, WhiteSpace } from 'antd-mobile'
+import { WingBlank, WhiteSpace, Toast } from 'antd-mobile'
 import MissData from '../../components/Error/MissData.js'
 import { modifyNick } from '../../services/user'
+import { delay } from '../../services/tools-fun'
 import ZInput from '../../components/Form/ZInput.js'
 import styles from './ModifyNick.css'
 
@@ -23,18 +24,20 @@ class ModifyNick extends React.Component {
       ? { nick: { v: user.name, valid: true }, submit: false }
       : { nick: { v: '', valid: false }, submit: false }
   }
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { submit, nick } = this.state
-    const { user: { phone } } = this.props
+    const { user: { phone }, history, dispatch } = this.props
     if (submit) return false
     this.setSubmit()
     if (nick.valid) {
-      modifyNick({
-        phone,
-        nickname: nick.v
-      }).then(({ data }) => {
-        console.log(data);
-      })
+      const { data} = await modifyNick({ phone, nickname: nick.v })
+      const { resultcode } = data
+      if (+resultcode === 1) {
+        dispatch({ type: 'user-info/saveToLocal', payload: { name: nick.v }})
+        Toast.success('修改昵称成功', 2)
+        await delay(1500)
+        history.go(-1)
+      }
     }
   }
   handleInputChange = (status, v, msg) => {
