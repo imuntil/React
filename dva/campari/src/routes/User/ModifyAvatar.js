@@ -24,7 +24,7 @@ class ModifyAvatar extends React.Component {
                 {
                   group.map((avatar, j) => (
                     <a href="javascript:;" key={`${i}-${j}`}>
-                      <img src={avatar} alt=""/>
+                      <img src={avatar} alt="" />
                     </a>
                   ))
                 }
@@ -35,15 +35,15 @@ class ModifyAvatar extends React.Component {
             {
               this.g2.map((avatar, i) => (
                 <a href="javascript:;" key={`l-${i}`}>
-                  <img src={avatar} alt=""/>
+                  <img src={avatar} alt="" />
                 </a>
               ))
             }
             <a href="javascript:;" onClick={() => { this.setState({ showEditor: true }) }}>
-              <img src={require('../../assets/ig-dir/add-avatar.png')} alt=""/>
+              <img src={require('../../assets/ig-dir/add-avatar.png')} alt="" />
             </a>
-            <a href="javascript:;" />
-            <a href="javascript:;" />
+            <a href="javascript:;">&nbsp;</a>
+            <a href="javascript:;">&nbsp;</a>
           </p>
         </div>
         <WhiteSpace size="lg" />
@@ -58,8 +58,8 @@ class ModifyAvatar extends React.Component {
           {
             showEditor
               ? <AvatarEditor
-              key="1" onHide={() => { this.setState({ showEditor: false }) }}
-            />
+                key="1" onHide={() => { this.setState({ showEditor: false }) }}
+              />
               : null
           }
         </QueueAnimate>

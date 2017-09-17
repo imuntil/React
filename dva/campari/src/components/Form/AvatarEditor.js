@@ -30,7 +30,7 @@ class AvatarEditor extends React.Component {
     // await delay(500)
   }
   handleSliderChange = v => {
-    this.setState({ scale: (v / 10).toFixed(1)})
+    this.setState({ scale: +(v / 10).toFixed(1) })
   }
   handleRotateClick = (d) => {
     let { rotate } = this.state

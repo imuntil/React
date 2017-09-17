@@ -5052,6 +5052,12 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-avatar-editor@^10.2.1:
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/react-avatar-editor/-/react-avatar-editor-10.2.1.tgz#5acbc766287f96094fe9d3447382b2d7193883e3"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-dev-utils@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-0.5.2.tgz#50d0b962d3a94b6c2e8f2011ed6468e4124bc410"
