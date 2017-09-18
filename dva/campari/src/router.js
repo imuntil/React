@@ -189,6 +189,19 @@ function RouterConfig({ history, app }) {
               cb(null, require('./routes/User/ModifyAvatar'))
             })
           }
+        },
+        {
+          path: 'adr/list',
+          name: 'AdrListPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              document.title = '地址列表'
+              registerModel(app, require('./models/user/userinfo'))
+              registerModel(app, require('./models/user/adr'))
+              cb(null, require('./routes/Address/AdrListPage'))
+            })
+          }
         }
       ]
     }

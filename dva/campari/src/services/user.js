@@ -20,3 +20,16 @@ export async function modifyAvatar(posts) {
     body: posts
   })
 }
+
+export async function adrList({ userid }) {
+  return request(`${BASEURL}selectAddressAds.action?userid=${userid}`)
+}
+export async function setDefaultAdr({ userid, id }) {
+  return request(`${BASEURL}updateAddressAds.action?id=${id}&userid=${userid}`)
+}
+export async function modifyAdr(payload) {
+  return request(`${BASEURL}updateAddressOneAds.action`, {
+    method: 'POST',
+    body: payload
+  })
+}

@@ -43,7 +43,7 @@ class IndexPage extends React.Component {
               <WhiteSpace />
               <List>
                 <Item arrow="horizontal" onClick={() => { history.push('/user/safe') }}>账号安全</Item>
-                <Item arrow="horizontal">地址管理</Item>
+                <Item arrow="horizontal" onClick={() => { history.push('/adr/list') }}>地址管理</Item>
               </List>
             </div>
           </div>

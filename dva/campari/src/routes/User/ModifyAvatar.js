@@ -13,12 +13,12 @@ const chunks = _.chunk(avatars, 4)
 function Avatar({ i, j, handleAvatarClick, chosen, avatar }) {
   return (
     <a
-      onClick={() => { handleAvatarClick(i * 4 + j) }}
+      onClick={() => { handleAvatarClick((i * 4) + j) }}
       href="javascript:;" key={`${i}-${j}`}
     >
       {
-        chosen === i * 4 + j
-          ? <img className={styles.chosen} src={require('../../assets/ig-dir/avatar-chosen.png')} alt=""/>
+        chosen === (i * 4) + j
+          ? <img className={styles.chosen} src={require('../../assets/ig-dir/avatar-chosen.png')} alt="" />
           : null
       }
       <span>
@@ -29,17 +29,17 @@ function Avatar({ i, j, handleAvatarClick, chosen, avatar }) {
 }
 class ModifyAvatar extends React.Component {
   state = { showEditor: false, temp: '', chosen: null, g2: chunks.slice(2) }
-  g1 = chunks.slice(0, 2)
   componentWillMount() {
     const { user: { imgname } } = this.props
     const { g2 } = this.state
     if (`${imgname}`.length > 4) {
-      const ng2 = g2.concat(`${BASEURL}upload/${imgname}`)
-      this.setState({ g2: ng2, chosen: ng2.length + 8 - 1 })
+      const ng2 = g2.concat(`${BASEURL}upload/${imgname}?${Math.random()}`)
+      this.setState({ g2: ng2, chosen: (ng2.length + 8) - 1 })
     } else {
       this.setState({ chosen: imgname - 1 })
     }
   }
+  g1 = chunks.slice(0, 2)
   updateToLocal = (imgname) => {
     const { dispatch } = this.props
     dispatch({
@@ -67,6 +67,7 @@ class ModifyAvatar extends React.Component {
         }
       })
       .catch(err => {
+        console.log(err);
         Toast.fail('操作失败，请稍后重试', 1000)
       })
   }
@@ -77,7 +78,7 @@ class ModifyAvatar extends React.Component {
     this.setState({
       g2: ng2,
       showEditor: false,
-      chosen: ng2.length + 8 - 1,
+      chosen: (ng2.length + 8) - 1,
       temp: base64
     })
   }
@@ -87,7 +88,11 @@ class ModifyAvatar extends React.Component {
   handleSaveClick = () => {
     console.log('save');
     const { temp, chosen, g2 } = this.state
-    const index = g2.length + 8 - 1
+    const { history } = this.props
+    if (chosen === 9 && !temp) {
+      return history.go(-1)
+    }
+    const index = (g2.length + 8) - 1
     if (index === chosen) {
       this.pushToServer(temp.replace('data:image/jpeg;base64,', ''))
     } else {
