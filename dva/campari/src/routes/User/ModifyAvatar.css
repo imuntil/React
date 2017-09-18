@@ -15,17 +15,25 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: .4rem 0;
   border-bottom: 2px solid #d2d2d2;
 }
 .line_group a {
-  width: 23%;
+  width: 24%;
   display: inline-block;
   line-height: 0;
   box-sizing: border-box;
-  border-radius: 50%;
   overflow: hidden;
+  position: relative;
+  margin-right: 1%;
+}
+.line_group span {
+  width: 95%;
+  border-radius: 50%;
+  display: inline-block;
+  overflow: hidden;
+  margin: 2.5% 0;
 }
 .line_group img {
   width: 100%;
@@ -33,60 +41,6 @@
 .add_avatar {
   align-self: flex-start;
 }
-
-
-.fade-enter {
-  opacity: 0;
-  animation-duration: .5s;
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
-  animation-play-state: paused;
-}
-
-.fade-appear {
-  opacity: 0;
-  animation-duration: .5s;
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
-  animation-play-state: paused;
-}
-
-.fade-leave {
-  animation-duration: .5s;
-  animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
-  animation-play-state: paused;
-}
-
-.fade-enter.fade-enter-active {
-  animation-name: fadeIn;
-  animation-play-state: running;
-}
-
-.fade-appear.fade-appear-active {
-  animation-name: fadeIn;
-  animation-play-state: running;
-}
-
-.fade-leave.fade-leave-active {
-  animation-name: fadeOut;
-  animation-play-state: running;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+.chosen {
+  position: absolute;
 }

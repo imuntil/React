@@ -10,7 +10,8 @@ class AvatarEditor extends React.Component {
   state = {
     file: null,
     scale: 1.2,
-    rotate: 0
+    rotate: 0,
+    temp: ''
   }
   readFile = async file => {
     this.reader.readAsDataURL(file)
@@ -19,14 +20,18 @@ class AvatarEditor extends React.Component {
         resolve('ok')
       }
       this.reader.onerror = () => {
-        reject(new Error('read fail'))
+        reject(new Error('read file failed'))
       }
     })
   }
   handleFileChange = async e => {
     const { files: [file] } = e.target
-    await this.readFile(file)
-    this.setState({ file })
+    try {
+      await this.readFile(file)
+      this.setState({ file })
+    } catch (e) {
+      console.log(e.message);
+    }
     // await delay(500)
   }
   handleSliderChange = v => {
@@ -43,10 +48,11 @@ class AvatarEditor extends React.Component {
   }
   handleOkClick = () => {
     if (this.editor) {
-      console.log(+new Date());
-      const canvas = this.editor.getImage()
-      canvas.toDataURL()
-      console.log(+new Date());
+      const canvas = this.editor.getImageScaledToCanvas()
+      const temp = canvas.toDataURL('image/jpeg', 0.8)
+      this.setState({ temp })
+      const { onEditEnd } = this.props
+      onEditEnd(temp)
     }
   }
   reader = new FileReader()
@@ -102,6 +108,7 @@ class AvatarEditor extends React.Component {
               <a href="javascript:;" onClick={this.handleOkClick} className={styles.ok}>确认上传</a>
             </p>
             <WhiteSpace />
+            <img src={this.state.temp} alt=""/>
           </div>
         </div>
       </div>
@@ -110,7 +117,8 @@ class AvatarEditor extends React.Component {
 }
 
 AvatarEditor.propTypes = {
-  onHide: PropTypes.func.isRequired
+  onHide: PropTypes.func.isRequired,
+  onEditEnd: PropTypes.func.isRequired
 }
 
 export default AvatarEditor;

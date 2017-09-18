@@ -14,3 +14,9 @@ export async function getVerifyCode({ phone, flag = 1 }) {
 export async function modifyNick({ phone, nickname }) {
   return request(`${BASEURL}updatenicknameUsr.action?phone=${phone}&nickname=${nickname}`)
 }
+export async function modifyAvatar(posts) {
+  return request(`${BASEURL}uploadImgUsr.action`, {
+    method: 'POST',
+    body: posts
+  })
+}

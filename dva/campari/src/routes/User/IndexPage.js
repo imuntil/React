@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router'
 import { List, WhiteSpace } from 'antd-mobile'
-import { BASEURL } from '../../constant'
+import { BASEURL, avatars } from '../../constant'
 import MissData from '../../components/Error/MissData.js'
 import styles from './IndexPage.css';
 
@@ -11,6 +11,13 @@ const { Item } = List
 class IndexPage extends React.Component {
   render() {
     const { user, history } = this.props
+    const img = user.imgname
+    let avatar = ''
+    if (`${img}`.length < 4) {
+      avatar = avatars[+img - 1]
+    } else {
+      avatar = `${BASEURL}upload/${img}?${Math.random()}`
+    }
     return (
       user.usersid
         ? (
@@ -18,7 +25,7 @@ class IndexPage extends React.Component {
             <div className={styles.header}>
               <div className={styles.avatar}>
                 <div className={styles.radius_box}>
-                  <img src={`${BASEURL}upload/${user.imgname}`} alt="" />
+                  <img src={avatar} alt="" />
                 </div>
                 <Link to="user/modify-avatar" className={styles.edit_avatar}>编辑头像</Link>
               </div>
