@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { WhiteSpace, WingBlank, Picker } from 'antd-mobile'
+import { WhiteSpace, WingBlank } from 'antd-mobile'
 import { modifyAdr, addAdr } from '../../services/user'
 import ZInput from '../../components/Form/ZInput.js'
 import ZTextarea from '../../components/Form/ZTextarea.js'
@@ -17,8 +17,6 @@ class AdrEditPage extends React.Component {
     adr: { v: '', valid: false },
     detail: { v: '', valid: false },
     isDefault: 0,
-    visible: true,
-    pickerValue: []
   }
   componentWillMount() {
     const { params: { id } } = this.props
@@ -54,8 +52,7 @@ class AdrEditPage extends React.Component {
   status = 0
   render() {
     const {
-      submit, name, phone, label, adr, detail, isDefault, visible,
-      pickerValue
+      submit, name, phone, label, adr, detail, isDefault
     } = this.state
     return (
       <div className={styles.normal}>
@@ -92,7 +89,7 @@ class AdrEditPage extends React.Component {
         </div>
         <WhiteSpace size="lg" />
         <div className={styles.section}>
-          <p onClick={() => { this.setState({ visible: true })}} className={styles.group}>
+          <p onClick={() => { this.setState({ visible: true }) }} className={styles.group}>
             <label htmlFor="adr">所在地区</label>
             <a href="javascript:;">广西-来宾市</a>
           </p>
@@ -124,13 +121,6 @@ class AdrEditPage extends React.Component {
             href="javascript:;" className="common-btn"
           >保存</a>
         </WingBlank>
-        {/*<Picker
-          visible={visible}
-          data={district}
-          value={pickerValue}
-          onChange={v => { console.log(v) }}
-          onOk={() => { this.setState({ visible: false }) }}
-        />*/}
       </div>
     )
   }
