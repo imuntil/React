@@ -75,3 +75,12 @@ a, a:link, a:visited, a:hover, a:active {
 :global(.common-btn:active) {
   box-shadow: 1px 1px 4px 1px #a60009;
 }
+:global(input:focus) {
+  box-shadow: 0 0 4px 1px #82d8ee;
+}
+:global(textarea:focus) {
+  box-shadow: 0 0 4px 1px #82d8ee;
+}
+:global(select:focus) {
+  box-shadow: 0 0 4px 1px #82d8ee;
+}

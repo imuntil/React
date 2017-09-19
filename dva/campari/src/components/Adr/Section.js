@@ -1,8 +1,10 @@
 import React from 'react';
-import { WhiteSpace, WingBlank } from 'antd-mobile'
+import { WhiteSpace, WingBlank, Modal } from 'antd-mobile'
+import { Link } from 'dva/router'
 import styles from './Section.css';
 
-function Section({ adr = {}, onDefaultClick }) {
+const alert = Modal.alert
+function Section({ adr = {}, onDefaultClick, onDeleteClick }) {
   return (
     <div className={styles.normal}>
       <div className={styles.section_box}>
@@ -34,8 +36,16 @@ function Section({ adr = {}, onDefaultClick }) {
               </a>
             </div>
             <div className={styles.d_right}>
-              <a href="javascript:;">编辑</a>
-              <a href="javascript:;">删除</a>
+              <Link to={`/adr/edit/${adr.id}`}>编辑</Link>
+              <a
+                onClick={() => {
+                  alert('删除', '确定删除这条地址么', [
+                    { text: '取消' },
+                    { text: '确定', onPress: () => { onDeleteClick(adr.id) }}
+                  ])
+                }}
+                href="javascript:;"
+              >删除</a>
             </div>
           </div>
         </WingBlank>

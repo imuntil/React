@@ -1,0 +1,106 @@
+
+.normal {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #f2f2f2;
+}
+.section {
+  border-top: 2px solid #d8d8d8;
+  background-color: #fff;
+}
+.group {
+  border-bottom: 2px solid #d8d8d8;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.group>* {
+  font-size: 30px;
+  color: #444;
+}
+.group label {
+  width: 20%;
+  text-align: right;
+  display: inline-block;
+}
+.group>span {
+  width: 70%;
+}
+.group input {
+  width: 80%;
+  padding: 15px 5px;
+  border: none;
+  color: #666;
+}
+.group select {
+  width: 30%;
+  padding: 15px 5px;
+  font-size: 30px;
+  border: none;
+}
+.group option {
+  font-size: 15px;
+  color: #444;
+}
+.group a {
+  text-align: right;
+  padding: 15px 30px;
+}
+.group>p {
+  width: 92%;
+  margin: 0 4%;
+}
+.group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 0;
+  border: none;
+  resize: none;
+  display: block;
+  color: #666;
+  height: 200px;
+}
+
+.default {
+  width: 38px;
+  height: 38px;
+  border: 2px solid #d8d8d8;
+  border-radius: 50%;
+  margin-right: 20px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+.checked {
+  composes: default;
+  position: relative;
+  border: 6px solid #e41035;
+}
+.checked::after {
+  content: ' ';
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin:auto;
+  border-radius: 50%;
+  background-color: #e41035;
+}
+.set_default {
+  background-color: #fff;
+  border: 2px solid #d8d8d8;
+  padding: 38px 30px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 30px;
+  color: #444;
+}

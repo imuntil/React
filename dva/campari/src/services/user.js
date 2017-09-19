@@ -33,3 +33,12 @@ export async function modifyAdr(payload) {
     body: payload
   })
 }
+export async function addAdr(payload) {
+  return request(`${BASEURL}saveAddressAds.action`, {
+    method: 'POST',
+    body: payload
+  })
+}
+export async function deleteAdr({ id }) {
+  return request(`${BASEURL}delAddressAds.action?id=${id}`)
+}

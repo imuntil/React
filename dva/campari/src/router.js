@@ -202,6 +202,18 @@ function RouterConfig({ history, app }) {
               cb(null, require('./routes/Address/AdrListPage'))
             })
           }
+        },
+        {
+          path: 'adr/edit(/:id)',
+          name: 'AdrEditPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              document.title = '编辑地址'
+              registerModel(app, require('./models/user/adr'))
+              cb(null, require('./routes/Address/AdrEditPage'))
+            })
+          }
         }
       ]
     }

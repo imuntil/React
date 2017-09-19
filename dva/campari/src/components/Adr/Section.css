@@ -45,6 +45,9 @@
   border-radius: 5px;
   margin-left: .2rem;
 }
+.d_right a:active {
+  background-color: #ffebef;
+}
 .d_left a {
   display: flex;
   align-items: center;

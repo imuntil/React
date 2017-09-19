@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'dva'
-import { WhiteSpace, Icon } from 'antd-mobile'
+import { Link } from 'dva/router'
+import { WhiteSpace, Icon, Toast } from 'antd-mobile'
+import QueueAnim from 'rc-queue-anim'
 import Section from '../../components/Adr/Section.js'
 import Loading from '../../components/Loading.js'
-import { modifyAdr, setDefaultAdr } from '../../services/user'
+import { deleteAdr } from '../../services/user'
+import { delay } from '../../services/tools-fun'
 import styles from './AdrListPage.css'
 
 class AdrListPage extends React.Component {
@@ -13,22 +16,28 @@ class AdrListPage extends React.Component {
   }
   handleDefaultClick = (id, status) => {
     if (status) return false
-    const { user, dispatch } = this.props
-    setDefaultAdr({ userid: user.usersid, id })
-      .then(({ data }) => {
-        const { resultcode } = data
-        if (+resultcode === 1) {
-          dispatch({ type: '' , payload: '' })
-        } else {
-          console.log('fail');
-        }
+    const { dispatch } = this.props
+    dispatch({
+      type: 'adr/changeDefaultAdr',
+      payload: { id }
+    })
+  }
+  handleDeleteClick = async id => {
+    const { dispatch } = this.props
+    const { err, data = {} } = await deleteAdr({ id })
+    if (err || +data.resultcode !== 1) {
+      dispatch({
+        type: 'error/dataOperationError',
+        payload: { msg: '操作未成功-。-', code: data.resultcode }
       })
-      .catch(err => {
-        console.log(err);
-      })
+      return false
+    }
+    Toast.success('删除成功', 1)
+    await delay(200)
+    dispatch({ type: 'adr/deleteAdr', payload: { id } })
   }
   render() {
-    const { idList, list } = this.props
+    const { idList, list, statusList } = this.props
     return (
       <div className={styles.normal}>
         {
@@ -37,19 +46,22 @@ class AdrListPage extends React.Component {
             : (
               <div className="normal">
                 <WhiteSpace size="lg" />
-                {
-                  idList.length
-                    ? idList.map(id => (
+                <QueueAnim component="div" type={['right', 'left']} leaveReverse>
+                  {
+                    idList.length
+                      ? idList.map((id, index) => (
                       <Section
-                        key={id} adr={list[id]}
+                        key={id} adr={{ ...list[id], status: statusList[index] }}
                         onDefaultClick={this.handleDefaultClick}
+                        onDeleteClick={this.handleDeleteClick}
                       />
                     ))
-                    : <p>还没有收货地址哦，快去添加吧</p>
-                }
-                <a className={styles.add_adr} href="javascript:;">
+                      : <p>还没有收货地址哦，快去添加吧</p>
+                  }
+                </QueueAnim>
+                <Link className={styles.add_adr} to="/adr/edit">
                   添加收货地址 <Icon type="right" />
-                </a>
+                </Link>
               </div>
             )
         }
@@ -59,8 +71,8 @@ class AdrListPage extends React.Component {
 }
 function mapStateToProps(state) {
   const user = state['user-info']
-  const { idList, list } = state.adr
-  return { user, idList, list }
+  const { idList, list, statusList } = state.adr
+  return { user, idList, list, statusList }
 }
 
 export default connect(mapStateToProps)(AdrListPage)
