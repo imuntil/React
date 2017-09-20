@@ -35,7 +35,8 @@ class Detail extends React.Component {
     })
   }
   handleCollectionClick = currentStatus => {
-    console.log(currentStatus);
+    const { params: { id }, dispatch } = this.props
+    dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus } })
   }
   render() {
     const { current: data, loading, must, maybe, collection, params: { id } } = this.props

@@ -75,11 +75,12 @@ class AdrEditPage extends React.Component {
   }
   handleAPChange = v => {
     const str = this.value2Adr(v)
-    this.setState({ apValue: v, apValueStr: str})
+    this.setState({ apValue: v, apValueStr: str })
   }
   pushToServer = async (payload) => {
     const { dispatch, history } = this.props
-    let fun = addAdr, p = payload
+    let fun = addAdr
+    let p = payload
     if (this.status) {
       fun = modifyAdr
       p = { ...p, id: this.status }
@@ -180,7 +181,7 @@ class AdrEditPage extends React.Component {
               <a href="javascript:;" style={apValueStr ? null : { padding: '8px 5px' }}>
                 {
                   apValueStr
-                    ? apValueStr
+                    ? `${apValueStr}`
                     : <Icon type="right" />
                 }
               </a>
@@ -235,7 +236,7 @@ class AdrEditPage extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  const { list } = state['adr']
+  const { list } = state.adr
   const { usersid } = state['user-info']
   return { list, userid: usersid }
 }

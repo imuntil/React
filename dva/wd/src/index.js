@@ -3,7 +3,14 @@ import createLoading from 'dva-loading'
 import './index.css';
 
 // 1. Initialize
-const app = dva();
+const app = dva({
+  // onEffect(effect) {
+  //   return function* (...args) {
+  //     console.log(args);
+  //     yield effect(...args)
+  //   }
+  // }
+});
 
 // 2. Plugins
 app.use(createLoading());

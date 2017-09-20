@@ -1,4 +1,4 @@
-import { adrList, setDefaultAdr, deleteAdr } from '../../services/user'
+import { adrList, setDefaultAdr } from '../../services/user'
 import { normalizes } from '../../services/tools-fun'
 
 export default {
@@ -18,10 +18,6 @@ export default {
         statusList: [...payload.statusList],
         expired: false
       }
-    },
-    modifyAdr(state, action) {
-      const { payload: { id } } = action
-      const { list } = state
     },
     changeDefault(state, action) {
       const { statusList } = action.payload
@@ -68,7 +64,7 @@ export default {
       const sl = statusList.map((v, i) => {
         return +(i === index)
       })
-      yield  put({
+      yield put({
         type: 'changeDefault',
         payload: { statusList: sl }
       })

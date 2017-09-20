@@ -49,9 +49,9 @@ export async function deleteAdr({ id }) {
 export async function fetchCollectionList({ userid }) {
   return request(`${BASEURL}selectUsrShoppingCartSct.action?flag=2&userid=${userid}`)
 }
-export async function AddOrDelCollection({ userid, id, type = 'add' }) {
-  const url = type === 'add'
+export async function addOrDelCollection({ userid, id, type = 'add' }) {
+  const url = type !== 'add'
     ? `${BASEURL}delcollectProSct.action?flag=2&proid=${id}&userid=${userid}`
-    : `${BASEURL}insertShoppingCartSct.action?flag=2&id=${id}&userid=${userid}`
+    : `${BASEURL}insertShoppingCartSct.action?flag=2&pronum=0&id=${id}&userid=${userid}`
   return request(url)
 }
