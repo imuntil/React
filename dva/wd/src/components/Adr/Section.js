@@ -1,24 +1,25 @@
 import React from 'react';
 import { WhiteSpace, WingBlank, Modal } from 'antd-mobile'
 import { Link } from 'dva/router'
+import { formatPhone } from '../../services/ct'
 import styles from './Section.css';
 
 const alert = Modal.alert
-function Section({ adr = {}, onDefaultClick, onDeleteClick }) {
+function Section({ adr = {}, onDefaultClick, onDeleteClick, onChosen, chosen }) {
   return (
     <div className={styles.normal}>
-      <div className={styles.section_box}>
+      <div className={styles.section_box} style={chosen ? { background: '#e1f5ff' } : null}>
         <WingBlank size="lg">
-          <div className={styles.up}>
+          <div onClick={() => onChosen(adr.id)} className={styles.up}>
             <p className={styles.g_1}>
               <span className={styles.name}>
                 <em>{adr.name}</em>
-                <em>{adr.phone}</em>
+                <em>{formatPhone(adr.phone)}</em>
               </span>
               <span className={styles.label}>{adr.label}</span>
             </p>
             <p className={styles.g_2}>
-              {adr.address}
+              {`${adr.city} ${adr.address}`}
             </p>
           </div>
           <div className={styles.down}>

@@ -1,14 +1,19 @@
 import React from 'react'
 import { connect } from 'dva'
-import { WhiteSpace, WingBlank, Picker } from 'antd-mobile'
+import { WhiteSpace, WingBlank, Picker, Icon, Toast } from 'antd-mobile'
+import arrayTreeFilter from 'array-tree-filter'
+import _ from 'lodash'
 import { modifyAdr, addAdr } from '../../services/user'
 import ZInput from '../../components/Form/ZInput.js'
 import ZTextarea from '../../components/Form/ZTextarea.js'
+import Shake from '../../components/Animate/Shake.js'
 import { regexp } from '../../services/ct'
 import district from '../../services/china-division'
+import { formData, delay } from '../../services/tools-fun'
 import styles from './AdrEditPage.css'
 
 const labelData = [
+  { label: '-', value: '' },
   { label: '家', value: '家' },
   { label: '公司', value: '公司' }
 ]
@@ -17,16 +22,38 @@ class AdrEditPage extends React.Component {
     submit: false,
     name: { v: '', valid: false },
     phone: { v: '', valid: false },
-    label: '',
-    adr: { v: '', valid: false },
     detail: { v: '', valid: false },
     isDefault: 0,
-    visible: false,
-    value: []
+    apVisible: false,
+    apValue: [],
+    apValueStr: '',
+    lpVisible: false,
+    lpValue: []
   }
   componentWillMount() {
     const { params: { id } } = this.props
-    this.status = +!!id
+    this.status = +id || 0
+    if (id) this.setInitStatus(id)
+  }
+  setInitStatus = (id) => {
+    const { list, history } = this.props
+    if (!list || _.isEmpty(list)) {
+      history.go(-1)
+      return false
+    }
+    const { address, city: province, label, name, phone, status } = list[id]
+    const [city, detail] = address.split('-')
+    const apValue = this.adr2Value([province, city])
+
+    this.setState({
+      name: { v: name, valid: true },
+      phone: { v: phone, valid: true },
+      detail: { v: detail, valid: true },
+      isDefault: +status,
+      lpValue: [label],
+      apValue,
+      apValueStr: `${province} ${city}`
+    })
   }
   setSubmit = () => {
     this.setState({ submit: true })
@@ -42,24 +69,79 @@ class AdrEditPage extends React.Component {
       this.setState({ [status]: { v, valid: true } })
     }
   }
-  handleSelectChange = e => {
-    const v = e.target.value
-    this.setState({ label: v })
-  }
   handleDefaultClick = () => {
     const { isDefault } = this.state
     this.setState({ isDefault: !isDefault })
   }
+  handleAPChange = v => {
+    const str = this.value2Adr(v)
+    this.setState({ apValue: v, apValueStr: str})
+  }
+  pushToServer = async (payload) => {
+    const { dispatch, history } = this.props
+    let fun = addAdr, p = payload
+    if (this.status) {
+      fun = modifyAdr
+      p = { ...p, id: this.status }
+    }
+    const { data = {}, err } = await fun(formData(p))
+    const msg = this.status ? '更新' : '新增'
+    if (err || +data.resultcode !== 1) {
+      dispatch({
+        type: 'error/dataOperationError',
+        payload: {
+          msg: `${msg}地址失败`,
+          code: data.resultcode
+        }
+      })
+      return false
+    }
+    Toast.success(`${msg}地址成功`, 1)
+    dispatch({ type: 'adr/updateList' })
+    await delay(1000)
+    history.go(-1)
+    return true
+  }
   handleSaveClick = () => {
-    const { submit } = this.state
     if (submit) return false
+    const {
+      submit, isDefault, name, phone, lpValue, apValueStr, detail
+    } = this.state
+    const { userid } = this.props
+    const [province, city] = apValueStr.split(' ')
     this.setSubmit()
+    if (!name.v || !phone.v || !detail.v || !apValueStr) return false
+    const payload = {
+      status: +isDefault,
+      city: province,
+      name: name.v,
+      phone: phone.v,
+      label: lpValue,
+      address: `${city}-${detail.v}`,
+      userid
+    }
+    this.pushToServer(payload)
+  }
+  value2Adr = (value) => {
+    if (!value || !value.length) return ''
+    const treeChildren =
+      arrayTreeFilter(district, (c, level) => c.value === value[level])
+    return treeChildren.map(v => v.label).join(' ')
+  }
+  adr2Value = ([p, c]) => {
+    const province = district.filter(pro => pro.label === p || pro.label.indexOf(p) >= 0)
+    if (!province.length) return ''
+    const ct = province[0]
+      .children
+      .filter(city => city.label === c || city.label.indexOf(c) >= 0)
+    if (!ct.length) return ''
+    return [province[0].value, ct[0].value]
   }
   status = 0
   render() {
     const {
-      submit, name, phone, label, adr, detail, isDefault,
-      visible, value
+      submit, name, phone, label, detail, isDefault,
+      apValue, apVisible, lpValue, lpVisible, apValueStr
     } = this.state
     return (
       <div className={styles.normal}>
@@ -83,23 +165,27 @@ class AdrEditPage extends React.Component {
               shake={submit && !phone.valid}
             />
           </p>
-          <p className={styles.group}>
+          <p onClick={() => this.setState({ lpVisible: true })} className={styles.group}>
             <label htmlFor="label">标&nbsp;&nbsp;&nbsp;&nbsp;签</label>
-            <span>
-              <select onClick={this.handleSelectChange}>
-                <option value="">-</option>
-                <option value="家">家</option>
-                <option value="公司">公司</option>
-              </select>
+            <span className={styles.label}>
+              {lpValue[0] || '-'}
             </span>
           </p>
         </div>
         <WhiteSpace size="lg" />
         <div className={styles.section}>
-          <p onClick={() => { this.setState({ visible: true }) }} className={styles.group}>
+          <div onClick={() => this.setState({ apVisible: true })} className={styles.group}>
             <label htmlFor="adr">所在地区</label>
-            <a href="javascript:;">广西-来宾市</a>
-          </p>
+            <Shake shake={submit && !apValueStr} className={styles.shake}>
+              <a href="javascript:;" style={apValueStr ? null : { padding: '8px 5px' }}>
+                {
+                  apValueStr
+                    ? apValueStr
+                    : <Icon type="right" />
+                }
+              </a>
+            </Shake>
+          </div>
           <div className={styles.group}>
             <ZTextarea
               name={'详细地址'} maxL={50} minL={5} value={detail.v}
@@ -129,19 +215,29 @@ class AdrEditPage extends React.Component {
           >保存</a>
         </WingBlank>
         <Picker
-          visible={visible}
-          data={district}
-          value={value}
-          onChange={v => this.setState({ value: v })}
-          onOk={() => this.setState({ visible: false })}
-          onDismis={() => this.setState({ visible: false })}
+          visible={apVisible}
+          data={district.slice(0, -3)}
+          value={apValue} cols={2}
+          onChange={v => this.handleAPChange(v)}
+          onOk={() => this.setState({ apVisible: false })}
+          onDismiss={() => this.setState({ apVisible: false })}
+        />
+        <Picker
+          visible={lpVisible}
+          data={labelData}
+          value={lpValue} cols={1}
+          onChange={v => this.setState({ lpValue: v })}
+          onOk={() => this.setState({ lpVisible: false })}
+          onDismiss={() => this.setState({ lpVisible: false })}
         />
       </div>
     )
   }
 }
-function mapStateToProps() {
-  return {}
+function mapStateToProps(state) {
+  const { list } = state['adr']
+  const { usersid } = state['user-info']
+  return { list, userid: usersid }
 }
 
 export default connect(mapStateToProps)(AdrEditPage)

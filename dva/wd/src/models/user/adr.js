@@ -6,7 +6,8 @@ export default {
   state: {
     list: null,
     idList: null,
-    statusList: null
+    statusList: null,
+    expired: true
   },
   reducers: {
     saveList(state, action) {
@@ -14,7 +15,8 @@ export default {
       return {
         list: { ...payload.list },
         idList: [...payload.idList],
-        statusList: [...payload.statusList]
+        statusList: [...payload.statusList],
+        expired: false
       }
     },
     modifyAdr(state, action) {
@@ -27,12 +29,18 @@ export default {
         ...state,
         statusList
       }
+    },
+    updateList(state, action) {
+      return {
+        ...state,
+        expired: true
+      }
     }
   },
   effects: {
     *fetchList({ payload }, { call, put, select }) {
-      const { idList: ids } = yield select(state => state.adr)
-      if (ids && ids.length) return true
+      const { expired } = yield select(state => state.adr)
+      if (!expired) return true
       const { data, err } = yield call(adrList, payload)
       if (err || +data.resultcode !== 1) {
         yield put({
@@ -65,21 +73,13 @@ export default {
         payload: { statusList: sl }
       })
     },
-    *deleteAdr({ payload }, { call, put, select }) {
+    *deleteAdr({ payload }, { put, select }) {
       const { id } = payload
       const { list, statusList, idList } = yield select(state => state.adr)
       const index = idList.indexOf(id)
       if (index < 0) {
         throw new Error(`找不到id为${id}对应的地址`)
       }
-      // const { err, data = {} } = yield call(deleteAdr, { id })
-      // if (err || +data.resultcode !== 1) {
-      //   yield put({
-      //     type: 'error/dataOperationError',
-      //     payload: { msg: '操作未成功-。-', code: data.resultcode }
-      //   })
-      //   return false
-      // }
       const il = [...idList.slice(0, index), ...idList.slice(index + 1)]
       const sl = [...statusList.slice(0, index), ...statusList.slice(index + 1)]
       const l = { ...list }

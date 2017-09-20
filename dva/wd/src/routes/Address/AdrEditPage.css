@@ -46,10 +46,6 @@
   font-size: 15px;
   color: #444;
 }
-.group a {
-  text-align: right;
-  padding: 15px 30px;
-}
 .group>p {
   width: 92%;
   margin: 0 4%;
@@ -103,4 +99,19 @@
   justify-content: flex-start;
   font-size: 30px;
   color: #444;
+}
+.label {
+  padding: 15px 5px;
+  text-align: left;
+}
+.shake {
+  width: 70%;
+  padding-right: 30px;
+}
+.shake a {
+  padding: 15px 5px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

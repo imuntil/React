@@ -3,10 +3,10 @@ import _ from 'lodash'
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
 import { WhiteSpace as WS } from 'antd-mobile'
-import styles from './Detail.css';
 import { IMGURL, mustLikeIds, types } from '../../constant'
 import Loading from '../../components/Loading.js'
 import Like from '../../components/Like/Like.js'
+import styles from './Detail.css';
 
 class Detail extends React.Component {
   constructor(props) {
@@ -34,9 +34,13 @@ class Detail extends React.Component {
       more: !more
     })
   }
+  handleCollectionClick = currentStatus => {
+    console.log(currentStatus);
+  }
   render() {
-    const { current: data, loading, must, maybe } = this.props
+    const { current: data, loading, must, maybe, collection, params: { id } } = this.props
     const { more } = this.state
+    const like = collection.indexOf(+id) > -1
     return (
       <div style={{ width: '100%', height: '100%', display: 'block' }}>
         {
@@ -53,8 +57,12 @@ class Detail extends React.Component {
                       <p className={styles.font}>{data.proname}</p>
                     </div>
                     <div className={styles.heart}>
-                      <a href="javascript:;">
-                        <img src={require('../../assets/ig-dir/not-like.png')} alt="" />
+                      <a href="javascript:;" onClick={() => this.handleCollectionClick(like)}>
+                        {
+                          like
+                            ? <img src={require('../../assets/ig-dir/like.png')} alt="" />
+                            : <img src={require('../../assets/ig-dir/not-like.png')} alt="" />
+                        }
                       </a>
                     </div>
                   </div>
@@ -121,13 +129,15 @@ class Detail extends React.Component {
 
 function mapStateToProps(state) {
   const { current, maybe, must } = state.detail
+  const collection = state.collection
   const store = state['list-store']
   return {
     current,
     maybe,
     must,
     store,
-    loading: state.loading.models.detail
+    loading: state.loading.models.detail,
+    collection
   };
 }
 

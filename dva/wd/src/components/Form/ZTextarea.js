@@ -6,7 +6,15 @@ import PropTypes from 'prop-types'
 import TweenOne from 'rc-tween-one'
 
 class ZTextarea extends React.Component {
-  state = { value: '' }
+  constructor(props) {
+    super(props)
+    const { value = '' } = this.props
+    this.state = { value }
+  }
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps
+    if (value === false) this.setState({ value: '' })
+  }
   handleChange = (e) => {
     const { onZInputChange } = this.props
     const value = e.target.value.trim()
@@ -44,9 +52,9 @@ class ZTextarea extends React.Component {
       <TweenOne
         animation={shake ? this.animation : null}
         component={component}
+        style={shake ? { boxShadow: '0 0 4px 2px #E47F87' } : null}
       >
         <textarea
-          style={shake ? { boxShadow: '0 0 4px 2px #E47F87' } : {}}
           maxLength={length || maxL} minLength={length || minL} required={required}
           value={value} onChange={this.handleChange} {...rest}
         />

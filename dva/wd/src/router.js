@@ -69,8 +69,10 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '详情'
+              registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/product/detail'))
               registerModel(app, require('./models/product/list-store'))
+              registerModel(app, require('./models/collection'))
               cb(null, require('./routes/Product/Detail'))
             })
           }
@@ -211,6 +213,7 @@ function RouterConfig({ history, app }) {
             require.ensure([], require => {
               document.title = '编辑地址'
               registerModel(app, require('./models/user/adr'))
+              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/Address/AdrEditPage'))
             })
           }

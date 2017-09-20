@@ -2,6 +2,7 @@ import md5 from 'md5'
 import request from '../utils/request';
 import { BASEURL } from '../constant'
 
+// 用户
 export async function login({ phone, password }) {
   return request(`${BASEURL}loginUsersUsr.action?phone=${phone}&password=${md5(password)}`)
 }
@@ -21,6 +22,7 @@ export async function modifyAvatar(posts) {
   })
 }
 
+// 地址
 export async function adrList({ userid }) {
   return request(`${BASEURL}selectAddressAds.action?userid=${userid}`)
 }
@@ -41,4 +43,15 @@ export async function addAdr(payload) {
 }
 export async function deleteAdr({ id }) {
   return request(`${BASEURL}delAddressAds.action?id=${id}`)
+}
+
+// 收藏
+export async function fetchCollectionList({ userid }) {
+  return request(`${BASEURL}selectUsrShoppingCartSct.action?flag=2&userid=${userid}`)
+}
+export async function AddOrDelCollection({ userid, id, type = 'add' }) {
+  const url = type === 'add'
+    ? `${BASEURL}delcollectProSct.action?flag=2&proid=${id}&userid=${userid}`
+    : `${BASEURL}insertShoppingCartSct.action?flag=2&id=${id}&userid=${userid}`
+  return request(url)
 }

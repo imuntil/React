@@ -72,9 +72,9 @@ class ZInput extends React.Component {
       <TweenOne
         animation={shake ? this.animation : null}
         component="span"
+        style={shake ? { boxShadow: '0 0 8px #E47F87' } : {}}
       >
         <input
-          style={shake ? { boxShadow: '0 0 4px 2px #E47F87' } : {}}
           type={type} maxLength={length || maxL} minLength={length || minL} required={required}
           placeholder={placeholder} value={value} onChange={this.handleChange} {...rest}
         />

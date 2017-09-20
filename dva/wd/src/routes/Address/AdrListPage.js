@@ -10,6 +10,7 @@ import { delay } from '../../services/tools-fun'
 import styles from './AdrListPage.css'
 
 class AdrListPage extends React.Component {
+  state = { chosen: -1 }
   componentWillMount() {
     const { user, dispatch } = this.props
     dispatch({ type: 'adr/fetchList', payload: { userid: user.usersid } })
@@ -54,6 +55,8 @@ class AdrListPage extends React.Component {
                         key={id} adr={{ ...list[id], status: statusList[index] }}
                         onDefaultClick={this.handleDefaultClick}
                         onDeleteClick={this.handleDeleteClick}
+                        onChosen={id => this.setState({ chosen: +id })}
+                        chosen={this.state.chosen === +id}
                       />
                     ))
                       : <p>还没有收货地址哦，快去添加吧</p>
