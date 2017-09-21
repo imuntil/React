@@ -115,7 +115,7 @@ function mapStateToProps(state) {
     sectionIDs: [...sectionIDs],
     rowIDs: [...rowIDs]
   }
-  return { page, cls, hasMore, a, store, loading: state.loading.models['product-all'] };
+  return { page, cls, hasMore, a, store, loading: state.loading.global };
 }
 
 export default connect(mapStateToProps)(All);

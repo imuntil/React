@@ -2,12 +2,23 @@ import React from 'react';
 import _ from 'lodash'
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
-import { WhiteSpace as WS } from 'antd-mobile'
+import { WhiteSpace as WS, Icon } from 'antd-mobile'
 import { IMGURL, mustLikeIds, types } from '../../constant'
 import Loading from '../../components/Loading.js'
 import Like from '../../components/Like/Like.js'
 import styles from './Detail.css';
 
+function LikeLoading({ like, loading }) {
+  return (
+    loading
+      ? <Icon type="loading" />
+      : (
+      like
+        ? <img src={require('../../assets/ig-dir/like.png')} alt="" />
+        : <img src={require('../../assets/ig-dir/not-like.png')} alt="" />
+    )
+  )
+}
 class Detail extends React.Component {
   constructor(props) {
     super(props)
@@ -39,7 +50,7 @@ class Detail extends React.Component {
     dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus } })
   }
   render() {
-    const { current: data, loading, must, maybe, collection, params: { id } } = this.props
+    const { current: data, loading, likeLoading, must, maybe, collection, params: { id } } = this.props
     const { more } = this.state
     const like = collection.indexOf(+id) > -1
     return (
@@ -59,11 +70,7 @@ class Detail extends React.Component {
                     </div>
                     <div className={styles.heart}>
                       <a href="javascript:;" onClick={() => this.handleCollectionClick(like)}>
-                        {
-                          like
-                            ? <img src={require('../../assets/ig-dir/like.png')} alt="" />
-                            : <img src={require('../../assets/ig-dir/not-like.png')} alt="" />
-                        }
+                        <LikeLoading like={like} loading={likeLoading} />
                       </a>
                     </div>
                   </div>
@@ -132,12 +139,14 @@ function mapStateToProps(state) {
   const { current, maybe, must } = state.detail
   const collection = state.collection
   const store = state['list-store']
+  const load = state.loading.models
   return {
     current,
     maybe,
     must,
     store,
-    loading: state.loading.models.detail,
+    loading: load.detail,
+    likeLoading: load.collection,
     collection
   };
 }

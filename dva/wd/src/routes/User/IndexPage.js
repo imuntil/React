@@ -38,7 +38,7 @@ class IndexPage extends React.Component {
                 <Item arrow="horizontal">待付款</Item>
                 <Item arrow="horizontal">待收货</Item>
                 <Item arrow="horizontal">全部订单</Item>
-                <Item arrow="horizontal">我的收藏</Item>
+                <Item arrow="horizontal" onClick={() => history.push('/user/collection')}>我的收藏</Item>
               </List>
               <WhiteSpace />
               <List>

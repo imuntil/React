@@ -54,6 +54,7 @@ export default {
     },
     toggleLike: [
       function* ({ payload }, { call, select, put }) {
+        // yield put({ type: 'partLoading/startLoad' })
         const { id, currentStatus } = payload
         const { usersid: userid } = yield select(state => state['user-info'])
         const { data = {}, err } =
@@ -69,6 +70,8 @@ export default {
             type, payload: { id }
           })
         }
+        yield call(delay, 250)
+        // yield put({ type: 'partLoading/loadEnd' })
       },
       { type: 'throttle', ms: 1000 }
     ]

@@ -193,6 +193,19 @@ function RouterConfig({ history, app }) {
           }
         },
         {
+          path: 'user/collection',
+          name: 'MyCollectionPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              document.title = '我的收藏'
+              registerModel(app, require('./models/user/userinfo'))
+              registerModel(app, require('./models/collection'))
+              cb(null, require('./routes/User/MyCollection'))
+            })
+          }
+        },
+        {
           path: 'adr/list',
           name: 'AdrListPage',
           layout: 'NoBarLayout',
