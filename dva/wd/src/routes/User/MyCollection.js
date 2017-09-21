@@ -5,7 +5,7 @@ import styles from './MyCollection.css'
 class MyCollection extends React.Component {
   render() {
     return (
-      <div className={styles.normal}>collection</div>
+      <div className={styles.normal}>collection page</div>
     )
   }
 }
