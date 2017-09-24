@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 import { ListView, ActivityIndicator, WingBlank } from 'antd-mobile'
 import styles from './ProListView.css';
 import Card from '../Card.js'
@@ -149,6 +150,20 @@ class ProListView extends React.Component {
       </div>
     )
   }
+}
+
+ProListView.PropTypes = {
+  store: PropTypes.object.isRequired,
+  lists: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  hasMore: PropTypes.bool.isRequired,
+  data: PropTypes.object,
+  RowComponent: PropTypes.element,
+  BodyComponent: PropTypes.element,
+  replace: PropTypes.bool,
+  fetching: PropTypes.bool,
+  onLoadMore: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func
 }
 
 export default ProListView;

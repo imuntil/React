@@ -13,7 +13,7 @@ export default {
     }
   },
   effects: {
-    *fillStore({ payload }, { call, put }) {
+    *fillStore({ payload = {} }, { call, put }) {
       const { data } = yield call(fetchAllPros, {})
       const { resultcode, result: res } = data
       if (+resultcode !== 1) {
@@ -40,6 +40,7 @@ export default {
             }
           })
         } else if (all) {
+          console.log('xxxx');
           yield put({
             type: 'product-all/setStateData',
             payload: {

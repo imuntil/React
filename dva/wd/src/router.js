@@ -3,6 +3,8 @@ import { Router } from 'dva/router';
 
 import ModifyPage from "./routes/User/ModifyPage.js";
 
+import Order from "./routes/OrderPage.js";
+
 /* eslint-disable no-undef */
 const cached = {}
 function registerModel(app, model) {
@@ -201,6 +203,7 @@ function RouterConfig({ history, app }) {
               document.title = '我的收藏'
               registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/collection'))
+              registerModel(app, require('./models/product/list-store'))
               cb(null, require('./routes/User/MyCollection'))
             })
           }
@@ -228,6 +231,19 @@ function RouterConfig({ history, app }) {
               registerModel(app, require('./models/user/adr'))
               registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/Address/AdrEditPage'))
+            })
+          }
+        },
+        {
+          path: 'order(/:status)',
+          name: 'OrderPage',
+          layout: 'NoBarLayout',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              document.title = '我的订单'
+              registerModel(app, require('./models/user/userinfo'))
+              registerModel(app, require('./models/orders'))
+              cb(null, require('./routes/OrderPage.js'))
             })
           }
         }

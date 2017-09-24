@@ -50,7 +50,8 @@ class Detail extends React.Component {
     dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus } })
   }
   render() {
-    const { current: data, loading, likeLoading, must, maybe, collection, params: { id } } = this.props
+    const { current: data, loading,
+      likeLoading, must, maybe, collection, params: { id } } = this.props
     const { more } = this.state
     const like = collection.indexOf(+id) > -1
     return (

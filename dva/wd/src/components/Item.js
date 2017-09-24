@@ -3,9 +3,9 @@ import { Link } from 'dva/router'
 import styles from './Item.css';
 import { IMGURL } from '../constant'
 
-function Item({ data }) {
+function Item({ data, style = {} }) {
   return (
-    <div className={styles.normal}>
+    <div className={styles.normal} style={style}>
       <Link to={`/product/${data.id}`} className={styles.img_box}>
         <img src={IMGURL + data.image1} alt="" />
       </Link>

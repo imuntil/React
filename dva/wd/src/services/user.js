@@ -55,3 +55,8 @@ export async function addOrDelCollection({ userid, id, type = 'add' }) {
     : `${BASEURL}insertShoppingCartSct.action?flag=2&pronum=0&id=${id}&userid=${userid}`
   return request(url)
 }
+
+// 订单
+export async function fetchAllOrders({ userid }) {
+  return request(`${BASEURL}selectOrderStatusOdr.action?flag=0&orderstatus=0&userid=${userid}`)
+}

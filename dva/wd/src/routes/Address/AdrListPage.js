@@ -51,13 +51,13 @@ class AdrListPage extends React.Component {
                   {
                     idList.length
                       ? idList.map((id, index) => (
-                      <Section
-                        key={id} adr={{ ...list[id], status: statusList[index] }}
-                        onDefaultClick={this.handleDefaultClick}
-                        onDeleteClick={this.handleDeleteClick}
-                        onChosen={id => this.setState({ chosen: +id })}
-                        chosen={this.state.chosen === +id}
-                      />
+                        <Section
+                          key={id} adr={{ ...list[id], status: statusList[index] }}
+                          onDefaultClick={this.handleDefaultClick}
+                          onDeleteClick={this.handleDeleteClick}
+                          onChosen={_id => this.setState({ chosen: +_id })}
+                          chosen={this.state.chosen === +id}
+                        />
                     ))
                       : <p>还没有收货地址哦，快去添加吧</p>
                   }

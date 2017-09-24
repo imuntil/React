@@ -41,7 +41,7 @@ export default {
       if (err || +data.resultcode !== 1) {
         yield put({
           type: 'error/fetchDataError',
-          payload: { msg: '获取地址失败' }
+          payload: { msg: '获取地址失败', code: data.resultcode || -10 }
         })
         return false
       }
@@ -55,7 +55,7 @@ export default {
       if (err || +data.resultcode !== 1) {
         yield put({
           type: 'error/dataOperationError',
-          payload: { msg: '修改未成功-。-', code: data.resultcode }
+          payload: { msg: '修改未成功-。-', code: data.resultcode || -10 }
         })
         return false
       }

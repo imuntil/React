@@ -68,7 +68,7 @@ export default {
         })
       } else {
         const { idList, list } = normalizes(res)
-        yield put({ type: 'list-store/add', payload: { ...list } })
+        // yield put({ type: 'list-store/add', payload: { ...list } })
         yield put({
           type: 'saveList',
           payload: {
