@@ -110,7 +110,7 @@ class ProListView extends React.Component {
   render() {
     console.log('render');
     const { lists, PER_PAGE = 10, RowComponent = Card,
-      BodyComponent = MyBody, store, fetching } = this.props
+      BodyComponent = MyBody, store, fetching, hasMore } = this.props
     const row = (rowDta, sectionId, rowID) => {
       const pro = lists[index]
       index += 1
@@ -133,7 +133,9 @@ class ProListView extends React.Component {
                     {
                       this.state.isLoading
                         ? <ActivityIndicator text="加载中..." size="small" />
-                        : null
+                        : (
+                          hasMore ? null : '没有更多了'
+                        )
                     }
                   </div>
                 )}
