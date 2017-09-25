@@ -44,7 +44,7 @@ class ModifyAvatar extends React.Component {
     const { dispatch } = this.props
     dispatch({
       type: 'user-info/saveToLocal',
-      payload: { imgname }
+      payload: { imgname, expired: true }
     })
   }
   pushToServer = (imgfile, local = false) => {

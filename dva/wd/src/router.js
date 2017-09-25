@@ -242,7 +242,8 @@ function RouterConfig({ history, app }) {
             require.ensure([], require => {
               document.title = '我的订单'
               registerModel(app, require('./models/user/userinfo'))
-              registerModel(app, require('./models/orders'))
+              registerModel(app, require('./models/order/order-store'))
+              registerModel(app, require('./models/order/current-orders'))
               cb(null, require('./routes/OrderPage.js'))
             })
           }

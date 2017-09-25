@@ -33,7 +33,7 @@ export default {
         ...state,
         page,
         cls: idList.slice(0, (page + 1) * ALL_PRO_PER_PAGE),
-        hasMore: total > page
+        hasMore: total - 1 > page
       }
     },
     toggleFetching(state, action) {

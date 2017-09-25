@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 26px;
+  font-size: 28px;
   color: #000;
   border-bottom: 2px solid #f2f2f2;
 }
@@ -50,7 +50,7 @@
 }
 
 .middle {
-  border-bottom: 2px solid #d2d2d2;
+  border-bottom: 2px solid #d8d8d8;
 }
 .pro_box {
   padding: .1rem 0;
@@ -76,6 +76,7 @@
 }
 .pro_top p {
   padding-bottom: .1rem;
+  line-height: 1.4;
   width: 100%;
   display: block;
   word-break: break-all;
@@ -89,4 +90,5 @@
   font-size: 28px;
   color: #666;
   text-align: left;
+  margin-top: .1rem;
 }

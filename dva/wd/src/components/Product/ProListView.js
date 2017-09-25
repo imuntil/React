@@ -25,7 +25,7 @@ class ProListView extends React.Component {
     const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID]
     const dataSource = new ListView.DataSource({
       getRowData,
-      getSecionHeaderData: getSectionData,
+      getSectionHeaderData: getSectionData,
       rowHasChanged: (row1, row2) => row1 !== row2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     })
@@ -34,6 +34,7 @@ class ProListView extends React.Component {
     this.sectionIDs = data.sectionIDs || []
     this.rowIDs = data.rowIDs || []
     this.genData = (pIndex = 0) => {
+      console.log('gen-data');
       const sectionName = `Section ${pIndex}`
       if (this.sectionIDs.includes(sectionName)) return
       this.sectionIDs.push(sectionName)
@@ -61,6 +62,8 @@ class ProListView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { page } = nextProps
+    console.log(page);
+    console.log(nextProps.fetching);
     if (page === null) return
     if (nextProps.fetching) {
       index = 0

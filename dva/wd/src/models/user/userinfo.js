@@ -11,7 +11,8 @@ export default {
     usersid: '',
     black: 0,
     rank: '',
-    password: ''
+    password: '',
+    expired: false
   },
   reducers: {
     save(state, action) {

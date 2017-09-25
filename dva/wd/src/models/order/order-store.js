@@ -1,9 +1,11 @@
 import { normalize, schema } from 'normalizr'
-import { fetchAllOrders } from '../services/user'
+import { fetchAllOrders } from '../../services/user'
+import { normalizes } from '../../services/tools-fun'
 
 export default {
-  namespace: 'orders',
+  namespace: 'order-store',
   state: {
+    list: {},
     all: [],
     toPay: [],
     toReceive: [],
@@ -29,7 +31,7 @@ export default {
         yield put({ type: 'error/userNotLogin' })
         return false
       }
-      const { expired } = yield select(state => state.orders)
+      const { expired } = yield select(state => state['order-store'])
       if (!expired) return false
       const { data = {}, err } = yield call(fetchAllOrders, { userid: usersid })
       if (err || +data.resultcode !== 1) {
@@ -39,13 +41,20 @@ export default {
         })
         return false
       }
-      const all = data.result
-      const toPay = all.filter(({ orderstatus }) => +orderstatus === 0)
-      const toReceive = all.filter(({ orderstatus }) => +orderstatus === 3)
+      const { idList, list } = normalizes(data.result)
+      const toPay = [], toReceive = []
+      data.result.forEach(({ orderstatus, id }) => {
+        if (+orderstatus === 3) {
+          toReceive.push(id)
+        } else if (+orderstatus === 0) {
+          toPay.push(id)
+        }
+      })
       yield put({
         type: 'saveOrders',
-        payload: { all, toPay, toReceive, expired: false }
+        payload: { list, all: idList, toPay, toReceive, expired: false }
       })
+
     }
   },
   subscriptions: {
