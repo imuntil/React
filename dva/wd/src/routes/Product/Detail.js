@@ -33,17 +33,6 @@ class Detail extends React.Component {
       payload: [id, ...mustLikeIds]
     })
   }
-  componentWillReceiveProps(nextProps) {
-    const { prolabel: preLabel, dispatch } = this.props
-    const { prolabel } = nextProps
-    console.log(prolabel, preLabel);
-    if (prolabel && !preLabel) {
-      dispatch({
-        type: 'detail/fetchMaybe',
-        payload: { type: prolabel }
-      })
-    }
-  }
   shouldComponentUpdate() {
     const { current = {}, must = [] } = this.props
     if (!current.id || !must.length) return false

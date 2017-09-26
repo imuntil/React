@@ -94,6 +94,7 @@ function RouterConfig({ history, app }) {
         {
           path: 'cart',
           name: 'CartPage',
+          layout: 'NoBarLayout',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               cb(null, require('./routes/CartPage'))

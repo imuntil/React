@@ -47,19 +47,20 @@ export default {
       if (able) {
         yield call(delay, 100)
         const [i, j, k] = payload
-        yield put({
-          type: 'save',
-          payload: {
-            current: copy(store[i]),
-            must: [copy(store[j]), copy(store[k])]
-          }
-        })
+        yield [
+          put({
+            type: 'save',
+            payload: { current: copy(store[i]), must: [copy(store[j]), copy(store[k])] }
+          }),
+          put({
+            type: 'fetchMaybe',
+            payload: { type: store[i].prolabel }
+          })
+        ]
       } else {
         yield put({
           type: 'list-store/fillStore',
-          payload: {
-            ids: payload
-          }
+          payload: { ids: payload }
         })
       }
     },
@@ -67,19 +68,16 @@ export default {
       const store = yield select(state => state['list-store'])
       const [i, j, k] = ids
       const current = copy(store[i])
-      yield put({
-        type: 'save',
-        payload: {
-          current,
-          must: [copy(store[j]), copy(store[k])]
-        }
-      })
-      yield put({
-        type: 'fetchMaybe',
-        payload: {
-          type: current.prolabel
-        }
-      })
+      yield [
+        put({
+          type: 'save',
+          payload: { current, must: [copy(store[j]), copy(store[k])] }
+        }),
+        put({
+          type: 'fetchMaybe',
+          payload: { type: current.prolabel }
+        })
+      ]
     }
   },
   subscriptions: {}
