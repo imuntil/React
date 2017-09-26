@@ -33,8 +33,18 @@ class Detail extends React.Component {
       payload: [id, ...mustLikeIds]
     })
   }
+  componentWillReceiveProps(nextProps) {
+    const { prolabel: preLabel, dispatch } = this.props
+    const { prolabel } = nextProps
+    console.log(prolabel, preLabel);
+    if (prolabel && !preLabel) {
+      dispatch({
+        type: 'detail/fetchMaybe',
+        payload: { type: prolabel }
+      })
+    }
+  }
   shouldComponentUpdate() {
-    console.log('should');
     const { current = {}, must = [] } = this.props
     if (!current.id || !must.length) return false
     return true
@@ -139,13 +149,11 @@ class Detail extends React.Component {
 function mapStateToProps(state) {
   const { current, maybe, must } = state.detail
   const collection = state.collection
-  const store = state['list-store']
   const load = state.loading.models
   return {
     current,
     maybe,
     must,
-    store,
     loading: load.detail,
     likeLoading: load.collection,
     collection

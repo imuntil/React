@@ -57,6 +57,10 @@ export default {
         }
       })
       // 请求服务器获取新的数据
+      const store = yield select(state => state['list-store'])
+      if (_.isEmpty(store)) {
+        yield put({ type: 'list-store/fillStore', payload: {} })
+      }
       const { data } = yield call(api.fetchFilerPros, { ...params })
       const { resultcode, result: res } = data
       if (+resultcode !== 1) {

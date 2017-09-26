@@ -40,7 +40,8 @@ export default {
         })
       }
     },
-    *fetchDetail({ payload }, { put, select, call }) {
+    *fetchDetail({ payload }, { put, select, call, ...rest }) {
+      console.log(rest);
       const store = yield select(state => state['list-store'])
       const able = payload.every(item => store[item])
       if (able) {

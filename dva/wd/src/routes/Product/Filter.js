@@ -162,7 +162,10 @@ function mapStateToProps(state) {
   //   sectionIDs: [...sectionIDs],
   //   rowIDs: [...rowIDs]
   // }
-  return { page, cls, hasMore, store, fetching, loading: state.loading.models['product-filter'] };
+  return {
+    page, cls, hasMore, store, fetching,
+    loading: state.loading.models['product-filter'] || state.loading.models['list-store']
+  };
 }
 
 export default connect(mapStateToProps)(Filter)
