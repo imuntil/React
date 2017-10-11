@@ -13,7 +13,9 @@
   padding: 20px;
   box-sizing: border-box;
   /*border-top: 2px solid #d8d8d8;*/
-  box-shadow: 0 -1px 8px #b2b2b2;}
+  box-shadow: 0 -1px 8px #e6e6e6;
+  background-color: #fff;
+}
 .lg {
   flex: 0 1 auto;
   height: 100%;
