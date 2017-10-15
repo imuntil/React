@@ -32,23 +32,34 @@ function EmptyCart() {
   )
 }
 
-function CartPage() {
-  return (
-    <div className={styles.normal}>
-      <div className={styles.body}>
-        <div className={styles.main_box}>
-          <EmptyCart />
+class CartPage extends React.Component {
+  componentWillMount() {
+    // const { dispatch } = this.props
+    // dispatch({ type: 'cart/fetchCart' })
+    // dispatch({ type: 'cart/changeMaybe', payload: { type: 1 } })
+  }
+  render() {
+    return (
+      <div className={styles.normal}>
+        <div className={styles.body}>
+          <div className={styles.main_box}>
+            <EmptyCart />
+          </div>
+          <WhiteSpace />
+          <Like title="猜你喜欢" data={[]} />
         </div>
-        <WhiteSpace />
-        <Like title="猜你喜欢" data={[]} />
+        <CartBar />
       </div>
-      <CartBar />
-    </div>
-  );
+    );
+  }
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const { store: cart, maybe } = state.cart
+  const store = state['list-store']
+  return {
+    cart, store, maybe
+  };
 }
 
 export default connect(mapStateToProps)(CartPage);

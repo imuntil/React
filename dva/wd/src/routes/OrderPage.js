@@ -82,8 +82,16 @@ function mapStateToProps(state) {
   const { all, toPay, toReceive, list } = state['order-store']
   const loading = state.loading.models['order-store']
   const co = state.co
-  return { all, toReceive, toPay, loading,
-    list, cls: co.cls, page: co.page, hasMore: co.hasMore  };
+  return {
+    all,
+    toReceive,
+    toPay,
+    loading,
+    list,
+    cls: co.cls,
+    page: co.page,
+    hasMore: co.hasMore
+  };
 }
 
 export default connect(mapStateToProps)(OrderPage);

@@ -21,7 +21,7 @@ export default {
     }
   },
   effects: {
-    *fetchMaybe({ payload: { type } }, { call, put, select }) {
+    *fetchMaybe({ payload: { type } }, { call, put }) {
       const { data } = yield call(api.fetchMaybe, { type })
       const { resultcode, result: res } = data
       if (+resultcode !== 1) {
@@ -40,8 +40,7 @@ export default {
         })
       }
     },
-    *fetchDetail({ payload }, { put, select, call, ...rest }) {
-      console.log(rest);
+    *fetchDetail({ payload }, { put, select, call }) {
       const store = yield select(state => state['list-store'])
       const able = payload.every(item => store[item])
       if (able) {

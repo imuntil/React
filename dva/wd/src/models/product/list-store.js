@@ -40,7 +40,6 @@ export default {
             }
           })
         } else if (all) {
-          console.log('xxxx');
           yield put({
             type: 'product-all/setStateData',
             payload: {

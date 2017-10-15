@@ -97,6 +97,10 @@ function RouterConfig({ history, app }) {
           layout: 'NoBarLayout',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
+              document.title = '购物车'
+              registerModel(app, require('./models/user/userinfo'))
+              registerModel(app, require('./models/product/list-store'))
+              registerModel(app, require('./models/cart/cart'))
               cb(null, require('./routes/CartPage'))
             })
           }
