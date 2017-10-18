@@ -33,7 +33,7 @@ class MyCollection extends React.Component {
             : (
               <QueueAnim className={styles.normal} component="div" type={['right', 'scaleY']}>
                 {
-                  collections.map((item, i) => (
+                  collections.map((item) => (
                     <SwipeAction
                       key={item}
                       autoClose

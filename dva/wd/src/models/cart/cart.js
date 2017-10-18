@@ -51,7 +51,7 @@ export default {
   effects: {
     *changeMaybe({ payload }, { call, put, select }) {
       const type = payload.type
-      const ot = yield select(state => state.maybe.type)
+      const ot = yield select(state => state.cart.maybe.type)
       if (type === ot) return false
       const { data: { result, resultcode }, err } = yield call(fetchMaybe, { type })
       if (err || +resultcode !== 1) {
@@ -62,6 +62,7 @@ export default {
       yield put({ type: 'updateMaybe', payload: { type, ids } })
     },
     *fetchCart({ payload }, { call, put, select }) {
+      console.log(1);
       const { expired } = yield select(state => state.cart)
       if (!expired) return false
       const { usersid } = yield select(state => state['user-info'])
@@ -82,11 +83,14 @@ export default {
         yield put({ type: 'save' })
         return false
       }
+      console.log(2);
       const store = result.map(item => _.pick(item, ['id', 'cid', 'pronum', 'prolabel']))
+      console.log(store)
       yield [
-        yield put({ type: 'save', payload: { store } }),
-        yield put({ type: 'changeMaybe', payload: { type: store[0].prolabel } })
+        put({ type: 'save', payload: { store } }),
+        put({ type: 'changeMaybe', payload: { type: store[0].prolabel } })
       ]
+      console.log(3);
     }
   },
   subscriptions: {
