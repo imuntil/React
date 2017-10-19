@@ -13,19 +13,22 @@ import { mustLikeIds } from '../../constant'
  *    只修改expired，其他数据不变。当进入cart page时，统一从服务器拉取新数据
  *  针对b-2：
  *    因为没有cart 数据，所以什么都不做。 待进入cart page时，统一从服务器拉取全部数据
+ *
+ *  同时，b情况下，为保证chosen不被重置，所以讲chosen单独提出, chooseStatus
  */
 
 export default {
   namespace: 'cart',
   state: {
     store: [
-    //  {id, cid, quantity}
+    //  {id, cid, pronum, prolabel}
     ],
     expired: true,
     maybe: {
       type: null,
       ids: [...mustLikeIds]
-    }
+    },
+    chooseStatus: {}
   },
   reducers: {
     save(state, action) {

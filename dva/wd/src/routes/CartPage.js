@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import { WhiteSpace } from 'antd-mobile'
+import { WhiteSpace, SwipeAction } from 'antd-mobile'
+import _ from 'lodash'
 import Like from '../components/Like/Like.js'
 import styles from './CartPage.css';
-import cart from "../models/cart/cart";
+import { IMGURL } from '../constant'
 
 function CartBar({ chosenALL }) {
   return (
@@ -32,60 +33,71 @@ function EmptyCart() {
     </div>
   )
 }
-function ShoppingCart({ chosen }) {
+function ShoppingCart({ list, store, chosen }) {
   return (
     <div className={styles.shopping_cart}>
-      <div className={styles.cart_group}>
-        <div className={styles.inner_group}>
-          <ul className={styles.list_horizontal}>
-            <li className={styles.choose}>
-              <a href="javascript:;">
-                {
-                  chosen
-                    ? <img src={require('../assets/ig-dir/chosen.png')} alt="" />
-                    : <img src={require('../assets/ig-dir/not-choose.png')} alt="" />
-                }
-              </a>
-            </li>
-            <li className={styles.img}>
-              <img src={require('../assets/ig-dir/asserts/campari-thumb-7.jpg')} alt="" />
-            </li>
-            <li className={styles.infos}>
-              <p>Wild Turkey Real Kentucky Straight Bourbon Whiskey</p>
-              <p>威凤凰波本威士忌</p>
-              <p>750ml</p>
-              <p className={styles.group_add_sub}>
-                <a href="javascript:;">-</a>
-                <span>1</span>
-                <a href="javascript:;">+</a>
-              </p>
-            </li>
-            <li className={styles.price}>
-              <span>￥198.00</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      {
+        list.map(({ id, pronum }) => (
+          <SwipeAction
+            autoClose className={styles.cart_group}
+            key={id}
+            right={[
+              {
+                text: '删除',
+                onPress: () => console.log('press'),
+                style: { backgroundColor: '#e4150e', color: '#fff', fontSize: '28px' }
+              }
+            ]}
+          >
+            <div className={styles.inner_group}>
+              <ul className={styles.list_horizontal}>
+                <li className={styles.choose}>
+                  <a href="javascript:;">
+                    {
+                      chosen
+                        ? <img src={require('../assets/ig-dir/chosen.png')} alt="" />
+                        : <img src={require('../assets/ig-dir/not-choose.png')} alt="" />
+                    }
+                  </a>
+                </li>
+                <li className={styles.img}>
+                  <img src={IMGURL + store[id].image1} alt="" />
+                </li>
+                <li className={styles.infos}>
+                  <p>{store[id].englishname}</p>
+                  <p>{store[id].proname}</p>
+                  <p>{store[id].procontent}ml</p>
+                  <div>
+                    <p className={styles.group_add_sub}>
+                      <a href="javascript:;">-</a>
+                      <span>{pronum}</span>
+                      <a href="javascript:;">+</a>
+                    </p>
+                  </div>
+                </li>
+                <li className={styles.price}>
+                  <span>￥{store[id].proprice}</span>
+                </li>
+              </ul>
+            </div>
+          </SwipeAction>
+        ))
+      }
     </div>
   )
 }
 
 class CartPage extends React.Component {
-  componentWillMount() {
-    // const { dispatch } = this.props
-    // dispatch({ type: 'cart/fetchCart' })
-    // dispatch({ type: 'cart/changeMaybe', payload: { type: 1 } })
-  }
   render() {
-    const { cart } = this.props
+    const { list, store } = this.props
     return (
       <div className={styles.normal}>
         <div className={styles.body}>
           <div className={styles.main_box}>
             {
-              !cart.length
+              !list.length || _.isEmpty(store)
                 ? <EmptyCart />
-                : <ShoppingCart />
+                : <ShoppingCart list={list} store={store} />
             }
           </div>
           <WhiteSpace />
@@ -98,10 +110,10 @@ class CartPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { store: cart, maybe } = state.cart
+  const { store: list, maybe } = state.cart
   const store = state['list-store']
   return {
-    cart, store, maybe
+    list, store, maybe
   };
 }
 
