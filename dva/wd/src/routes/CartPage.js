@@ -34,11 +34,11 @@ function EmptyCart() {
 }
 function ShoppingCart({ chosen }) {
   return (
-    <div className="shopping_cart">
-      <div className="cart_group">
-        <div className="inner-group">
-          <ul className="list list-horizontal">
-            <li className="choose">
+    <div className={styles.shopping_cart}>
+      <div className={styles.cart_group}>
+        <div className={styles.inner_group}>
+          <ul className={styles.list_horizontal}>
+            <li className={styles.choose}>
               <a href="javascript:;">
                 {
                   chosen
@@ -47,20 +47,20 @@ function ShoppingCart({ chosen }) {
                 }
               </a>
             </li>
-            <li className="img">
+            <li className={styles.img}>
               <img src={require('../assets/ig-dir/asserts/campari-thumb-7.jpg')} alt="" />
             </li>
-            <li className="infos">
+            <li className={styles.infos}>
               <p>Wild Turkey Real Kentucky Straight Bourbon Whiskey</p>
               <p>威凤凰波本威士忌</p>
               <p>750ml</p>
-              <p className="group_add_sub">
+              <p className={styles.group_add_sub}>
                 <a href="javascript:;">-</a>
                 <span>1</span>
                 <a href="javascript:;">+</a>
               </p>
             </li>
-            <li className="price">
+            <li className={styles.price}>
               <span>￥198.00</span>
             </li>
           </ul>
@@ -77,13 +77,13 @@ class CartPage extends React.Component {
     // dispatch({ type: 'cart/changeMaybe', payload: { type: 1 } })
   }
   render() {
-    const { store } = this.props
+    const { cart } = this.props
     return (
       <div className={styles.normal}>
         <div className={styles.body}>
           <div className={styles.main_box}>
             {
-              !store.length
+              !cart.length
                 ? <EmptyCart />
                 : <ShoppingCart />
             }

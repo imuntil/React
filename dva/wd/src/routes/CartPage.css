@@ -72,3 +72,45 @@
 .main_box {
   border-bottom: 2px solid #d8d8d8;
 }
+
+.shopping_cart {
+  width: 100%;
+  position: relative;
+  background-color: #f6f6f6;
+}
+.cart_group {
+  position: relative;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+}
+.inner_group {
+  padding: 24px;
+  border-bottom: 1px solid #d8d8d8;
+}
+.list_horizontal {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.list_horizontal > * {
+  padding: 0;
+  margin: 0;
+}
+.list_horizontal .choose {
+  flex: 0 1 5%;
+}
+.list_horizontal .img {
+  flex: 0 1 30%;
+}
+.list_horizontal .infos {
+  flex: 0 1 50%;
+}
+.list_horizontal .price {
+  flex: 0 1 15%;
+}
+.img img {
+  width: 100%;
+  height: auto;
+}
