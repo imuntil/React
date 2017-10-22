@@ -15,5 +15,5 @@ export function deleteProFromCart({ cid }) {
 }
 // 添加商品到购物车
 export function addProToCart({ userid, id, pronum }) {
-  return request((`${BASEURL}insertShoppingCartSct.action?userid=${userid}&id=${id}&pronum=${pronum}`))
+  return request((`${BASEURL}insertShoppingCartSct.action?flag=1&userid=${userid}&id=${id}&pronum=${pronum}`))
 }

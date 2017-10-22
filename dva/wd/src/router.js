@@ -60,13 +60,14 @@ function RouterConfig({ history, app }) {
               registerModel(app, require('./models/product/filter'))
               registerModel(app, require('./models/lvStatus'))
               registerModel(app, require('./models/product/filter-params'))
+              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/Product/Filter'))
             })
           }
         },
         {
           path: 'product/:id',
-          layout: 'BuyBarLayout',
+          layout: 'NoBarLayout',
           name: 'ProductDetail',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
@@ -75,6 +76,7 @@ function RouterConfig({ history, app }) {
               registerModel(app, require('./models/product/detail'))
               registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/collection'))
+              registerModel(app, require('./models/cart/cart'))
               cb(null, require('./routes/Product/Detail'))
             })
           }

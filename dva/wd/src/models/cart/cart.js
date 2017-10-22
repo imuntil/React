@@ -1,7 +1,9 @@
 import _ from 'lodash'
-import { fetchCart } from "../../services/cart";
+import { schema, normalize } from 'normalizr'
+import { fetchCart, deleteProFromCart, updateCount, addProToCart } from "../../services/cart";
 import { fetchMaybe } from "../../services/product";
 import { mustLikeIds } from '../../constant'
+import { delay } from "../../services/tools-fun";
 
 /**
  *  两种情况
@@ -20,9 +22,10 @@ import { mustLikeIds } from '../../constant'
 export default {
   namespace: 'cart',
   state: {
-    store: [
-    //  {id, cid, pronum, prolabel}
-    ],
+    idList: [],
+    pros: {
+      //id: {id, cid, pronum, prolabel}
+    },
     expired: true,
     maybe: {
       type: null,
@@ -49,6 +52,58 @@ export default {
           ids: [...new Set(ids)]
         }
       }
+    },
+    delPro(state, action) {
+      const { index, id } = action.payload
+      const { idList, pros, chooseStatus } = state
+      const ni = [...idList]
+      ni.splice(index, 1)
+      const np = { ...pros }
+      delete np[id]
+      const nc = { ...chooseStatus }
+      delete nc[id]
+      return {
+        ...state,
+        idList: ni,
+        pros: np,
+        chooseStatus: nc
+      }
+    },
+    updateProNum(state, action) {
+      return {
+        ...state,
+        pros: action.payload.np
+      }
+    },
+    toggleChoose(state, action) {
+      const { id } = action.payload
+      const { chooseStatus } = state
+      const status = chooseStatus[id]
+      return {
+        ...state,
+        chooseStatus: {
+          ...chooseStatus,
+          [id]: !status
+        }
+      }
+    },
+    toggleAllChoose(state, action) {
+      const { all } = action.payload
+      const { idList, chooseStatus } = state
+      const copyCS = { ...chooseStatus }
+      idList.forEach(id => {
+        copyCS[id] = !all
+      })
+      return {
+        ...state,
+        chooseStatus: copyCS
+      }
+    },
+    makeExpire(state, action) {
+      return {
+        ...state,
+        expired: true
+      }
     }
   },
   effects: {
@@ -65,7 +120,6 @@ export default {
       yield put({ type: 'updateMaybe', payload: { type, ids } })
     },
     *fetchCart({ payload }, { call, put, select }) {
-      console.log(1);
       const { expired } = yield select(state => state.cart)
       if (!expired) return false
       const { usersid } = yield select(state => state['user-info'])
@@ -86,14 +140,72 @@ export default {
         yield put({ type: 'save' })
         return false
       }
-      console.log(2);
-      const store = result.map(item => _.pick(item, ['id', 'cid', 'pronum', 'prolabel']))
-      console.log(store)
+      const chooseStatus = {}
+      const store = result.map(item => {
+        chooseStatus[item.id] = false
+        return _.pick(item, ['id', 'cid', 'pronum', 'prolabel'])
+      })
+      const ps = new schema.Entity('pros')
+      const prosSchema = [ps]
+      const { result: idList, entities: { pros } } = normalize(store, prosSchema)
       yield [
-        put({ type: 'save', payload: { store } }),
+        put({ type: 'save', payload: { idList, pros, chooseStatus } }),
         put({ type: 'changeMaybe', payload: { type: store[0].prolabel } })
       ]
-      console.log(3);
+    },
+    *deleteProFromCart({ payload }, { call, put, select }) {
+      const { cid, id } = payload
+      const { pros, idList } = yield select(state => state.cart)
+      if (!pros[id]) return false
+      const { err, data } = yield call(deleteProFromCart, { cid })
+      if (err || (+data.resultcode !== 1)) {
+        yield put({
+          type: 'error/dataOperationError',
+          payload: { msg: '删除商品失败', code: data.resultcode || -10 }
+        })
+        return false
+      }
+      const index = idList.indexOf(id)
+      yield put({ type: 'delPro', payload: { index, id } })
+    },
+    *modifyProsNum({ payload }, { put, select }) {
+      const { id, add } = payload
+      const { pros } = yield select(state => state.cart)
+      if (!pros[id]) return false
+      // api here
+      const pro = pros[id]
+      let { pronum } = pro
+      pronum = parseInt(pronum, 10)
+      if (add) {
+        pronum += 1
+      } else if (pronum > 1) {
+        pronum -= 1
+      }
+      const np = { ...pros, [id]: { ...pro, pronum } }
+      yield put({ type: 'updateProNum', payload: { np } })
+      yield put({ type: 'updateProNumToServer', payload: { pronum, cid: pros[id].cid } })
+    },
+    updateProNumToServer: [
+      function* ({ payload }, { call }) {
+        yield call(delay, 500)
+        yield call(updateCount, payload)
+        yield call(delay, 500)
+      },
+      { type: 'takeLatest' }
+    ],
+    *addProToCart({ payload }, { call, put, select }) {
+      const { id } = payload
+      const { usersid: userid } = yield select(state => state['user-info'])
+      const { data = {}, err } =
+        yield call(addProToCart, { id, userid, pronum: 1 })
+      if (err || +data.resultcode !== 1) {
+        yield put({
+          type: 'error/dataOperationError',
+          payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+        })
+        return false
+      }
+      yield put({ type: 'makeExpire' })
     }
   },
   subscriptions: {

@@ -3,7 +3,7 @@ import { Link } from 'dva/router'
 import styles from './Item.css';
 import { IMGURL } from '../constant'
 
-function Item({ data, style = {} }) {
+function Item({ data, style = {}, onAddToCart }) {
   return (
     <div className={styles.normal} style={style}>
       <Link to={`/product/${data.id}`} className={styles.img_box}>
@@ -19,7 +19,7 @@ function Item({ data, style = {} }) {
           </p>
         </div>
         <div className={styles.bottom_part}>
-          <a href="javascript:;">加入购物车</a>
+          <a href="javascript:;" onClick={onAddToCart.bind(null, data.id)}>加入购物车</a>
           <a href="javascript:;">立即购买</a>
         </div>
       </div>

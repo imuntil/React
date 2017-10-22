@@ -110,13 +110,17 @@ class ProListView extends React.Component {
   render() {
     console.log('render');
     const { lists, PER_PAGE = 10, RowComponent = Card,
-      BodyComponent = MyBody, store, fetching, hasMore } = this.props
+      BodyComponent = MyBody, store, fetching, hasMore, handleAddToCart, handleBuyNow } = this.props
     const row = (rowDta, sectionId, rowID) => {
       const pro = lists[index]
       index += 1
       if (!pro) return null
       return (
-        <RowComponent key={rowID} customStyle={{ marginTop: '.25rem' }} data={store[pro]} />
+        <RowComponent
+          key={rowID}
+          onAddToCart={handleAddToCart} onBuyNow={handleBuyNow}
+          customStyle={{ marginTop: '.25rem' }} data={store[pro]}
+        />
       )
     }
     return (
@@ -168,7 +172,9 @@ ProListView.PropTypes = {
   replace: PropTypes.bool,
   fetching: PropTypes.bool,
   onLoadMore: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func
+  onUpdate: PropTypes.func,
+  handleAddToCart: PropTypes.func,
+  handleBuyNow: PropTypes.func
 }
 
 export default ProListView;

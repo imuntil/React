@@ -1,12 +1,12 @@
 import React from 'react';
-import _ from 'lodash'
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
-import { WhiteSpace as WS, Icon } from 'antd-mobile'
+import { WhiteSpace as WS, Icon, Toast } from 'antd-mobile'
 import { IMGURL, mustLikeIds, types } from '../../constant'
 import Loading from '../../components/Loading.js'
 import Like from '../../components/Like/Like.js'
 import styles from './Detail.css';
+import { addProToCart } from "../../services/cart";
 
 function LikeLoading({ like, loading }) {
   return (
@@ -17,6 +17,14 @@ function LikeLoading({ like, loading }) {
         ? <img src={require('../../assets/ig-dir/like.png')} alt="" />
         : <img src={require('../../assets/ig-dir/not-like.png')} alt="" />
     )
+  )
+}
+function Tabbar({ onAddToCart }) {
+  return (
+    <div className={styles.tabbar}>
+      <a className={styles.cart} href="javascript:;" onClick={onAddToCart}>加入购物车</a>
+      <a className={styles.buy} href="javascript:;">立即购买</a>
+    </div>
   )
 }
 class Detail extends React.Component {
@@ -48,13 +56,30 @@ class Detail extends React.Component {
     const { params: { id }, dispatch } = this.props
     dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus } })
   }
+  handleAddToCart = async () => {
+    const { params: { id }, dispatch, user } = this.props
+    if (!user.usersid) {
+      // 未登录状况
+      return false
+    }
+    const { data = {}, err } = await addProToCart({ userid: user.usersid, id, pronum: 1 })
+    if (err || (+data.resultcode !== 1 && +data.resultcode !== 0)) {
+      dispatch({
+        type: 'error/dataOperationError',
+        payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+      })
+      return false
+    }
+    dispatch({ type: 'makeExpire' })
+    Toast.success('已加入购物车', 1)
+  }
   render() {
     const { current: data, loading,
       likeLoading, must, maybe, collection, params: { id } } = this.props
     const { more } = this.state
     const like = collection.indexOf(+id) > -1
     return (
-      <div style={{ width: '100%', height: '100%', display: 'block' }}>
+      <div className={styles.body}>
         {
           loading || !data || !data.id
             ? <Loading />
@@ -130,6 +155,7 @@ class Detail extends React.Component {
               </div>
             )
         }
+        <Tabbar onAddToCart={this.handleAddToCart} />
       </div>
     );
   }
@@ -139,13 +165,15 @@ function mapStateToProps(state) {
   const { current, maybe, must } = state.detail
   const collection = state.collection
   const load = state.loading.models
+  const user = state['user-info']
   return {
     current,
     maybe,
     must,
     loading: load.detail,
     likeLoading: load.collection,
-    collection
+    collection,
+    user
   };
 }
 

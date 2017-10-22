@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
 import _ from 'lodash'
+import { Toast } from 'antd-mobile'
 import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayerF } from "../../components/Product/CategoryLayer.js";
 import { SortLayerF } from "../../components/Product/SortLayer.js";
 import Item from '../../components/Item.js'
 import Loading from '../../components/Loading.js'
+import { addProToCart } from "../../services/cart";
 import styles from './Filter.css'
 
 function Body({ children }) {
@@ -79,7 +81,27 @@ class Filter extends React.Component {
       payload: { params: this.nfp }
     })
   }
-
+  handleAddToCart = async (id) => {
+    const { user, dispatch } = this.props
+    const userid = user && user.usersid
+    if (!userid) {
+      // 未登录处理
+      return false
+    }
+    const { data = {}, err } = await addProToCart({ userid, id, pronum: 1 })
+    if (err || (+data.resultcode !== 1 && +data.resultcode !== 0)) {
+      dispatch({
+        type: 'error/dataOperationError',
+        payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+      })
+      return false
+    }
+    dispatch({ type: 'makeExpire' })
+    Toast.success('已加入购物车', 1)
+  }
+  handleBuyNow = (id) => {
+    console.log(id);
+  }
   nfp = {}
   render() {
     const { cls, page, hasMore, dispatch, data, store, fetching, loading } = this.props
@@ -135,6 +157,8 @@ class Filter extends React.Component {
                   }
                 })
               }}
+              handleAddToCart={this.handleAddToCart}
+              handleBuyNow={this.handleBuyNow}
               // onUpdate={(dataBlob, sectionIDs, rowIDs) => {
               //   dispatch({
               //     type: `lvStatus/clearB`,
@@ -156,6 +180,7 @@ class Filter extends React.Component {
 function mapStateToProps(state) {
   const { page, cls, hasMore, fetching } = state[`product-filter`]
   const store = state['list-store']
+  const user = state['user-info']
   // const { dataBlob, sectionIDs, rowIDs } = state.lvStatus.b
   // const data = {
   //   dataBlob: { ...dataBlob },
@@ -163,7 +188,12 @@ function mapStateToProps(state) {
   //   rowIDs: [...rowIDs]
   // }
   return {
-    page, cls, hasMore, store, fetching,
+    page,
+    cls,
+    hasMore,
+    store,
+    fetching,
+    user,
     loading: state.loading.models['product-filter'] || state.loading.models['list-store']
   };
 }
