@@ -11,7 +11,7 @@ export function updateCount({ cid, pronum }) {
 }
 // 删除购物车中的商品
 export function deleteProFromCart({ cid }) {
-  return request(`${BASEURL}delShoppingCartSct.action?cid=${cid}`)
+  return request(`${BASEURL}delShoppingCartSct.action?flag=1&cid=${cid}`)
 }
 // 添加商品到购物车
 export function addProToCart({ userid, id, pronum }) {
