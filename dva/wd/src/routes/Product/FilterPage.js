@@ -10,7 +10,7 @@ import { SortLayerF } from "../../components/Product/SortLayer.js";
 import Item from '../../components/Item.js'
 import Loading from '../../components/Loading.js'
 import { addProToCart } from "../../services/cart";
-import styles from './Filter.css'
+import styles from './FilterPage.css'
 
 function Body({ children }) {
   return (
@@ -53,9 +53,11 @@ class Filter extends React.Component {
 
   handleClick = (type) => {
     const { cateLayerShow, sortLayerShow } = this.state
-    type === 'L'
-      ? (this.setState({ cateLayerShow: !cateLayerShow, sortLayerShow: false }))
-      : (this.setState({ sortLayerShow: !sortLayerShow, cateLayerShow: false }))
+    if (type === 'L') {
+      this.setState({ cateLayerShow: !cateLayerShow, sortLayerShow: false })
+    } else {
+      this.setState({ sortLayerShow: !sortLayerShow, cateLayerShow: false })
+    }
   }
   hideAll = () => {
     const { cateLayerShow, sortLayerShow } = this.state

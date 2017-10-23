@@ -1,22 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
-import styles from './All.css';
+import styles from './AllPage.css';
 import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayer } from '../../components/Product/CategoryLayer.js'
 import { SortLayer } from '../../components/Product/SortLayer.js'
 import Loading from '../../components/Loading.js'
-// import Card from '../../components/Card.js'
-//
-// function Row(props) {
-//   return <Card {...props} />
-// }
+
 
 class All extends React.Component {
   constructor(props) {
     super(props)
-    console.log('all-constructor');
     this.state = {
       cateLayerShow: false,
       sortLayerShow: false
@@ -24,9 +19,11 @@ class All extends React.Component {
   }
   handleClick = (type) => {
     const { cateLayerShow, sortLayerShow } = this.state
-    type === 'L'
-      ? (this.setState({ cateLayerShow: !cateLayerShow, sortLayerShow: false }))
-      : (this.setState({ sortLayerShow: !sortLayerShow, cateLayerShow: false }))
+    if (type === 'L') {
+      this.setState({ cateLayerShow: !cateLayerShow, sortLayerShow: false })
+    } else {
+      this.setState({ sortLayerShow: !sortLayerShow, cateLayerShow: false })
+    }
   }
   hideAll = () => {
     this.setState({

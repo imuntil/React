@@ -86,6 +86,7 @@ export const cocktails = [
 ]
 
 export const mustLikeIds = [102, 103]
+export const sellings = [112, 110]
 export const types = {
   1: '开胃酒&利口酒',
   2: '伏特加',
@@ -109,4 +110,31 @@ export const avatars = [
   require('./assets/ig-dir/avatar-7.jpg'),
   require('./assets/ig-dir/avatar-8.jpg'),
   require('./assets/ig-dir/avatar-9.jpg')
+]
+
+export const swipes = [
+  {
+    src: 'http://api.jtuntech.com/event/2017/wd/campari/img/swiper/s3.jpg',
+    en: 'SKYY Martini',
+    cn: '深蓝马天尼鸡尾酒套餐',
+    id: 161
+  },
+  {
+    src: 'http://api.jtuntech.com/event/2017/wd/campari/img/swiper/s4.jpg',
+    en: 'SKYY Pineapple Pleasure',
+    cn: '趣怪菠萝鸡尾酒套餐',
+    id: 160
+  },
+  {
+    src: 'http://api.jtuntech.com/event/2017/wd/campari/img/swiper/s2-2.jpg',
+    en: 'Aperol Spritz',
+    cn: '阿佩罗橙色气泡鸡尾酒套餐',
+    id: 163
+  },
+  {
+    src: 'http://api.jtuntech.com/event/2017/wd/campari/img/swiper/s2.jpg',
+    en: 'SKYY Mule',
+    cn: '蓝色骡子鸡尾酒套餐',
+    id: 162
+  }
 ]

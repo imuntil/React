@@ -45,34 +45,26 @@ export default {
   },
   effects: {
     *fetchFilter({ payload: { params, action } }, { call, put, select }) {
-      yield put({
-        type: 'toggleFetching',
-        payload: true
-      })
+      yield put({ type: 'toggleFetching', payload: true })
       // 更新filter-params
       yield put({
         type: 'filter-params/update',
-        payload: {
-          ...params
-        }
+        payload: { ...params }
       })
       // 请求服务器获取新的数据
       const store = yield select(state => state['list-store'])
       if (_.isEmpty(store)) {
-        yield put({ type: 'list-store/fillStore', payload: {} })
+        yield put({ type: 'list-store/fillStore' })
       }
-      const { data } = yield call(api.fetchFilerPros, { ...params })
+      const { err, data = {} } = yield call(api.fetchFilerPros, { ...params })
       const { resultcode, result: res } = data
-      if (+resultcode !== 1) {
+      if (err || +resultcode !== 1) {
         yield put({
           type: 'error/fetchDataError',
-          payload: {
-            msg: '获取列表失败'
-          }
+          payload: { msg: '获取数据失败', code: +resultcode || -100 }
         })
       } else {
-        const { idList, list } = normalizes(res)
-        // yield put({ type: 'list-store/add', payload: { ...list } })
+        const { idList } = normalizes(res)
         yield put({
           type: 'saveList',
           payload: {
@@ -83,22 +75,13 @@ export default {
             hasMore: true
           }
         })
-        yield put({
-          type: 'toggleFetching',
-          payload: false
-        })
+        yield put({ type: 'toggleFetching', payload: false })
       }
     },
     *forceRender(n, { call, put }) {
-      yield put({
-        type: 'toggleFetching',
-        payload: true
-      })
+      yield put({ type: 'toggleFetching', payload: true })
       yield call(delay, 100)
-      yield put({
-        type: 'toggleFetching',
-        payload: false
-      })
+      yield put({ type: 'toggleFetching', payload: false })
     }
   },
   subscriptions: {

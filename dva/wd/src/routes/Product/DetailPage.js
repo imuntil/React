@@ -5,7 +5,7 @@ import { WhiteSpace as WS, Icon, Toast } from 'antd-mobile'
 import { IMGURL, mustLikeIds, types } from '../../constant'
 import Loading from '../../components/Loading.js'
 import Like from '../../components/Like/Like.js'
-import styles from './Detail.css';
+import styles from './DetailPage.css';
 import { addProToCart } from "../../services/cart";
 
 function LikeLoading({ like, loading }) {
@@ -42,26 +42,23 @@ class Detail extends React.Component {
     })
   }
   shouldComponentUpdate() {
-    const { current = {}, must = [] } = this.props
-    if (!current.id || !must.length) return false
+    const { current, must = [] } = this.props
+    if (!current || !must.length) return false
     return true
   }
   handleClick = () => {
     const { more } = this.state
-    this.setState({
-      more: !more
-    })
+    this.setState({ more: !more })
   }
   handleCollectionClick = currentStatus => {
     const { params: { id }, dispatch } = this.props
+    const whether = this.whetherToLogin()
+    if (whether) return false
     dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus } })
   }
   handleAddToCart = async () => {
     const { params: { id }, dispatch, user } = this.props
-    if (!user.usersid) {
-      // 未登录状况
-      return false
-    }
+    if (this.whetherToLogin()) return false
     const { data = {}, err } = await addProToCart({ userid: user.usersid, id, pronum: 1 })
     if (err || (+data.resultcode !== 1 && +data.resultcode !== 0)) {
       dispatch({
@@ -73,15 +70,28 @@ class Detail extends React.Component {
     dispatch({ type: 'makeExpire' })
     Toast.success('已加入购物车', 1)
   }
+  whetherToLogin = () => {
+    const { dispatch, history, user, params: { id } } = this.props
+    if (!user.usersid) {
+      // 未登录状况
+      dispatch({ type: 'afterLogin/setNext', payload: `/product/detial/${id}` })
+      history.push('/user/login')
+      return true
+    }
+    return false
+  }
   render() {
-    const { current: data, loading,
+    const { current, loading, store,
       likeLoading, must, maybe, collection, params: { id } } = this.props
     const { more } = this.state
     const like = collection.indexOf(+id) > -1
+    const data = store[current]
+    const maybeData = maybe.map(i => store[i])
+    const mustData = must.map(i => store[i])
     return (
       <div className={styles.body}>
         {
-          loading || !data || !data.id
+          loading || !current
             ? <Loading />
             : (
               <div className={styles.normal}>
@@ -149,9 +159,9 @@ class Detail extends React.Component {
                   </div>
                 </div>
                 <WS />
-                <Like title={'猜你喜欢'} data={maybe} />
+                <Like title={'猜你喜欢'} data={maybeData} />
                 <WS />
-                <Like title={'一定喜欢'} data={must} />
+                <Like title={'一定喜欢'} data={mustData} />
               </div>
             )
         }
@@ -166,6 +176,7 @@ function mapStateToProps(state) {
   const collection = state.collection
   const load = state.loading.models
   const user = state['user-info']
+  const store = state['list-store']
   return {
     current,
     maybe,
@@ -173,7 +184,8 @@ function mapStateToProps(state) {
     loading: load.detail,
     likeLoading: load.collection,
     collection,
-    user
+    user,
+    store
   };
 }
 

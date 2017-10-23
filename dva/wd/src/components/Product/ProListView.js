@@ -34,7 +34,6 @@ class ProListView extends React.Component {
     this.sectionIDs = data.sectionIDs || []
     this.rowIDs = data.rowIDs || []
     this.genData = (pIndex = 0) => {
-      console.log('gen-data');
       const sectionName = `Section ${pIndex}`
       if (this.sectionIDs.includes(sectionName)) return
       this.sectionIDs.push(sectionName)
@@ -62,8 +61,6 @@ class ProListView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { page } = nextProps
-    console.log(page);
-    console.log(nextProps.fetching);
     if (page === null) return
     if (nextProps.fetching) {
       index = 0
@@ -79,8 +76,8 @@ class ProListView extends React.Component {
   }
 
   shouldComponentUpdate() {
-    const { replace, BodyComponent, store, fetching } = this.props
-    if (!replace || !BodyComponent || _.isEmpty(store) || fetching) return true
+    // const { replace, BodyComponent, store, fetching } = this.props
+    // if (!replace || !BodyComponent || _.isEmpty(store) || fetching) return false
     return true
   }
 
@@ -90,7 +87,6 @@ class ProListView extends React.Component {
   }
 
   onEndReached = () => {
-    console.log('reached');
     if (this.state.isLoading || !this.props.hasMore) {
       return
     }
@@ -101,14 +97,10 @@ class ProListView extends React.Component {
     }, 1000)
   }
 
-  onScroll = (e) => {
-    console.log(e.target.scrollTop);
-  }
-
   lv = null
 
   render() {
-    console.log('render');
+    console.log('------------------render')
     const { lists, PER_PAGE = 10, RowComponent = Card,
       BodyComponent = MyBody, store, fetching, hasMore, handleAddToCart, handleBuyNow } = this.props
     const row = (rowDta, sectionId, rowID) => {

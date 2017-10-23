@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import * as api from '../../services/product'
 import { delay } from '../../services/tools-fun'
 
@@ -8,7 +7,7 @@ function copy(obj) {
 export default {
   namespace: 'detail',
   state: {
-    current: {},
+    current: null,
     maybe: [],
     must: []
   },
@@ -22,22 +21,15 @@ export default {
   },
   effects: {
     *fetchMaybe({ payload: { type } }, { call, put }) {
-      const { data } = yield call(api.fetchMaybe, { type })
+      const { err, data = {} } = yield call(api.fetchMaybe, { type })
       const { resultcode, result: res } = data
-      if (+resultcode !== 1) {
+      if (err || +resultcode !== 1) {
         yield put({
           type: 'error/fetchDataError',
-          payload: {
-            msg: `获取'猜你喜欢'失败`
-          }
+          payload: { msg: `获取'猜你喜欢'失败`, code: +resultcode || -100 }
         })
       } else {
-        yield put({
-          type: 'save',
-          payload: {
-            maybe: res
-          }
-        })
+        yield put({ type: 'save', payload: { maybe: res.map(item => item.id) } })
       }
     },
     *fetchDetail({ payload }, { put, select, call }) {
@@ -49,7 +41,7 @@ export default {
         yield [
           put({
             type: 'save',
-            payload: { current: copy(store[i]), must: [copy(store[j]), copy(store[k])] }
+            payload: { current: i, must: [j, k] }
           }),
           put({
             type: 'fetchMaybe',
@@ -70,7 +62,7 @@ export default {
       yield [
         put({
           type: 'save',
-          payload: { current, must: [copy(store[j]), copy(store[k])] }
+          payload: { current: i, must: [j, k] }
         }),
         put({
           type: 'fetchMaybe',

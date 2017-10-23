@@ -1,7 +1,6 @@
-// import _ from 'lodash'
-import * as api from '../../services/product'
+import _ from 'lodash'
 import { ALL_PRO_PER_PAGE } from '../../constant'
-import { normalizes } from '../../services/tools-fun'
+import { delay } from '../../services/tools-fun'
 
 export default {
   namespace: 'product-all',
@@ -33,16 +32,18 @@ export default {
   },
   effects: {
     *fetchAll({ payload }, { put, select }) {
+      const store = yield select(state => state['list-store'])
+      if (_.isEmpty(store)) {
+        yield put({ type: 'list-store/fillStore', payload: { all: true } })
+        return false
+      }
       const lists = yield select(state => state['product-all'].idList)
       if (lists && lists.length) return true
-      yield put({
-        type: 'list-store/fillStore',
-        payload: {
-          all: true
-        }
-      })
+      const keys = Object.keys(store)
+      yield put({ type: 'setStateData', payload: { idList: keys } })
     },
-    *setStateData({ payload: { idList } }, { put }) {
+    *setStateData({ payload: { idList } }, { put, call }) {
+      yield call(delay, 50)
       yield put({
         type: 'saveList',
         payload: {

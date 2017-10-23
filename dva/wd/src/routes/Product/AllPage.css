@@ -9,6 +9,7 @@
   display: block;
   flex: auto;
   position: relative;
+  background-color: #ffffff;
 }
 .layer {
   position: absolute;

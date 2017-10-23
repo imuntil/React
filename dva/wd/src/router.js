@@ -32,6 +32,7 @@ function RouterConfig({ history, app }) {
           getIndexRoute(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '首页精选'
+              registerModel(app, require('./models/product/list-store'))
               cb(null, { component: require('./routes/HomePage') })
             })
           }
@@ -44,9 +45,9 @@ function RouterConfig({ history, app }) {
               document.title = '全部商品'
               registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/product/all'))
-              registerModel(app, require('./models/lvStatus'))
+              registerModel(app, require('./models/lv-status'))
               registerModel(app, require('./models/product/filter-params'))
-              cb(null, require('./routes/Product/All'))
+              cb(null, require('./routes/Product/AllPage'))
             })
           }
         },
@@ -58,10 +59,10 @@ function RouterConfig({ history, app }) {
               document.title = '全部商品'
               registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/product/filter'))
-              registerModel(app, require('./models/lvStatus'))
+              registerModel(app, require('./models/lv-status'))
               registerModel(app, require('./models/product/filter-params'))
               registerModel(app, require('./models/user/userinfo'))
-              cb(null, require('./routes/Product/Filter'))
+              cb(null, require('./routes/Product/FilterPage'))
             })
           }
         },
@@ -77,7 +78,7 @@ function RouterConfig({ history, app }) {
               registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/collection'))
               registerModel(app, require('./models/cart/cart'))
-              cb(null, require('./routes/Product/Detail'))
+              cb(null, require('./routes/Product/DetailPage'))
             })
           }
         },
@@ -88,7 +89,7 @@ function RouterConfig({ history, app }) {
             require.ensure([], (require) => {
               document.title = '经典鸡尾酒'
               registerModel(app, require('./models/cocktail'))
-              registerModel(app, require('./models/lvStatus'))
+              registerModel(app, require('./models/lv-status'))
               cb(null, require('./routes/CocktailPage'))
             })
           }

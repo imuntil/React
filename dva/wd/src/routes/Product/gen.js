@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash'
 import { connect } from 'dva';
 import QueueAnim from 'rc-queue-anim'
-import styles from './All.css';
+import styles from './AllPage.css';
 import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayer, CategoryLayerF } from '../../components/Product/CategoryLayer.js'
