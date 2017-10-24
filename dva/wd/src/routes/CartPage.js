@@ -105,11 +105,6 @@ class CartPage extends React.Component {
     const { dispatch } = this.props
     dispatch({ type: 'cart/toggleAllChoose', payload: { all } })
   }
-  // shouldComponentUpdate() {
-  //   const { store } = this.props
-  //   if (_.isEmpty(store)) return false
-  //   return true
-  // }
   render() {
     const { idList, pros, store, chooseStatus, maybe } = this.props
     if (_.isEmpty(store)) return false

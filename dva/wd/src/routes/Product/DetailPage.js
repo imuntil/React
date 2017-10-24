@@ -7,6 +7,7 @@ import Loading from '../../components/Loading.js'
 import Like from '../../components/Like/Like.js'
 import styles from './DetailPage.css';
 import { addProToCart } from "../../services/cart";
+import { afterLogin } from "../../services/bus";
 
 function LikeLoading({ like, loading }) {
   return (
@@ -71,10 +72,11 @@ class Detail extends React.Component {
     Toast.success('已加入购物车', 1)
   }
   whetherToLogin = () => {
-    const { dispatch, history, user, params: { id } } = this.props
+    const { history, user, params: { id } } = this.props
     if (!user.usersid) {
       // 未登录状况
-      dispatch({ type: 'afterLogin/setNext', payload: `/product/detial/${id}` })
+      // dispatch({ type: 'afterLogin/setNext', payload: `/product/detial/${id}` })
+      afterLogin.path = `/product/detail/${id}`
       history.push('/user/login')
       return true
     }
@@ -96,7 +98,7 @@ class Detail extends React.Component {
             : (
               <div className={styles.normal}>
                 <div className="section" style={{ paddingTop: 0 }}>
-                  <img src={IMGURL + data.image1} alt="" />
+                  <img src={IMGURL + data.image1} alt="" width="100%" />
                   <WS />
                   <div className={styles.info}>
                     <div className={styles.name}>

@@ -6,6 +6,7 @@ import { login } from '../../services/user'
 import ZInput from '../../components/Form/ZInput.js'
 import { delay } from '../../services/tools-fun'
 import styles from './LoginPage.css';
+import { afterLogin } from "../../services/bus";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class LoginPage extends React.Component {
             payload: res
           })
           await delay(800)
-          this.props.history.replace('/user')
+          this.props.history.replace(afterLogin.path || '/user')
         }
       }
     }

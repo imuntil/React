@@ -1,9 +1,8 @@
 import React from 'react';
 import { Router } from 'dva/router';
-
-import ModifyPage from "./routes/User/ModifyPage.js";
-
-import Order from "./routes/OrderPage.js";
+import { zStorage } from "./services/ct";
+import { USER_INFO_KEY } from "./constant";
+import { afterLogin } from "./services/bus";
 
 /* eslint-disable no-undef */
 const cached = {}
@@ -11,6 +10,17 @@ function registerModel(app, model) {
   if (!cached[model.namespace]) {
     app.model(model)
     cached[model.namespace] = 1
+  }
+}
+
+function checkStatus(nextState, replace, next) {
+  const user = zStorage.getValue(USER_INFO_KEY)
+  if (user && !!user.phone) {
+    next()
+  } else {
+    afterLogin.path = nextState.location.pathname
+    replace('/user/login')
+    next()
   }
 }
 
@@ -61,7 +71,6 @@ function RouterConfig({ history, app }) {
               registerModel(app, require('./models/product/filter'))
               registerModel(app, require('./models/lv-status'))
               registerModel(app, require('./models/product/filter-params'))
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/Product/FilterPage'))
             })
           }
@@ -73,7 +82,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '详情'
-              registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/product/detail'))
               registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/collection'))
@@ -101,21 +109,21 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '购物车'
-              registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/product/list-store'))
               registerModel(app, require('./models/cart/cart'))
               cb(null, require('./routes/CartPage'))
             })
-          }
+          },
+          onEnter: checkStatus
         },
         {
           path: 'user',
           name: 'UserIndexPage',
           layout: 'NoBarLayout',
+          onEnter: checkStatus,
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '我的'
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/IndexPage'))
             })
           }
@@ -127,7 +135,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
               document.title = '登录'
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/LoginPage'))
             })
           }
@@ -161,7 +168,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '账户安全'
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/SafePage'))
             })
           }
@@ -173,7 +179,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '修改密码'
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/ModifyPage'))
             })
           }
@@ -185,7 +190,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '修改昵称'
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/ModifyNick'))
             })
           }
@@ -197,7 +201,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '修改头像'
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/User/ModifyAvatar'))
             })
           }
@@ -209,7 +212,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '我的收藏'
-              registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/collection'))
               registerModel(app, require('./models/product/list-store'))
               cb(null, require('./routes/User/MyCollection'))
@@ -223,7 +225,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '地址列表'
-              registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/user/adr'))
               cb(null, require('./routes/Address/AdrListPage'))
             })
@@ -237,7 +238,6 @@ function RouterConfig({ history, app }) {
             require.ensure([], require => {
               document.title = '编辑地址'
               registerModel(app, require('./models/user/adr'))
-              registerModel(app, require('./models/user/userinfo'))
               cb(null, require('./routes/Address/AdrEditPage'))
             })
           }
@@ -249,7 +249,6 @@ function RouterConfig({ history, app }) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               document.title = '我的订单'
-              registerModel(app, require('./models/user/userinfo'))
               registerModel(app, require('./models/order/order-store'))
               registerModel(app, require('./models/order/current-orders'))
               cb(null, require('./routes/OrderPage.js'))

@@ -7,7 +7,11 @@ import styles from './SafePage.css';
 
 const { Item } = List
 
-function SafePage({ history, user }) {
+function SafePage({ history, user, dispatch }) {
+  function logout() {
+    dispatch({ type: 'user-info/logout' })
+    history.replace('/')
+  }
   return (
     user.phone
       ? (
@@ -22,7 +26,7 @@ function SafePage({ history, user }) {
           <WhiteSpace size="lg" />
           <WingBlank>
             <a
-              href="javascript:;" className="common-btn"
+              href="javascript:;" className="common-btn" onClick={logout}
               style={{ color: '#888', backgroundColor: '#fff', border: '2px solid #555' }}
             >退出登录</a>
           </WingBlank>

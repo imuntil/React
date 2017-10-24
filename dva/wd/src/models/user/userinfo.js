@@ -40,6 +40,23 @@ export default {
           payload: user
         })
       }
+    },
+    *logout(n, { put, call }) {
+      yield put({
+        type: 'save',
+        payload: {
+          imgname: '',
+          name: '',
+          openid: '',
+          phone: '',
+          usersid: '',
+          black: 0,
+          rank: '',
+          password: '',
+          expired: false
+        }
+      })
+      yield call(zStorage.remove, USER_INFO_KEY)
     }
   },
   subscriptions: {
