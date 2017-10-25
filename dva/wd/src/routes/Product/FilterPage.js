@@ -11,6 +11,7 @@ import Item from '../../components/Item.js'
 import Loading from '../../components/Loading.js'
 import { addProToCart } from "../../services/cart";
 import styles from './FilterPage.css'
+import { afterLogin } from "../../services/bus";
 
 function Body({ children }) {
   return (
@@ -84,10 +85,12 @@ class Filter extends React.Component {
     })
   }
   handleAddToCart = async (id) => {
-    const { user, dispatch } = this.props
+    const { user, dispatch, history } = this.props
     const userid = user && user.usersid
     if (!userid) {
       // 未登录处理
+      afterLogin.path = -1
+      history.push('/user/login')
       return false
     }
     const { data = {}, err } = await addProToCart({ userid, id, pronum: 1 })
@@ -98,7 +101,7 @@ class Filter extends React.Component {
       })
       return false
     }
-    dispatch({ type: 'makeExpire' })
+    dispatch({ type: 'cart/makeExpire' })
     Toast.success('已加入购物车', 1)
   }
   handleBuyNow = (id) => {
@@ -161,16 +164,6 @@ class Filter extends React.Component {
               }}
               handleAddToCart={this.handleAddToCart}
               handleBuyNow={this.handleBuyNow}
-              // onUpdate={(dataBlob, sectionIDs, rowIDs) => {
-              //   dispatch({
-              //     type: `lvStatus/clearB`,
-              //     payload: {
-              //       dataBlob,
-              //       sectionIDs,
-              //       rowIDs
-              //     }
-              //   })
-              // }}
             />
           </div>
         </div>
@@ -183,12 +176,6 @@ function mapStateToProps(state) {
   const { page, cls, hasMore, fetching } = state[`product-filter`]
   const store = state['list-store']
   const user = state['user-info']
-  // const { dataBlob, sectionIDs, rowIDs } = state.lvStatus.b
-  // const data = {
-  //   dataBlob: { ...dataBlob },
-  //   sectionIDs: [...sectionIDs],
-  //   rowIDs: [...rowIDs]
-  // }
   return {
     page,
     cls,
@@ -196,7 +183,8 @@ function mapStateToProps(state) {
     store,
     fetching,
     user,
-    loading: state.loading.models['product-filter'] || state.loading.models['list-store']
+    loading: state.loading.global
+    // loading: state.loading.models['product-filter'] || state.loading.models['list-store']
   };
 }
 

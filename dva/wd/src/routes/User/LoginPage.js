@@ -33,6 +33,7 @@ class LoginPage extends React.Component {
   }
   handleLogin = async () => {
     const { phone, password, submit } = this.state
+    const { history, dispatch } = this.props
     if (submit) return false
     this.setSubmit()
     if (password.valid && phone.valid) {
@@ -45,12 +46,18 @@ class LoginPage extends React.Component {
           Toast.fail(res, 1)
         } else {
           Toast.success('登录成功', 1)
-          this.props.dispatch({
+          dispatch({
             type: 'user-info/saveToLocal',
             payload: res
           })
           await delay(800)
-          this.props.history.replace(afterLogin.path || '/user')
+          const { path } = afterLogin
+          console.log(path)
+          console.log(typeof path)
+          if (typeof path === "number") {
+            return history.go(path)
+          }
+          history.replace(path || '/user')
         }
       }
     }

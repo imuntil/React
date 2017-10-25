@@ -75,12 +75,6 @@ class ProListView extends React.Component {
     })
   }
 
-  shouldComponentUpdate() {
-    // const { replace, BodyComponent, store, fetching } = this.props
-    // if (!replace || !BodyComponent || _.isEmpty(store) || fetching) return false
-    return true
-  }
-
   componentWillUnmount() {
     const { onUpdate } = this.props
     if (onUpdate) onUpdate(this.dataBlob, this.sectionIDs, this.rowIDs)

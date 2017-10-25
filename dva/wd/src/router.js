@@ -119,7 +119,6 @@ function RouterConfig({ history, app }) {
         {
           path: 'user',
           name: 'UserIndexPage',
-          layout: 'NoBarLayout',
           onEnter: checkStatus,
           getComponent(nextState, cb) {
             require.ensure([], (require) => {

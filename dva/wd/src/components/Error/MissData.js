@@ -5,6 +5,7 @@ import styles from './MissData.css';
 class MissData extends React.Component {
   componentWillMount() {
     const { redirect } = this.props
+    if (!redirect) return false
     setTimeout(() => {
       if (redirect) redirect()
     }, 1000)
@@ -20,7 +21,7 @@ class MissData extends React.Component {
 }
 
 MissData.propTypes = {
-  redirect: PropTypes.func.isRequired
+  redirect: PropTypes.func
 }
 
 export default MissData;

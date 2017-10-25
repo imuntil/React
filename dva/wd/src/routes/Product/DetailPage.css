@@ -3,8 +3,8 @@
   position: relative;
   width: 100%;
   height: calc(100% - 110px);
-  overflow-y: scroll;
-  background-color: #f2f2f2;
+  overflow: auto;
+  background-color: transparent;
 }
 /*.section {*/
   /*width: 100%;*/
@@ -178,6 +178,7 @@
   width: 100%;
   display: block;
   height: 100%;
+  background-color: #f2f2f2;
 }
 .tabbar {
   width: 100%;
@@ -186,6 +187,7 @@
   box-shadow: 0 -1px 4px #b2b2b2;
   box-sizing: border-box;
   z-index: 1;
+  position: relative;
 }
 .cart {
   width: 50%;

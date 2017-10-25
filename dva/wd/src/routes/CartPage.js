@@ -6,6 +6,7 @@ import _ from 'lodash'
 import Like from '../components/Like/Like.js'
 import styles from './CartPage.css';
 import { IMGURL } from '../constant'
+import PageLoading from '../components/PageLoading'
 
 function CartBar({ chosenALL, toggleAllChoose, amount = 0.00 }) {
   return (
@@ -36,9 +37,11 @@ function EmptyCart() {
 }
 function ShoppingCart({ list, pros, store, cs, onDeletePro, onModifyNum, onChoose }) {
   return (
-    <QueueAnim className={styles.shopping_cart} component="div"
-               delay={200} interval={150} animConfig={{ opacity: [1, 0] }}
-               type={['right', 'scaleY']}>
+    <QueueAnim
+      className={styles.shopping_cart} component="div"
+      delay={200} interval={150} animConfig={{ opacity: [1, 0] }}
+      type={['right', 'scaleY']}
+    >
       {
         list.map(id => (
           <SwipeAction
@@ -108,7 +111,7 @@ class CartPage extends React.Component {
     dispatch({ type: 'cart/toggleAllChoose', payload: { all } })
   }
   render() {
-    const { idList, pros, store, chooseStatus, maybe } = this.props
+    const { idList = [], pros, store, chooseStatus, maybe, loading } = this.props
     if (_.isEmpty(store)) return false
     let amount = 0
     const chosenPros = idList.filter(id => {
@@ -122,32 +125,34 @@ class CartPage extends React.Component {
     const data = maybe.ids.map(id => store[id])
     const allChoose = chosenPros.length === idList.length
     return (
-      <div className={styles.normal}>
-        <div className={styles.body}>
-          <div className={styles.main_box}>
-            {
-              !idList.length || _.isEmpty(store)
-                ? <EmptyCart />
-                : <ShoppingCart
-                  list={idList}
-                  pros={pros}
-                  store={store}
-                  cs={chooseStatus}
-                  onDeletePro={this.handleDeleteProFromCart}
-                  onModifyNum={this.handleModifyNum}
-                  onChoose={this.handleProChoose}
-                />
-            }
+      <PageLoading loading={loading}>
+        <div className={styles.normal}>
+          <div className={styles.body}>
+            <div className={styles.main_box}>
+              {
+                !idList.length || _.isEmpty(store)
+                  ? <EmptyCart />
+                  : <ShoppingCart
+                    list={idList}
+                    pros={pros}
+                    store={store}
+                    cs={chooseStatus}
+                    onDeletePro={this.handleDeleteProFromCart}
+                    onModifyNum={this.handleModifyNum}
+                    onChoose={this.handleProChoose}
+                  />
+              }
+            </div>
+            <WhiteSpace />
+            <Like title="猜你喜欢" data={data} />
           </div>
-          <WhiteSpace />
-          <Like title="猜你喜欢" data={data} />
+          <CartBar
+            chosenALL={allChoose}
+            toggleAllChoose={this.handleAllChoose.bind(null, allChoose)}
+            amount={amount.toFixed(2)}
+          />
         </div>
-        <CartBar
-          chosenALL={allChoose}
-          toggleAllChoose={this.handleAllChoose.bind(null, allChoose)}
-          amount={amount.toFixed(2)}
-        />
-      </div>
+      </PageLoading>
     );
   }
 }
@@ -155,8 +160,10 @@ class CartPage extends React.Component {
 function mapStateToProps(state) {
   const { idList, pros, maybe, chooseStatus } = state.cart
   const store = state['list-store']
+  const { effects } = state.loading
+  const loading = effects['cart/fetchCart'] || effects['cart/changeMaybe']
   return {
-    idList, pros, store, maybe, chooseStatus
+    idList, pros, store, maybe, chooseStatus, loading
   };
 }
 

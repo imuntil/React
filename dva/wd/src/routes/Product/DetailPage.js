@@ -68,14 +68,13 @@ class Detail extends React.Component {
       })
       return false
     }
-    dispatch({ type: 'makeExpire' })
+    dispatch({ type: 'cart/makeExpire' })
     Toast.success('已加入购物车', 1)
   }
   whetherToLogin = () => {
     const { history, user, params: { id } } = this.props
     if (!user.usersid) {
       // 未登录状况
-      // dispatch({ type: 'afterLogin/setNext', payload: `/product/detial/${id}` })
       afterLogin.path = `/product/detail/${id}`
       history.push('/user/login')
       return true

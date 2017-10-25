@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { WhiteSpace } from 'antd-mobile'
 import ListView from '../components/Product/ProListView.js'
 import PageLoading from '../components/PageLoading.js'
 import OrderItem from '../components/Order/OrderItem.js'
@@ -11,7 +10,7 @@ function Row(props) {
 }
 function Body({ children }) {
   return (
-    <div className={styles.body_box}>
+    <div className={styles.body_box} style={{ minHeight: '400px' }}>
       {
         children
       }

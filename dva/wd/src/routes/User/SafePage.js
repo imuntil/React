@@ -10,9 +10,9 @@ const { Item } = List
 
 function SafePage({ history, user, dispatch }) {
   function logout() {
-    dispatch({ type: 'user-info/logout' })
     afterLogin.path = ''
     history.replace('/')
+    dispatch({ type: 'user-info/logout' })
   }
   return (
     user.phone

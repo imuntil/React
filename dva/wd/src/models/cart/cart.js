@@ -35,9 +35,10 @@ export default {
   },
   reducers: {
     save(state, action) {
-      const { maybe } = state
+      const { maybe, chooseStatus } = state
       return {
         maybe,
+        chooseStatus,
         ...action.payload,
         expired: false
       }
@@ -99,7 +100,7 @@ export default {
         chooseStatus: copyCS
       }
     },
-    makeExpire(state, action) {
+    makeExpire(state) {
       return {
         ...state,
         expired: true
@@ -140,16 +141,14 @@ export default {
         yield put({ type: 'save' })
         return false
       }
-      const chooseStatus = {}
       const store = result.map(item => {
-        chooseStatus[item.id] = false
         return _.pick(item, ['id', 'cid', 'pronum', 'prolabel'])
       })
       const ps = new schema.Entity('pros')
       const prosSchema = [ps]
       const { result: idList, entities: { pros } } = normalize(store, prosSchema)
       yield [
-        put({ type: 'save', payload: { idList, pros, chooseStatus } }),
+        put({ type: 'save', payload: { idList, pros } }),
         put({ type: 'changeMaybe', payload: { type: store[0].prolabel } })
       ]
     },
