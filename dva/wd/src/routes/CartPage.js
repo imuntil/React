@@ -36,7 +36,9 @@ function EmptyCart() {
 }
 function ShoppingCart({ list, pros, store, cs, onDeletePro, onModifyNum, onChoose }) {
   return (
-    <QueueAnim className={styles.shopping_cart} component="div" type={['right', 'scaleY']}>
+    <QueueAnim className={styles.shopping_cart} component="div"
+               delay={200} interval={150} animConfig={{ opacity: [1, 0] }}
+               type={['right', 'scaleY']}>
       {
         list.map(id => (
           <SwipeAction
@@ -70,7 +72,7 @@ function ShoppingCart({ list, pros, store, cs, onDeletePro, onModifyNum, onChoos
                   <p>{store[id].procontent}ml</p>
                   <div>
                     <p className={styles.group_add_sub}>
-                      <a onClick={onModifyNum.bind(null, '-', id)} href="javascript:;">-</a>
+                      <a onClick={onModifyNum.bind(null, '-', id)} href="javascript:;">–</a>
                       <span>{pros[id].pronum}</span>
                       <a onClick={onModifyNum.bind(null, '+', id)} href="javascript:;">+</a>
                     </p>

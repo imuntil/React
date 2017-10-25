@@ -4,12 +4,14 @@ import { List, WhiteSpace, WingBlank } from 'antd-mobile'
 import { formatPhone } from '../../services/ct'
 import MissData from '../../components/Error/MissData.js'
 import styles from './SafePage.css';
+import{ afterLogin } from '../../services/bus'
 
 const { Item } = List
 
 function SafePage({ history, user, dispatch }) {
   function logout() {
     dispatch({ type: 'user-info/logout' })
+    afterLogin.path = ''
     history.replace('/')
   }
   return (
