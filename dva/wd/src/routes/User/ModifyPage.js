@@ -4,6 +4,7 @@ import { WhiteSpace, WingBlank } from 'antd-mobile'
 import ZInput from '../../components/Form/ZInput.js'
 import { regexp, formatPhone } from '../../services/ct'
 import MissData from '../../components/Error/MissData.js'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './ModifyPage.css';
 
 class ModifyPage extends React.Component {
@@ -101,4 +102,4 @@ function mapStateToProps(state) {
   return { user };
 }
 
-export default connect(mapStateToProps)(ModifyPage);
+export default connect(mapStateToProps)(routeLoading(ModifyPage));

@@ -6,6 +6,7 @@ import TopTabs from '../../components/Product/TopTab.js'
 import ProListView from '../../components/Product/ProListView.js'
 import { CategoryLayer } from '../../components/Product/CategoryLayer.js'
 import { SortLayer } from '../../components/Product/SortLayer.js'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import Loading from '../../components/Loading.js'
 
 
@@ -115,5 +116,5 @@ function mapStateToProps(state) {
   return { page, cls, hasMore, a, store, loading: state.loading.global };
 }
 
-export default connect(mapStateToProps)(All);
+export default connect(mapStateToProps)(routeLoading(All));
 

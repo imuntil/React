@@ -5,6 +5,7 @@ import MissData from '../../components/Error/MissData.js'
 import { modifyNick } from '../../services/user'
 import { delay } from '../../services/tools-fun'
 import ZInput from '../../components/Form/ZInput.js'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './ModifyNick.css'
 
 class ModifyNick extends React.Component {
@@ -92,4 +93,4 @@ function mapStateToProps(state) {
   return { user }
 }
 
-export default connect(mapStateToProps)(ModifyNick)
+export default connect(mapStateToProps)(routeLoading(ModifyNick))

@@ -7,6 +7,7 @@ import Section from '../../components/Adr/Section.js'
 import Loading from '../../components/Loading.js'
 import { deleteAdr } from '../../services/user'
 import { delay } from '../../services/tools-fun'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './AdrListPage.css'
 
 class AdrListPage extends React.Component {
@@ -78,4 +79,4 @@ function mapStateToProps(state) {
   return { user, idList, list, statusList }
 }
 
-export default connect(mapStateToProps)(AdrListPage)
+export default connect(mapStateToProps)(routeLoading(AdrListPage))

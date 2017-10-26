@@ -51,7 +51,7 @@
 .oth span {
   color: #e41035;
 }
-.oth em {
+.oth > em {
   font-style: normal;
   font-weight: normal;
   margin-left: .2rem;

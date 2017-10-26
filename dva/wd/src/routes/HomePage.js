@@ -8,6 +8,7 @@ import { sellings } from "../constant";
 import Card from '../components/Card'
 import CocktailCard from '../components/CocktailCard'
 import Loading from '../components/Loading'
+import routeLoading from '../components/HighComponent/routeLoading'
 import styles from './HomePage.css';
 
 function HomePage({ store, history }) {
@@ -75,4 +76,4 @@ function mapStateToProps(state) {
   return { store }
 }
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps)(routeLoading(HomePage));

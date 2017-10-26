@@ -8,6 +8,8 @@ import Like from '../../components/Like/Like.js'
 import styles from './DetailPage.css';
 import { addProToCart } from "../../services/cart";
 import { afterLogin } from "../../services/bus";
+import routeLoading from '../../components/HighComponent/routeLoading'
+import PriceLabel from '../../components/PriceLabel.js'
 
 function LikeLoading({ like, loading }) {
   return (
@@ -112,7 +114,9 @@ class Detail extends React.Component {
                   </div>
                   <p className={styles.content}>{data.procontent}ml</p>
                   <WS />
-                  <p className={styles.price}>￥{data.proprice}</p>
+                  <p className={styles.price}>
+                    <PriceLabel price={data.proprice} />
+                  </p>
                   <WS size="lg" />
                   <div className={styles.pro_params}>
                     <span>酒精度:{data.proalcoholic}%</span>
@@ -190,4 +194,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Detail);
+export default connect(mapStateToProps)(routeLoading(Detail));

@@ -7,6 +7,8 @@ import Like from '../components/Like/Like.js'
 import styles from './CartPage.css';
 import { IMGURL } from '../constant'
 import PageLoading from '../components/PageLoading'
+import routeLoading from '../components/HighComponent/routeLoading'
+import PriceLabel from '../components/PriceLabel'
 
 function CartBar({ chosenALL, toggleAllChoose, amount = 0.00 }) {
   return (
@@ -22,7 +24,7 @@ function CartBar({ chosenALL, toggleAllChoose, amount = 0.00 }) {
         </a>
       </div>
       <div className={styles.rg}>
-        <span>合计: ￥{amount}</span>
+        <p>合计: <PriceLabel price={+amount} fz={30} /></p>
         <a href="javascript:;">去结算</a>
       </div>
     </div>
@@ -82,7 +84,7 @@ function ShoppingCart({ list, pros, store, cs, onDeletePro, onModifyNum, onChoos
                   </div>
                 </li>
                 <li className={styles.price}>
-                  <span>￥{store[id].proprice}</span>
+                  <PriceLabel price={store[id].proprice} fz={28} />
                 </li>
               </ul>
             </div>
@@ -167,4 +169,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CartPage);
+export default connect(mapStateToProps)(routeLoading(CartPage));

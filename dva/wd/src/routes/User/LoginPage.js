@@ -6,6 +6,7 @@ import { login } from '../../services/user'
 import ZInput from '../../components/Form/ZInput.js'
 import { delay } from '../../services/tools-fun'
 import styles from './LoginPage.css';
+import routeLoading from '../../components/HighComponent/routeLoading'
 import { afterLogin } from "../../services/bus";
 
 class LoginPage extends React.Component {
@@ -106,4 +107,4 @@ function mapStateToProps() {
   return {};
 }
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(mapStateToProps)(routeLoading(LoginPage));

@@ -1,15 +1,22 @@
 import React from 'react';
+import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
 import { Link, IndexLink } from 'dva/router'
+import Loading from '../Loading'
 import styles from './DefaultLayout.css';
 
-function DefaultLayout({ children, location }) {
+function DefaultLayout({ children, location, running }) {
   return (
     <div className={styles.normal}>
       <div className={styles.main}>
+        {
+          running ? <div className={styles.route_loading_wrapper}><Loading /></div> : null
+        }
         <QueueAnim type={'bottom'} style={{ position: 'relative', width: '100%', height: '100%' }}>
           <div key={location.pathname} style={{ position: 'absolute', width: '100%', height: '100%', overflow: 'hidden' }}>
-            {children}
+            {
+              children
+            }
           </div>
         </QueueAnim>
       </div>
@@ -39,4 +46,9 @@ function DefaultLayout({ children, location }) {
   );
 }
 
-export default DefaultLayout;
+function mapStateToProps (state) {
+  const { running } = state.routeLoading
+  return { running }
+}
+
+export default connect(mapStateToProps)(DefaultLayout);

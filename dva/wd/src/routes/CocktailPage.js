@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './CocktailPage.css';
 import CTListView from '../components/Product/ProListView.js'
+import routeLoading from '../components/HighComponent/routeLoading'
 import CocktailCard from '../components/CocktailCard.js'
 
 function Card(props) {
@@ -65,4 +66,4 @@ function mapStateToProps(state) {
   return { page, cls, hasMore, c, store: list };
 }
 
-export default connect(mapStateToProps)(CocktailPage);
+export default connect(mapStateToProps)(routeLoading(CocktailPage));

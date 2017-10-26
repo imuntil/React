@@ -1,4 +1,6 @@
-
+.price_label em {
+  font-style: normal;
+}
 .price_label {
-
+  color: #e41035;
 }

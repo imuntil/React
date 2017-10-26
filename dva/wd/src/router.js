@@ -100,6 +100,9 @@ function RouterConfig({ history, app }) {
               registerModel(app, require('./models/lv-status'))
               cb(null, require('./routes/CocktailPage'))
             })
+          },
+          onEnter () {
+            console.log('enter');
           }
         },
         {

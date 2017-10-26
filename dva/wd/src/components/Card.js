@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'dva/router'
 import styles from './Card.css';
 import { IMGURL } from '../constant'
+import PriceLabel from './PriceLabel'
 
 function Card({ customStyle, data: {
   id = 103,
@@ -19,7 +20,7 @@ function Card({ customStyle, data: {
       <p className={styles.cn}>{proname}</p>
       <p className={styles.oth}>
         <span>{procontent}ml</span>
-        <em>￥{proprice}</em>
+        <PriceLabel price={proprice} fz={26} />
       </p>
     </Link>
   );

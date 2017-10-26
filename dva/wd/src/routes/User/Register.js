@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { Toast } from 'antd-mobile'
-import { Base64 } from 'js-base64'
 import ZInput from '../../components/Form/ZInput.js'
 import ZCode from '../../components/Form/ZCode.js'
 import { regexp } from '../../services/ct.js'
 import { verifyPhone, getVerifyCode } from '../../services/user'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './Register.css'
 
 class Register extends React.Component {
@@ -132,4 +132,4 @@ function mapStateToProps() {
   return {}
 }
 
-export default connect(mapStateToProps)(Register)
+export default connect(mapStateToProps)(routeLoading(Register))

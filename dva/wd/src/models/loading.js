@@ -1,17 +1,23 @@
 
 export default {
-  namespace: 'partLoading',
+  namespace: 'routeLoading',
   state: {
     running: false
   },
   reducers: {
-    startLoad(action, state) {
+    start () {
       return { running: true }
     },
-    loadEnd(action, state) {
+    stop () {
       return { running: false }
     }
   },
   effects: {},
-  subscriptions: {},
+  subscriptions: {
+    setup ({ dispatch, history }) {
+      history.listen(() => {
+        dispatch({ type: 'start' })
+      })
+    }
+  },
 };

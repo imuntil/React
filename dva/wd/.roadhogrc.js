@@ -35,5 +35,6 @@ export default {
       propWhitelist: []
     })
   ],
-  svgSpriteLoaderDirs: svgSpriteDirs
+  svgSpriteLoaderDirs: svgSpriteDirs,
+  publicPath: '/react/dva/wd/dist/'
 }

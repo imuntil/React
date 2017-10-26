@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'dva'
 import _ from 'lodash'
-import { List, SwipeAction, Toast } from 'antd-mobile'
+import { SwipeAction, Toast } from 'antd-mobile'
 import QueueAnim from 'rc-queue-anim'
 import Item from '../../components/Item.js'
 import Loading from '../../components/Loading.js'
 import styles from './MyCollection.css'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import { addProToCart } from "../../services/cart";
 
 class MyCollection extends React.Component {
@@ -95,4 +96,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(MyCollection)
+export default connect(mapStateToProps)(routeLoading(MyCollection))

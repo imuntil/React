@@ -7,6 +7,7 @@
 .main {
   height: calc(100% - 110px);
   display: block;
+  position: relative;
 }
 .tabbar {
   width: 100%;
@@ -31,4 +32,11 @@
 }
 .tabbar .active img:nth-child(2) {
   display: block;
+}
+.route_loading_wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: #ffffff;
 }

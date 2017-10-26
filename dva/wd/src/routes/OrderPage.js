@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import ListView from '../components/Product/ProListView.js'
 import PageLoading from '../components/PageLoading.js'
 import OrderItem from '../components/Order/OrderItem.js'
+import routeLoading from '../components/HighComponent/routeLoading'
 import styles from './OrderPage.css';
 
 function Row(props) {
@@ -93,4 +94,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(OrderPage);
+export default connect(mapStateToProps)(routeLoading(OrderPage));

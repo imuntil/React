@@ -10,6 +10,7 @@ import Shake from '../../components/Animate/Shake.js'
 import { regexp } from '../../services/ct'
 import district from '../../services/china-division'
 import { formData, delay } from '../../services/tools-fun'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './AdrEditPage.css'
 
 const labelData = [
@@ -241,4 +242,4 @@ function mapStateToProps(state) {
   return { list, userid: usersid }
 }
 
-export default connect(mapStateToProps)(AdrEditPage)
+export default connect(mapStateToProps)(routeLoading(AdrEditPage))

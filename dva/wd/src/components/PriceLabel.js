@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './PriceLabel.css';
+import style from './PriceLabel.css'
 
-function PriceLabel({ price }) {
+function PriceLabel({ price, fz = 36 }) {
   const p = price.toFixed(2).toString().split('.')
   return (
-    <span className={styles.price_label}>
-      ￥{p[0]}.<em>{p[1]}</em>
+    <span style={{ fontSize: `${fz}px` }} className={style.price_label}>
+      ￥{p[0]}.<em style={{ fontSize: `${fz * 0.9}px` }}>{p[1]}</em>
     </span>
   );
 }

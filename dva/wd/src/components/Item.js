@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'dva/router'
 import styles from './Item.css';
 import { IMGURL } from '../constant'
+import PriceLabel from './PriceLabel.js'
 
 function Item({ data, style = {}, onAddToCart }) {
   return (
@@ -14,7 +15,7 @@ function Item({ data, style = {}, onAddToCart }) {
           <p className={styles.en}>{data.englishname}</p>
           <p className={styles.cn}>{data.proname}</p>
           <p className={styles.oth}>
-            <span>￥{data.proprice}</span>
+            <PriceLabel price={data.proprice} fz={26} />
             <em>{data.procontent}ml</em>
           </p>
         </div>

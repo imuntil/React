@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import ZInput from '../../components/Form/ZInput.js'
 import { regexp } from '../../services/ct.js'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './Reg2Page.css'
 
 class Reg2Page extends React.Component {
@@ -77,4 +78,4 @@ function mapStateToProps() {
   return {}
 }
 
-export default connect(mapStateToProps)(Reg2Page)
+export default connect(mapStateToProps)(routeLoading(Reg2Page))

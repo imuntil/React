@@ -4,7 +4,8 @@ import { List, WhiteSpace, WingBlank } from 'antd-mobile'
 import { formatPhone } from '../../services/ct'
 import MissData from '../../components/Error/MissData.js'
 import styles from './SafePage.css';
-import{ afterLogin } from '../../services/bus'
+import routeLoading from '../../components/HighComponent/routeLoading'
+import { afterLogin } from '../../services/bus'
 
 const { Item } = List
 
@@ -43,4 +44,4 @@ function mapStateToProps(state) {
   return { user };
 }
 
-export default connect(mapStateToProps)(SafePage);
+export default connect(mapStateToProps)(routeLoading(SafePage));

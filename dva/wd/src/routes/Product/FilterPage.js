@@ -12,6 +12,8 @@ import Loading from '../../components/Loading.js'
 import { addProToCart } from "../../services/cart";
 import styles from './FilterPage.css'
 import { afterLogin } from "../../services/bus";
+import routeLoading from '../../components/HighComponent/routeLoading'
+
 
 function Body({ children }) {
   return (
@@ -188,4 +190,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Filter)
+export default connect(mapStateToProps)(routeLoading(Filter))

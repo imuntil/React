@@ -7,6 +7,7 @@ import AvatarEditor from '../../components/Form/AvatarEditor'
 import { avatars, BASEURL } from '../../constant'
 import { delay } from '../../services/tools-fun'
 import { modifyAvatar } from '../../services/user'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './ModifyAvatar.css'
 
 const chunks = _.chunk(avatars, 4)
@@ -162,4 +163,4 @@ function mapStateToProps(state) {
   return { user }
 }
 
-export default connect(mapStateToProps)(ModifyAvatar)
+export default connect(mapStateToProps)(routeLoading(ModifyAvatar))

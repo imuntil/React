@@ -4,6 +4,7 @@ import { Link } from 'dva/router'
 import { List, WhiteSpace } from 'antd-mobile'
 import { BASEURL, avatars } from '../../constant'
 import MissData from '../../components/Error/MissData.js'
+import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './IndexPage.css';
 
 const { Item } = List
@@ -58,4 +59,4 @@ function mapStateToProps(state) {
   return { user };
 }
 
-export default connect(mapStateToProps)(IndexPage);
+export default connect(mapStateToProps)(routeLoading(IndexPage));
