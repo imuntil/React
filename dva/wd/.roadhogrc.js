@@ -36,5 +36,10 @@ export default {
     })
   ],
   svgSpriteLoaderDirs: svgSpriteDirs,
-  publicPath: '/react/dva/wd/dist/'
+  publicPath: '/wd/',
+  autoprefixer: {
+    browsers: [
+      'iOS >= 8', 'Android >= 4'
+    ]
+  }
 }
