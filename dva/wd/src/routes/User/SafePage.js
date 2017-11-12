@@ -41,7 +41,7 @@ function SafePage({ history, user, dispatch }) {
 
 function mapStateToProps(state) {
   const user = state['user-info']
-  return { user };
+  return { user }
 }
 
 export default connect(mapStateToProps)(routeLoading(SafePage));
