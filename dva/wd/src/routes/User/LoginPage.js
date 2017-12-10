@@ -39,12 +39,13 @@ class LoginPage extends React.Component {
     this.setSubmit()
     if (password.valid && phone.valid) {
       const { data, err } = await login({ phone: phone.v, password: password.v })
+      console.log(data)
       if (err) {
         Toast.fail('未知错误，请稍后重试', 1)
       } else {
-        const { result: res, resultcode } = data
-        if (+resultcode !== 1) {
-          Toast.fail(res, 1)
+        const { code, message, data: res } = data
+        if (code !== 0) {
+          Toast.fail(message, 1)
         } else {
           Toast.success('登录成功', 1)
           dispatch({

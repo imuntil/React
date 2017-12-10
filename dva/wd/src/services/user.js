@@ -1,10 +1,16 @@
 import md5 from 'md5'
 import request from '../utils/request';
-import { BASEURL } from '../constant'
+import { BASEURL, base } from '../constant'
 
 // 用户
 export async function login({ phone, password }) {
-  return request(`${BASEURL}loginUsersUsr.action?phone=${phone}&password=${md5(password)}`)
+  return request(`${base}users/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ phone, password: md5(password) })
+  })
 }
 export async function verifyPhone({ phone }) {
   return request(`${BASEURL}seluserPhoneUsr.action?phone=${phone}`)
