@@ -2,13 +2,14 @@ import md5 from 'md5'
 import request from '../utils/request';
 import { BASEURL, base } from '../constant'
 
+const headers = {
+  'Content-Type': 'application/json'
+}
 // 用户
 export async function login({ phone, password }) {
   return request(`${base}users/login`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify({ phone, password: md5(password) })
   })
 }
@@ -24,39 +25,37 @@ export async function modifyNick({ phone, nickname }) {
 export async function modifyAvatar({ uid, imgStr }) {
   return request(`${base}users/${uid}/avatar`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify({ imgStr })
   })
 }
 export async function register ({ phone, nick, password }) {
   return request(`${base}users/register`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify({ phone, password: md5(password), nick })
   })
 }
 
 // 地址
-export async function adrList({ userid }) {
-  return request(`${BASEURL}selectAddressAds.action?userid=${userid}`)
+export async function adrList({ uid }) {
+  return request(`${base}users/${uid}/adrs`)
 }
 export async function setDefaultAdr({ userid, id }) {
   return request(`${BASEURL}updateAddressAds.action?id=${id}&userid=${userid}`)
 }
-export async function modifyAdr(payload) {
-  return request(`${BASEURL}updateAddressOneAds.action`, {
-    method: 'POST',
-    body: payload
+export async function modifyAdr({ uid, aid, ...rest }) {
+  return request(`${base}users/${uid}/adrs/${aid}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(rest)
   })
 }
-export async function addAdr(payload) {
-  return request(`${BASEURL}saveAddressAds.action`, {
+export async function addAdr({ uid, ...rest }) {
+  return request(`${base}users/${uid}/adrs/add`, {
     method: 'POST',
-    body: payload
+    headers,
+    body: JSON.stringify(rest)
   })
 }
 export async function deleteAdr({ id }) {

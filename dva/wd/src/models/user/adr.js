@@ -1,5 +1,6 @@
 import { adrList, setDefaultAdr } from '../../services/user'
 import { normalizes } from '../../services/tools-fun'
+import { schema, normalize } from 'normalizr'
 
 export default {
   namespace: 'adr',
@@ -38,15 +39,21 @@ export default {
       const { expired } = yield select(state => state.adr)
       if (!expired) return true
       const { data, err } = yield call(adrList, payload)
-      if (err || +data.resultcode !== 1) {
+      if (err || +data.code !== 0) {
         yield put({
           type: 'error/fetchDataError',
           payload: { msg: '获取地址失败', code: data.resultcode || -10 }
         })
         return false
       }
-      const { idList, list } = normalizes(data.result)
-      const statusList = idList.map(id => list[id].status)
+      console.log(data.data)
+      const s = new schema.Entity('list', undefined, {
+        idAttribute: value => value._id
+      })
+      const { result: idList, entities: { list } } = normalize(data.data, [s])
+      console.log(idList)
+      console.log(list)
+      const statusList = idList.map(id => list[id].isDefault)
       yield put({ type: 'saveList', payload: { idList, list, statusList } })
     },
     *changeDefaultAdr({ payload }, { call, put, select }) {

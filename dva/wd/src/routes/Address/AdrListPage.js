@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
-import { WhiteSpace, Icon, Toast } from 'antd-mobile'
+import { WhiteSpace, Icon, Toast, WingBlank } from 'antd-mobile'
 import QueueAnim from 'rc-queue-anim'
 import Section from '../../components/Adr/Section.js'
 import Loading from '../../components/Loading.js'
@@ -14,7 +14,7 @@ class AdrListPage extends React.Component {
   state = { chosen: -1 }
   componentWillMount() {
     const { user, dispatch } = this.props
-    dispatch({ type: 'adr/fetchList', payload: { userid: user.usersid } })
+    dispatch({ type: 'adr/fetchList', payload: { uid: user._id } })
   }
   handleDefaultClick = (id, status) => {
     if (status) return false
@@ -60,7 +60,7 @@ class AdrListPage extends React.Component {
                           chosen={this.state.chosen === +id}
                         />
                     ))
-                      : <p>还没有收货地址哦，快去添加吧</p>
+                      : <WingBlank><p className={styles.empty}>还没有收货地址哦，快去添加吧</p></WingBlank>
                   }
                 </QueueAnim>
                 <Link className={styles.add_adr} to="/adr/edit">

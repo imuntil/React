@@ -13,7 +13,7 @@ export const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 export function formData(payload) {
   if (_.isObject(payload) && !_.isEmpty(payload)) {
     const data = new FormData()
-    for (let key in payload) {
+    for (const key in payload.getOwnPropertyNames()) {
       data.append(key, payload[key])
     }
     return data

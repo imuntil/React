@@ -9,7 +9,7 @@ import ZTextarea from '../../components/Form/ZTextarea.js'
 import Shake from '../../components/Animate/Shake.js'
 import { regexp } from '../../services/ct'
 import district from '../../services/china-division'
-import { formData, delay } from '../../services/tools-fun'
+import { delay } from '../../services/tools-fun'
 import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './AdrEditPage.css'
 
@@ -86,14 +86,14 @@ class AdrEditPage extends React.Component {
       fun = modifyAdr
       p = { ...p, id: this.status }
     }
-    const { data = {}, err } = await fun(formData(p))
+    const { data = {}, err } = await fun(p)
     const msg = this.status ? '更新' : '新增'
-    if (err || +data.resultcode !== 1) {
+    if (err || +data.code !== 0) {
       dispatch({
         type: 'error/dataOperationError',
         payload: {
           msg: `${msg}地址失败`,
-          code: data.resultcode
+          code: data.code
         }
       })
       return false
@@ -109,18 +109,19 @@ class AdrEditPage extends React.Component {
     const {
       submit, isDefault, name, phone, lpValue, apValueStr, detail
     } = this.state
-    const { userid } = this.props
+    const { uid } = this.props
     const [province, city] = apValueStr.split(' ')
     this.setSubmit()
     if (!name.v || !phone.v || !detail.v || !apValueStr) return false
     const payload = {
-      status: +isDefault,
-      city: province,
+      isDefault: +isDefault,
+      province,
+      city,
+      detail: detail.v,
       name: name.v,
       phone: phone.v,
       label: lpValue,
-      address: `${city}-${detail.v}`,
-      userid
+      uid
     }
     this.pushToServer(payload)
   }
@@ -238,8 +239,8 @@ class AdrEditPage extends React.Component {
 }
 function mapStateToProps(state) {
   const { list } = state.adr
-  const { usersid } = state['user-info']
-  return { list, userid: usersid }
+  const { _id } = state['user-info']
+  return { list, uid: _id }
 }
 
 export default connect(mapStateToProps)(routeLoading(AdrEditPage))
