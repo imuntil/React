@@ -13,18 +13,30 @@ export async function login({ phone, password }) {
   })
 }
 export async function verifyPhone({ phone }) {
-  return request(`${BASEURL}seluserPhoneUsr.action?phone=${phone}`)
+  return request(`${base}users/is-exist?phone=${phone}`)
 }
 export async function getVerifyCode({ phone, flag = 1 }) {
-  return request(`${BASEURL}resIdcodeSsm.action?phone=${phone}&flag=${flag}`)
+  return request(`${base}users/code?phone=${phone}`)
 }
 export async function modifyNick({ phone, nickname }) {
   return request(`${BASEURL}updatenicknameUsr.action?phone=${phone}&nickname=${nickname}`)
 }
-export async function modifyAvatar(posts) {
-  return request(`${BASEURL}uploadImgUsr.action`, {
+export async function modifyAvatar({ uid, imgStr }) {
+  return request(`${base}users/${uid}/avatar`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ imgStr })
+  })
+}
+export async function register ({ phone, nick, password }) {
+  return request(`${base}users/register`, {
     method: 'POST',
-    body: posts
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ phone, password: md5(password), nick })
   })
 }
 

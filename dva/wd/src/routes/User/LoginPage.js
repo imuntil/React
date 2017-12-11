@@ -39,7 +39,6 @@ class LoginPage extends React.Component {
     this.setSubmit()
     if (password.valid && phone.valid) {
       const { data, err } = await login({ phone: phone.v, password: password.v })
-      console.log(data)
       if (err) {
         Toast.fail('未知错误，请稍后重试', 1)
       } else {
@@ -50,16 +49,14 @@ class LoginPage extends React.Component {
           Toast.success('登录成功', 1)
           dispatch({
             type: 'user-info/saveToLocal',
-            payload: res
+            payload: { ...res, uid: res._id }
           })
           await delay(800)
           const { path } = afterLogin
-          console.log(path)
-          console.log(typeof path)
-          if (typeof path === "number") {
+          if (typeof path === 'number') {
             return history.go(path)
           }
-          history.replace(path || '/user')
+          history.push('/user/')
         }
       }
     }

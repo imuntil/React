@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router'
 import { List, WhiteSpace } from 'antd-mobile'
-import { BASEURL, avatars } from '../../constant'
+import { BASEURL, avatars, imgBase } from '../../constant'
 import MissData from '../../components/Error/MissData.js'
 import routeLoading from '../../components/HighComponent/routeLoading'
 import styles from './IndexPage.css';
@@ -12,15 +12,15 @@ const { Item } = List
 class IndexPage extends React.Component {
   render() {
     const { user, history } = this.props
-    const img = user.imgname
+    const img = user.avatar
     let avatar = ''
     if (`${img}`.length < 4) {
       avatar = avatars[+img - 1]
     } else {
-      avatar = `${BASEURL}upload/${img}?${Math.random()}`
+      avatar = `${imgBase}${img}?${Math.random()}`
     }
     return (
-      user.usersid
+      user._id
         ? (
           <div className={styles.normal}>
             <div className={styles.header}>
@@ -31,7 +31,7 @@ class IndexPage extends React.Component {
                 <Link to="user/modify-avatar" className={styles.edit_avatar}>编辑头像</Link>
               </div>
               <p className={styles.nick}>
-                <Link to="user/modify-nick">{user.name}</Link>
+                <Link to="user/modify-nick">{user.nick}</Link>
               </p>
             </div>
             <div className={styles.list_body}>

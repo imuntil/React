@@ -29,12 +29,9 @@ class ZCode extends React.Component {
   }
   run = async () => {
     let { limit } = this.state
-    console.log('out', this.unmount);
     while (limit > 0 && !this.unmount) {
-      console.log('in', this.unmount);
       await delay(1000)
       limit -= 1
-      console.log('pre', this.unmount);
       if (this.unmount) throw new Error('component has un mount')
       this.setState({ limit })
     }

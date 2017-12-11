@@ -4,14 +4,12 @@ import { USER_INFO_KEY } from '../../constant'
 export default {
   namespace: 'user-info',
   state: {
-    imgname: '',
-    name: '',
+    avatar: '',
+    nick: '',
     openid: '',
     phone: '',
-    usersid: '',
-    black: 0,
+    uid: '',
     rank: '',
-    password: '',
     expired: false
   },
   reducers: {

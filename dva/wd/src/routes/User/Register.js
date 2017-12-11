@@ -27,15 +27,12 @@ class Register extends React.Component {
   }
   vp = async (phone) => {
     const { data } = await verifyPhone({ phone })
-    return +data.resultcode !== 1
+    return +data.data !== 1
   }
   gvc = async (phone) => {
-    const { data: { result, resultcode } } = await getVerifyCode({ phone })
-    if (+resultcode === 1) {
-      this.code = result
-      return true
-    }
-    return false
+    const { data } = await getVerifyCode({ phone })
+    this.code = data.data
+    return true
   }
   handleGetCode = async () => {
     const { phone, codeRun } = this.state
@@ -69,19 +66,23 @@ class Register extends React.Component {
     this.setState({ codeRun: false })
   }
   handleRegister = () => {
-    // const { code, submit } = this.state
-    // if (submit) return false
-    // this.setSubmit()
-    // if (code.valid) {
-    //   const res = Base64.encode(code.v) === this.code
-    //   if (res) {
-    //     this.setState({ codeRun: false })
-    //     this.props.history.push('/user/reg2')
-    //   } else {
-    //     Toast.fail('验证码有误', 2)
-    //   }
-    // }
-    this.props.history.push('/user/reg2')
+    const { code, submit, phone } = this.state
+    if (submit) return false
+    this.setSubmit()
+    if (code.valid) {
+      const res = +code.v === this.code
+      if (res) {
+        this.setState({ codeRun: false })
+        this.props.dispatch({
+          type: 'user-info/save',
+          payload: { phone: phone.v }
+        })
+        this.props.history.push('/user/reg2')
+      } else {
+        Toast.fail('验证码有误', 2)
+      }
+    }
+    // this.props.history.push('/user/reg2')
   }
   code = null
   render() {

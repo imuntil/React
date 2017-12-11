@@ -2,7 +2,9 @@ import React from 'react'
 import { connect } from 'dva'
 import ZInput from '../../components/Form/ZInput.js'
 import { regexp } from '../../services/ct.js'
+import { Toast } from 'antd-mobile'
 import routeLoading from '../../components/HighComponent/routeLoading'
+import { register } from '../../services/user'
 import styles from './Reg2Page.css'
 
 class Reg2Page extends React.Component {
@@ -13,6 +15,12 @@ class Reg2Page extends React.Component {
       password: { v: '', valid: false },
       pw2: { v: '', valid: false },
       submit: false
+    }
+  }
+  componentWillMount () {
+    const { phone } = this.props
+    if (!phone) {
+      this.props.history.go(-1)
     }
   }
   setSubmit = () => {
@@ -30,12 +38,22 @@ class Reg2Page extends React.Component {
       }
     })
   }
-  handleCompleteClick = () => {
+  handleCompleteClick = async () => {
     const { nick, password, pw2, submit } = this.state
+    const { dispatch, history } = this.props
     if (submit) return false
     this.setSubmit()
     if (nick.valid && password.valid && pw2.v === password.v) {
-      console.log('complete');
+      const { err, data } = await register({ nick: nick.v, password: password.v, phone: this.props.phone })
+      if (err) {
+        Toast.fail('出错了，请稍后重试', 1)
+        return false
+      }
+      dispatch({
+        type: 'user-info/save',
+        payload: { ...data.data }
+      })
+      history.replace('/user')
     }
   }
   render() {
@@ -74,8 +92,9 @@ class Reg2Page extends React.Component {
   }
 }
 
-function mapStateToProps() {
-  return {}
+function mapStateToProps(state) {
+  const phone = state['user-info'].phone
+  return { phone }
 }
 
 export default connect(mapStateToProps)(routeLoading(Reg2Page))

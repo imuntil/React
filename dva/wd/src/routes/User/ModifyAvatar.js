@@ -4,7 +4,7 @@ import _ from 'lodash'
 import QueueAnimate from 'rc-queue-anim'
 import { WhiteSpace, WingBlank, Toast } from 'antd-mobile'
 import AvatarEditor from '../../components/Form/AvatarEditor'
-import { avatars, BASEURL } from '../../constant'
+import { avatars, imgBase } from '../../constant'
 import { delay } from '../../services/tools-fun'
 import { modifyAvatar } from '../../services/user'
 import routeLoading from '../../components/HighComponent/routeLoading'
@@ -31,45 +31,42 @@ function Avatar({ i, j, handleAvatarClick, chosen, avatar }) {
 class ModifyAvatar extends React.Component {
   state = { showEditor: false, temp: '', chosen: null, g2: chunks.slice(2) }
   componentWillMount() {
-    const { user: { imgname } } = this.props
+    const { user: { avatar } } = this.props
     const { g2 } = this.state
-    if (`${imgname}`.length > 4) {
-      const ng2 = g2.concat(`${BASEURL}upload/${imgname}?${Math.random()}`)
+    if (`${avatar}`.length > 4) {
+      const ng2 = g2.concat(`${imgBase}${avatar}?${Math.random()}`)
       this.setState({ g2: ng2, chosen: (ng2.length + 8) - 1 })
     } else {
-      this.setState({ chosen: imgname - 1 })
+      this.setState({ chosen: avatar - 1 })
     }
   }
   g1 = chunks.slice(0, 2)
-  updateToLocal = (imgname) => {
+  updateToLocal = (data) => {
     const { dispatch } = this.props
     dispatch({
       type: 'user-info/saveToLocal',
-      payload: { imgname, expired: true }
+      payload: { ...data }
     })
   }
   pushToServer = (imgfile, local = false) => {
     const { user, history } = this.props
-    const body = new FormData()
-    body.append('phone', user.phone)
-    body.append('imgfile', imgfile)
-    modifyAvatar(body)
+    modifyAvatar({ uid: user._id, imgStr: imgfile })
       .then(({ data }) => {
-        if (+data.resultcode === 1) {
+        if (+data.code === 0) {
           Toast.success('头像更新成功', 1)
-          if (local) this.updateToLocal(imgfile)
-          else this.updateToLocal(data.result)
+          if (local) this.updateToLocal({ avatar: imgfile })
+          else this.updateToLocal(data.data)
           delay(1000)
             .then(() => {
               history.go(-1)
             })
         } else {
-          Toast.fail(`操作失败，请稍后重试:${data.resultcode}`, 1000)
+          Toast.fail(`操作失败，请稍后重试:${data.resultcode}`, 1)
         }
       })
       .catch(err => {
         console.log(err);
-        Toast.fail('操作失败，请稍后重试', 1000)
+        Toast.fail('操作失败，请稍后重试', 1)
       })
   }
   handleEditEnd = (base64) => {
