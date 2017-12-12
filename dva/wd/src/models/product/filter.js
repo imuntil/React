@@ -57,14 +57,14 @@ export default {
         yield put({ type: 'list-store/fillStore' })
       }
       const { err, data = {} } = yield call(api.fetchFilerPros, { ...params })
-      const { resultcode, result: res } = data
-      if (err || +resultcode !== 1) {
+      const { code, data: res } = data
+      if (err || +code !== 0) {
         yield put({
           type: 'error/fetchDataError',
-          payload: { msg: '获取数据失败', code: +resultcode || -100 }
+          payload: { msg: '获取数据失败', code: +code || -100 }
         })
       } else {
-        const { idList } = normalizes(res)
+        const idList = res.map(i => i.sku)
         yield put({
           type: 'saveList',
           payload: {

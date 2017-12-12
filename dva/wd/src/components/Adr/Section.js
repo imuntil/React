@@ -19,17 +19,17 @@ function Section({ adr = {}, onDefaultClick, onDeleteClick, onChosen, chosen }) 
               <span className={styles.label}>{adr.label}</span>
             </p>
             <p className={styles.g_2}>
-              {`${adr.city} ${adr.address}`}
+              {`${adr.province} ${adr.city} ${adr.detail}`}
             </p>
           </div>
           <div className={styles.down}>
             <div className={styles.d_left}>
               <a
-                onClick={() => { onDefaultClick(adr.id, adr.status) }}
+                onClick={() => { onDefaultClick(adr._id, adr.isDefault) }}
                 href="javascript:;"
               >
                 {
-                  adr.status
+                  adr.isDefault
                     ? <em className={styles.checked} />
                     : <em className={styles.default} />
                 }
@@ -37,12 +37,12 @@ function Section({ adr = {}, onDefaultClick, onDeleteClick, onChosen, chosen }) 
               </a>
             </div>
             <div className={styles.d_right}>
-              <Link to={`/adr/edit/${adr.id}`}>编辑</Link>
+              <Link to={`/adr/edit/${adr._id}`}>编辑</Link>
               <a
                 onClick={() => {
                   alert('删除', '确定删除这条地址么', [
                     { text: '取消' },
-                    { text: '确定', onPress: () => { onDeleteClick(adr.id) }}
+                    { text: '确定', onPress: () => { onDeleteClick(adr._id) }}
                   ])
                 }}
                 href="javascript:;"

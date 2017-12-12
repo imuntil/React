@@ -71,6 +71,7 @@ class Filter extends React.Component {
     })
   }
   handleParamsChange = ({ ...payload }) => {
+    debugger
     const { params, dispatch } = this.props
     const nfp = _.isEmpty(this.nfp) ? params : this.nfp
     if (payload.sort && payload.sort === nfp.sort) return
@@ -86,20 +87,20 @@ class Filter extends React.Component {
       payload: { params: this.nfp }
     })
   }
-  handleAddToCart = async (id) => {
+  handleAddToCart = async (sku) => {
     const { user, dispatch, history } = this.props
-    const userid = user && user.usersid
-    if (!userid) {
+    const uid = user && user._id
+    if (!uid) {
       // 未登录处理
       afterLogin.path = -1
       history.push('/user/login')
       return false
     }
-    const { data = {}, err } = await addProToCart({ userid, id, pronum: 1 })
-    if (err || (+data.resultcode !== 1 && +data.resultcode !== 0)) {
+    const { data = {}, err } = await addProToCart({ uid, sku, pronum: 1 })
+    if (err || (+data.code !== 0)) {
       dispatch({
         type: 'error/dataOperationError',
-        payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+        payload: { msg: '添加购物车失败', code: data.code || -10 }
       })
       return false
     }

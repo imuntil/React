@@ -76,7 +76,7 @@ function RouterConfig({ history, app }) {
           }
         },
         {
-          path: 'product/:id',
+          path: 'product/:sku',
           layout: 'NoBarLayout',
           name: 'ProductDetail',
           getComponent(nextState, cb) {

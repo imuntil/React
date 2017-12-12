@@ -55,10 +55,10 @@ export default {
     toggleLike: [
       function* ({ payload }, { call, select, put }) {
         // yield put({ type: 'partLoading/startLoad' })
-        const { id, currentStatus } = payload
-        const { usersid: userid } = yield select(state => state['user-info'])
+        const { sku, currentStatus } = payload
+        const { _id: uid } = yield select(state => state['user-info'])
         const { data = {}, err } =
-          yield call(addOrDelCollection, { userid, id, type: currentStatus ? 'del' : 'add' })
+          yield call(addOrDelCollection, { uid, sku, type: currentStatus ? 'del' : 'add' })
         if (err || +data.resultcode !== 1) {
           yield put({
             type: 'error/dataOperationError',

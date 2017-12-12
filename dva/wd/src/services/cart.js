@@ -1,5 +1,5 @@
 import request from '../utils/request'
-import { BASEURL } from "../constant"
+import { BASEURL, base } from "../constant"
 
 // 拉取购物车
 export function fetchCart({ userid }) {
@@ -14,6 +14,12 @@ export function deleteProFromCart({ cid }) {
   return request(`${BASEURL}delShoppingCartSct.action?flag=1&cid=${cid}`)
 }
 // 添加商品到购物车
-export function addProToCart({ userid, id, pronum }) {
-  return request((`${BASEURL}insertShoppingCartSct.action?flag=1&userid=${userid}&id=${id}&pronum=${pronum}`))
+export function addProToCart({ uid, sku }) {
+  return request((`${base}users/${uid}/cart/add`), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ sku })
+  })
 }

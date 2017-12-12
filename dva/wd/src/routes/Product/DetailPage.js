@@ -38,10 +38,10 @@ class Detail extends React.Component {
     }
   }
   componentWillMount() {
-    const { params: { id }, dispatch } = this.props
+    const { params: { sku }, dispatch } = this.props
     dispatch({
       type: 'detail/fetchDetail',
-      payload: [id, ...mustLikeIds]
+      payload: [sku, ...mustLikeIds]
     })
   }
   shouldComponentUpdate() {
@@ -54,19 +54,19 @@ class Detail extends React.Component {
     this.setState({ more: !more })
   }
   handleCollectionClick = currentStatus => {
-    const { params: { id }, dispatch } = this.props
+    const { params: { sku }, dispatch } = this.props
     const whether = this.whetherToLogin()
     if (whether) return false
-    dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus } })
+    dispatch({ type: 'collection/toggleLike', payload: { sku, currentStatus } })
   }
   handleAddToCart = async () => {
-    const { params: { id }, dispatch, user } = this.props
+    const { params: { sku }, dispatch, user } = this.props
     if (this.whetherToLogin()) return false
-    const { data = {}, err } = await addProToCart({ userid: user.usersid, id, pronum: 1 })
-    if (err || (+data.resultcode !== 1 && +data.resultcode !== 0)) {
+    const { data = {}, err } = await addProToCart({ uid: user._id, sku, pronum: 1 })
+    if (err || (+data.code !== 0)) {
       dispatch({
         type: 'error/dataOperationError',
-        payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+        payload: { msg: '添加购物车失败', code: data.code || -10 }
       })
       return false
     }
@@ -74,10 +74,10 @@ class Detail extends React.Component {
     Toast.success('已加入购物车', 1)
   }
   whetherToLogin = () => {
-    const { history, user, params: { id } } = this.props
-    if (!user.usersid) {
+    const { history, user, params: { sku } } = this.props
+    if (!user._id) {
       // 未登录状况
-      afterLogin.path = `/product/detail/${id}`
+      afterLogin.path = `/product/detail/${sku}`
       history.push('/user/login')
       return true
     }
@@ -85,9 +85,9 @@ class Detail extends React.Component {
   }
   render() {
     const { current, loading, store,
-      likeLoading, must, maybe, collection, params: { id } } = this.props
+      likeLoading, must, maybe, collection, params: { sku } } = this.props
     const { more } = this.state
-    const like = collection.indexOf(+id) > -1
+    const like = collection.indexOf(+sku) > -1
     const data = store[current]
     const maybeData = maybe.map(i => store[i])
     const mustData = must.map(i => store[i])
@@ -99,12 +99,12 @@ class Detail extends React.Component {
             : (
               <div className={styles.normal}>
                 <div className="section" style={{ paddingTop: 0 }}>
-                  <img src={IMGURL + data.image1} alt="" width="100%" />
+                  <img src={IMGURL + data.images[0]} alt="" width="100%" />
                   <WS />
                   <div className={styles.info}>
                     <div className={styles.name}>
-                      <p className={styles.font}>{data.englishname}</p>
-                      <p className={styles.font}>{data.proname}</p>
+                      <p className={styles.font}>{data.en}</p>
+                      <p className={styles.font}>{data.cn}</p>
                     </div>
                     <div className={styles.heart}>
                       <a href="javascript:;" onClick={() => this.handleCollectionClick(like)}>
@@ -112,23 +112,23 @@ class Detail extends React.Component {
                       </a>
                     </div>
                   </div>
-                  <p className={styles.content}>{data.procontent}ml</p>
+                  <p className={styles.content}>{data.content}ml</p>
                   <WS />
                   <p className={styles.price}>
-                    <PriceLabel price={data.proprice} />
+                    <PriceLabel price={data.truePrice} />
                   </p>
                   <WS size="lg" />
                   <div className={styles.pro_params}>
-                    <span>酒精度:{data.proalcoholic}%</span>
-                    <span>来自:{data.proarea}</span>
-                    <span>类别:{types[data.prolabel]}</span>
-                    <span>重量:{data.proweight}g</span>
+                    <span>酒精度:{data.alcoholic}%</span>
+                    <span>来自:{data.origin}</span>
+                    <span>类别:{types[data._type]}</span>
+                    <span>重量:{data.weight}g</span>
                     <span>饮用方式:{data.drnk}</span>
                   </div>
                 </div>
                 <WS />
                 <div className="section">
-                  <div className={styles.rich} dangerouslySetInnerHTML={{ __html: data.prodes }} />
+                  <div className={styles.rich} dangerouslySetInnerHTML={{ __html: data.introduce }} />
                 </div>
                 <WS />
                 <div className="section">

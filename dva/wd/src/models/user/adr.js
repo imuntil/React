@@ -1,5 +1,4 @@
 import { adrList, setDefaultAdr } from '../../services/user'
-import { normalizes } from '../../services/tools-fun'
 import { schema, normalize } from 'normalizr'
 
 export default {
@@ -57,9 +56,9 @@ export default {
       yield put({ type: 'saveList', payload: { idList, list, statusList } })
     },
     *changeDefaultAdr({ payload }, { call, put, select }) {
-      const { usersid } = yield select(state => state['user-info'])
-      const { err, data = {} } = yield call(setDefaultAdr, { userid: usersid, id: payload.id })
-      if (err || +data.resultcode !== 1) {
+      const { _id: uid } = yield select(state => state['user-info'])
+      const { err, data = {} } = yield call(setDefaultAdr, { uid, aid: payload.aid })
+      if (err || +data.code !== 0) {
         yield put({
           type: 'error/dataOperationError',
           payload: { msg: '修改未成功-。-', code: data.resultcode || -10 }
@@ -67,7 +66,7 @@ export default {
         return false
       }
       const { statusList, idList } = yield select(state => state.adr)
-      const index = idList.indexOf(payload.id)
+      const index = idList.indexOf(payload.aid)
       const sl = statusList.map((v, i) => {
         return +(i === index)
       })

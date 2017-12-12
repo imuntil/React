@@ -33,7 +33,7 @@ class AdrEditPage extends React.Component {
   }
   componentWillMount() {
     const { params: { id } } = this.props
-    this.status = +id || 0
+    this.status = id || 0
     if (id) this.setInitStatus(id)
   }
   setInitStatus = (id) => {
@@ -42,15 +42,14 @@ class AdrEditPage extends React.Component {
       history.go(-1)
       return false
     }
-    const { address, city: province, label, name, phone, status } = list[id]
-    const [city, detail] = address.split('-')
+    const { province, city, detail, label, name, phone, isDefault } = list[id]
     const apValue = this.adr2Value([province, city])
 
     this.setState({
       name: { v: name, valid: true },
       phone: { v: phone, valid: true },
       detail: { v: detail, valid: true },
-      isDefault: +status,
+      isDefault: +isDefault,
       lpValue: [label],
       apValue,
       apValueStr: `${province} ${city}`
@@ -84,7 +83,7 @@ class AdrEditPage extends React.Component {
     let p = payload
     if (this.status) {
       fun = modifyAdr
-      p = { ...p, id: this.status }
+      p = { ...p, aid: this.status }
     }
     const { data = {}, err } = await fun(p)
     const msg = this.status ? '更新' : '新增'

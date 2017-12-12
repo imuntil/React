@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { fetchAllPros } from '../../services/product'
-import { normalizes } from '../../services/tools-fun'
+import { schema, normalize } from 'normalizr'
 
 export default {
   namespace: 'list-store',
@@ -18,14 +18,17 @@ export default {
       const store = yield select(state => state['list-store'])
       if (!_.isEmpty(store)) return true
       const { err, data } = yield call(fetchAllPros, {})
-      const { resultcode, result: res } = data
-      if (err || +resultcode !== 1) {
+      const { code, data: res } = data
+      if (err || +code !== 0) {
         yield put({
           type: 'error/fetchDataError',
-          payload: { msg: '获取列表失败', code: +resultcode || -100 }
+          payload: { msg: '获取列表失败', code: +code || -100 }
         })
       } else {
-        const { list, idList } = normalizes(res)
+        const s = new schema.Entity('list', undefined, {
+          idAttribute: value => value.sku
+        })
+        const { result: idList, entities: { list } } = normalize(res, [s])
         yield put({ type: 'add', payload: { ...list } })
         const { ids, all } = payload
         if (ids) {

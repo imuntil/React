@@ -20,16 +20,16 @@ export default {
     }
   },
   effects: {
-    *fetchMaybe({ payload: { type } }, { call, put }) {
-      const { err, data = {} } = yield call(api.fetchMaybe, { type })
-      const { resultcode, result: res } = data
-      if (err || +resultcode !== 1) {
+    *fetchMaybe({ payload: { type, sku } }, { call, put }) {
+      const { err, data = {} } = yield call(api.fetchMaybe, { type, sku })
+      const { code, data: res } = data
+      if (err || +code !== 0) {
         yield put({
           type: 'error/fetchDataError',
-          payload: { msg: `获取'猜你喜欢'失败`, code: +resultcode || -100 }
+          payload: { msg: `获取'猜你喜欢'失败`, code: +code || -100 }
         })
       } else {
-        yield put({ type: 'save', payload: { maybe: res.map(item => item.id) } })
+        yield put({ type: 'save', payload: { maybe: res.map(item => item.sku) } })
       }
     },
     *fetchDetail({ payload }, { put, select, call }) {
@@ -45,7 +45,7 @@ export default {
           }),
           put({
             type: 'fetchMaybe',
-            payload: { type: store[i].prolabel }
+            payload: { type: store[i]._type, sku: i }
           })
         ]
       } else {
@@ -66,7 +66,7 @@ export default {
         }),
         put({
           type: 'fetchMaybe',
-          payload: { type: current.prolabel }
+          payload: { type: current._type, sku: i }
         })
       ]
     }

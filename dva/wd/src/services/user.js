@@ -41,8 +41,12 @@ export async function register ({ phone, nick, password }) {
 export async function adrList({ uid }) {
   return request(`${base}users/${uid}/adrs`)
 }
-export async function setDefaultAdr({ userid, id }) {
-  return request(`${BASEURL}updateAddressAds.action?id=${id}&userid=${userid}`)
+export async function setDefaultAdr({ uid, aid }) {
+  return request(`${base}users/${uid}/adrs/default/${aid}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ isDefault: 0 })
+  })
 }
 export async function modifyAdr({ uid, aid, ...rest }) {
   return request(`${base}users/${uid}/adrs/${aid}`, {
@@ -58,15 +62,17 @@ export async function addAdr({ uid, ...rest }) {
     body: JSON.stringify(rest)
   })
 }
-export async function deleteAdr({ id }) {
-  return request(`${BASEURL}delAddressAds.action?id=${id}`)
+export async function deleteAdr({ uid, aid }) {
+  return request(`${base}users/${uid}/adrs/${aid}`, {
+    method: 'DELETE'
+  })
 }
 
 // 收藏
 export async function fetchCollectionList({ userid }) {
   return request(`${BASEURL}selectUsrShoppingCartSct.action?flag=2&userid=${userid}`)
 }
-export async function addOrDelCollection({ userid, id, type = 'add' }) {
+export async function addOrDelCollection({ uid, sku, type = 'add' }) {
   const url = type !== 'add'
     ? `${BASEURL}delcollectProSct.action?flag=2&proid=${id}&userid=${userid}`
     : `${BASEURL}insertShoppingCartSct.action?flag=2&pronum=0&id=${id}&userid=${userid}`

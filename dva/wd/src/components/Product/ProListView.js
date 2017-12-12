@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { ListView, ActivityIndicator, WingBlank } from 'antd-mobile'
 import styles from './ProListView.css';

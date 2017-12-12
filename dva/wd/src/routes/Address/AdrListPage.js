@@ -21,22 +21,22 @@ class AdrListPage extends React.Component {
     const { dispatch } = this.props
     dispatch({
       type: 'adr/changeDefaultAdr',
-      payload: { id }
+      payload: { aid: id }
     })
   }
-  handleDeleteClick = async id => {
-    const { dispatch } = this.props
-    const { err, data = {} } = await deleteAdr({ id })
-    if (err || +data.resultcode !== 1) {
+  handleDeleteClick = async aid => {
+    const { dispatch, user } = this.props
+    const { err, data = {} } = await deleteAdr({ aid, uid: user._id })
+    if (err || +data.code !== 0) {
       dispatch({
         type: 'error/dataOperationError',
-        payload: { msg: '操作未成功-。-', code: data.resultcode }
+        payload: { msg: '操作未成功-。-', code: data.code }
       })
       return false
     }
     Toast.success('删除成功', 1)
     await delay(200)
-    dispatch({ type: 'adr/deleteAdr', payload: { id } })
+    dispatch({ type: 'adr/deleteAdr', payload: { id: aid } })
   }
   render() {
     const { idList, list, statusList } = this.props
@@ -53,7 +53,7 @@ class AdrListPage extends React.Component {
                     idList.length
                       ? idList.map((id, index) => (
                         <Section
-                          key={id} adr={{ ...list[id], status: statusList[index] }}
+                          key={id} adr={{ ...list[id], isDefault: statusList[index] }}
                           onDefaultClick={this.handleDefaultClick}
                           onDeleteClick={this.handleDeleteClick}
                           onChosen={_id => this.setState({ chosen: +_id })}
