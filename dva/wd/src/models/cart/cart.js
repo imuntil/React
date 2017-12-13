@@ -24,7 +24,7 @@ export default {
   state: {
     idList: [],
     pros: {
-      //id: {id, cid, pronum, prolabel}
+      //sku: {sku, cid, count, _type}
     },
     expired: true,
     maybe: {
@@ -112,9 +112,9 @@ export default {
       const type = payload.type
       const ot = yield select(state => state.cart.maybe.type)
       if (type === ot) return false
-      const { data: { result, resultcode }, err } = yield call(fetchMaybe, { type })
-      if (err || +resultcode !== 1) {
-        yield put({ type: 'error/fetchDataError', payload: { msg: `获取'猜你喜欢'失败`, code: resultcode || -10 } })
+      const { data: { data: result, code }, err } = yield call(fetchMaybe, { type })
+      if (err || +code !== 0) {
+        yield put({ type: 'error/fetchDataError', payload: { msg: `获取'猜你喜欢'失败`, code: code || -10 } })
         return false
       }
       const ids = result.map(item => item.id)
@@ -123,66 +123,69 @@ export default {
     *fetchCart({ payload }, { call, put, select }) {
       const { expired } = yield select(state => state.cart)
       if (!expired) return false
-      const { usersid } = yield select(state => state['user-info'])
+      const { _id: uid } = yield select(state => state['user-info'])
       const listStore = yield select(state => state['list-store'])
       if (_.isEmpty(listStore)) {
         yield put({ type: 'list-store/fillStore' })
       }
-      const { data: { resultcode, result }, err } = yield call(fetchCart, { userid: usersid })
-      if (err || (+resultcode !== 1 && +resultcode !== 0)) {
+      const { data: { code, data: result }, err } = yield call(fetchCart, { uid })
+      if (err || (+code !== 0)) {
         yield put({
           type: 'error/fetchDataError',
-          payload: { msg: '获取购物车失败', code: resultcode || -10 }
+          payload: { msg: '获取购物车失败', code: code || -10 }
         })
         return false
       }
       // v
-      if (+resultcode === 0) {
-        yield put({ type: 'save' })
-        return false
-      }
-      const store = result.map(item => {
-        return _.pick(item, ['id', 'cid', 'pronum', 'prolabel'])
+      // if (+code === 0) {
+      //   yield put({ type: 'save' })
+      //   return false
+      // }
+      const store = result.products.map(item => {
+        return _.pick(item, ['pid', 'cid', 'sku', 'count', 'price', '_type', 'sku'])
       })
-      const ps = new schema.Entity('pros')
-      const prosSchema = [ps]
-      const { result: idList, entities: { pros } } = normalize(store, prosSchema)
+      const ps = new schema.Entity('list', undefined, {
+        idAttribute: v => v.sku
+      })
+      const { result: idList, entities: { list: pros } } = normalize(store, [ps])
       yield [
         put({ type: 'save', payload: { idList, pros } }),
-        put({ type: 'changeMaybe', payload: { type: store[0].prolabel } })
+        put({ type: 'changeMaybe', payload: { type: store[0]._type } })
       ]
     },
     *deleteProFromCart({ payload }, { call, put, select }) {
-      const { cid, id } = payload
+      const { cid, sku } = payload
       const { pros, idList } = yield select(state => state.cart)
-      if (!pros[id]) return false
-      const { err, data } = yield call(deleteProFromCart, { cid })
-      if (err || (+data.resultcode !== 1)) {
+      if (!pros[sku]) return false
+      const { _id: uid } = yield select(state => state['user-info'])
+      const { err, data } = yield call(deleteProFromCart, { cid, uid })
+      if (err || (+data.code !== 0)) {
         yield put({
           type: 'error/dataOperationError',
-          payload: { msg: '删除商品失败', code: data.resultcode || -10 }
+          payload: { msg: '删除商品失败', code: data.code || -10 }
         })
         return false
       }
-      const index = idList.indexOf(id)
-      yield put({ type: 'delPro', payload: { index, id } })
+      const index = idList.indexOf(sku)
+      yield put({ type: 'delPro', payload: { index, sku } })
     },
     *modifyProsNum({ payload }, { put, select }) {
-      const { id, add } = payload
+      const { sku, add } = payload
       const { pros } = yield select(state => state.cart)
-      if (!pros[id]) return false
+      if (!pros[sku]) return false
       // api here
-      const pro = pros[id]
-      let { pronum } = pro
-      pronum = parseInt(pronum, 10)
+      const pro = pros[sku]
+      let { count } = pro
+      count = parseInt(count, 10)
       if (add) {
-        pronum += 1
-      } else if (pronum > 1) {
-        pronum -= 1
+        count += 1
+      } else if (count > 1) {
+        count -= 1
       }
-      const np = { ...pros, [id]: { ...pro, pronum } }
+      const np = { ...pros, [sku]: { ...pro, count } }
+      const { _id: uid } = yield select(state => state['user-info'])
       yield put({ type: 'updateProNum', payload: { np } })
-      yield put({ type: 'updateProNumToServer', payload: { pronum, cid: pros[id].cid } })
+      yield put({ type: 'updateProNumToServer', payload: { count, cid: pros[sku].cid, uid } })
     },
     updateProNumToServer: [
       function* ({ payload }, { call }) {
@@ -193,14 +196,14 @@ export default {
       { type: 'takeLatest' }
     ],
     *addProToCart({ payload }, { call, put, select }) {
-      const { id } = payload
-      const { usersid: userid } = yield select(state => state['user-info'])
+      const { sku } = payload
+      const { _id: uid } = yield select(state => state['user-info'])
       const { data = {}, err } =
-        yield call(addProToCart, { id, userid, pronum: 1 })
-      if (err || +data.resultcode !== 1) {
+        yield call(addProToCart, { sku, uid, count: 1 })
+      if (err || +data.code !== 0) {
         yield put({
           type: 'error/dataOperationError',
-          payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+          payload: { msg: '添加购物车失败', code: data.code || -10 }
         })
         return false
       }

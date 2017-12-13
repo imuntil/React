@@ -23,13 +23,13 @@ export function CategoryLayerF({ changeParams }) {
     <div className={styles.normal}>
       <img src={require('../../assets/ig-dir/c-all-4.jpg')} alt="" />
       <div className={styles.btns}>
-        <a onClick={() => changeParams({ flag: '2', type: '1' })} href="javascript:;">&nbsp;</a>
-        <a onClick={() => changeParams({ flag: '2', type: '2' })} href="javascript:;">&nbsp;</a>
-        <a onClick={() => changeParams({ flag: '2', type: '3' })} href="javascript:;">&nbsp;</a>
-        <a onClick={() => changeParams({ flag: '2', type: '4' })} href="javascript:;">&nbsp;</a>
-        <a onClick={() => changeParams({ flag: '2', type: '5' })} href="javascript:;">&nbsp;</a>
-        <a onClick={() => changeParams({ flag: '2', type: '6' })} href="javascript:;">&nbsp;</a>
-        <a onClick={() => changeParams({ flag: '2', type: '7' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '1' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '2' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '3' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '4' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '5' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '6' })} href="javascript:;">&nbsp;</a>
+        <a onClick={() => changeParams({ type: '7' })} href="javascript:;">&nbsp;</a>
       </div>
     </div>
   );

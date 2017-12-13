@@ -27,8 +27,14 @@ function Body({ children }) {
 function Row(props) {
   return <Item {...props} />
 }
-
-
+function contains(a, b) {
+  for (const k in a) {
+    if (a.hasOwnProperty(k) && b[k] !== a[k]) {
+      return false
+    }
+  }
+  return true
+}
 class Filter extends React.Component {
   constructor(props) {
     super(props)
@@ -71,12 +77,14 @@ class Filter extends React.Component {
     })
   }
   handleParamsChange = ({ ...payload }) => {
-    debugger
     const { params, dispatch } = this.props
+    // if (_.isEqual(this.nfp, params)) return
     const nfp = _.isEmpty(this.nfp) ? params : this.nfp
-    if (payload.sort && payload.sort === nfp.sort) return
-    const pl2 = _.omit(nfp, 'sort')
-    if (_.isEqual(pl2, payload)) return
+    // if (payload.sort && payload.sort === nfp.sort) return
+    if (contains(payload, nfp)) {
+      this.hideAll()
+      return
+    }
     this.setState({
       cateLayerShow: false,
       sortLayerShow: false
