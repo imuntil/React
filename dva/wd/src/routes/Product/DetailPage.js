@@ -87,7 +87,7 @@ class Detail extends React.Component {
     const { current, loading, store,
       likeLoading, must, maybe, collection, params: { sku } } = this.props
     const { more } = this.state
-    const like = collection.indexOf(+sku) > -1
+    const like = collection.indexOf(sku) > -1
     const data = store[current]
     const maybeData = maybe.map(i => store[i])
     const mustData = must.map(i => store[i])

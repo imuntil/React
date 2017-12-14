@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { WhiteSpace, WingBlank } from 'antd-mobile'
+import { WhiteSpace, WingBlank, Toast } from 'antd-mobile'
 import ZInput from '../../components/Form/ZInput.js'
 import { regexp, formatPhone } from '../../services/ct'
+import { modifyPassword } from '../../services/user'
 import MissData from '../../components/Error/MissData.js'
 import routeLoading from '../../components/HighComponent/routeLoading'
+import { delay } from '../../services/tools-fun'
 import styles from './ModifyPage.css';
 
 class ModifyPage extends React.Component {
@@ -20,12 +22,20 @@ class ModifyPage extends React.Component {
       this.setState({ submit: false })
     }, 600)
   }
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { oldPw, newPw, newPw2, submit } = this.state
+    const { user: { _id: uid }, history } = this.props
     if (submit) return false
     this.setSubmit()
     if (oldPw.valid && newPw.valid && newPw.v === newPw2.v) {
-      console.log('save');
+      const { err, data } = await modifyPassword({ uid, np: newPw.v, op: oldPw.v })
+      if (!err && data.code === 0) {
+        Toast.success('密码修改完成', 2)
+        await delay(1000)
+        history.go(-2)
+      } else {
+        Toast.fail(data.msg || data.message, 2)
+      }
     }
   }
   handleInputChange = (status, v, msg) => {

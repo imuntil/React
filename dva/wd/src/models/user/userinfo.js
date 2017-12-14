@@ -43,14 +43,12 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          imgname: '',
-          name: '',
+          avatar: '',
+          nick: '',
           openid: '',
           phone: '',
-          usersid: '',
-          black: 0,
+          uid: '',
           rank: '',
-          password: '',
           expired: false
         }
       })

@@ -1,6 +1,5 @@
 import { normalize, schema } from 'normalizr'
 import { fetchAllOrders } from '../../services/user'
-import { normalizes } from '../../services/tools-fun'
 
 export default {
   namespace: 'order-store',
@@ -26,35 +25,38 @@ export default {
   },
   effects: {
     *fetchOrderList({ payload }, { select, call, put }) {
-      const { usersid } = yield select(state => state['user-info'])
-      if (!usersid) {
+      const { _id: uid } = yield select(state => state['user-info'])
+      if (!uid) {
         yield put({ type: 'error/userNotLogin' })
         return false
       }
       const { expired } = yield select(state => state['order-store'])
       if (!expired) return false
-      const { data = {}, err } = yield call(fetchAllOrders, { userid: usersid })
-      if (err || +data.resultcode !== 1) {
+      const { data = {}, err } = yield call(fetchAllOrders, { uid })
+      if (err || +data.code !== 0) {
         yield put({
           type: 'error/fetchDataError',
-          payload: { msg: '获取订单失败了-,-', code: data.resultcode || -10 }
+          payload: { msg: '获取订单失败了-,-', code: data.code || -10 }
         })
         return false
       }
-      const { idList, list } = normalizes(data.result)
+      console.log(data)
+      const s = new schema.Entity('list', undefined, {
+        idAttribute: v => v.orderNumber
+      })
+      const { result: idList, entities: { list } } = normalize(data.data, [s])
       const toPay = [], toReceive = []
-      data.result.forEach(({ orderstatus, id }) => {
-        if (+orderstatus === 3) {
-          toReceive.push(id)
-        } else if (+orderstatus === 0) {
-          toPay.push(id)
+      data.data.forEach(({ status, orderNumber }) => {
+        if (+status === 2) {
+          toReceive.push(orderNumber)
+        } else if (+status === 0) {
+          toPay.push(orderNumber)
         }
       })
       yield put({
         type: 'saveOrders',
         payload: { list, all: idList, toPay, toReceive, expired: false }
       })
-
     }
   },
   subscriptions: {

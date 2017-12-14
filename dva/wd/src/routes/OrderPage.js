@@ -35,7 +35,7 @@ class OrderPage extends React.Component {
       case 0:
         s = 'toPay'
         break
-      case 3:
+      case 2:
         s = 'toReceive'
         break
       default:

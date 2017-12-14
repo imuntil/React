@@ -18,7 +18,7 @@ export function updateCount({ cid, count, uid }) {
 // 删除购物车中的商品
 export function deleteProFromCart({ cid, uid }) {
   return request(`${base}users/${uid}/cart/${cid}`, {
-    method: 'DELETE‘'
+    method: 'DELETE'
   })
 }
 // 添加商品到购物车

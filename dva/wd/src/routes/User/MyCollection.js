@@ -11,32 +11,32 @@ import { addProToCart } from "../../services/cart";
 
 class MyCollection extends React.Component {
   componentWillMount() {
-    const { store, collections, dispatch } = this.props
-    if (!collections || !collections.length) {
-      dispatch({ type: 'collection/fetchCollectionList' })
-    }
+    const { store, dispatch } = this.props
+    // if (!collections || !collections.length) {
+    //   dispatch({ type: 'collection/fetchCollectionList' })
+    // }
     if (_.isEmpty(store)) {
       dispatch({ type: 'list-store/fillStore' })
     }
   }
-  handleDeleteClick = id => {
+  handleDeleteClick = sku => {
     const { dispatch } = this.props
     setTimeout(() => {
-      dispatch({ type: 'collection/toggleLike', payload: { id, currentStatus: true } })
+      dispatch({ type: 'collection/toggleLike', payload: { sku, currentStatus: true } })
     }, 200)
   }
-  handleAddToCart = async (id) => {
+  handleAddToCart = async (sku) => {
     const { user, dispatch } = this.props
-    const userid = user && user.usersid
-    if (!userid) {
+    const uid = user && user._id
+    if (!uid) {
       // 未登录处理
       return false
     }
-    const { data = {}, err } = await addProToCart({ userid, id, pronum: 1 })
-    if (err || (+data.resultcode !== 1 && +data.resultcode !== 0)) {
+    const { data = {}, err } = await addProToCart({ uid, sku })
+    if (err || +data.code !== 0) {
       dispatch({
         type: 'error/dataOperationError',
-        payload: { msg: '添加购物车失败', code: data.resultcode || -10 }
+        payload: { msg: '添加购物车失败', code: data.code || -10 }
       })
       return false
     }

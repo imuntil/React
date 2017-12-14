@@ -22,19 +22,19 @@ class ModifyNick extends React.Component {
   }
   initState = (user) => {
     return user.phone
-      ? { nick: { v: user.name, valid: true }, submit: false }
+      ? { nick: { v: user.nick, valid: true }, submit: false }
       : { nick: { v: '', valid: false }, submit: false }
   }
   handleSubmit = async () => {
     const { submit, nick } = this.state
-    const { user: { phone }, history, dispatch } = this.props
+    const { user: { _id }, history, dispatch } = this.props
     if (submit) return false
     this.setSubmit()
     if (nick.valid) {
-      const { data} = await modifyNick({ phone, nickname: nick.v })
-      const { resultcode } = data
-      if (+resultcode === 1) {
-        dispatch({ type: 'user-info/saveToLocal', payload: { name: nick.v }})
+      const { data} = await modifyNick({ uid: _id, nick: nick.v })
+      const { code } = data
+      if (+code === 0) {
+        dispatch({ type: 'user-info/saveToLocal', payload: { nick: nick.v }})
         Toast.success('修改昵称成功', 2)
         await delay(1500)
         history.go(-1)

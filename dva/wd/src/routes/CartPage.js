@@ -45,46 +45,46 @@ function ShoppingCart({ list, pros, store, cs, onDeletePro, onModifyNum, onChoos
       type={['right', 'scaleY']}
     >
       {
-        list.map(id => (
+        list.map(sku => (
           <SwipeAction
             autoClose className={styles.cart_group}
-            key={id}
+            key={sku}
             right={[
               {
                 text: '删除',
-                onPress: () => onDeletePro(pros[id].cid, id),
+                onPress: () => onDeletePro(pros[sku].cid, sku),
                 style: { backgroundColor: '#e4150e', color: '#fff', fontSize: '28px' }
               }
             ]}
           >
             <div className={styles.inner_group}>
               <ul className={styles.list_horizontal}>
-                <li className={styles.choose} onClick={onChoose.bind(null, id)}>
+                <li className={styles.choose} onClick={onChoose.bind(null, sku)}>
                   <a href="javascript:;">
                     {
-                      cs[id]
+                      cs[sku]
                         ? <img src={require('../assets/ig-dir/chosen.png')} alt="" />
                         : <img src={require('../assets/ig-dir/not-choose.png')} alt="" />
                     }
                   </a>
                 </li>
                 <li className={styles.img}>
-                  <img src={IMGURL + store[id].image1} alt="" />
+                  <img src={IMGURL + store[sku].images[0]} alt="" />
                 </li>
                 <li className={styles.infos}>
-                  <p>{store[id].englishname}</p>
-                  <p>{store[id].proname}</p>
-                  <p>{store[id].procontent}ml</p>
+                  <p>{store[sku].en}</p>
+                  <p>{store[sku].cn}</p>
+                  <p>{store[sku].content}ml</p>
                   <div>
                     <p className={styles.group_add_sub}>
-                      <a onClick={onModifyNum.bind(null, '-', id)} href="javascript:;">–</a>
-                      <span>{pros[id].pronum}</span>
-                      <a onClick={onModifyNum.bind(null, '+', id)} href="javascript:;">+</a>
+                      <a onClick={onModifyNum.bind(null, '-', sku)} href="javascript:;">–</a>
+                      <span>{pros[sku].count}</span>
+                      <a onClick={onModifyNum.bind(null, '+', sku)} href="javascript:;">+</a>
                     </p>
                   </div>
                 </li>
                 <li className={styles.price}>
-                  <PriceLabel price={store[id].proprice} fz={28} />
+                  <PriceLabel price={store[sku].truePrice} fz={28} />
                 </li>
               </ul>
             </div>
@@ -96,17 +96,17 @@ function ShoppingCart({ list, pros, store, cs, onDeletePro, onModifyNum, onChoos
 }
 
 class CartPage extends React.Component {
-  handleDeleteProFromCart = (cid, id) => {
+  handleDeleteProFromCart = (cid, sku) => {
     const { dispatch } = this.props
-    dispatch({ type: 'cart/deleteProFromCart', payload: { cid, id } })
+    dispatch({ type: 'cart/deleteProFromCart', payload: { cid, sku } })
   }
-  handleModifyNum = (method, id) => {
+  handleModifyNum = (method, sku) => {
     const { dispatch } = this.props
-    dispatch({ type: 'cart/modifyProsNum', payload: { id, add: method === '+' } })
+    dispatch({ type: 'cart/modifyProsNum', payload: { sku, add: method === '+' } })
   }
-  handleProChoose = (id) => {
+  handleProChoose = (sku) => {
     const { dispatch } = this.props
-    dispatch({ type: 'cart/toggleChoose', payload: { id } })
+    dispatch({ type: 'cart/toggleChoose', payload: { sku } })
   }
   handleAllChoose = (all) => {
     const { dispatch } = this.props
@@ -116,10 +116,10 @@ class CartPage extends React.Component {
     const { idList = [], pros, store, chooseStatus, maybe, loading } = this.props
     if (_.isEmpty(store)) return false
     let amount = 0
-    const chosenPros = idList.filter(id => {
-      const cs = chooseStatus[id]
+    const chosenPros = idList.filter(sku => {
+      const cs = chooseStatus[sku]
       if (cs) {
-        amount += pros[id].pronum * store[id].proprice
+        amount += pros[sku].count * store[sku].truePrice
         return true
       }
       return false

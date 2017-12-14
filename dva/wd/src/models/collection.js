@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { fetchCollectionList, addOrDelCollection } from '../services/user'
-import { normalizes, delay } from '../services/tools-fun'
+import { delay } from '../services/tools-fun'
 
 /**
  * state为用户收藏产品的id数组，当用户处于登录状态时，
@@ -15,13 +15,13 @@ export default {
       return [...action.payload]
     },
     add2Col(state, action) {
-      const { id } = action.payload
-      if (state.indexOf(id) > -1) return state
-      return state.concat(+id)
+      const { sku } = action.payload
+      if (state.indexOf(sku) > -1) return state
+      return state.concat(sku)
     },
     delFromCol(state, action) {
-      const { id } = action.payload
-      const index = state.indexOf(+id)
+      const { sku } = action.payload
+      const index = state.indexOf(sku)
       if (index === -1) return state
       return [...state.slice(0, index), ...state.slice(index + 1)]
     }
@@ -30,22 +30,22 @@ export default {
     *fetchCollectionList({ payload }, { call, put, select }) {
       const cl = yield select(state => state.collection)
       if (cl && cl.length) return false
-      const { usersid } = yield select(state => state['user-info'])
-      if (!usersid) {
+      const { _id: uid } = yield select(state => state['user-info'])
+      if (!uid) {
         return false
       }
-      const { data = {}, err } = yield call(fetchCollectionList, { userid: usersid })
-      if (err || !_.isArray(data.result)) {
+      const { data = {}, err } = yield call(fetchCollectionList, { uid })
+      if (err || !_.isArray(data.data)) {
         yield put({
           type: 'error/fetchDataError',
           payload: { msg: '获取收藏信息失败-。-' }
         })
         return false
       }
-      const res = data.result
-      let idList = ['null']
+      const res = data.data
+      let idList = []
       if (res.length) {
-        idList = normalizes(data.result).idList
+        idList = res.map(v => v.sku)
       }
       yield put({
         type: 'setCollection',
@@ -59,15 +59,15 @@ export default {
         const { _id: uid } = yield select(state => state['user-info'])
         const { data = {}, err } =
           yield call(addOrDelCollection, { uid, sku, type: currentStatus ? 'del' : 'add' })
-        if (err || +data.resultcode !== 1) {
+        if (err || +data.code !== 0) {
           yield put({
             type: 'error/dataOperationError',
-            payload: { msg: '添加或删除收藏失败-、-', code: data.resultcode || -10 }
+            payload: { msg: '添加或删除收藏失败-、-', code: data.code || -10 }
           })
         } else {
           const type = currentStatus ? 'delFromCol' : 'add2Col'
           yield put({
-            type, payload: { id }
+            type, payload: { sku }
           })
         }
         yield call(delay, 250)

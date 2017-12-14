@@ -10,7 +10,7 @@ export async function login({ phone, password }) {
   return request(`${base}users/login`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ phone, password: md5(password) })
+    body: JSON.stringify({ phone, password: password })
   })
 }
 export async function verifyPhone({ phone }) {
@@ -19,14 +19,25 @@ export async function verifyPhone({ phone }) {
 export async function getVerifyCode({ phone, flag = 1 }) {
   return request(`${base}users/code?phone=${phone}`)
 }
-export async function modifyNick({ phone, nickname }) {
-  return request(`${BASEURL}updatenicknameUsr.action?phone=${phone}&nickname=${nickname}`)
+export async function modifyNick({ uid, nick}) {
+  return request(`${base}users/${uid}/nick`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ nick })
+  })
 }
 export async function modifyAvatar({ uid, imgStr }) {
   return request(`${base}users/${uid}/avatar`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ imgStr })
+  })
+}
+export async function modifyPassword ({ uid, np, op }) {
+  return request(`${base}users/${uid}/password`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ op, np })
   })
 }
 export async function register ({ phone, nick, password }) {
@@ -69,17 +80,20 @@ export async function deleteAdr({ uid, aid }) {
 }
 
 // 收藏
-export async function fetchCollectionList({ userid }) {
-  return request(`${BASEURL}selectUsrShoppingCartSct.action?flag=2&userid=${userid}`)
+export async function fetchCollectionList({ uid }) {
+  return request(`${base}users/${uid}/like`)
 }
 export async function addOrDelCollection({ uid, sku, type = 'add' }) {
-  const url = type !== 'add'
-    ? `${BASEURL}delcollectProSct.action?flag=2&proid=${id}&userid=${userid}`
-    : `${BASEURL}insertShoppingCartSct.action?flag=2&pronum=0&id=${id}&userid=${userid}`
-  return request(url)
+  return request(`${base}users/${uid}/like`, {
+    method: type === 'add' ? 'PUT' : 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ sku })
+  })
 }
 
 // 订单
-export async function fetchAllOrders({ userid }) {
-  return request(`${BASEURL}selectOrderStatusOdr.action?flag=0&orderstatus=0&userid=${userid}`)
+export async function fetchAllOrders({ uid }) {
+  return request(`${base}users/${uid}/order`)
 }

@@ -77,14 +77,14 @@ export default {
       }
     },
     toggleChoose(state, action) {
-      const { id } = action.payload
+      const { sku } = action.payload
       const { chooseStatus } = state
-      const status = chooseStatus[id]
+      const status = chooseStatus[sku]
       return {
         ...state,
         chooseStatus: {
           ...chooseStatus,
-          [id]: !status
+          [sku]: !status
         }
       }
     },
@@ -92,8 +92,8 @@ export default {
       const { all } = action.payload
       const { idList, chooseStatus } = state
       const copyCS = { ...chooseStatus }
-      idList.forEach(id => {
-        copyCS[id] = !all
+      idList.forEach(sku => {
+        copyCS[sku] = !all
       })
       return {
         ...state,
@@ -117,7 +117,7 @@ export default {
         yield put({ type: 'error/fetchDataError', payload: { msg: `获取'猜你喜欢'失败`, code: code || -10 } })
         return false
       }
-      const ids = result.map(item => item.id)
+      const ids = result.map(item => item.sku)
       yield put({ type: 'updateMaybe', payload: { type, ids } })
     },
     *fetchCart({ payload }, { call, put, select }) {
@@ -159,6 +159,8 @@ export default {
       if (!pros[sku]) return false
       const { _id: uid } = yield select(state => state['user-info'])
       const { err, data } = yield call(deleteProFromCart, { cid, uid })
+      console.log(err)
+      console.log(data)
       if (err || (+data.code !== 0)) {
         yield put({
           type: 'error/dataOperationError',
