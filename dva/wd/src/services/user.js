@@ -1,5 +1,5 @@
 import md5 from 'md5'
-import request from '../utils/request';
+import request from '../utils/request'
 import { BASEURL, base } from '../constant'
 
 const headers = {
@@ -19,7 +19,7 @@ export async function verifyPhone({ phone }) {
 export async function getVerifyCode({ phone, flag = 1 }) {
   return request(`${base}users/code?phone=${phone}`)
 }
-export async function modifyNick({ uid, nick}) {
+export async function modifyNick({ uid, nick }) {
   return request(`${base}users/${uid}/nick`, {
     method: 'PUT',
     headers,
@@ -33,14 +33,14 @@ export async function modifyAvatar({ uid, imgStr }) {
     body: JSON.stringify({ imgStr })
   })
 }
-export async function modifyPassword ({ uid, np, op }) {
+export async function modifyPassword({ uid, np, op }) {
   return request(`${base}users/${uid}/password`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ op, np })
   })
 }
-export async function register ({ phone, nick, password }) {
+export async function register({ phone, nick, password }) {
   return request(`${base}users/register`, {
     method: 'POST',
     headers,

@@ -36,7 +36,7 @@ export default {
     })
   ],
   svgSpriteLoaderDirs: svgSpriteDirs,
-  publicPath: '/wd/',
+  publicPath: './',
   autoprefixer: {
     browsers: [
       'iOS >= 8', 'Android >= 4'
