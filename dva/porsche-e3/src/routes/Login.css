@@ -1,0 +1,59 @@
+.container {
+  background: url(../assets/login-bg.jpg) center center no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+.form_box {
+  width: 60%;
+  display: block;
+  margin: 0 auto;
+  padding-top: 7.5%;
+  position: relative;
+}
+.form_box input {
+  background-color: #535050;
+  padding: 8px 8px 8px 35px;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 0.8rem;
+  color: #fff;
+  box-sizing: border-box;
+}
+.form_box input::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.logo {
+  margin-bottom: 15%;
+  text-align: center;
+}
+.c_1 {
+  position: relative;
+  margin-bottom: 12px;
+  background-color: #535050;
+}
+.c_1 img {
+  position: absolute;
+  width: 14px;
+  left: 10px;
+  z-index: 10;
+  top: 5px;
+}
+.login {
+  display: block;
+  font-size: 0.8rem;
+  padding: 10px;
+  text-align: center;
+  color: #ffffff;
+  background-color: red;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.c_2 {
+  position: relative;
+  width: 100%;
+  height: 31px;
+}

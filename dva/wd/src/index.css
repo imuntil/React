@@ -30,7 +30,7 @@ ul {
   list-style-type: none;
 }
 :global(.section) {
-  width: 100%;
+  width: 100%; 
   padding: .25rem 0 .3rem;
   background-color: #fff;
   overflow: hidden;

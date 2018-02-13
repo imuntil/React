@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
 import Border from './components/Border'
+import Basic from './pages/RouterBasic'
+import L2 from './pages/L2'
 import './App.css'
 
 class App extends Component {
@@ -19,6 +21,8 @@ class App extends Component {
         </Border>
         <Border>abc</Border>
         <Border>abcddd</Border>
+        <Basic />
+        <L2 />
       </div>
     )
   }
