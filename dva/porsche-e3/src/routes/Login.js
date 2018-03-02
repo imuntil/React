@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import styles from './Login.css'
+import './Login.scss'
 
 class Login extends Component {
   constructor(props) {
@@ -8,8 +8,6 @@ class Login extends Component {
     this.state = {
       account: ''
     }
-    this.handleAccountChange = this.handleAccountChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
   }
   handleAccountChange = (e) => {
     this.setState({
@@ -18,37 +16,37 @@ class Login extends Component {
   }
   handleClick = () => {
     if (this.state.account) {
-      this.props.history.push('/about')
+      this.props.history.push('/')
     }
   }
   render() {
     return (
-      <section className={styles.container}>
-        <div className={styles.form_box}>
-          <p className={styles.logo}>
+      <section className="container login-page">
+        <div className="form_box">
+          <p className="logo">
             <img src={require('../assets/logo.jpg')} width="50%" alt="" />
           </p>
-          <p className={styles.c_1}>
+          <p className="c_1">
             <input
               type="text"
-              className={styles.account}
+              className="account"
               placeholder="PPN账号登录"
               value={this.state.account}
               onChange={this.handleAccountChange}
             />
             <img src={require('../assets/user-icon.png')} alt="" />
           </p>
-          <p className={styles.c_2}>
+          <p className="c_2">
             <a
               href="javascript:;"
-              className={styles.login}
+              className="login"
               onClick={this.handleClick}
             >
               登录
             </a>
           </p>
         </div>
-        {/* <div className={styles.loading_layer}>loading...</div> */}
+        {/* <div className="loading_layer">loading...</div> */}
       </section>
     )
   }

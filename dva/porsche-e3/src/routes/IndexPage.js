@@ -1,22 +1,18 @@
 import React from 'react'
 import { connect } from 'dva'
-import styles from './IndexPage.css'
+import { Carousel } from 'antd'
+import './IndexPage.scss'
 
 function IndexPage() {
   return (
-    <div className={styles.normal}>
-      <h1 className={styles.title}>Yay! Welcome to dva!</h1>
-      <div className={styles.welcome} />
-      <ul className={styles.list}>
-        <li>
-          To get started, edit <code>src/index.js</code> and save to reload.
-        </li>
-        <li>
-          <a href="https://github.com/dvajs/dva-docs/blob/master/v1/en-us/getting-started.md">
-            Getting Started
-          </a>
-        </li>
-      </ul>
+    <div className="container index-page">
+      <Carousel autoplay="autoplay" className="lala">
+        <div className="test">1</div>
+        <div className="test">2</div>
+        <div className="test">3</div>
+        <div className="test">4</div>
+        <div className="test">5</div>
+      </Carousel>
     </div>
   )
 }
