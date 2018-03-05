@@ -1,31 +1,48 @@
 import React from 'react'
-import { Router } from 'dva/router'
+// import QueueAnim from 'rc-queue-anim'
+import Bundle from './components/Bundle'
+import { Router, Route, Switch } from 'dva/router'
+/* eslint-disable import/no-webpack-loader-syntax */
+import IndexPage from 'bundle-loader?lazy!./routes/IndexPage'
 
-const RouterConfig = ({ history, app }) => {
-  const routes = [
-    {
-      path: '/',
-      name: 'layout',
-      getComponent(nextState, cb) {
-        // const { layout = 'DefaultLayout' } = nextState.routes[1]
-        require.ensure([], require => {
-          cb(null, require(`./components/Layouts/DefaultLayout`).default)
-        })
-      },
-      childRoutes: [
-        {
-          path: '',
-          name: 'login',
-          getComponent(nextState, cb) {
-            require.ensure([], require => {
-              cb(null, { component: require(`./routes/Login`).default })
-            })
-          }
-        }
-      ]
-    }
-  ]
-  return <Router history={history} routes={routes} />
+import AboutPage from 'bundle-loader?lazy!./routes/AboutPage.js'
+
+import News from 'bundle-loader?lazy!./routes/News.js'
+
+import LoginBundle from 'bundle-loader?lazy!./routes/Login.js'
+
+function RouterConfig({ history }) {
+  return (
+    <Router history={history}>
+      <Switch>
+        <Route
+          path="/"
+          exact
+          component={props => (
+            <Bundle load={IndexPage}>{Cmp => <Cmp {...props} />}</Bundle>
+          )}
+        />
+        <Route
+          path="/about"
+          component={props => (
+            <Bundle load={AboutPage}>{Cmp => <Cmp {...props} />}</Bundle>
+          )}
+        />
+        <Route
+          path="/news"
+          component={props => (
+            <Bundle load={News}>{Cmp => <Cmp {...props} />}</Bundle>
+          )}
+        />
+        <Route
+          path="/login"
+          component={props => (
+            <Bundle load={LoginBundle}>{Cmp => <Cmp {...props} />}</Bundle>
+          )}
+        />
+      </Switch>
+    </Router>
+  )
 }
 
 export default RouterConfig
