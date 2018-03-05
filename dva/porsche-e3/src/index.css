@@ -5,3 +5,18 @@ html, body, #root {
 a {
   text-decoration-line: none;
 }
+ul {
+  list-style: none;
+}
+
+.container {
+  height: 100%;
+  position: relative;
+}
+.container .main-body {
+  padding-bottom: 55px;
+  overflow: auto;
+}
+.main-body.no-pb {
+  padding-bottom: 0;
+}

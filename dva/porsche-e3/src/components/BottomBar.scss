@@ -1,0 +1,32 @@
+.tab-bottom {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  background-color: #fff;
+  z-index: 99;
+  bottom: 0;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.25);
+  ul {
+    background: url(../assets/tab-bg.jpg) repeat-x;
+    display: flex;
+    flex-direction: row;
+  }
+  li {
+    width: 33.333333333333%;
+    &:last-child {
+      border-right: none;
+    }
+  }
+  a {
+    line-height: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333333;
+    border-right: 1px solid #bbb;
+    display: block;
+  }
+}
+.tab-bottom.sp-2 li {
+  width: 50%;
+}

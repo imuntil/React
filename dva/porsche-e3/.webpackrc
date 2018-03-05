@@ -1,4 +1,7 @@
 {
   "disableCSSModules": true,
-  "sass": {}
+  "sass": {},
+  "extraBabelPlugins": [
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+  ]
 }
