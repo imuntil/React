@@ -1,4 +1,5 @@
 import dva from 'dva'
+import 'animate.css'
 import './reset.css'
 import './index.css'
 

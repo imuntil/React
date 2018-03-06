@@ -3,13 +3,14 @@ import React from 'react'
 import Bundle from './components/Bundle'
 import { Router, Route, Switch } from 'dva/router'
 /* eslint-disable import/no-webpack-loader-syntax */
-import IndexPage from 'bundle-loader?lazy!./routes/IndexPage'
+import MainPage from 'bundle-loader?lazy!./routes/MainPage'
 
 import AboutPage from 'bundle-loader?lazy!./routes/AboutPage.js'
 
 import News from 'bundle-loader?lazy!./routes/News.js'
 
 import LoginBundle from 'bundle-loader?lazy!./routes/Login.js'
+import GuidePage from 'bundle-loader?lazy!./routes/GuidePage'
 
 function RouterConfig({ history }) {
   return (
@@ -19,7 +20,7 @@ function RouterConfig({ history }) {
           path="/"
           exact
           component={props => (
-            <Bundle load={IndexPage}>{Cmp => <Cmp {...props} />}</Bundle>
+            <Bundle load={MainPage}>{Cmp => <Cmp {...props} />}</Bundle>
           )}
         />
         <Route
@@ -40,6 +41,13 @@ function RouterConfig({ history }) {
             <Bundle load={LoginBundle}>{Cmp => <Cmp {...props} />}</Bundle>
           )}
         />
+        <Route
+          path="/guide"
+          component={props => (
+            <Bundle load={GuidePage}>{Cmp => <Cmp {...props} />}</Bundle>
+          )}
+        />
+        
       </Switch>
     </Router>
   )

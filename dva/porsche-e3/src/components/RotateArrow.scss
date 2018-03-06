@@ -1,7 +1,17 @@
 .rr-wrapper {
   display: inline-block;
   transform-origin: 0 45%;
+  animation: run 2s infinite;
 }
 .r .rotate-arrow {
   transform: scale(-1, 1);
+}
+
+@keyframes run {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
 }

@@ -2,9 +2,9 @@ import React from 'react'
 import RA from './RotateArrow'
 import './Item.scss'
 
-const Item = ({ reverse = false, children }) => {
+const Item = ({ reverse = false, children, handleClick }) => {
   return (
-    <div className={reverse ? 'reverse item-section' : 'item-section'}>
+    <div className={reverse ? 'reverse item-section' : 'item-section'} onClick={handleClick}>
       <img
         src={require('../assets/item-bg-1.png')}
         alt=""

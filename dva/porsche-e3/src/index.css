@@ -1,6 +1,9 @@
-
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
+  font-family: PingFangSC, helvetica neue, hiragino sans gb, arial,
+    microsoft yahei ui, microsoft yahei, simsun, 'sans-serif';
 }
 a {
   text-decoration-line: none;

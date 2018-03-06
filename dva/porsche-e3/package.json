@@ -7,7 +7,9 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "animate.css": "^3.6.1",
     "antd": "^3.2.2",
+    "antd-mobile": "^2.1.6",
     "dva": "^2.1.0",
     "prop-types": "^15.6.1",
     "rc-queue-anim": "^1.4.1",

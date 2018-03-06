@@ -1,22 +1,35 @@
 import React from 'react'
 import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
-import './IndexPage.scss'
+import './MainPage.scss'
 import E3Carousel from '../components/Carousel'
 import Item from '../components/Item'
 import BottomBar from '../components/BottomBar'
 
-function IndexPage() {
+function Title() {
+  const text = ' 全新 Cayenne — 齐心并驰'.split('')
+  return (
+    <div className="title-wrapper">
+      <QueueAnim className="title">
+        {text.map((v, i) => <span key={i}>{v}</span>)}
+      </QueueAnim>
+    </div>
+  )
+}
+
+function MainPage({ history }) {
   return (
     <div className="container index-page">
       <div className="main-body">
+        <Title />
+        <p className="separator-line animated bounceInLeft"></p>
         <E3Carousel />
         <QueueAnim
           className="wrapper"
           type={['right', 'left']}
           ease={['easeOutQuart', 'easeInOutQuart']}
         >
-          <Item key={0}>
+          <Item key={0} handleClick={() => history.push('/guide')}>
             <img
               src={require('../assets/main-item-1.jpg')}
               alt=""
@@ -61,15 +74,12 @@ function IndexPage() {
             </div>
           </Item>
         </QueueAnim>
-        {/* <div className="wrapper">
-         
-        </div> */}
       </div>
       <BottomBar />
     </div>
   )
 }
 
-IndexPage.propTypes = {}
+MainPage.propTypes = {}
 
-export default connect()(IndexPage)
+export default connect()(MainPage)
