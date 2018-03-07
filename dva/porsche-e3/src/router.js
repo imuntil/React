@@ -11,6 +11,8 @@ import News from 'bundle-loader?lazy!./routes/News.js'
 
 import LoginBundle from 'bundle-loader?lazy!./routes/Login.js'
 import GuidePage from 'bundle-loader?lazy!./routes/GuidePage'
+import RulePage from 'bundle-loader?lazy!./routes/RulePage'
+
 
 function RouterConfig({ history }) {
   return (

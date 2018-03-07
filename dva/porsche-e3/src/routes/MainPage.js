@@ -40,7 +40,7 @@ function MainPage({ history }) {
               <p className="small">使用指引</p>
             </div>
           </Item>
-          <Item key={1} reverse={true}>
+          <Item key={1} reverse={true} handleClick={() => history.push('/rule/honor')}>
             <img
               src={require('../assets/main-item-2.jpg')}
               alt=""
