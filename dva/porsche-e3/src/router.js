@@ -1,17 +1,35 @@
 import React from 'react'
 // import QueueAnim from 'rc-queue-anim'
 import Bundle from './components/Bundle'
-import { Router, Route, Switch } from 'dva/router'
+import { Router, Route, Switch, IndexRoute } from 'dva/router'
 /* eslint-disable import/no-webpack-loader-syntax */
 import MainPage from 'bundle-loader?lazy!./routes/MainPage'
-
-import AboutPage from 'bundle-loader?lazy!./routes/AboutPage.js'
-
-import News from 'bundle-loader?lazy!./routes/News.js'
-
 import LoginBundle from 'bundle-loader?lazy!./routes/Login.js'
 import GuidePage from 'bundle-loader?lazy!./routes/GuidePage'
 import RulePage from 'bundle-loader?lazy!./routes/RulePage'
+/* pre-learn */
+import PreLearn from 'bundle-loader?lazy!./routes/pre-learn/index'
+import PreTest from 'bundle-loader?lazy!./routes/pre-learn/Test'
+
+const PRE = () => {
+  return (
+    <Switch>
+      <Route
+        path="/pre/"
+        exact
+        component={props => (
+          <Bundle load={PreLearn}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+      <Route
+        path="/pre/test"
+        component={props => (
+          <Bundle load={PreTest}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+    </Switch>
+  )
+}
 
 function RouterConfig({ history }) {
   return (
@@ -22,18 +40,6 @@ function RouterConfig({ history }) {
           exact
           component={props => (
             <Bundle load={MainPage}>{Cmp => <Cmp {...props} />}</Bundle>
-          )}
-        />
-        <Route
-          path="/about"
-          component={props => (
-            <Bundle load={AboutPage}>{Cmp => <Cmp {...props} />}</Bundle>
-          )}
-        />
-        <Route
-          path="/news"
-          component={props => (
-            <Bundle load={News}>{Cmp => <Cmp {...props} />}</Bundle>
           )}
         />
         <Route
@@ -53,6 +59,10 @@ function RouterConfig({ history }) {
           component={props => (
             <Bundle load={RulePage}>{Cmp => <Cmp {...props} />}</Bundle>
           )}
+        />
+        <Route
+          path="/pre"
+          component={PRE}
         />
       </Switch>
     </Router>

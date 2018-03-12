@@ -51,7 +51,7 @@ function MainPage({ history }) {
               <p className="small">奖励规则</p>
             </div>
           </Item>
-          <Item key={2}>
+          <Item key={2} handleClick={() => history.push('/rule/activity')}>
             <img
               src={require('../assets/main-item-3.jpg')}
               alt=""
@@ -62,7 +62,7 @@ function MainPage({ history }) {
               <p className="small">详细介绍</p>
             </div>
           </Item>
-          <Item key={3} reverse={true}>
+          <Item key={3} reverse={true} open={false}>
             <img
               src={require('../assets/main-item-4.jpg')}
               alt=""

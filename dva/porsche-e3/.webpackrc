@@ -1,7 +1,0 @@
-{
-  "disableCSSModules": true,
-  "sass": {},
-  "extraBabelPlugins": [
-    ["import", { "libraryName": "antd-mobile", "style": "css" }]
-  ]
-}

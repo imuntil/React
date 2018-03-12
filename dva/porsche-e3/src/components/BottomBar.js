@@ -8,7 +8,7 @@ const BottomBar = ({ mode = 3 }) => {
       {mode === 3 ? (
         <ul>
           <li>
-            <Link to="/pre-learn">课前学习</Link>
+            <Link to="/pre">课前学习</Link>
           </li>
           <li>
             <Link to="/training">上市培训</Link>

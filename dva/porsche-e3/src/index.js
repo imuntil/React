@@ -1,7 +1,7 @@
 import dva from 'dva'
 import 'animate.css'
-import './reset.css'
-import './index.css'
+// import './reset.css'
+import './index.scss'
 
 // 1. Initialize
 const app = dva()

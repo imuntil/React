@@ -2,9 +2,9 @@ import React from 'react'
 import RA from './RotateArrow'
 import './Item.scss'
 
-const Item = ({ reverse = false, children, handleClick }) => {
+const Item = ({ reverse = false, children, handleClick, open = true }) => {
   return (
-    <div className={reverse ? 'reverse item-section' : 'item-section'} onClick={handleClick}>
+    <div className={`item-section ${reverse && 'reverse'}`} onClick={handleClick}>
       <img
         src={require('../assets/item-bg-1.png')}
         alt=""
@@ -22,7 +22,7 @@ const Item = ({ reverse = false, children, handleClick }) => {
           />
         </p>
         <ul className="words">
-          <li>{children[1]}</li>
+          <li className={`${!open && 'un-able'}`}>{children[1]}</li>
           <li>
             <RA reverse={reverse} />
           </li>
