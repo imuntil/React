@@ -5,6 +5,7 @@ import QueueAnim from 'rc-queue-anim'
 import TopBanner from '@/components/TopBanner'
 import BottomBar from '@/components/BottomBar'
 import Item from '@/components/Item'
+import alert from '@/components/Modal'
 import './Index.scss'
 
 const PreLearn = () => {
@@ -19,7 +20,19 @@ const PreLearn = () => {
           type={['right', 'left']}
           ease={['easeInQuart', 'easeInOutQuart']}
         >
-          <Item key={0}>
+          <Item
+            key={0}
+            handleClick={() => {
+              alert('lala', 'xxxx', [
+                {
+                  text: 'ok',
+                  onPress() {
+                    console.log('ok')
+                  }
+                }
+              ])
+            }}
+          >
             <img
               src={require('../../assets/pl-item-1.jpg')}
               alt=""
