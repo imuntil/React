@@ -22,7 +22,7 @@ const PRE = () => {
         )}
       />
       <Route
-        path="/pre/test"
+        path="/pre/test/:type?"
         component={props => (
           <Bundle load={PreTest}>{Cmp => <Cmp {...props} />}</Bundle>
         )}

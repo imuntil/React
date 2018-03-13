@@ -1,0 +1,17 @@
+@import '../styles/decoration';
+.question.word-question {
+  padding: 0 10px;
+  position: relative;
+  ul {
+    margin-top: 10px;
+    padding-left: 15px;
+  }
+  & > p, .options {
+    line-height: 1.5;
+  }
+  .options a {
+    padding: 5px 0;
+    display: block;
+    color: $blue;
+  }
+}
