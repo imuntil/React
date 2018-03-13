@@ -1,0 +1,23 @@
+@import '../../styles/decoration.scss';
+.test-page {
+  .main-body {
+    background-color: #dcddde;
+  }
+  .question-area {
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+  .qu-item {
+    margin-bottom: 15px;
+  }
+  .confirm-btn {
+    display: inline-block;
+    font-size: 1rem;
+    color: #fff;
+    background-color: $red;
+    padding: 8px 50px;
+    margin-bottom: 15px;
+  }
+}

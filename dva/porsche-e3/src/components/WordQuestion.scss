@@ -13,5 +13,9 @@
     padding: 5px 0;
     display: block;
     color: $blue;
+    padding: 0 5px;
+  }
+  .options.chosen a {
+    color: $red;
   }
 }

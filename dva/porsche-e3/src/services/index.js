@@ -7,6 +7,6 @@ export async function mockTest() {
     credentials: 'include'
   })
 }
-export async function fetchQuestions() {
-  return request('/questions')
+export async function fetchQuestions(type /* word | pic */) {
+  return request(`/questions/${type}`)
 }
