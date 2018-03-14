@@ -10,6 +10,11 @@ import RulePage from 'bundle-loader?lazy!./routes/RulePage'
 /* pre-learn */
 import PreLearn from 'bundle-loader?lazy!./routes/pre-learn/index'
 import PreTest from 'bundle-loader?lazy!./routes/pre-learn/Test'
+/* traning */
+import TrainingIndex from 'bundle-loader?lazy!./routes/training/Index'
+/* activity */
+import ActIndex from 'bundle-loader?lazy!./routes/training/act/ActIndex'
+import Notice from 'bundle-loader?lazy!./routes/training/act/Notice'
 
 const PRE = () => {
   return (
@@ -27,6 +32,42 @@ const PRE = () => {
           <Bundle load={PreTest}>{Cmp => <Cmp {...props} />}</Bundle>
         )}
       />
+    </Switch>
+  )
+}
+
+const Act = () => {
+  return (
+    <Switch>
+      <Route
+        path="/tr/act"
+        exact
+        component={props => (
+          <Bundle load={ActIndex}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+      <Route
+        path="/tr/act/notice"
+        exact
+        component={props => (
+          <Bundle load={Notice}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+    </Switch>
+  )
+}
+
+const Training = () => {
+  return (
+    <Switch>
+      <Route
+        path="/tr/"
+        exact
+        component={props => (
+          <Bundle load={TrainingIndex}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+      <Route path='/tr/act' component={Act}/>
     </Switch>
   )
 }
@@ -60,10 +101,8 @@ function RouterConfig({ history }) {
             <Bundle load={RulePage}>{Cmp => <Cmp {...props} />}</Bundle>
           )}
         />
-        <Route
-          path="/pre"
-          component={PRE}
-        />
+        <Route path="/pre" component={PRE} />
+        <Route path="/tr" component={Training} />
       </Switch>
     </Router>
   )

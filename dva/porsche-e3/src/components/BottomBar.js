@@ -11,10 +11,10 @@ const BottomBar = ({ mode = 3 }) => {
             <Link to="/pre">课前学习</Link>
           </li>
           <li>
-            <Link to="/training">上市培训</Link>
+            <Link to="/tr">上市培训</Link>
           </li>
           <li>
-            <Link to="/after-learn">课后学习</Link>
+            <Link to="/af">课后学习</Link>
           </li>
         </ul>
       ) : (

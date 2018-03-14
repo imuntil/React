@@ -3,21 +3,23 @@ import PropTypes from 'prop-types'
 import RA from './RotateArrow'
 import './TopBanner.scss'
 
-const TopBanner = ({ children, title, type }) => {
+const TopBanner = ({ children, title, type, raVisible = true }) => {
   return (
     <div className={`top-banner animated pulse ${type && 'md2'}`}>
       {children}
-      <div className="title">
-        <RA />
-        {title}
-      </div>
+      {raVisible ? (
+        <div className="title">
+          <RA />
+          {title}
+        </div>
+      ) : null}
       <p className="separator" />
     </div>
   )
 }
 
 TopBanner.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   type: PropTypes.bool
 }
 export default TopBanner

@@ -4,7 +4,7 @@ const Random = mockjs.Random
 
 let questionCache
 
-if (global.questionCache) {
+if (!global.questionCache) {
   const data = mockjs.mock({
     'data|10': [
       {

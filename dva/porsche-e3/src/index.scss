@@ -25,6 +25,24 @@ ul {
 .main-body.no-pb {
   padding-bottom: 0;
 }
+.main-body.flex {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+  height: 100%;
+  overflow: auto;
+  touch-action: none;
+  -webkit-overflow-scrolling: touch;
+}
+.main-body.gray {
+  background-color: #dcddde;
+}
+.flex > .content-area {
+  flex: 1;
+  overflow: auto;
+  touch-action: none;
+  -webkit-overflow-scrolling: touch;
+}
 .top-banner > img {
   width: 100%;
 }

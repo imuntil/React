@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import QueueAnim from 'rc-queue-anim'
 import TopBanner from '@/components/TopBanner'
 import BottomBar from '@/components/BottomBar'
