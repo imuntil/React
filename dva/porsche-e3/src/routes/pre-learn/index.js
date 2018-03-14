@@ -38,7 +38,7 @@ const PreLearn = ({ history }) => {
                 true,
                 undefined,
                 function() {
-                  history.push('/rule/honor')
+                  history.push('/rule/activity')
                 }
               )
             }}
@@ -66,7 +66,11 @@ const PreLearn = ({ history }) => {
                     }
                   }
                 ],
-                true
+                true,
+                undefined,
+                function () {
+                  history.push('/rule/activity')
+                }
               )
             }}
           >

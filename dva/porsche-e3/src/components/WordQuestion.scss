@@ -1,5 +1,6 @@
 @import '../styles/decoration';
-.question.word-question {
+.question.word-question,
+.question.pic-question {
   padding: 0 10px;
   position: relative;
   ul {
@@ -17,5 +18,38 @@
   }
   .options.chosen a {
     color: $red;
+  }
+}
+.question.pic-question {
+  ul {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    li {
+      width: 45%;
+      margin-top: 5px;
+      position: relative;
+    }
+    .words {
+      width: 100%;
+    }
+  }
+  & > p img {
+    padding-left: 15px;
+    margin-top: 5px;
+  }
+  .options a img {
+    width: 100%;
+    transition: border .2s;
+  }
+  .options.chosen figure img {
+    border: 2px solid $red;
+    box-sizing: border-box;
+  }
+  .options.chosen figcaption {
+    color: $red;
+  }
+  .options figure {
+    margin: 0;
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './WordQuestion.scss'
 
-const Pic = ({ chosen, index, qt, className }) => {
+const Pic = ({ chosen, index, qt, className, onClick }) => {
   const options = ['A', 'B', 'C', 'D']
   const { question: q, foo, answer } = qt
   return (
@@ -13,9 +13,9 @@ const Pic = ({ chosen, index, qt, className }) => {
       </p>
       <ul>
         {answer.map((v, i) => (
-          <li key={i} className={`options ${chosen && 'chosen'}`}>
-            <a href="javascript:;">
-              {foo === 1 ? (
+          <li key={i} className={`options ${chosen === i && 'chosen'} ${foo === 2 && 'words'}`}>
+            <a href="javascript:;" onClick={() => { onClick(i, v.v, index - 1) }}>
+              {foo === 2 ? (
                 <span>
                   <i>{options[i]}</i>、{v.q}
                 </span>
@@ -43,10 +43,12 @@ class WordQuestion extends Component {
     this.props.onAnswer(index, ans)
   }
   render() {
-    const { index, qt, className } = this.props
+    const { index, qt, className, type } = this.props
     const { chosen } = this.state
     const options = ['A', 'B', 'C', 'D']
-    return (
+    return type === 'pic' ? (
+      <Pic chosen={chosen} qt={qt} className={className} index={index} onClick={this.handleClick} />
+    ) : (
       <div className={`question word-question ${className}`}>
         <p>
           {index}、{qt.question}

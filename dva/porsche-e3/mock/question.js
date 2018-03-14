@@ -4,7 +4,7 @@ const Random = mockjs.Random
 
 let questionCache
 
-if (!global.questionCache) {
+if (global.questionCache) {
   const data = mockjs.mock({
     'data|10': [
       {
@@ -24,13 +24,19 @@ if (!global.questionCache) {
         'correct|1-4': 1,
         answer: function() {
           return this.foo === 1
-            ? mockjs.mock({ 'xx|4': [Random.img('300x300')] }).xx
-            : mockjs.mock({ 'xx|4': [() => Random.csentence()] }).xx
+            ? mockjs.mock({
+                'xx|4': [() => Random.img('300x300', Random.color())]
+              }).xx
+            : mockjs.mock({
+                'xx|4': [() => Random.csentence()]
+              }).xx
         },
         question: function() {
           return (
             Random.csentence(5, 15) +
-            (this.foo === 2 ? `||${Random.image('250x250')}` : '')
+            (this.foo === 2
+              ? `||${Random.image('300x100', Random.color())}`
+              : '')
           )
         }
       }

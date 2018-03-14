@@ -5,6 +5,7 @@ import QueueAnim from 'rc-queue-anim'
 import TopBanner from '@/components/TopBanner'
 import BottomBar from '@/components/BottomBar'
 import WordQuestion from '@/components/WordQuestion'
+import alert from '@/components/Modal'
 import './Test.scss'
 
 class Test extends Component {
@@ -28,8 +29,16 @@ class Test extends Component {
 
   /* 提交 */
   handleSubmit = () => {
+    const history = this.props.history
     const points = this.state.ans.filter(v => v).length * 10
-    console.log(points)
+    alert('信息', `提交成功，成绩为${points}`, true, [
+      {
+        text: '确定',
+        onPress() {
+          history.go(-1)
+        }
+      }
+    ])
   }
 
   render() {
@@ -41,7 +50,7 @@ class Test extends Component {
           <TopBanner title={'选择题'} type={true}>
             <img src={require('../../assets/test-banner.jpg')} alt="" />
           </TopBanner>
-          <QueueAnim className="question-area">
+          <QueueAnim className="question-area" interval={200}>
             {questions.map((qt, i) => (
               <WordQuestion
                 key={i}
@@ -49,6 +58,7 @@ class Test extends Component {
                 qt={qt}
                 onAnswer={this.handleAns}
                 className="qu-item"
+                type={match.params.type}
               />
             ))}
           </QueueAnim>
