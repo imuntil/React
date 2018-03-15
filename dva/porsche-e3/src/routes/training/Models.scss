@@ -1,0 +1,27 @@
+@import '../../styles/decoration';
+.models-page-7ejf9 {
+  .content-area {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .current-model {
+    text-align-last: left;
+    padding: 12px 10px;
+    border: 1px solid $blue;
+    margin-bottom: 8px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 0;
+    i {
+      width: 0.5rem;
+      display: inline-block;
+    }
+    img {
+      width: 100%;
+    }
+  }
+}

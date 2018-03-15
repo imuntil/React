@@ -45,7 +45,12 @@ const TrainingIndex = ({ history }) => {
               <p className="mini">基本信息与注意事项</p>
             </div>
           </Item>
-          <Item key={2}>
+          <Item
+            key={2}
+            handleClick={() => {
+              history.push('/tr/models')
+            }}
+          >
             <img
               width="100%"
               src={require('../../assets/tr/th-item-3.jpg')}
@@ -58,7 +63,13 @@ const TrainingIndex = ({ history }) => {
               </p>
             </div>
           </Item>
-          <Item key={3} reverse>
+          <Item
+            key={3}
+            reverse
+            handleClick={() => {
+              history.push('/tr/cpt')
+            }}
+          >
             <img
               src={require('../../assets/tr/th-item-4.jpg')}
               alt=""

@@ -12,6 +12,8 @@ import PreLearn from 'bundle-loader?lazy!./routes/pre-learn/index'
 import PreTest from 'bundle-loader?lazy!./routes/pre-learn/Test'
 /* traning */
 import TrainingIndex from 'bundle-loader?lazy!./routes/training/Index'
+import ModelsPage from 'bundle-loader?lazy!./routes/training/Models'
+import CptPage from 'bundle-loader?lazy!./routes/training/Competition'
 /* activity */
 import ActIndex from 'bundle-loader?lazy!./routes/training/act/ActIndex'
 import Notice from 'bundle-loader?lazy!./routes/training/act/Notice'
@@ -65,6 +67,20 @@ const Training = () => {
         exact
         component={props => (
           <Bundle load={TrainingIndex}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+      <Route
+        path="/tr/models"
+        exact
+        component={props => (
+          <Bundle load={ModelsPage}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
+      <Route
+        path="/tr/cpt"
+        exact
+        component={props => (
+          <Bundle load={CptPage}>{Cmp => <Cmp {...props} />}</Bundle>
         )}
       />
       <Route path='/tr/act' component={Act}/>
