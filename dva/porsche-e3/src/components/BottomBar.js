@@ -14,7 +14,7 @@ const BottomBar = ({ mode = 3 }) => {
             <Link to="/tr">上市培训</Link>
           </li>
           <li>
-            <Link to="/af">课后学习</Link>
+            <Link to="/af/test">课后学习</Link>
           </li>
         </ul>
       ) : (

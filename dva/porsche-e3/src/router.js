@@ -7,16 +7,21 @@ import MainPage from 'bundle-loader?lazy!./routes/MainPage'
 import LoginBundle from 'bundle-loader?lazy!./routes/Login.js'
 import GuidePage from 'bundle-loader?lazy!./routes/GuidePage'
 import RulePage from 'bundle-loader?lazy!./routes/RulePage'
+
 /* pre-learn */
 import PreLearn from 'bundle-loader?lazy!./routes/pre-learn/index'
 import PreTest from 'bundle-loader?lazy!./routes/pre-learn/Test'
-/* traning */
+
+/* training */
 import TrainingIndex from 'bundle-loader?lazy!./routes/training/Index'
 import ModelsPage from 'bundle-loader?lazy!./routes/training/Models'
 import CptPage from 'bundle-loader?lazy!./routes/training/Competition'
 /* activity */
 import ActIndex from 'bundle-loader?lazy!./routes/training/act/ActIndex'
 import Notice from 'bundle-loader?lazy!./routes/training/act/Notice'
+
+/* after-learn */
+import AfTestPage from 'bundle-loader?lazy!./routes/af-learn/AfTest'
 
 const PRE = () => {
   return (
@@ -71,19 +76,30 @@ const Training = () => {
       />
       <Route
         path="/tr/models"
-        exact
         component={props => (
           <Bundle load={ModelsPage}>{Cmp => <Cmp {...props} />}</Bundle>
         )}
       />
       <Route
         path="/tr/cpt"
-        exact
         component={props => (
           <Bundle load={CptPage}>{Cmp => <Cmp {...props} />}</Bundle>
         )}
       />
-      <Route path='/tr/act' component={Act}/>
+      <Route path="/tr/act" component={Act} />
+    </Switch>
+  )
+}
+
+const AF = () => {
+  return (
+    <Switch>
+      <Route
+        path="/af/test"
+        component={props => (
+          <Bundle load={AfTestPage}>{Cmp => <Cmp {...props} />}</Bundle>
+        )}
+      />
     </Switch>
   )
 }
@@ -119,6 +135,7 @@ function RouterConfig({ history }) {
         />
         <Route path="/pre" component={PRE} />
         <Route path="/tr" component={Training} />
+        <Route path="/af" component={AF}></Route>
       </Switch>
     </Router>
   )

@@ -1,0 +1,39 @@
+@import '../../styles/decoration';
+.af-test-ju792ka {
+  .content-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .question-box {
+    padding: 20px 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    & > .question {
+      min-height: 200px;
+      position: relative;
+      width: inherit;
+    }
+    .question .question {
+      position: absolute;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  .next-btn {
+    border-top: 1px solid #ddd;
+    padding: 5px;
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 25px;
+    a {
+      background-color: $red;
+      color: #fff;
+      padding: 12px 60px;
+      border-radius: 2px;
+    }
+  }
+}

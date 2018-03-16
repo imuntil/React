@@ -1,0 +1,27 @@
+@import '../../styles/decoration';
+.cpt-page-d8ej74 {
+  .content-area {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .table-header td {
+    color: $red;
+    a {
+      display: flex;
+      white-space: normal;
+      color: $red;
+      justify-content: center;
+      align-items: center;
+    }
+    img {
+      width: 0.5rem;
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+    .active {
+      color: $red;
+    }
+  }
+}
