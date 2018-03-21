@@ -3,67 +3,77 @@ import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
 import TopBanner from '@/components/TopBanner'
 import WordQuestion from '@/components/WordQuestion'
+import Stopwatch from '@/components/Stopwatch'
+import { Toast } from 'antd-mobile'
 import ques from '@/utils/af-ques'
 import './AfTest.scss'
-
-class Timer {
-  time = null
-  timeBackup = null
-  timer = null
-  constructor(time = 30) {
-    this.time = this.timeBackup = time
-  }
-  run = () => {
-    this.timer = setTimeout(() => {
-      this.time--
-      this.time > 0 && this.run()
-    }, 1000)
-  }
-  cancel = () => {
-    clearTimeout(this.timer)
-    this.time = this.timeBackup
-  }
-}
-
 
 class AfTest extends Component {
   state = {
     currentIndex: 0,
-    timer: new Timer()
+    finish: false
   }
   /* 用户答题结果 */
   answers = []
-  componentDidMount = () => {
-    // this.timer.run()
-    // this.state.timer.run()
+
+  componentWillMount() {
+    const { history } = this.props
+    this.block = history.block((location, action) => {
+      console.log(location, action)
+      return false
+    })
+  }
+
+  componentWillUnmount() {
+    this.block()
   }
 
   handleClick = i => {
     if (this.answers[i] === undefined) {
-      console.log('请完成此题')
+      Toast.info('请完成此题', 1)
       return
     }
-    if (i >= 9) {
-      return
-    }
-    this.setState({
-      currentIndex: i + 1
-    })
+    this.next()
   }
   handleSubmit = () => {
     if (this.answers[ques.length - 1] === undefined) {
-      console.log('请完成此题')
+      Toast.info('请完成此题', 1)
       return
     }
-    console.log(this.answers)
+    /* 答题结束 */
+    this.setState({ finish: true })
+    /* 取消倒计时 */
+    this.sw.cancel()
     const points = this.answers.filter(v => v).length * 10
-    console.log('成绩为:', points)
+    Toast.info(`成绩为:${points}`)
   }
   handleAnswer = (index, ans) => {
     this.answers[index] = ans
   }
+
+  /* 答题超时 */
+  handleTimeout = () => {
+    Toast.fail('答题超时', 1)
+    this.answers[this.state.currentIndex] = false
+    this.next()
+  }
+
+  /* 下一题 */
+  next = () => {
+    let { currentIndex } = this.state
+    if (currentIndex >= 9) {
+      /* 答题结束 */
+      this.setState({ finish: true })
+      return
+    }
+    /* 重置sw */
+    this.sw && this.sw.reRun()
+    this.setState({
+      currentIndex: ++currentIndex
+    })
+  }
   render() {
-    const { currentIndex, timer } = this.state
+    const { currentIndex, finish } = this.state
     const currentQue = ques[currentIndex]
     return (
       <section className="container af-test-ju792ka">
@@ -77,7 +87,11 @@ class AfTest extends Component {
           </TopBanner>
           <div className="content-area">
             <div className="question-box">
-              {/* <span className="timer">{timer.time}</span> */}
+              <Stopwatch
+                limit={2}
+                onEnd={this.handleTimeout}
+                ref={cmp => (this.sw = cmp)}
+              />
               <div className="question">
                 <QueueAnim type={['right', 'left']}>
                   {currentIndex % 2 === 0 ? (
@@ -87,6 +101,7 @@ class AfTest extends Component {
                       qt={currentQue}
                       type="word"
                       onAnswer={this.handleAnswer}
+                      ansAble={!finish}
                     />
                   ) : (
                     <WordQuestion
@@ -95,6 +110,7 @@ class AfTest extends Component {
                       qt={currentQue}
                       type="word"
                       onAnswer={this.handleAnswer}
+                      ansAble={!finish}
                     />
                   )}
                 </QueueAnim>

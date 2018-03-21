@@ -39,6 +39,7 @@ class WordQuestion extends Component {
     status: false
   }
   handleClick = (current, ans, index) => {
+    if (!this.props.ansAble) return
     this.setState({ chosen: current, status: ans })
     this.props.onAnswer(index, ans)
   }
@@ -76,7 +77,8 @@ WordQuestion.propTypes = {
   index: PropTypes.number.isRequired,
   qt: PropTypes.object.isRequired,
   onAnswer: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  ansAble: PropTypes.bool
 }
 
 export default WordQuestion
