@@ -6,6 +6,5 @@ export default {
   extraBabelPlugins: [['import', { libraryName: 'antd-mobile', style: 'css' }]],
   alias: {
     '@': resolve('src')
-  },
-  experimentalDecorators: true
+  }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-// import QueueAnim from 'rc-queue-anim'
+import QueueAnim from 'rc-queue-anim'
 import Bundle from './components/Bundle'
 import { Router, Route, Switch } from 'dva/router'
 /* eslint-disable import/no-webpack-loader-syntax */
@@ -109,36 +109,65 @@ const AF = () => {
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Switch>
-        <Route
-          path="/"
-          exact
-          component={props => (
-            <Bundle load={MainPage}>{Cmp => <Cmp {...props} />}</Bundle>
-          )}
-        />
-        <Route
-          path="/login"
-          component={props => (
-            <Bundle load={LoginBundle}>{Cmp => <Cmp {...props} />}</Bundle>
-          )}
-        />
-        <Route
-          path="/guide"
-          component={props => (
-            <Bundle load={GuidePage}>{Cmp => <Cmp {...props} />}</Bundle>
-          )}
-        />
-        <Route
-          path="/rule/:rule"
-          component={props => (
-            <Bundle load={RulePage}>{Cmp => <Cmp {...props} />}</Bundle>
-          )}
-        />
-        <Route path="/pre" component={PRE} />
-        <Route path="/tr" component={Training} />
-        <Route path="/af" component={AF} />
-      </Switch>
+      <Route
+        path="/"
+        render={({ location }) => (
+          <QueueAnim
+            animConfig={[
+              {
+                opacity: [1, 0],
+                translateX: [0, 25],
+                translateY: [0, 25]
+              },
+              {
+                opacity: [1, 0],
+                translateX: [0, -25],
+                translateY: [0, 25]
+              }
+            ]}
+            duration={[500, 400]}
+            delay={[200, 0]}
+            className="router-anim"
+          >
+            <div key={location.pathname} className="xxxxxx">
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  component={props => (
+                    <Bundle load={MainPage}>{Cmp => <Cmp {...props} />}</Bundle>
+                  )}
+                />
+                <Route
+                  path="/login"
+                  component={props => (
+                    <Bundle load={LoginBundle}>
+                      {Cmp => <Cmp {...props} />}
+                    </Bundle>
+                  )}
+                />
+                <Route
+                  path="/guide"
+                  component={props => (
+                    <Bundle load={GuidePage}>
+                      {Cmp => <Cmp {...props} />}
+                    </Bundle>
+                  )}
+                />
+                <Route
+                  path="/rule/:rule"
+                  component={props => (
+                    <Bundle load={RulePage}>{Cmp => <Cmp {...props} />}</Bundle>
+                  )}
+                />
+                <Route path="/pre" component={PRE} />
+                <Route path="/tr" component={Training} />
+                <Route path="/af" component={AF} />
+              </Switch>
+            </div>
+          </QueueAnim>
+        )}
+      />
     </Router>
   )
 }

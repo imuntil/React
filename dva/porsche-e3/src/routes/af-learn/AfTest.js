@@ -55,7 +55,10 @@ class AfTest extends Component {
   /* 答题超时 */
   handleTimeout = () => {
     Toast.fail('答题超时', 1)
-    this.answers[this.state.currentIndex] = false
+    const { currentIndex } = this.state
+    if (!this.answers.hasOwnProperty(currentIndex)) {
+      this.answers[currentIndex] = false
+    }
     this.next()
   }
 
@@ -90,7 +93,7 @@ class AfTest extends Component {
           <div className="content-area">
             <div className="question-box">
               <Stopwatch
-                limit={30}
+                limit={10}
                 onEnd={this.handleTimeout}
                 ref={cmp => (this.sw = cmp)}
               />
