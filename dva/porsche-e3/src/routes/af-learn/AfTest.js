@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
+import { Prompt } from 'dva/router'
 import QueueAnim from 'rc-queue-anim'
 import TopBanner from '@/components/TopBanner'
 import WordQuestion from '@/components/WordQuestion'
@@ -77,6 +78,7 @@ class AfTest extends Component {
     const currentQue = ques[currentIndex]
     return (
       <section className="container af-test-ju792ka">
+        <Prompt when={!finish} message="Are you sure?" />
         <div className="main-body flex">
           <TopBanner title="试驾体验-测试" type>
             <img
@@ -88,7 +90,7 @@ class AfTest extends Component {
           <div className="content-area">
             <div className="question-box">
               <Stopwatch
-                limit={2}
+                limit={30}
                 onEnd={this.handleTimeout}
                 ref={cmp => (this.sw = cmp)}
               />
