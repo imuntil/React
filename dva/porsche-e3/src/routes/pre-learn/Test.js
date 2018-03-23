@@ -18,6 +18,12 @@ class Test extends Component {
     dispatch({ type: `question/fetch${type}` })
   }
 
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return
+    }
+  }
+
   /* 处理答题 */
   handleAns = (index, value) => {
     const ans = [...this.state.ans]

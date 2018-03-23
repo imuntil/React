@@ -11,6 +11,12 @@ class Models extends Component {
   state = {
     currentModel: '全新 Cayenne'
   }
+
+  componentWillMount = () => {
+    console.log('xxxxxxxxxxx')
+  }
+  
+  
   getModel = cm => {
     const data = models[cm] || []
     return data.map((v, i) => {

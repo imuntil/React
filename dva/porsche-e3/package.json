@@ -14,7 +14,8 @@
     "prop-types": "^15.6.1",
     "rc-queue-anim": "^1.4.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",

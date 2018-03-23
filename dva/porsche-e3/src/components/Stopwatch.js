@@ -4,12 +4,18 @@ import PropTypes from 'prop-types'
 
 class Stopwatch extends Component {
   timer = null
-  constructor(props) {
-    super(props)
-    this.state = {
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     time: this.props.limit
+  //   }
+  // }
+  componentWillMount = () => {
+    this.setState({
       time: this.props.limit
-    }
+    })
   }
+  
 
   componentDidMount() {
     this.run()

@@ -17,7 +17,7 @@ class AfTest extends Component {
   /* 用户答题结果 */
   answers = []
 
-  componentWillMount() {
+  componentWillMount () {
     const { history } = this.props
     this.block = history.block((location, action) => {
       console.log(location, action)
@@ -25,7 +25,7 @@ class AfTest extends Component {
     })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.block()
   }
 

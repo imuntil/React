@@ -38,6 +38,7 @@ class WordQuestion extends Component {
     chosen: -1,
     status: false
   }
+
   handleClick = (current, ans, index) => {
     if (!this.props.ansAble) return
     this.setState({ chosen: current, status: ans })

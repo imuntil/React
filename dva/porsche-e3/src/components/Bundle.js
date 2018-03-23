@@ -25,16 +25,34 @@ class Bundle extends React.Component {
       mod: null
     })
     // 传入组件的组件
-    props.load(mod => {
-      this.setState({
-        // handle both es imports and cjs
-        mod: mod.default ? mod.default : mod
-      })
+    // props.load(mod => {
+    //   this.setState({
+    //     // handle both es imports and cjs
+    //     mod: mod.default ? mod.default : mod
+    //   })
+    // })
+
+    props.load().then(mod => {
+      this.setState({ mod: mod.default ? mod.default : mod })
     })
   }
 
   render() {
     // if state mode not undefined,The container will render children
+    // return this.state.mod ? (
+    //   <div className="router-anim">
+    //     <QueueAnim
+    //       animConfig={[
+    //         { opacity: [1, 0], translateX: [0, 25], translateY: [0, 25] }
+    //       ]}
+    //       duration={500}
+    //     >
+    //       <div className="xxxxxx" key={1}>
+    //         {this.props.children(this.state.mod)}
+    //       </div>
+    //     </QueueAnim>
+    //   </div>
+    // ) : null
     return this.state.mod ? this.props.children(this.state.mod) : null
   }
 }

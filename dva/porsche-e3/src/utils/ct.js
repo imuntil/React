@@ -1,5 +1,5 @@
 export const delay = time =>
-  new Promise((resolve, rejeect) => {
+  new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve()
     }, time)
