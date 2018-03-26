@@ -5,8 +5,8 @@ import { Carousel } from 'antd-mobile'
 import TopBanner from '../components/TopBanner'
 import BottomBar from '../components/BottomBar'
 import './GuidePage.scss'
-const GuidePage = () => {
-  console.log('guide')
+const GuidePage = ({...props}) => {
+  // console.log('guide:', props)
   return (
     <div className="container guide-page">
       <div className="main-body">

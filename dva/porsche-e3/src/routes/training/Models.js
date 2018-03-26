@@ -14,9 +14,14 @@ class Models extends Component {
 
   componentWillMount = () => {
     console.log('xxxxxxxxxxx')
+    console.log(this.props.history.action)
   }
-  
-  
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log(nextProps.history, this.props.history)
+    return true
+  }
+
   getModel = cm => {
     const data = models[cm] || []
     return data.map((v, i) => {
@@ -25,16 +30,19 @@ class Models extends Component {
     })
   }
   handleClick = () => {
-    ActionSheet.showActionSheetWithOptions({
-      options: cayenneModels,
-      message: '请选择',
-      maskClosable: true
-    }, buttonIndex => {
-      if (buttonIndex < 0) return
-      this.setState({
-        currentModel: cayenneModels[buttonIndex]
-      })
-    })
+    ActionSheet.showActionSheetWithOptions(
+      {
+        options: cayenneModels,
+        message: '请选择',
+        maskClosable: true
+      },
+      buttonIndex => {
+        if (buttonIndex < 0) return
+        this.setState({
+          currentModel: cayenneModels[buttonIndex]
+        })
+      }
+    )
   }
   render() {
     const { currentModel } = this.state
@@ -50,7 +58,11 @@ class Models extends Component {
             />
           </TopBanner>
           <div className="content-area">
-            <a href="javascript:;" className="current-model" onClick={this.handleClick}>
+            <a
+              href="javascript:;"
+              className="current-model"
+              onClick={this.handleClick}
+            >
               {currentModel}
               <i>
                 <img src={require('../../assets/select-icon.png')} alt="" />

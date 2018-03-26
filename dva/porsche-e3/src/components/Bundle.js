@@ -9,6 +9,7 @@ class Bundle extends React.Component {
   }
 
   componentWillMount() {
+    console.log('bundle')
     // 加载初始状态
     this.load(this.props)
   }
