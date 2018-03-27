@@ -12,16 +12,6 @@ class Models extends Component {
     currentModel: '全新 Cayenne'
   }
 
-  componentWillMount = () => {
-    console.log('xxxxxxxxxxx')
-    console.log(this.props.history.action)
-  }
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log(nextProps.history, this.props.history)
-    return true
-  }
-
   getModel = cm => {
     const data = models[cm] || []
     return data.map((v, i) => {
@@ -45,6 +35,7 @@ class Models extends Component {
     )
   }
   render() {
+    console.log('model-render')
     const { currentModel } = this.state
     const model = this.getModel(currentModel)
     return (

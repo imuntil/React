@@ -6,6 +6,7 @@ import QueueAnim from 'rc-queue-anim'
 import './Index.scss'
 
 const TrainingIndex = ({ history }) => {
+  console.log('function')
   return (
     <section className="container tr-index-yd63j">
       <div className="main-body">

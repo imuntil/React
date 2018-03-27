@@ -6,6 +6,7 @@ import BottomBar from '../components/BottomBar'
 import './RulePage.scss'
 
 const Honor = () => {
+  console.log('function')
   return (
     <QueueAnim className="rule-box" type={['right', 'left']} ease={['easeOutQuart', 'easeInOutQuart']}>
       <p key={1} data-index="1">

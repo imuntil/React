@@ -18,6 +18,7 @@ class AfTest extends Component {
   answers = []
 
   componentWillMount () {
+    console.log('af-test')
     const { history } = this.props
     this.block = history.block((location, action) => {
       console.log(location, action)
