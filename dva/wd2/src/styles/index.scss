@@ -1,0 +1,33 @@
+@import './reset.css';
+@import './decoration.scss';
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  font-family: PingFangSC, helvetica neue, hiragino sans gb, arial,
+    microsoft yahei ui, microsoft yahei, simsun, 'sans-serif';
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.container {
+  padding: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+.color--red {
+  color: $red;
+}

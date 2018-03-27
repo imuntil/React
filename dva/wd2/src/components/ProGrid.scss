@@ -1,0 +1,28 @@
+.pro-grid-ay29k {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .img img {
+    width: 100%;
+  }
+  .hot {
+    width: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  p {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .8rem;
+    line-height: 1.4;
+    font-weight: bold;
+  }
+  .last {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .5rem;
+  }
+}
