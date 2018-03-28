@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Icon } from 'antd-mobile'
 import Susume from '../components/Susume'
 import ProGrid from '../components/ProGrid'
+import CocktailGrid from '../components/CocktailGrid'
 import './IndexPage.scss'
 
 class IndexPage extends Component {
@@ -29,8 +30,22 @@ class IndexPage extends Component {
             </a>
           </h1>
           <div className="content">
-            <ProGrid className="selling-pro" />
-            <ProGrid className="selling-pro" />
+            <ProGrid
+              className="selling-pro"
+              src={require('../assets/home-sellings-2.jpg')}
+              content={700}
+              price={800}
+              en="Glen Grant Single Whiskey Major Reserve"
+              cn="格兰冠单一麦芽苏格兰威士忌"
+            />
+            <ProGrid
+              className="selling-pro"
+              src={require('../assets/home-sellings-4.jpg')}
+              content={700}
+              price={300}
+              en="Wild Turkey Real Kentucky Straight Bourbon Whiskey"
+              cn="威凤凰波本威士忌"
+            />
           </div>
         </section>
         <section className="cocktail">
@@ -43,6 +58,26 @@ class IndexPage extends Component {
               查看更多<Icon type="right" />
             </a>
           </h1>
+          <div className="content">
+            <CocktailGrid
+              className="cocktail-item"
+              src={require('../assets/cocktail/cocktail-1.jpg')}
+              cn="NEGRONI"
+              en="内格罗尼"
+            />
+            <CocktailGrid
+              className="cocktail-item"
+              src={require('../assets/cocktail/cocktail-2.jpg')}
+              cn="AMERICANO"
+              en="美国佬"
+            />
+            <CocktailGrid
+              className="cocktail-item"
+              src={require('../assets/cocktail/cocktail-3.jpg')}
+              cn="APEROL SPRITZ"
+              en="阿佩罗橙色气泡"
+            />
+          </div>
         </section>
       </div>
     )

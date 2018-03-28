@@ -1,7 +1,7 @@
 @import '../styles/decoration.scss';
 .home-page-kuej8 {
   padding-top: 5px;
-  section {
+  section:not(.cocktail) {
     border-bottom: 1px solid #ddd;
     padding-bottom: 6%;
   }
@@ -30,5 +30,8 @@
   }
   .selling-pro {
     width: 47%;
+  }
+  .cocktail-item {
+    width: 30%;
   }
 }

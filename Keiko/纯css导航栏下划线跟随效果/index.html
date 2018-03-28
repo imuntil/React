@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    ul {
+      list-style: none;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
+
+    li {
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 100%;
+      top: 0;
+      left: 100%;
+      border-bottom: 2px solid #000;
+      transition: all 200ms;
+    }
+
+    li:hover::before {
+      width: 100%;
+      left: 0;
+    }
+
+    li:hover~li::before {
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li>不可思议的</li>
+    <li>导航栏</li>
+    <li>光标小下划线跟随</li>
+    <li>PURE CSS </li>
+    <li>Nav Under line</li>
+  </ul>
+  <a href="https://juejin.im/post/5ab9e9056fb9a028be360292">原文地址</a>
+</body>
+
+</html>

@@ -1,25 +1,35 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { currency } from '../utils/cts'
 import './ProGrid.scss'
 
-const ProGrid = ({ className, ...props }) => {
+const ProGrid = ({ className, content, price, en, cn, src }) => {
   return (
     <div className={`${className} pro-grid-ay29k`}>
       <div className="img">
-        <img src={require('../assets/home-sellings-2.jpg')} alt=""/>
+        <img src={src} alt="" />
         <span className="hot">
-          <img src={require('../assets/hot-1.png')} alt=""/>
+          <img src={require('../assets/hot-1.png')} alt="" />
         </span>
       </div>
       <div className="infos">
-        <p>Glen Grant Single Whiskey Major Reserve</p>
-        <p>格兰冠单一麦芽苏格兰威士忌</p>
+        <p>{en}</p>
+        <p>{cn}</p>
         <p className="last">
-          <span>700ml</span>
-          <span className="color--red">800</span>
+          <span>{content}ml</span>
+          <span className="color--red">{currency(price)}</span>
         </p>
       </div>
     </div>
   )
+}
+
+ProGrid.propTypes = {
+  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  en: PropTypes.string.isRequired,
+  cn: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired
 }
 
 export default ProGrid

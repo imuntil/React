@@ -2,7 +2,8 @@
 @import './decoration.scss';
 
 html,
-body {
+body,
+#root {
   height: 100%;
 }
 
@@ -19,8 +20,20 @@ html {
   color: #333;
 }
 
+.wrapper-m028h {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   padding: 15px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  touch-action: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 a {
