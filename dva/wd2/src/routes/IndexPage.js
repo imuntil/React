@@ -1,16 +1,17 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { Icon } from 'antd-mobile'
+import QueueAnim from 'rc-queue-anim'
 import Susume from '../components/Susume'
 import ProGrid from '../components/ProGrid'
 import CocktailGrid from '../components/CocktailGrid'
 import './IndexPage.scss'
 
-class IndexPage extends Component {
+class IndexPage extends PureComponent {
   render() {
     return (
-      <div className="container home-page-kuej8">
-        <section className="header">
+      <QueueAnim className="container home-page-kuej8">
+        <section className="header" key={0}>
           <h1 className="section-title">
             <p>
               精选指南<br />
@@ -19,7 +20,7 @@ class IndexPage extends Component {
           </h1>
           <Susume />
         </section>
-        <section className="selling">
+        <section className="selling" key={1}>
           <h1 className="section-title">
             <p>
               热卖排行 <br />
@@ -48,7 +49,7 @@ class IndexPage extends Component {
             />
           </div>
         </section>
-        <section className="cocktail">
+        <section className="cocktail" key={2}>
           <h1 className="section-title">
             <p>
               经典鸡尾酒<br />
@@ -79,7 +80,7 @@ class IndexPage extends Component {
             />
           </div>
         </section>
-      </div>
+      </QueueAnim>
     )
   }
 }

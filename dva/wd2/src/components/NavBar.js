@@ -6,15 +6,15 @@ import './NavBar.scss'
 const NavBar = () => {
   return (
     <nav className="nav-bar-oql19">
-      <NavLink to="/" activeClassName="active-link">
+      <NavLink to="/" exact activeClassName="active-link">
         <img src={require('../assets/nav/nav-1.jpg')} alt="" />
         <img className="active" src={require('../assets/nav/nav-1-a.jpg')} alt="" />
       </NavLink>
-      <NavLink to="/" activeClassName="active-link">
+      <NavLink to="/pro" activeClassName="active-link">
         <img src={require('../assets/nav/nav-2.jpg')} alt="" />
         <img className="active" src={require('../assets/nav/nav-2-a.jpg')} alt="" />
       </NavLink>
-      <NavLink to="/" activeClassName="active-link">
+      <NavLink to="/cocktail" activeClassName="active-link">
         <img src={require('../assets/nav/nav-3.jpg')} alt="" />
         <img className="active" src={require('../assets/nav/nav-3-a.jpg')} alt="" />
       </NavLink>

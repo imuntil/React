@@ -6,9 +6,15 @@
   p {
     font-size: .7rem;
     line-height: 1.5;
-    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  p.more-uej28 {
+    color: #989898;
+    margin-top: 3px;
   }
 }

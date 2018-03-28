@@ -23,17 +23,17 @@ html {
 .wrapper-m028h {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .container {
+  height: 100%;
   padding: 15px;
-  flex: 1;
+  padding-bottom: 75px;
   overflow-y: auto;
   overflow-x: hidden;
   touch-action: none;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 a {

@@ -7,6 +7,10 @@
   border-top: 1px solid #ddd;
   box-shadow: 0 -1px 4px 1px rgba(0, 0, 0, 0.1);
   z-index: 10;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding-left: 1%;
   img {
     width: 100%;
   }
@@ -24,7 +28,7 @@
   .active-link .active {
     display: block;
   }
-  a:nth-child(n + 3) {
-    background-color: #fff;
+  a:nth-child(n + 5) img {
+    margin-left: -10%;
   }
 }
