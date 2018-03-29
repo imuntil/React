@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    .container {
+      display: grid;
+      grid-gap: 5px;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 50px 350px 50px;
+      grid-template-areas: 
+        'h h h h h h h h h h h h'
+        'm m c c c c c c c c c c'
+        'f f f f f f f f f f f f';
+    }
+    .header {
+      grid-area: h;
+    }
+    .menu {
+      grid-area: m;
+    }
+    .content {
+      grid-area: c;
+    }
+    .footer {
+      grid-area: f;
+    }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="header" style="background-color: #acf486;"></div>
+    <div class="menu" style="background-color: #ffe975;"></div>
+    <div class="content" style="background-color: #5dfffa;"></div>
+    <div class="footer" style="background-color: #e6b4fd;"></div>
+  </div>
+  <a href="https://segmentfault.com/a/1190000012889793#articleHeader0">grid 入门</a>
+</body>
+</html>
