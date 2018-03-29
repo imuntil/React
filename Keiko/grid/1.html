@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .item {
+      background-color: #0000ff;
+    }
+
+    .item-a {
+      background: #000;
+      grid-area: header;
+    }
+
+    .item-b {
+      background: #00ff00;
+      grid-area: main;
+    }
+
+    .item-c {
+      background: #ff00ff;
+      grid-area: sidebar;
+    }
+
+    .item-d {
+      background: #00ffff;
+      grid-area: footer;
+    }
+
+    [class^="container"] {
+      margin: 20px;
+    }
+
+    .container-1 {
+      display: grid;
+      height: 200px;
+      grid-template-columns: 100px 50px 100px;
+      grid-template-rows: 80px auto 80px;
+      grid-column-gap: 10px;
+      grid-row-gap: 15px;
+    }
+
+    .container-2 {
+      width: 400px;
+      height: 300px;
+      display: grid;
+      grid-template-columns: repeat(2, 40px 50px) 20px;
+      grid-template-rows: [row1-start] 100px [r1-end r2-start] 50px [r2-end r3-start] 40px [r3-end];
+      justify-content: space-between;
+      align-content: space-between;
+    }
+
+    .container-3 {
+      display: grid;
+      width: 200px;
+      height: 200px;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-gap: 5px;
+    }
+
+    .container-4 {
+      width: 300px;
+      height: 300px;
+      grid-template-columns: repeat(4, 50px);
+      grid-gap: 10px;
+      grid-template-rows: auto;
+      /* grid-template-areas: 'a1 a1 a1 a1' 'a2 a2 a1 a1'; */
+    }
+
+    .container-5 {
+      display: grid;
+      width: 300px;
+      height: 300px;
+      grid-template-columns: 60px 60px;
+      grid-template-rows: 90px 90px;
+    }
+    .item-1 {
+      grid-column: 1 / 2;
+      grid-row: 2 / 2;
+      background-color: #ff00ff;
+    }
+    .item-2 {
+      grid-column: 2 / 3;
+      grid-row: 3 /4;
+      background: #00ffff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-1">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+  <div class="container-2">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+  <div class="container-3">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+  <div class="container-4">
+  </div>
+  <div class="container-5">
+    <div class="item-1"></div>
+    <div class="item-2"></div>
+  </div>
+</body>
+
+</html>
