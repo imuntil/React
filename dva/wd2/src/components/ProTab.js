@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import QueueAnim from 'rc-queue-anim'
 import './ProTab.scss'
 
 class ProTab extends PureComponent {
@@ -49,11 +50,7 @@ class ProTab extends PureComponent {
   render() {
     const { className } = this.props
     const { categoryShow, sortShow } = this.state
-    return (
-      <div
-        className={`pro-tab-fj920 ${className} ${categoryShow &&
-          'no-border-fj920'}`}
-      >
+    return <div className={`pro-tab-fj920 ${className} ${categoryShow && 'no-border-fj920'}`}>
         <div className="tab-group-fj920">
           <a className="inTab-fj920" href="javascript:;" onClick={() => this.handleTabClick(0)}>
             产品分类<span>▼</span>
@@ -62,55 +59,52 @@ class ProTab extends PureComponent {
             智能排序<span>▼</span>
           </a>
         </div>
-        {categoryShow ? (
-          <div className="category-layer-fj920">
-            <img src={require('../assets/c-all-4.jpg')} alt="" />
-            <ul>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-              <li>
-                <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
-              </li>
-            </ul>
-          </div>
-        ) : null}
-        {sortShow ? (
-          <div className="sort-layer-fj920">
-            <a className="inTab-fj920" href="javascript:;">
-              销量最高<span>▼</span>
-            </a>
-            <a className="inTab-fj920" href="javascript:;">
-              价格最高<span>▼</span>
-            </a>
-            <a className="inTab-fj920" href="javascript:;">
-              价格最低<span>▼</span>
-            </a>
-          </div>
-        ) : null}
+        <QueueAnim type="top" className="layer-wrapper-fj920">
+          {categoryShow ? <div key={0} className="category-layer-fj920">
+              <img src={require('../assets/c-all-4.jpg')} alt="" />
+              <ul>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+                <li>
+                  <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;" />
+                </li>
+              </ul>
+            </div> : null}
+          {sortShow ? <div key={1} className="sort-layer-fj920">
+              <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;">
+                销量最高<span>▼</span>
+              </a>
+              <a className="inTab-fj920" onClick={() => this.handleTabClick(3)} href="javascript:;">
+                价格最高<span>▼</span>
+              </a>
+              <a className="inTab-fj920" onClick={() => this.handleTabClick(3)}href="javascript:;">
+                价格最低<span>▼</span>
+              </a>
+            </div> : null}
+        </QueueAnim>
       </div>
-    )
   }
 }
 

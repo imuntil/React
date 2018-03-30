@@ -4,3 +4,9 @@ export const thousandth = (str, decimal) => {
 }
 
 export const currency = (str, $currency = '￥') => `${$currency} ${thousandth(str)}`
+
+export const delay = time => new Promise(resolve => {
+  setTimeout(() => {
+    resolve()
+  }, time)
+})

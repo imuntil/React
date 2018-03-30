@@ -10,4 +10,15 @@
     overflow: auto;
     padding-bottom: 60px;
   }
+  .wrapper-82nlf {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 15px;
+    & > div {
+      width: 48%;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+  }
 }

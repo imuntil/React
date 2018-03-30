@@ -11,6 +11,7 @@
   .tab-group-fj920 {
     height: inherit;
     display: flex;
+    background-color: #fff;
     a {
       width: 50%;
       height: inherit;
@@ -39,7 +40,8 @@
     width: 100%;
     box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.1),
       0 3px 4px 1px rgba(0, 0, 0, 0.05);
-    position: relative;
+    border-bottom: 2px solid $red;
+    margin-top: -1px;
     img {
       width: 100%;
     }
@@ -81,6 +83,12 @@
     }
     span {
       color: transparent;
+    }
+  }
+  .layer-wrapper-fj920 {
+    position: relative;
+    & > div {
+      position: absolute;
     }
   }
 }
