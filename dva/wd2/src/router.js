@@ -18,6 +18,10 @@ const Pro = () => {
   )
 }
 
+function isVisible({ pathname }) {
+  return ['/', '/pro', '/cocktail'].indexOf(pathname) > -1
+}
+
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
@@ -30,7 +34,7 @@ function RouterConfig({ history }) {
               <Route path="/cocktail" component={CocktailPage} />
               <Route path="/pro" component={Pro} />
             </Switch>
-            <NavBar />
+            {isVisible(location) ? <NavBar /> : null}
           </div>
         )}
       />
