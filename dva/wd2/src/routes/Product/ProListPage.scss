@@ -1,0 +1,13 @@
+.pro-list-xlw29 {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  .header-xlw29 {
+    z-index: 2;
+  }
+  .content-xlw29 {
+    flex: 1;
+    overflow: auto;
+    padding-bottom: 55px;
+  }
+}

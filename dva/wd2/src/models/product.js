@@ -18,7 +18,9 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetch({ payload }, { call, put, select }) {
+      const { list } = yield select(state => state.product)
+      if (list && list.length) return
       const { data, err, fail } = yield call(fetchProducts)
       if ((err, fail)) {
         // fetch failed

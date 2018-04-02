@@ -16,7 +16,7 @@ const ProGrid = ({ className, content, price, en, cn, src }) => {
         <p>{en}</p>
         <p>{cn}</p>
         <p className="last">
-          <span>{content}ml</span>
+          {content ? <span>{content}ml</span> : <i />}
           <span className="color--red">{currency(price)}</span>
         </p>
       </div>
@@ -25,7 +25,7 @@ const ProGrid = ({ className, content, price, en, cn, src }) => {
 }
 
 ProGrid.propTypes = {
-  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   en: PropTypes.string.isRequired,
   cn: PropTypes.string.isRequired,

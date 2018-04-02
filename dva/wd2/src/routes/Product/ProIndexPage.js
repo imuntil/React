@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { PullToRefresh } from 'antd-mobile'
-import { delay } from '../utils/cts'
-import { SA } from '../services'
+import QueueAnim from 'rc-queue-anim'
+import { delay } from '@/utils/cts'
+import { SA } from '@/services'
 import './ProIndexPage.scss'
-import ProTab from '../components/ProTab'
-import ProGrid from '../components/ProGrid'
+import ProTab from '@/components/ProTab'
+import ProGrid from '@/components/ProGrid'
 
 class ProIndexPage extends PureComponent {
   state = {
-    height: 200,
-    refreshing: false,
-    data: [...Array(20).keys()]
+    refreshing: false
   }
 
   componentWillMount = () => {
@@ -23,16 +22,22 @@ class ProIndexPage extends PureComponent {
   handleLoadMore = async () => {
     this.setState({ refreshing: true })
     await delay(500)
+    this.props.dispatch({ type: 'product/loadMore' })
     this.setState(preState => {
       return {
-        // data: [...preState.data, ...Array(10).keys()],
         refreshing: false
       }
     })
   }
+
+  get hasMore() {
+    const { totalPage, currentIndex } = this.props
+    return totalPage > currentIndex
+  }
   render() {
     const { list, perPage, currentIndex } = this.props
     const data = list.slice(0, perPage * currentIndex)
+    console.log(this.hasMore)
     return (
       <div className="container pro-index-82nlf">
         <ProTab className="header-82nlf" />
@@ -40,24 +45,36 @@ class ProIndexPage extends PureComponent {
           <PullToRefresh
             ref={el => (this.ptr = el)}
             style={{ height: '100%', overflow: 'auto' }}
-            indicator={{ deactivate: '上拉可以刷新' }}
+            indicator={
+              this.hasMore
+                ? {
+                    deactivate: '上拉加载',
+                    activate: '松开加载更多',
+                    finish: '完成'
+                  }
+                : {
+                    deactivate: '没有更多了',
+                    activate: '再拉也没有了╮(￣▽￣)╭',
+                    finish: '╮(￣▽￣)╭'
+                  }
+            }
             direction="up"
             refreshing={this.state.refreshing}
             onRefresh={this.handleLoadMore}
+            distanceToRefresh={50}
           >
-            <div className="wrapper-82nlf">
+            <QueueAnim className="wrapper-82nlf">
               {data.map(v => (
                 <ProGrid
                   className="selling-pro"
                   src={`${SA}${v.image1}`}
-                  content={v.procontent}
                   price={v.proprice}
                   en={v.englishname}
                   cn={v.proname}
                   key={v.id}
                 />
               ))}
-            </div>
+            </QueueAnim>
           </PullToRefresh>
         </div>
       </div>
