@@ -2,15 +2,18 @@ import React from 'react'
 import { Router, Route, Switch } from 'dva/router'
 import NavBar from './components/NavBar'
 import IndexPage from './routes/IndexPage'
+/* eslint-disable no-unused-vars */
 import CocktailPage from './routes/CocktailPage'
 import ProIndexPage from './routes/Product/ProIndexPage'
 import ProListPage from './routes/Product/ProListPage'
+import ProDetailPage from './routes/Product/ProDetailPage'
 
 const Pro = () => {
   return (
     <Switch>
       <Route path="/pro/" exact component={ProIndexPage} />
       <Route path="/pro/list" component={ProListPage} />
+      <Route path="/pro/:id" component={ProDetailPage} />
     </Switch>
   )
 }
