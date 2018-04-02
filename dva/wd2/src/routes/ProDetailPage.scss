@@ -1,0 +1,36 @@
+div.detail-page-u10n1 {
+  padding: 0;
+  .poster-u10n1 {
+    width: 100%;
+  }
+  .short-msg-u10n1 {
+    padding: 0 15px;
+    margin-top: 10px;
+    display: flex;
+    & > div {
+      flex: 1;
+    }
+    p {
+      font-size: 1.2rem;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+  }
+  .last-u10n1 {
+    padding-top: 5px;
+  }
+  .like-btn-u10n1 {
+    width: 30px;
+    padding: 10px 20px;
+    img {
+      width: 100%;
+    }
+  }
+  .separator-u10n1 {
+    width: calc(100% - 30px);
+    height: 1px;
+    background-color: #ddd;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+}

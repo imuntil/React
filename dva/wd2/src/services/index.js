@@ -35,7 +35,7 @@ export async function $(url, options) {
 }
 
 /**
- * 
+ * 获取产品列表
  * @param {number} flag 
  * @param {number} sort 
  * @param {number} type 
@@ -43,4 +43,13 @@ export async function $(url, options) {
  */
 export async function fetchProducts(flag = 1, sort = 1, type) {
   return $(`productShowPro.action?flag=${flag}&sort=${sort}&type=${type}`)
+}
+
+/**
+ * 获取产品详细信息
+ * @param {number} id 
+ * @returns {Promise} Promise
+ */
+export async function fetchProDetail(id) {
+  return $(`productShowOnePro.action?id=${id}`)
 }
