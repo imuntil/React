@@ -1,16 +1,39 @@
 import React from 'react'
+import { withRouter } from 'dva/router'
 import PropTypes from 'prop-types'
 import { currency } from '../utils/cts'
 import './ProGrid.scss'
 
-const ProGrid = ({ className, content, price, en, cn, src }) => {
+const ProGrid = ({
+  className,
+  content,
+  price,
+  en,
+  cn,
+  src,
+  vHot,
+  history,
+  match,
+  id,
+  handleClick
+}) => {
+  function push() {
+    if (+match.params.id !== +id) {
+      history.push(`/pro/${id}`)
+    }
+  }
   return (
-    <div className={`${className} pro-grid-ay29k`}>
+    <div
+      className={`${className} pro-grid-ay29k`}
+      onClick={handleClick ? handleClick : push}
+    >
       <div className="img">
         <img src={src} alt="" />
-        <span className="hot">
-          <img src={require('../assets/hot-1.png')} alt="" />
-        </span>
+        {vHot ? (
+          <span className="hot">
+            <img src={require('../assets/hot-1.png')} alt="" />
+          </span>
+        ) : null}
       </div>
       <div className="infos">
         <p>{en}</p>
@@ -29,7 +52,10 @@ ProGrid.propTypes = {
   price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   en: PropTypes.string.isRequired,
   cn: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired
+  src: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  vHot: PropTypes.bool,
+  handleClick: PropTypes.func
 }
 
-export default ProGrid
+export default withRouter(ProGrid)

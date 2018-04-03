@@ -38,6 +38,8 @@ class IndexPage extends PureComponent {
               price={800}
               en="Glen Grant Single Whiskey Major Reserve"
               cn="格兰冠单一麦芽苏格兰威士忌"
+              id={112}
+              vHot
             />
             <ProGrid
               className="selling-pro"
@@ -46,6 +48,8 @@ class IndexPage extends PureComponent {
               price={300}
               en="Wild Turkey Real Kentucky Straight Bourbon Whiskey"
               cn="威凤凰波本威士忌"
+              id={110}
+              vHot
             />
           </div>
         </section>

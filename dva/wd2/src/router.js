@@ -19,7 +19,10 @@ const Pro = () => {
 }
 
 function isVisible({ pathname }) {
-  return ['/', '/pro', '/cocktail'].indexOf(pathname) > -1
+  return (
+    ['/', '/pro', '/cocktail'].indexOf(pathname) > -1 ||
+    pathname.indexOf('/pro/list') === 0
+  )
 }
 
 function RouterConfig({ history }) {

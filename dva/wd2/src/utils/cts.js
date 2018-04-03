@@ -10,3 +10,16 @@ export const delay = time => new Promise(resolve => {
     resolve()
   }, time)
 })
+
+export const scrollTo = (el, to = 0, duration = 500) => {
+  let st = el.scrollTop
+  const delta = (st - to) / (duration / 25)
+  function ani () {
+    if (st > to && el) {
+      st -= delta
+      el.scrollTop = st >= 0 ? st : 0
+      requestAnimationFrame(ani)
+    }
+  }
+  requestAnimationFrame(ani)
+}

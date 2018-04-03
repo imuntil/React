@@ -25,6 +25,11 @@ html {
   width: 100%;
   background-color: #fff;
 }
+.inner-wrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
 
 .container {
   height: 100%;
@@ -35,6 +40,12 @@ html {
   touch-action: none;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
+}
+.page-loading {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h2.section-titles {

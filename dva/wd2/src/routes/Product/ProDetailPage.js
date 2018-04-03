@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { SA } from '@/services'
+import Animate from 'rc-animate'
+import { Icon } from 'antd-mobile'
+import { SA, fetchRecommend } from '@/services'
 import { drinks, mustLike } from '@/services/config'
-import { currency } from '@/utils/cts'
+import { currency, scrollTo } from '@/utils/cts'
 import ProGrid from '@/components/ProGrid'
 import './ProDetailPage.scss'
 
-const Like = ({ like }) => {
+const Like = ({ like, handleClick }) => {
   return (
-    <a href="javascript:;" className={`like-btn-u10n1`}>
+    <a href="javascript:;" className={`like-btn-u10n1`} onClick={handleClick}>
       {!like ? (
         <img src={require('@/assets/not-like.png')} alt="" />
       ) : (
@@ -30,7 +32,7 @@ const MoreInfo = ({ alcoholic, origin, type, weight, method }) => {
   )
 }
 
-const AfterService = ({ more }) => {
+const AfterService = ({ more, handleClick }) => {
   return (
     <section className="after-service-u10n1">
       <h2 className="section-titles">配送及售后说明</h2>
@@ -45,80 +47,177 @@ const AfterService = ({ more }) => {
         <li>
           包裹拆分：因为产品和订单较大，遇到系统拆单情况，可能需要您签收多次包裹，给您带来的不便敬请谅解
         </li>
-        {more ? (
-          <div>
-            <li>
-              快递须知：本店默认发圆通快递，不支持买家指定。如圆通不到您指定的区域，请咨询客服人员。每天16:30前的订单正常情况当天发出，余下订单会在24小时内发出
-            </li>
-            <li>发货范围：全国可送（不含港澳台地区）</li>
-            <li>
-              破损情况：本店出售商品在签收是发现有破损情况，请及时与客服联系，经核实确认后我们会给您尽快补发。请放心购买。
-            </li>
-            <li>商品退换：该商品不支持七天无理由退换</li>
-            <li>
-              开票须知：如需开具发票，请在收到宝贝7天后，联系客服提交开票申请及要求。发票将在2个工作日内为您开具。
-            </li>
-          </div>
-        ) : null}
+        <Animate component="div" transitionName="max-height">
+          {more ? (
+            <div key="k1">
+              <li>
+                快递须知：本店默认发圆通快递，不支持买家指定。如圆通不到您指定的区域，请咨询客服人员。每天16:30前的订单正常情况当天发出，余下订单会在24小时内发出
+              </li>
+              <li>发货范围：全国可送（不含港澳台地区）</li>
+              <li>
+                破损情况：本店出售商品在签收是发现有破损情况，请及时与客服联系，经核实确认后我们会给您尽快补发。请放心购买。
+              </li>
+              <li>商品退换：该商品不支持七天无理由退换</li>
+              <li>
+                开票须知：如需开具发票，请在收到宝贝7天后，联系客服提交开票申请及要求。发票将在2个工作日内为您开具。
+              </li>
+            </div>
+          ) : null}
+        </Animate>
       </ul>
+      <p>
+        <a
+          href="javascript:;"
+          onClick={handleClick}
+          className={`${more ? 'rotate' : ''}`}
+        >
+          更多<i>▼</i>
+        </a>
+      </p>
     </section>
   )
 }
 
-const Susume = ({ title }) => {
+const Susume = ({ title, pros }) => {
   return (
     <section className="susume-u10n1">
       <h2 className="section-titles">{title}</h2>
       <div>
-        {/* <ProGrid></ProGrid> */}
+        {pros.map(v => (
+          <ProGrid
+            className="recommend-pro"
+            src={`${SA}${v.image1}`}
+            price={v.proprice}
+            en={v.englishname}
+            cn={v.proname}
+            key={v.id}
+            id={v.id}
+          />
+        ))}
       </div>
     </section>
   )
 }
 
+const BottomBar = ({ handleAddToCart, handleBuyNow }) => {
+  return (
+    <div className="bottom-bar-u10n1">
+      <a href="javascript:;" onClick={handleAddToCart}>
+        加入购物车
+      </a>
+      <a href="javascript:;" onClick={handleBuyNow}>
+        立即购买
+      </a>
+    </div>
+  )
+}
+
 class ProDetailPage extends PureComponent {
+  state = {
+    maybeLike: [],
+    more: false
+  }
+  el = null
   componentWillMount = () => {
     const { dic, match: { params: { id } }, dispatch } = this.props
     if (!dic[id]) {
-      dispatch({ type: 'product/fetch' })
+      dispatch({ type: 'product/fetch' }).then(() => {
+        const type = this.props.dic[id].prolabel
+        this.fetchRecommendPros(type)
+      })
+    } else {
+      this.fetchRecommendPros(dic[id].prolabel)
     }
+  }
+
+  componentWillReceiveProps = nextProps => {
+    const preId = this.props.match.params.id
+    const nextId = nextProps.match.params.id
+    if (nextId === preId) return
+    if (this.el) {
+      scrollTo(this.el)
+    }
+    const dic = this.props.dic
+    const [preType, nextType] = [dic[preId].prolabel, dic[nextId].prolabel]
+    if (preType === nextType) return
+    this.fetchRecommendPros(nextType)
+  }
+
+  fetchRecommendPros = async type => {
+    const { data } = await fetchRecommend(type)
+    if (!data) {
+      // this.props.dispatch()
+      // some error
+      return
+    }
+    this.setState({
+      maybeLike: data.result.map(v => v.id)
+    })
+  }
+
+  addToCart = () => {
+    // ...
+  }
+
+  buyNow = () => {
+    // ...
+  }
+
+  fn = el => {
+    this.el = el
   }
 
   render() {
     const { dic, match: { params: { id } } } = this.props
+    const { maybeLike, more } = this.state
     const d = dic[id]
-    return d ? (
-      <div className="container detail-page-u10n1">
-        <section className="top">
-          <img src={`${SA}${d.image1}`} alt="" className="poster-u10n1" />
-          <div className="short-msg-u10n1">
-            <div>
-              <p>{d.englishname}</p>
-              <p>{d.proname}</p>
-              <p>{d.procontent}ml</p>
-              <p className="last-u10n1 color--red">{currency(d.proprice)}</p>
+    return d && maybeLike.length ? (
+      <div className="inner-wrapper">
+        <div className="container detail-page-u10n1" ref={this.fn}>
+          <section className="top">
+            <img src={`${SA}${d.image1}`} alt="" className="poster-u10n1" />
+            <div className="short-msg-u10n1">
+              <div>
+                <p>{d.englishname}</p>
+                <p>{d.proname}</p>
+                <p>{d.procontent}ml</p>
+                <p className="last-u10n1 color--red">{currency(d.proprice)}</p>
+              </div>
+              <Like like={false} handleClick={() => console.log('like')} />
             </div>
-            <Like like={false} />
-          </div>
-          <p className="separator-u10n1" />
-          <MoreInfo
-            alcoholic={d.proalcoholic}
-            origin={d.proarea}
-            type={drinks[d.prolabel]}
-            weight={d.proweight}
-            method={d.drnk}
+            <p className="separator-u10n1" />
+            <MoreInfo
+              alcoholic={d.proalcoholic}
+              origin={d.proarea}
+              type={drinks[d.prolabel]}
+              weight={d.proweight}
+              method={d.drnk}
+            />
+          </section>
+          <section
+            className="rich-words-u10n1"
+            dangerouslySetInnerHTML={{ __html: d.prodes }}
           />
-        </section>
-        <section
-          className="rich-words-u10n1"
-          dangerouslySetInnerHTML={{ __html: d.prodes }}
+          <AfterService
+            more={more}
+            handleClick={() =>
+              this.setState(preState => ({
+                more: !preState.more
+              }))
+            }
+          />
+          <Susume title={'猜你喜欢'} pros={maybeLike.map(v => dic[v])} />
+          <Susume title={'一定喜欢'} pros={mustLike.map(v => dic[v])} />
+        </div>
+        <BottomBar
+          handleAddToCart={this.addToCart}
+          handleBuyNow={this.buyNow}
         />
-        <AfterService more />
-        <Susume title={'猜你喜欢'} />
-        <Susume title={'一定喜欢'} />
       </div>
     ) : (
-      <p>loading</p>
+      <p className="page-loading">
+        <Icon type="loading" />
+      </p>
     )
   }
 }

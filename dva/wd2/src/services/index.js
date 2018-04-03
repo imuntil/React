@@ -53,3 +53,12 @@ export async function fetchProducts(flag = 1, sort = 1, type) {
 export async function fetchProDetail(id) {
   return $(`productShowOnePro.action?id=${id}`)
 }
+
+/**
+ * 获取推荐产品
+ * @param {number} type 
+ * @returns {Promise} Promise
+ */
+export async function fetchRecommend(type) {
+  return $(`productTypeShowPro.action?type=${type}`)
+}

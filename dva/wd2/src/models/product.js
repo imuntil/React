@@ -28,6 +28,7 @@ export default {
       }
       const { result } = data
       yield put({ type: 'saveAll', payload: result })
+      return
     },
     *loadMore({ payload }, { call, select, put }) {
       let { currentIndex, totalPage } = yield select(state => state.product)

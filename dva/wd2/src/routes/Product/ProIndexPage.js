@@ -72,6 +72,7 @@ class ProIndexPage extends PureComponent {
                   en={v.englishname}
                   cn={v.proname}
                   key={v.id}
+                  id={v.id}
                 />
               ))}
             </QueueAnim>
