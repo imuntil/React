@@ -19,6 +19,11 @@ class ProIndexPage extends PureComponent {
     })
   }
 
+  handleCellClick({ type, sort }) {
+    if (type > 7) return
+    this.props.history.push(`/pro/list?type=${type || -1}&sort=${sort || 1}`)
+  }
+
   handleLoadMore = async () => {
     this.setState({ refreshing: true })
     await delay(500)
@@ -37,10 +42,13 @@ class ProIndexPage extends PureComponent {
   render() {
     const { list, perPage, currentIndex } = this.props
     const data = list.slice(0, perPage * currentIndex)
-    console.log(this.hasMore)
     return (
       <div className="container pro-index-82nlf">
-        <ProTab className="header-82nlf" />
+        <ProTab
+          className="header-82nlf"
+          onTypeCellClick={type => this.handleCellClick({ type })}
+          onSortCellClick={sort => this.handleCellClick({ sort })}
+        />
         <div className="content-82nlf">
           <PullToRefresh
             ref={el => (this.ptr = el)}
