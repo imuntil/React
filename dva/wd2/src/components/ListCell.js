@@ -1,21 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { SA } from '@/services'
+import { currency } from '@/utils/cts'
 import './ListCell.scss'
 
-const ListCell = ({ className }) => {
+const ListCell = ({ className, pro }) => {
   return (
     <section className={`list-cell-290jv ${className}`}>
       <div className="content-290jv">
         <a href="javascript:;">
-          <img src={require('@/assets/home-sellings-4.jpg')} alt="" />
+          <img src={`${SA}${pro.image1}`} alt="" />
         </a>
         <div className="right-box-290jv">
           <div className="top-box-290jv">
-            <p>Campari</p>
-            <p>金巴厘苦味利口酒</p>
+            <p>{pro.englishname}</p>
+            <p>{pro.proname}</p>
             <p>
-              <span className="color--red">￥100.00</span>
-              <i>1000ml</i>
+              <span className="color--red">{currency(pro.proprice)}</span>
+              <i>{pro.procontent}ml</i>
             </p>
           </div>
           <p className="bottom-box-290jv">

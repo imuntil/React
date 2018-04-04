@@ -51,7 +51,6 @@ class ProIndexPage extends PureComponent {
         />
         <div className="content-82nlf">
           <PullToRefresh
-            ref={el => (this.ptr = el)}
             style={{ height: '100%', overflow: 'auto' }}
             indicator={
               this.hasMore

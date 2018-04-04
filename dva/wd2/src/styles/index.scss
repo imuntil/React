@@ -75,3 +75,13 @@ a {
 .color--red {
   color: $red;
 }
+
+.slide-enter {
+  transform: translate(10px, 10px);
+  opacity: 0;
+}
+.slide-enter.slide-enter-active {
+  transform: translate(0, 0);
+  overflow: 1px;
+  transition: all .25s;
+}

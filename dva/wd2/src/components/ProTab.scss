@@ -54,9 +54,13 @@
       height: 100%;
       top: 0;
       left: 0;
-      display: grid;
-      grid: repeat(3, 1fr) / repeat(3, 1fr);
+      display: flex;
+      flex-wrap: wrap;
       list-style: none;
+    }
+    li {
+      height: 33.333333333%;
+      width: 33.333333333%;
     }
     a {
       display: block;

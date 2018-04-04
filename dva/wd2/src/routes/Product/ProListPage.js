@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import QueueAnim from 'rc-queue-anim'
+// import QueueAnim from 'rc-queue-anim'
+// import Animate from 'rc-animate'
 import './ProListPage.scss'
+import ReactList from 'react-list'
 import ListCell from '@/components/ListCell'
 import ProTab from '@/components/ProTab'
 import { fetchProducts } from '@/services'
 
+@connect()
 class ProListPage extends PureComponent {
   state = {
     list: []
@@ -17,6 +20,7 @@ class ProListPage extends PureComponent {
       return this.type ? 2 : 1
     }
   }
+  listEle = null
   componentWillMount() {
     const query = this.formatSearch()
     this.setFilterAndFetch(query)
@@ -30,7 +34,7 @@ class ProListPage extends PureComponent {
   }
 
   /* set filter and fetch */
-  setFilterAndFetch (query) {
+  setFilterAndFetch(query) {
     const { type, sort } = query
     this.filter.sort = sort
     this.filter.type = type
@@ -55,6 +59,7 @@ class ProListPage extends PureComponent {
     if (type > 7) return
     const t = type || this.filter.type
     const s = sort || this.filter.sort
+    this.listEle.scrollTo(0)
     this.props.history.replace(`/pro/list?type=${t}&sort=${s}`)
   }
 
@@ -71,7 +76,17 @@ class ProListPage extends PureComponent {
     })
   }
 
+  renderItem = (index, key) => {
+    const pro = this.state.list[index]
+    return (
+      <div className="list-cell-xlw29" key={key}>
+        <ListCell pro={pro} key={pro.id} />
+      </div>
+    )
+  }
+
   render() {
+    const list = this.state.list
     return (
       <div className="container pro-list-xlw29">
         <ProTab
@@ -79,14 +94,23 @@ class ProListPage extends PureComponent {
           onTypeCellClick={type => this.handleCellClick({ type })}
           onSortCellClick={sort => this.handleCellClick({ sort })}
         />
-        <QueueAnim className="content-xlw29">
-          {[...Array(10).keys()].map(i => (
-            <ListCell className="list-cell-xlw29" key={i} />
+        {/* <QueueAnim className="content-xlw29">
+          {list.map(v => (
+            <ListCell className="list-cell-xlw29" key={v.id} pro={v} />
           ))}
-        </QueueAnim>
+        </QueueAnim> */}
+        <div className="content-xlw29">
+          <ReactList
+            itemRenderer={this.renderItem}
+            length={list.length}
+            type="simple"
+            pageSize={8}
+            ref={el => (this.listEle = el)}
+          />
+        </div>
       </div>
     )
   }
 }
 
-export default connect()(ProListPage)
+export default ProListPage
