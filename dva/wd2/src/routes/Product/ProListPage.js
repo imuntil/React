@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-// import QueueAnim from 'rc-queue-anim'
-// import Animate from 'rc-animate'
+import TweenOne from 'rc-tween-one'
 import './ProListPage.scss'
 import ReactList from 'react-list'
 import ListCell from '@/components/ListCell'
@@ -11,7 +10,8 @@ import { fetchProducts } from '@/services'
 @connect()
 class ProListPage extends PureComponent {
   state = {
-    list: []
+    list: [],
+    loadTime: 1
   }
   filter = {
     sort: null,
@@ -21,6 +21,12 @@ class ProListPage extends PureComponent {
     }
   }
   listEle = null
+  animation = {
+    translateX: 0,
+    translateY: 0,
+    opacity: 1,
+    duration: 250
+  }
   componentWillMount() {
     const query = this.formatSearch()
     this.setFilterAndFetch(query)
@@ -29,6 +35,9 @@ class ProListPage extends PureComponent {
   componentWillReceiveProps({ location }) {
     const { search } = this.props.location
     if (location.search === search) return
+    this.setState(preState => {
+      return { loadTime: ++preState.loadTime }
+    })
     const query = this.formatSearch(location)
     this.setFilterAndFetch(query)
   }
@@ -79,34 +88,48 @@ class ProListPage extends PureComponent {
   renderItem = (index, key) => {
     const pro = this.state.list[index]
     return (
-      <div className="list-cell-xlw29" key={key}>
+      <TweenOne
+        animation={{ ...this.animation, delay: index * 100 }}
+        className="list-cell-xlw29"
+        key={key}
+      >
         <ListCell pro={pro} key={pro.id} />
-      </div>
+      </TweenOne>
     )
   }
 
   render() {
-    const list = this.state.list
+    const { list, loadTime } = this.state
+    const { type, sort } = this.filter
     return (
       <div className="container pro-list-xlw29">
         <ProTab
           className="header-xlw29"
           onTypeCellClick={type => this.handleCellClick({ type })}
           onSortCellClick={sort => this.handleCellClick({ sort })}
+          type={type}
+          sort={sort}
         />
-        {/* <QueueAnim className="content-xlw29">
-          {list.map(v => (
-            <ListCell className="list-cell-xlw29" key={v.id} pro={v} />
-          ))}
-        </QueueAnim> */}
         <div className="content-xlw29">
-          <ReactList
-            itemRenderer={this.renderItem}
-            length={list.length}
-            type="simple"
-            pageSize={8}
-            ref={el => (this.listEle = el)}
-          />
+          {loadTime % 2 === 0 ? (
+            <ReactList
+              itemRenderer={this.renderItem}
+              length={list.length}
+              type="simple"
+              pageSize={8}
+              ref={el => (this.listEle = el)}
+              key={1}
+            />
+          ) : (
+            <ReactList
+              itemRenderer={this.renderItem}
+              length={list.length}
+              type="simple"
+              pageSize={8}
+              ref={el => (this.listEle = el)}
+              key={2}
+            />
+          )}
         </div>
       </div>
     )

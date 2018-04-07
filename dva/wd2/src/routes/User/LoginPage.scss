@@ -1,0 +1,29 @@
+@import '../../styles/decoration.scss';
+.login-82laj {
+  background: url(../../assets/log-on.jpg) no-repeat left top;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+.box-82laj {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding: 15px;
+  box-sizing: border-box;
+  & > * {
+    width: 100%;
+    padding: 15px 5px;
+    box-sizing: border-box;
+  }
+}
+.btn-group-82laj {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 15px;
+  a {
+    padding: 10px 0;
+    font-size: 1rem;
+    color: #fff;
+  }
+}

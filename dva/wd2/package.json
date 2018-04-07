@@ -3,8 +3,7 @@
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build",
-    "lint": "eslint --ext .js src test",
-    "precommit": "npm run lint"
+    "lint": "eslint --ext .js src test"
   },
   "dependencies": {
     "animate.css": "^3.6.1",
@@ -13,6 +12,7 @@
     "prop-types": "^15.6.1",
     "rc-animate": "^2.4.4",
     "rc-queue-anim": "^1.4.1",
+    "rc-tween-one": "^1.7.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-list": "^0.8.8",

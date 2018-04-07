@@ -10,13 +10,13 @@ class ProTab extends PureComponent {
   }
   index = ['categoryShow', 'sortShow']
 
-  componentDidMount() {
-    document.addEventListener('touchstart', this.handleBodyClick, false)
-  }
+  // componentDidMount() {
+  //   document.addEventListener('touchstart', this.handleBodyClick, false)
+  // }
 
-  componentWillUnmount() {
-    document.removeEventListener('touchstart', this.handleBodyClick, false)
-  }
+  // componentWillUnmount() {
+  //   document.removeEventListener('touchstart', this.handleBodyClick, false)
+  // }
 
   /* 遍历dom树 */
   handleBodyClick = e => {
@@ -50,7 +50,13 @@ class ProTab extends PureComponent {
     this.setState({ categoryShow: false, sortShow: false })
   }
   render() {
-    const { className, onTypeCellClick, onSortCellClick } = this.props
+    const {
+      className,
+      onTypeCellClick,
+      onSortCellClick,
+      type,
+      sort
+    } = this.props
     const { categoryShow, sortShow } = this.state
     return (
       <div
@@ -73,42 +79,51 @@ class ProTab extends PureComponent {
             智能排序<span>▼</span>
           </a>
         </div>
-        <QueueAnim type="top" className="layer-wrapper-fj920">
+        <QueueAnim type="top" className="layer-wrapper-fj920" duration={200}>
           {categoryShow ? (
-            <div key={0} className="category-layer-fj920">
-              <img src={require('../assets/c-all-4.jpg')} alt="" />
-              <ul>
-                {[...Array(9).keys()].map(v => (
-                  <li key={v}>
-                    <a
-                      className="inTab-fj920"
-                      onClick={() => {
-                        this.hideAllLayer()
-                        onTypeCellClick(v + 1)
-                      }}
-                      href="javascript:;"
-                    />
-                  </li>
-                ))}
-              </ul>
+            <div key={0} className="layer-bg-fj920" onClick={this.hideAllLayer}>
+              <div className="category-layer-fj920">
+                <img src={require('../assets/c-all-4.jpg')} alt="" />
+                <ul>
+                  {[...Array(9).keys()].map(v => (
+                    <li
+                      key={v}
+                      className={`${v === type - 1 && 'cell-active'}`}
+                    >
+                      <a
+                        className="inTab-fj920"
+                        onClick={e => {
+                          e.stopPropagation()
+                          this.hideAllLayer()
+                          onTypeCellClick(v + 1)
+                        }}
+                        href="javascript:;"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ) : null}
           {sortShow ? (
-            <div key={1} className="sort-layer-fj920">
-              {['销量最高', '价格最高', '价格最低'].map((v, i) => (
-                <a
-                  className="inTab-fj920"
-                  key={i}
-                  onClick={() => {
-                    this.hideAllLayer()
-                    onSortCellClick(i + 2)
-                  }}
-                  href="javascript:;"
-                >
-                  {v}
-                  <span>▼</span>
-                </a>
-              ))}
+            <div key={1} className="layer-bg-fj920" onClick={this.hideAllLayer}>
+              <div className="sort-layer-fj920">
+                {['销量最高', '价格最高', '价格最低'].map((v, i) => (
+                  <a
+                    className={`inTab-fj920 ${i === sort - 2 && 'cell-active'}`}
+                    key={i}
+                    onClick={e => {
+                      e.stopPropagation()
+                      this.hideAllLayer()
+                      onSortCellClick(i + 2)
+                    }}
+                    href="javascript:;"
+                  >
+                    {v}
+                    <span>▼</span>
+                  </a>
+                ))}
+              </div>
             </div>
           ) : null}
         </QueueAnim>
@@ -119,7 +134,9 @@ class ProTab extends PureComponent {
 
 ProTab.propTypes = {
   onTypeCellClick: PropTypes.func,
-  onSortCellClick: PropTypes.func
+  onSortCellClick: PropTypes.func,
+  type: PropTypes.number,
+  sort: PropTypes.number
 }
 
 export default ProTab

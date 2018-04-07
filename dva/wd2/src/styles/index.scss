@@ -85,3 +85,53 @@ a {
   overflow: 1px;
   transition: all .25s;
 }
+
+/* form style */
+.form-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  border-bottom: 1px solid #fff;
+  label {
+    width: 20%;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 8px;
+    position: relative;
+    &::after {
+      content: ':';
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+    }
+    i {
+      font-style: normal;
+    }
+  }
+  input {
+    padding: 10px;
+    appearance: none;
+    border: none;
+    box-sizing: border-box;
+    margin-left: 6%;
+    flex: 1;
+  }
+}
+.form-btn {
+  width: 100%;
+  background-color: $red;
+  color: #fff;
+  font-size: 1.1rem;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-top: 40px;
+}

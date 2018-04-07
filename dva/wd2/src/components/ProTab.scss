@@ -61,6 +61,10 @@
     li {
       height: 33.333333333%;
       width: 33.333333333%;
+      box-sizing: border-box;
+    }
+    li.cell-active {
+      border: 1px solid $red;
     }
     a {
       display: block;
@@ -80,7 +84,10 @@
       text-align: center;
       border-bottom: 1px solid #ddd;
       display: block;
-      font-size: .9rem;
+      font-size: 0.9rem;
+    }
+    a.cell-active {
+      color: $red;
     }
     a:last-child {
       border-bottom: none;
@@ -91,8 +98,13 @@
   }
   .layer-wrapper-fj920 {
     position: relative;
-    & > div {
+    .layer-bg-fj920 {
       position: absolute;
+      height: calc(100vh - 45px);
+      width: 100%;
+      & > div {
+        position: relative;
+      }
     }
   }
 }

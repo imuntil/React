@@ -8,12 +8,22 @@ import ProIndexPage from './routes/Product/ProIndexPage'
 import ProListPage from './routes/Product/ProListPage'
 import ProDetailPage from './routes/Product/ProDetailPage'
 
+import LoginPage from './routes/User/LoginPage'
+
 const Pro = () => {
   return (
     <Switch>
       <Route path="/pro/" exact component={ProIndexPage} />
       <Route path="/pro/list" component={ProListPage} />
       <Route path="/pro/:id" component={ProDetailPage} />
+    </Switch>
+  )
+}
+
+const User = () => {
+  return (
+    <Switch>
+      <Route path='/user/login' component={LoginPage}/>
     </Switch>
   )
 }
@@ -36,6 +46,7 @@ function RouterConfig({ history }) {
               <Route path="/" exact component={IndexPage} />
               <Route path="/cocktail" component={CocktailPage} />
               <Route path="/pro" component={Pro} />
+              <Route path='/user' component={User}/>
             </Switch>
             {isVisible(location) ? <NavBar /> : null}
           </div>
