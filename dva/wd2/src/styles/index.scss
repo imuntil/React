@@ -115,13 +115,9 @@ a {
       font-style: normal;
     }
   }
-  input {
-    padding: 10px;
-    appearance: none;
-    border: none;
-    box-sizing: border-box;
-    margin-left: 6%;
+  span {
     flex: 1;
+    margin-left: 6%;
   }
 }
 .form-btn {

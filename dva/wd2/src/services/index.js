@@ -1,4 +1,5 @@
-import request from '../utils/request';
+import md5 from 'md5'
+import request from '../utils/request'
 
 // 115.28.239.3:8080/campariShop_Api/productShowPro.action?flag=1&sort=1
 
@@ -29,7 +30,7 @@ export async function $(url, options) {
   const { resultcode: code, result } = data
   if (+code !== 1 && +code !== 200) {
     // store.commit({ type: 'error', code, msg })
-    return { fail: { code } }
+    return { fail: { code, msg: result } }
   }
   return { data: { code, result } }
 }
@@ -61,4 +62,12 @@ export async function fetchProDetail(id) {
  */
 export async function fetchRecommend(type) {
   return $(`productTypeShowPro.action?type=${type}`)
+}
+
+/**
+ * 登录
+ * @param {string} {phone, password}
+ */
+export async function login({ phone, password }) {
+  return $(`loginUsersUsr.action?password=${md5(password)}&phone=${phone}`)  
 }
