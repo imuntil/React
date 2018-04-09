@@ -27,19 +27,19 @@ export async function $(url, options) {
     // })
     return { err: true }
   }
-  const { resultcode: code, result } = data
+  const { resultcode: code, result, ...rest } = data
   if (+code !== 1 && +code !== 200) {
     // store.commit({ type: 'error', code, msg })
     return { fail: { code, msg: result } }
   }
-  return { data: { code, result } }
+  return { data: { code, result, ...rest } }
 }
 
 /**
  * 获取产品列表
- * @param {number} flag 
- * @param {number} sort 
- * @param {number} type 
+ * @param {number} flag
+ * @param {number} sort
+ * @param {number} type
  * @returns {Promise} Promise
  */
 export async function fetchProducts(flag = 1, sort = 1, type) {
@@ -48,7 +48,7 @@ export async function fetchProducts(flag = 1, sort = 1, type) {
 
 /**
  * 获取产品详细信息
- * @param {number} id 
+ * @param {number} id
  * @returns {Promise} Promise
  */
 export async function fetchProDetail(id) {
@@ -57,7 +57,7 @@ export async function fetchProDetail(id) {
 
 /**
  * 获取推荐产品
- * @param {number} type 
+ * @param {number} type
  * @returns {Promise} Promise
  */
 export async function fetchRecommend(type) {
@@ -66,8 +66,38 @@ export async function fetchRecommend(type) {
 
 /**
  * 登录
- * @param {string} {phone, password}
+ * @param {*} {phone, password}
  */
 export async function login({ phone, password }) {
-  return $(`loginUsersUsr.action?password=${md5(password)}&phone=${phone}`)  
+  return $(`loginUsersUsr.action?password=${md5(password)}&phone=${phone}`)
+}
+
+/**
+ * 获取验证码
+ * @param {*} {phone, flag}
+ */
+export async function getCode({ phone, flag = 1 }) {
+  return $(`resIdcodeSsm.action?flag=${flag}&phone=${phone}`)
+}
+
+/**
+ * 手机号码是否已被注册
+ * @param {string} phone
+ */
+export async function isExist(phone) {
+  return $(`seluserPhoneUsr.action?phone=${phone}`)
+}
+
+/**
+ * 注册
+ * @param {string} nick string
+ * @param {string} password string
+ * @param {string} phone string
+ */
+export async function register({ nick, password, phone }) {
+  return $(
+    `userRegsUsr.action?nickname=${nick}&password=${md5(
+      password
+    )}&phone=${phone}`
+  )
 }

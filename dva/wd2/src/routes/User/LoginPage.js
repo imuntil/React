@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
+import { Link } from 'dva/router'
 import { Toast } from 'antd-mobile'
 import UInput from '@/components/Form/UInput'
 import { delay } from '@/utils/cts'
@@ -33,16 +34,18 @@ class LoginPage extends PureComponent {
     this.setState({ submitted: false })
   }
   handleLogin = () => {
-    this.props
-      .dispatch({
-        type: 'user/login',
-        payload: this.form
-      })
-      .then(v => {
-        if (v && v.msg) {
-          Toast.info(v.msg, 1.5)
-        }
-      })
+    const { dispatch, history } = this.props
+    dispatch({
+      type: 'user/login',
+      payload: this.form
+    }).then(v => {
+      if (v === true) {
+        Toast.success('登录成功', 1.5)
+        history.replace('/user/')
+        return
+      }
+      Toast.info(v.msg || '出错了-。-、请稍后再试', 1.5)
+    })
   }
   render() {
     const { submitted } = this.state
@@ -86,7 +89,7 @@ class LoginPage extends PureComponent {
             登录
           </a>
           <div className="btn-group-82laj">
-            <a href="javascript:;">用户注册</a>
+            <Link to="/user/reg1">用户注册</Link>
             <a href="javascript:;">忘记密码</a>
           </div>
         </div>

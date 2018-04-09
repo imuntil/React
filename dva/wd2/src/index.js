@@ -1,8 +1,9 @@
-import dva from 'dva';
-import './styles/index.scss';
+import dva from 'dva'
+import 'sweetalert/dist/sweetalert.css'
+import './styles/index.scss'
 
 // 1. Initialize
-const app = dva();
+const app = dva()
 
 // 2. Plugins
 // app.use({});
@@ -13,7 +14,7 @@ app.model(require('./models/product').default)
 app.model(require('./models/user').default)
 
 // 4. Router
-app.router(require('./router').default);
+app.router(require('./router').default)
 
 // 5. Start
-app.start('#root');
+app.start('#root')

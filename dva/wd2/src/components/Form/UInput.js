@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import TweenOne from 'rc-tween-one'
+import { delay } from '@/utils/cts'
 import './UInput.scss'
 
 /* build-in regs */
@@ -12,14 +13,15 @@ const buildIn = {
 }
 
 class UInput extends PureComponent {
-  animation = { translateX: '4%', yoyo: true, repeat: 9, duration: 50 }
+  animation = { translateX: '4%', yoyo: true, repeat: 7, duration: 50 }
   constructor(props) {
     super(props)
     const { value = '', minL, maxL } = this.props
     if (minL && maxL && minL > maxL) {
       throw new Error('minL must be less than or equal to maxL')
     }
-    this.state = { value, msg: '', valid: false }
+    const valid = this.valid(value)
+    this.state = { value, forceShake: false, ...valid }
   }
   handleChange = e => {
     const { onInputChange, name } = this.props
@@ -33,6 +35,11 @@ class UInput extends PureComponent {
     let { maxL, minL } = this.props
     if (required && !v.length) {
       return { valid: false, msg: `${vv || name}为必填项` }
+    }
+    if (confirm) {
+      if (`${v}` !== `${confirm}`) {
+        return { valid: false, msg: '两次密码不一致' }
+      }
     }
     if (length && v.length !== length) {
       minL = maxL = 0
@@ -50,13 +57,21 @@ class UInput extends PureComponent {
         return { valid: false, msg: `${vv || name}不符合规则` }
       }
     }
-    if (confirm) {
-      if (`${v}` !== `${confirm}`) {
-        return { valid: false, msg: '两次密码不一致' }
-      }
-    }
     return { valid: true, msg: null }
   }
+
+  $shake = async (time = 1000) => {
+    this.setState({ forceShake: true })
+    await delay(time)
+    this.setState({ forceShake: false })
+  }
+
+  get aniShake() {
+    const { forceShake, valid } = this.state
+    const { shake } = this.props
+    return forceShake || (!valid && shake)
+  }
+
   render() {
     const {
       type = 'text',
@@ -64,23 +79,23 @@ class UInput extends PureComponent {
       length,
       maxL,
       minL,
-      shake,
       wrapperClass = '',
       inputClass = '',
       /* eslint-disable un-used-vars */
+      shake,
       reg,
       onInputChange,
       confirm,
       required,
       ...rest
     } = this.props
-    const { value, valid } = this.state
+    const { value } = this.state
     return (
       <TweenOne
-        animation={shake && !valid ? this.animation : null}
+        animation={this.aniShake ? this.animation : null}
         component="span"
         className={`${wrapperClass} ${
-          shake && !valid ? 'shake' : ''
+          this.aniShake ? 'shake' : ''
         } input-wrapper-298jf`}
       >
         <input

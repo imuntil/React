@@ -9,6 +9,9 @@ import ProListPage from './routes/Product/ProListPage'
 import ProDetailPage from './routes/Product/ProDetailPage'
 
 import LoginPage from './routes/User/LoginPage'
+import Register1Page from './routes/User/Register1Page'
+import Register2Page from './routes/User/Register2Page'
+import UserIndex from './routes/User/UserIndex'
 
 const Pro = () => {
   return (
@@ -23,7 +26,10 @@ const Pro = () => {
 const User = () => {
   return (
     <Switch>
-      <Route path='/user/login' component={LoginPage}/>
+      <Route path='/user/' exact component={UserIndex} />
+      <Route path='/user/login' component={LoginPage} />
+      <Route path='/user/reg1' component={Register1Page} />
+      <Route path='/user/reg2' component={Register2Page} />
     </Switch>
   )
 }

@@ -1,7 +1,6 @@
 @import '../../styles/decoration.scss';
 .login-82laj {
-  // background: url(../../assets/log-on.jpg) no-repeat left top;
-  background-color: #fff;
+  background: url(../../assets/log-on.jpg) no-repeat left top;
   background-size: cover;
   position: relative;
   padding: 0;
@@ -14,8 +13,11 @@
   box-sizing: border-box;
   & > * {
     width: 100%;
-    padding: 15px 5px;
+    padding: 12px 5px;
     box-sizing: border-box;
+  }
+  .form-btn {
+    padding: 15px 5px;
   }
 }
 .btn-group-82laj {
@@ -27,4 +29,20 @@
     font-size: 1rem;
     color: #fff;
   }
+}
+.btn-group-82laj.and--center {
+  justify-content: center;
+}
+div.sp-form-item-82laj {
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  .form-item {
+    padding: 15px 5px;
+    flex: 1;
+  }
+}
+
+div.reg-28dfh .box-82laj {
+  padding-bottom: 40px;
 }

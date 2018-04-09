@@ -2,8 +2,13 @@ input.u-input-298jf {
   padding: 10px;
   appearance: none;
   border: none;
+  background-color: transparent;
   box-sizing: border-box;
   width: 100%;
+  color: #fff;
+  &:focus {
+    box-shadow: 0 0 4px rgba(255, 255, 255, .4);
+  }
 }
 span.input-wrapper-298jf.shake {
   box-shadow: 0 0 8px #e47f87;
