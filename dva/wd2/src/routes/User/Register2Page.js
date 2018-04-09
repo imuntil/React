@@ -63,13 +63,22 @@ export default class Register2Page extends PureComponent {
     const { data, fail, err } = await register({
       nick: nick.value,
       password: password.value,
-      phone: phone || '17444444444'
+      phone: phone
     })
     if (fail || err) {
       Toast.info((fail && fail.msg) || '出错了，请稍后再试', 1.5)
       return
     }
-    dispatch({ type: 'user/setUser', payload: data.user })
+    const {
+      name: serverNick,
+      imgname: avatar,
+      phone: serverPhone,
+      usersid: userID
+    } = data.user
+    dispatch({
+      type: 'user/setUser',
+      payload: { nick: serverNick, avatar, phone: serverPhone, userID }
+    })
     // 注册成功
     this.setState({ visible: true })
   }

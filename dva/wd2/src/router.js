@@ -1,5 +1,7 @@
 import React from 'react'
 import { Router, Route, Switch } from 'dva/router'
+
+import AuthRoute from './components/AuthRoute'
 import NavBar from './components/NavBar'
 import IndexPage from './routes/IndexPage'
 /* eslint-disable no-unused-vars */
@@ -26,7 +28,7 @@ const Pro = () => {
 const User = () => {
   return (
     <Switch>
-      <Route path='/user/' exact component={UserIndex} />
+      <AuthRoute path='/user/' exact component={UserIndex} />
       <Route path='/user/login' component={LoginPage} />
       <Route path='/user/reg1' component={Register1Page} />
       <Route path='/user/reg2' component={Register2Page} />

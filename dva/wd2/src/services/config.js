@@ -8,3 +8,4 @@ export const drinks = {
   '7': '鸡尾酒套餐'
 }
 export const mustLike = [102, 103]
+export const reduxKey = 'redux-v=1.00'

@@ -1,4 +1,6 @@
 import { login } from '@/services'
+import { reduxKey } from '@/services/config'
+
 export default {
   namespace: 'user',
   state: {
@@ -7,6 +9,7 @@ export default {
     nick: '',
     userID: '',
     avatar: '',
+    ran: '',
     reg: {
       phone: '',
       code: ''
@@ -18,26 +21,38 @@ export default {
       if (err || fail) {
         return err || fail
       }
-      yield put({ type: 'setUser', payload: data.result })
+      const {
+        name: nick,
+        imgname: avatar,
+        phone,
+        usersid: userID
+      } = data.result
+      yield put({ type: 'setUser', payload: { nick, avatar, phone, userID, ran: Math.random() } })
       return true
     }
   },
 
   reducers: {
     setUser(state, { payload }) {
-      const { name: nick, imgname: avatar, phone, usersid: userID } = payload
-      return {
-        ...state,
-        nick,
-        avatar,
-        phone,
-        userID
-      }
+      const newState = { ...state, ...payload }
+      delete newState.reg
+      window.localStorage.setItem(reduxKey, JSON.stringify(newState))
+      return { ...state, ...payload }
     },
-    setReg (state, { payload }) {
+    setReg(state, { payload }) {
       return {
         ...state,
         reg: { ...payload }
+      }
+    }
+  },
+
+  subscriptions: {
+    setup({ dispatch }) {
+      const redux = window.localStorage.getItem(reduxKey)
+      if (redux) {
+        const user = JSON.parse(redux)
+        dispatch({ type: 'setUser', payload: user })
       }
     }
   }

@@ -1,0 +1,51 @@
+.user-index-ao289 {
+  padding: 0;
+  background-color: #f6f6f6;
+  header {
+    width: 100%;
+    padding: 25px 20px 20px;
+    background: url(../../assets/watermark.jpg) no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    a:active {
+      background: #ddd;
+    }
+  }
+  .edit-avatar {
+    position: absolute;
+    left: calc(50% + 45px);
+    padding: 5px 10px;
+    font-size: .8rem;
+    border-radius: 2px;
+  }
+  .list-item {
+    padding: 7px 0;
+  }
+  .white-space {
+    height: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+}
+.avatar-ao289 {
+  margin-bottom: 25px;
+  position: relative;
+  a:first-child {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    overflow: hidden;
+    &:active {
+      opacity: 0.8;
+    }
+  }
+}
+.nick-ao289 a {
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 2px;
+}

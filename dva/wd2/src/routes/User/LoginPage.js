@@ -19,6 +19,13 @@ class LoginPage extends PureComponent {
   get isFormOK() {
     return Object.values(this.formValid).every(v => v)
   }
+
+  componentWillUpdate() {
+    this.setState = (state, callback) => {
+      return
+    }
+  }
+
   handleChange = ({ value, name, $valid }) => {
     this.form[name] = value
     this.formValid[name] = $valid.valid
@@ -34,14 +41,14 @@ class LoginPage extends PureComponent {
     this.setState({ submitted: false })
   }
   handleLogin = () => {
-    const { dispatch, history } = this.props
+    const { dispatch, history, location } = this.props
     dispatch({
       type: 'user/login',
       payload: this.form
     }).then(v => {
       if (v === true) {
         Toast.success('登录成功', 1.5)
-        history.replace('/user/')
+        history.replace((location.state && location.state.from) || '/user')
         return
       }
       Toast.info(v.msg || '出错了-。-、请稍后再试', 1.5)
