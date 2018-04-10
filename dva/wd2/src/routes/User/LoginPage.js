@@ -97,7 +97,7 @@ class LoginPage extends PureComponent {
           </a>
           <div className="btn-group-82laj">
             <Link to="/user/reg1">用户注册</Link>
-            <a href="javascript:;">忘记密码</a>
+            <Link to="/user/forget/1">忘记密码</Link>
           </div>
         </div>
       </div>

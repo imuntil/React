@@ -8,8 +8,8 @@ body,
 }
 
 html {
-  font-family: PingFangSC, helvetica neue, hiragino sans gb, arial,
-    microsoft yahei ui, microsoft yahei, simsun, 'sans-serif';
+  font-family: PingFangSC, helvetica neue, hiragino sans gb, Microsoft Yahei,
+    arial, microsoft yahei ui, microsoft yahei, simsun, 'sans-serif';
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -83,7 +83,7 @@ a {
 .slide-enter.slide-enter-active {
   transform: translate(0, 0);
   overflow: 1px;
-  transition: all .25s;
+  transition: all 0.25s;
 }
 
 /* form style */
@@ -130,9 +130,12 @@ a {
   box-sizing: border-box;
   border-radius: 5px;
   margin-top: 30px;
+  &:active {
+    opacity: .9;
+  }
 }
 
 /* sweetalert */
 .sweet-alert button.cancel {
-  background-color: #8CD4F5 !important;
+  background-color: #8cd4f5 !important;
 }

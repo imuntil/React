@@ -1,0 +1,79 @@
+@import '../../styles/decoration';
+.forget-67spq {
+  padding: 15px 0 0 0;
+  background-color: #f6f6f6;
+  .step-item-57spq {
+    padding: 10px 15px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    position: relative;
+  }
+  .form-item {
+    label {
+      color: #333;
+      font-size: 0.9rem;
+      font-weight: normal;
+    }
+    input {
+      color: #333;
+    }
+  }
+  .show-pwd {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    &:active {
+      background-color: #f6f6f6;
+    }
+  }
+  .step1 .form-item {
+    label {
+      width: 120px;
+    }
+    span {
+      margin-left: 5px;
+    }
+  }
+  .split-box-57spq {
+    display: flex;
+  }
+  .warning {
+    padding: 10px 0;
+    color: $red;
+  }
+  .step2 {
+    .form-item {
+      position: relative;
+      flex: 1;
+      &:before {
+        position: absolute;
+        width: 1px;
+        height: calc(100% + 20px);
+        right: 0;
+        top: -10px;
+        content: '';
+        background-color: #ddd;
+      }
+      label {
+        width: 60px;
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
+    .u-code {
+      color: $red;
+    }
+  }
+}
+.forget-67spq .step-item-57spq:last-of-type {
+  border-bottom: 1px solid #ddd;
+}
+.btn-box-57spq {
+  padding: 0 15px;
+  .form-btn {
+    padding: 15px;
+    border-radius: 2px;
+  }
+}

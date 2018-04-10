@@ -101,3 +101,29 @@ export async function register({ nick, password, phone }) {
     )}&phone=${phone}`
   )
 }
+
+/**
+ * 修改密码
+ * @param {*} pwd 密码
+ * @param {*} phone 手机号码
+ */
+export async function modifyPwd({ pwd, phone }) {
+  return $(`userForgetUsr.action?newpwd=${md5(pwd)}&phone=${phone}`)
+}
+
+/**
+ * 获取用户地址列表
+ * @param {string} userID 用户id
+ */
+export async function fetchAdrList(userID) {
+  return $(`selectAddressAds.action?userid=${userID}`)
+}
+
+/**
+ * 修改默认地址
+ * @param {string} id 地址 id
+ * @param {string} userID 用户 userID
+ */
+export async function toggleDefaultAdr({ id, userID }) {
+  return $(`updateAddressAds.action?id=${id}&userid=${userID}`)
+}

@@ -5,16 +5,26 @@ import './UCode.scss'
 
 class UCode extends PureComponent {
   static defaultProps = {
-    limit: 60
+    limit: 60,
+    runningText: ''
   }
 
   static propTypes = {
     limit: PropTypes.number,
     onCodeClick: PropTypes.func,
-    onTimeEnd: PropTypes.func
+    onTimeEnd: PropTypes.func,
+    runningText: PropTypes.string
   }
 
   paused = false
+
+  get content() {
+    const { run, timer } = this.state
+    const { runningText } = this.props
+    return run
+      ? runningText ? runningText.replace('$$', `${timer}s`) : `${timer}s`
+      : '发送验证码'
+  }
 
   constructor(props) {
     super(props)
@@ -31,11 +41,6 @@ class UCode extends PureComponent {
     }
   }
 
-  get content() {
-    const { run, timer } = this.state
-    return run ? `${timer} s` : '发送验证码'
-  }
-
   handleClick = async () => {
     if (this.state.run) return
     const { onCodeClick } = this.props
@@ -48,7 +53,6 @@ class UCode extends PureComponent {
     if (run) return
     this.setState({ run: true })
     while (timer > 0 && !this.paused) {
-      console.log('1')
       await delay(1000)
       --timer
       this.setState({ timer })

@@ -74,6 +74,11 @@ export default class Register1Page extends PureComponent {
   getCode = async phone => {
     // const { data } = await getCode({ phone })
     const data = { result: 'OTUwOTEx' }
+    const fail = {}
+    if (fail && +fail.code === -1) {
+      Toast.info('操作过于频繁', 2)
+      return
+    }
     if (!data) {
       Toast.info('出错了，请稍后再试', 1.5)
       return

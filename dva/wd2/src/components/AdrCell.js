@@ -1,0 +1,58 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import './AdrCell.scss'
+
+const AdrCell = ({
+  adr,
+  className,
+  onEditClick,
+  onDelClick,
+  onToggleDefault
+}) => {
+  return (
+    <div className={`adr-cell-19aop ${className || ''}`}>
+      <div className="content-19aop">
+        <div className="cell-top">
+          <div className="contact-19aop">
+            <p>
+              <span>{adr.name}</span>
+              <span>{adr.phone}</span>
+            </p>
+            <span>{adr.label}</span>
+          </div>
+          <p className="adr-19aop">
+            {adr.city}
+            {adr.address}
+          </p>
+        </div>
+        <div className="cell-bottom-19aop">
+          <a
+            href="javascript:;"
+            onClick={() => onToggleDefault(adr.status, adr.id)}
+            className={`cb-left ${adr.status ? 'checked' : ''}`}
+          >
+            <i />
+            默认地址
+          </a>
+          <p className="cb-right">
+            <a href="javascript:;" onClick={() => onEditClick(adr.id)}>
+              编辑
+            </a>
+            <a href="javascript:;" onClick={() => onDelClick(adr.id)}>
+              删除
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+AdrCell.propTypes = {
+  adr: PropTypes.object.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+  onDelClick: PropTypes.func.isRequired,
+  onToggleDefault: PropTypes.func.isRequired
+}
+
+export default AdrCell

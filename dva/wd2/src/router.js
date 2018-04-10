@@ -14,6 +14,10 @@ import LoginPage from './routes/User/LoginPage'
 import Register1Page from './routes/User/Register1Page'
 import Register2Page from './routes/User/Register2Page'
 import UserIndex from './routes/User/UserIndex'
+import ForgetPage from './routes/User/ForgetPage'
+
+import AdrListPage from './routes/Adr/AdrListPage'
+import AdrEditPage from './routes/Adr/AdrEditPage'
 
 const Pro = () => {
   return (
@@ -28,10 +32,20 @@ const Pro = () => {
 const User = () => {
   return (
     <Switch>
-      <AuthRoute path='/user/' exact component={UserIndex} />
-      <Route path='/user/login' component={LoginPage} />
-      <Route path='/user/reg1' component={Register1Page} />
-      <Route path='/user/reg2' component={Register2Page} />
+      <AuthRoute path="/user/" exact component={UserIndex} />
+      <Route path="/user/login" component={LoginPage} />
+      <Route path="/user/reg1" component={Register1Page} />
+      <Route path="/user/reg2" component={Register2Page} />
+      <Route path="/user/forget" component={ForgetPage} />
+    </Switch>
+  )
+}
+
+const Adr = () => {
+  return (
+    <Switch>
+      <AuthRoute path="/adr/" exact component={AdrListPage} />
+      <AuthRoute path="/adr/:edit" component={AdrEditPage} />
     </Switch>
   )
 }
@@ -54,7 +68,8 @@ function RouterConfig({ history }) {
               <Route path="/" exact component={IndexPage} />
               <Route path="/cocktail" component={CocktailPage} />
               <Route path="/pro" component={Pro} />
-              <Route path='/user' component={User}/>
+              <Route path="/user" component={User} />
+              <Route path="/adr" component={Adr} />
             </Switch>
             {isVisible(location) ? <NavBar /> : null}
           </div>

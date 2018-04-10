@@ -10,13 +10,18 @@ const mapStateToProps = state => ({ user: state.user })
 @connect(mapStateToProps)
 export default class UserIndex extends PureComponent {
   render() {
-    const { nick, avatar, ran } = this.props.user
+    const { history, user } = this.props
+    const { nick, avatar, ran } = user
     return (
       <div className="container user-index-ao289">
         <header>
           <p className="avatar-ao289">
             <a href="javascript:;">
-              <img src={`${domain}upload/${avatar}?${ran}`} width="100%" alt="" />
+              <img
+                src={`${domain}upload/${avatar}?${ran}`}
+                width="100%"
+                alt=""
+              />
             </a>
             <a href="javascript:;" className="edit-avatar">
               编辑头像
@@ -48,7 +53,11 @@ export default class UserIndex extends PureComponent {
             <Item key={4} arrow="horizontal" onClick={() => {}}>
               <p className="list-item">账号安全</p>
             </Item>
-            <Item key={5} arrow="horizontal" onClick={() => {}}>
+            <Item
+              key={5}
+              arrow="horizontal"
+              onClick={() => history.push('/adr')}
+            >
               <p className="list-item">地址管理</p>
             </Item>
           </QueueAnim>
