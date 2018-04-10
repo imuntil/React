@@ -1,4 +1,5 @@
-import { fetchAdrList, toggleDefaultAdr } from '@/services'
+import { fetchAdrList, toggleDefaultAdr, delAdr } from '@/services'
+import { delay } from '@/utils/cts'
 
 export default {
   namespace: 'adr',
@@ -23,10 +24,25 @@ export default {
       }
       yield put({ type: 'setState', res: data.result })
     },
-    *toggleDefault ({ payload }, { call, put, select }) {
-      console.log(payload)
+    *toggleDefault({ payload }, { call, put, select }) {
       const { userID } = yield select(state => state.user)
-      const { data, err, fail } = yield call(toggleDefaultAdr, { userID, id: payload.id })
+      const { data } = yield call(toggleDefaultAdr, { userID, id: payload.id })
+      yield call(delay, 500)
+      if (!data) {
+        throw new Error('更新失败了，请稍后再试')
+      }
+      yield put({ type: 'setDefault', ...payload })
+    },
+    *delServerAdr({ payload }, { call, put, select }) {
+      const { id } = payload
+      const { list } = yield select(state => state.adr)
+      if (list.indexOf(id) === -1) return
+      const { data } = yield call(delAdr, id)
+      if (!data) {
+        throw new Error('删除失败了，请稍后再试')
+      }
+      yield call(delay, 500)
+      yield put({ type: 'delAdr', ...payload })
     }
   },
 
@@ -40,7 +56,7 @@ export default {
       })
       return { dic, list: res.map(v => v.id), defaultID }
     },
-    setDefault (state, { id }) {
+    setDefault(state, { id }) {
       const { defaultID, dic } = state
       const oldDefault = { ...dic[defaultID], status: 0 }
       const newDefault = { ...dic[id], status: 1 }
@@ -49,6 +65,16 @@ export default {
         defaultID: id,
         dic: { ...dic, [id]: newDefault, [defaultID]: oldDefault }
       }
+    },
+    delAdr(state, { id }) {
+      const { defaultID, list, dic } = state
+      const index = list.indexOf(id)
+      const newList = [...list.slice(0, index), ...list.slice(index + 1)]
+      // 如果删除的地址是默认地址，将第一个设为默认
+      const newDefaultID = defaultID === id ? newList[0] : defaultID
+      const newDic = { ...dic }
+      delete newDic[id]
+      return { defaultID: newDefaultID, list: newList, dic: newDic }
     }
   }
 }

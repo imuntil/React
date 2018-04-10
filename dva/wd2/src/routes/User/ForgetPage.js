@@ -4,47 +4,14 @@ import { Route, Switch, Redirect } from 'dva/router'
 import { Toast } from 'antd-mobile'
 import UInput from '@/components/Form/UInput'
 import UCode from '@/components/Form/UCode'
+import Step from '@/components/Common/Form'
+import InputItem from '@/components/Form/InputItem'
 import { delay, regs } from '@/utils/cts'
 /* eslint-disable no-unused-vars */
 import { getCode, isExist, modifyPwd } from '@/services'
 import './ForgetPage.scss'
 
 const phoneReg = regs.phone.reg
-
-class Step extends PureComponent {
-  state = { submitted: false }
-
-  form = {}
-
-  get formValid() {
-    const f = Object.values(this.form)
-    if (!f || !f.length) return false
-    return f.every(v => v.valid)
-  }
-
-  componentWillUnmount = () => {
-    this.setState = () => {
-      return
-    }
-  }
-
-  handleChange = ({ value, name, $valid: { valid } }) => {
-    this.form[name] = { value, valid }
-  }
-
-  handleClick = async () => {
-    if (this.state.submitted) return
-    this.setState({ submitted: true })
-    this.handle()
-    await delay(1000)
-    this.setState({ submitted: false })
-  }
-
-  handle = async () => {
-    if (!this.formValid) return
-  }
-}
-
 class Step1 extends Step {
   handle = async () => {
     if (!this.formValid) return
@@ -66,21 +33,16 @@ class Step1 extends Step {
     const { submitted } = this.state
     return (
       <div className="step1">
-        <div className="step-item-57spq">
-          <p className="form-item">
-            <label htmlFor="">
-              {'请输入绑定手机号'.split('').map(v => <i key={v}>{v}</i>)}
-            </label>
-            <UInput
-              name="phone"
-              type="tel"
-              reg="phone"
-              onInputChange={this.handleChange}
-              shake={submitted}
-              required
-            />
-          </p>
-        </div>
+        <InputItem label="请输入绑定手机号" mode="center" customClass="s1-ii">
+          <UInput
+            name="phone"
+            type="tel"
+            reg="phone"
+            onInputChange={this.handleChange}
+            shake={submitted}
+            required
+          />
+        </InputItem>
         <p className="btn-box-57spq">
           <a
             href="javascript:;"

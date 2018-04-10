@@ -9,6 +9,7 @@
     "animate.css": "^3.6.1",
     "antd-mobile": "^2.1.8",
     "dva": "^2.1.0",
+    "dva-loading": "^2.0.0",
     "md5": "^2.2.1",
     "prop-types": "^15.6.1",
     "rc-animate": "^2.4.4",

@@ -121,6 +121,10 @@ const numberValid = (props, propName, componentName) => {
   }
 }
 
+UInput.defaultProps = {
+  type: 'text'
+}
+
 UInput.propTypes = {
   length: numberValid,
   maxL: numberValid,

@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
-import { List, WhiteSpace, Icon } from 'antd-mobile'
+import { List, Modal } from 'antd-mobile'
 import QueueAnim from 'rc-queue-anim'
 import AdrCell from '@/components/AdrCell'
+import Loading from '@/components/Common/Loading'
 import './AdrListPage.scss'
 
 const Item = List.Item
+const alert = Modal.alert
 
 const mapStateToProps = state => {
-  return { adr: state.adr }
+  return { adr: state.adr, loading: state.loading.models.adr }
 }
 @connect(mapStateToProps)
 export default class AdrListPage extends PureComponent {
@@ -18,15 +20,24 @@ export default class AdrListPage extends PureComponent {
   }
 
   handleToggleDefault = (status, id) => {
+    if (status) return
     this.props.dispatch({ type: 'adr/toggleDefault', payload: { id } })
   }
 
   handleDelClick = id => {
-    // xxx
+    alert('提示', '确定删除该地址么?', [
+      { text: 'Cancel', onPress: () => {} },
+      {
+        text: 'OK',
+        onPress: () => {
+          this.props.dispatch({ type: 'adr/delServerAdr', payload: { id } })
+        }
+      }
+    ])
   }
 
   render() {
-    const { history, adr } = this.props
+    const { history, adr, loading } = this.props
     const { list = [], dic } = adr
     return (
       <div className="container adr-10aei">
@@ -53,11 +64,8 @@ export default class AdrListPage extends PureComponent {
               </Item>
             </List>
           </QueueAnim>
-        ) : (
-          <p className="page-loading">
-            <Icon type="loading" />
-          </p>
-        )}
+        ) : null}
+        {loading ? <Loading /> : null}
       </div>
     )
   }

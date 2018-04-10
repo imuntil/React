@@ -127,3 +127,11 @@ export async function fetchAdrList(userID) {
 export async function toggleDefaultAdr({ id, userID }) {
   return $(`updateAddressAds.action?id=${id}&userid=${userID}`)
 }
+
+/**
+ * 删除地址
+ * @param {string} id 地址id
+ */
+export async function delAdr(id) {
+  return $(`delAddressAds.action?id=${id}`)
+}
