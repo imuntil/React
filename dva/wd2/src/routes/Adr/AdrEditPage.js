@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva'
-import { WhiteSpace, Picker, Icon } from 'antd-mobile'
+import { WhiteSpace, Picker, Icon, Toast } from 'antd-mobile'
 import arrayTreeFilter from 'array-tree-filter'
+import { delay } from '@/utils/cts'
 import Form from '@/components/Common/Form'
 import Shake from '@/components/Common/Shake'
 import UInput from '@/components/Form/UInput'
@@ -111,6 +112,7 @@ export default class AdrEditPage extends Form {
   handle = async () => {
     if (!this.formValid) return
     const { checked, labelValue, adrValueStr } = this.state
+    const { match, history } = this.props
     if (!adrValueStr) return
     const { name, phone, detail } = this.form
     const adr = adrValueStr.split(' ')
@@ -121,9 +123,16 @@ export default class AdrEditPage extends Form {
       name: name.value,
       phone: phone.value,
       address: adr[1] + '-' + detail.value,
-      id: this.props.match.params.edit
+      id: match.params.edit
     }
-    this.props.dispatch({ type: 'adr/editAdr', payload })
+    const res = await this.props.dispatch({ type: 'adr/editAdr', payload })
+    if (res) {
+      Toast.success('操作成功', 1)
+    } else {
+      Toast.info('操作失败了，请稍后重试', 1)
+    }
+    await delay(500)
+    history.go(-1)
   }
 
   render() {

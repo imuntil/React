@@ -1,5 +1,6 @@
 import md5 from 'md5'
 import request from '../utils/request'
+import { formatFormData } from '../utils/cts'
 
 // 115.28.239.3:8080/campariShop_Api/productShowPro.action?flag=1&sort=1
 
@@ -143,8 +144,7 @@ export async function delAdr(id) {
 export async function addAdr(payload) {
   return $(`saveAddressAds.action`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: formatFormData(payload)
   })
 }
 
@@ -155,7 +155,8 @@ export async function addAdr(payload) {
 export async function updateAdr(payload) {
   return $(`updateAddressOneAds.action`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    // headers: { 'Content-Type': 'application/json' },
+    // body: JSON.stringify(payload)
+    body: formatFormData(payload)
   })
 }

@@ -1,5 +1,5 @@
-import provinces from 'china-division/dist/provinces.json';
-import cities from 'china-division/dist/cities.json';
+import provinces from 'china-division/dist/provinces.json'
+import cities from 'china-division/dist/cities.json'
 // import areas from 'china-division/dist/areas.json';
 
 // areas.forEach((area) => {
@@ -12,22 +12,24 @@ import cities from 'china-division/dist/cities.json';
 //     });
 //   }
 // });
-cities.forEach((city) => {
-  const matchProvince = provinces.filter(province => province.code === city.parent_code)[0]
+cities.forEach(city => {
+  const matchProvince = provinces.filter(
+    province => province.code === (city.parent_code || city.provinceCode)
+  )[0]
   if (matchProvince) {
-    matchProvince.children = matchProvince.children || [];
+    matchProvince.children = matchProvince.children || []
     matchProvince.children.push({
       label: city.name,
       value: city.code,
-      children: city.children,
-    });
+      children: city.children
+    })
   }
-});
+})
 
 const options = provinces.map(province => ({
   label: province.name,
   value: province.code,
-  children: province.children,
-}));
+  children: province.children
+}))
 
-export default options;
+export default options

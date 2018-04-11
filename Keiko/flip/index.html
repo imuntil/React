@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    .ani {
+      width: 100px;
+      height: 100px;
+      background-color: #000;
+      position: relative;
+      left: 0;
+      /* transition: all 10s; */
+    }
+
+    .ani.totes-at-the-end {
+      left: 200px;
+    }
+  </style>
+  <script src="./flip.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="ani"></div>
+  <button>run</button>
+  <script>
+    (function () {
+      document.querySelector('button').addEventListener('click', run, false)
+      // function run() {
+      //   // Get the first position.
+      //   const el = document.querySelector('.ani')
+      //   var first = el.getBoundingClientRect();
+
+      //   // Move it to the end.
+      //   el.classList.add('totes-at-the-end');
+
+      //   // Get the last position.
+      //   var last = el.getBoundingClientRect();
+
+      //   // Invert.
+      //   var invert = first.left - last.left;
+
+      //   // Go from the inverted position to last.
+      //   var player = el.animate([{
+      //       transform: `translateX(${invert}px)`
+      //     },
+      //     {
+      //       transform: 'translateX(0)'
+      //     }
+      //   ], {
+      //     duration: 10*1000,
+      //     easing: 'cubic-bezier(0,0,0.32,1)',
+      //   });
+
+      //   // Do any tidy up at the end
+      //   // of the animation.
+      //   player.addEventListener('finish',
+      //     () => console.log('end'));
+      //   // player.addEventListener('finish',
+      //   //   tidyUpAnimations);
+      // }
+      function run () {
+        const flip = new FLIP({
+          element: document.querySelector('.ani'),
+          duration: 2000
+        })
+        flip.first()
+        flip.last('totes-at-the-end')
+        flip.invert()
+        flip.play()
+      }
+    })()
+  </script>
+</body>
+
+</html>
