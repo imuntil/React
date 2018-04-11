@@ -90,55 +90,6 @@ a {
   transition: all 0.25s;
 }
 
-/* form style */
-.form-item {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  position: relative;
-  border-bottom: 1px solid #fff;
-  label {
-    width: 75px;
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    padding-right: 8px;
-    position: relative;
-    &::after {
-      content: ':';
-      position: absolute;
-      right: 0;
-    }
-    i {
-      font-style: normal;
-    }
-  }
-  span {
-    flex: 1;
-    margin-left: 18px;
-  }
-}
-.form-item-cell {
-  padding: 10px 15px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  position: relative;
-  &.bb {
-    border-bottom: 1px solid #ddd;
-  }
-  .form-item {
-    label,
-    input {
-      color: #333;
-      font-size: 0.9rem;
-      font-weight: normal;
-    }
-  }
-}
 .form-btn {
   width: 100%;
   background-color: $red;
@@ -151,6 +102,13 @@ a {
   margin-top: 30px;
   &:active {
     opacity: 0.9;
+  }
+}
+.form-btn-box {
+  padding: 0 15px;
+  .form-btn {
+    padding: 15px;
+    border-radius: 2px;
   }
 }
 

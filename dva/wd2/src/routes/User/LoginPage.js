@@ -1,50 +1,21 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { Toast } from 'antd-mobile'
 import UInput from '@/components/Form/UInput'
-import { delay } from '@/utils/cts'
+import InputItem from '@/components/Form/InputItem'
+import Form from '@/components/Common/Form'
 import './LoginPage.scss'
 
 @connect()
-class LoginPage extends PureComponent {
-  state = {
-    submitted: false
-  }
-  form = {
-    phone: '',
-    password: ''
-  }
-  formValid = {}
-  get isFormOK() {
-    return Object.values(this.formValid).every(v => v)
-  }
-
-  componentWillUpdate() {
-    this.setState = (state, callback) => {
-      return
-    }
-  }
-
-  handleChange = ({ value, name, $valid }) => {
-    this.form[name] = value
-    this.formValid[name] = $valid.valid
-  }
-  handleSubmit = async () => {
-    const { submitted } = this.state
-    if (submitted) return
-    this.setState({ submitted: true })
-    if (this.isFormOK) {
-      this.handleLogin()
-    }
-    await delay(1500)
-    this.setState({ submitted: false })
-  }
-  handleLogin = () => {
+class LoginPage extends Form {
+  handle = () => {
+    if (!this.formValid) return
     const { dispatch, history, location } = this.props
+    const { phone, password } = this.form
     dispatch({
       type: 'user/login',
-      payload: this.form
+      payload: { phone: phone.value, password: password.value }
     }).then(v => {
       if (v === true) {
         Toast.success('登录成功', 1.5)
@@ -59,12 +30,7 @@ class LoginPage extends PureComponent {
     return (
       <div className="container login-82laj">
         <div className="box-82laj">
-          <p className="form-item">
-            <label>
-              <i>手</i>
-              <i>机</i>
-              <i>号</i>
-            </label>
+          <InputItem label="手机号" useWrap={false} customClass="lp-item">
             <UInput
               name="phone"
               onInputChange={this.handleChange}
@@ -73,12 +39,8 @@ class LoginPage extends PureComponent {
               shake={submitted}
               required
             />
-          </p>
-          <p className="form-item">
-            <label>
-              <i>密</i>
-              <i>码</i>
-            </label>
+          </InputItem>
+          <InputItem label="密码" useWrap={false} customClass="lp-item">
             <UInput
               name="password"
               onInputChange={this.handleChange}
@@ -87,11 +49,11 @@ class LoginPage extends PureComponent {
               shake={submitted}
               required
             />
-          </p>
+          </InputItem>
           <a
             href="javascript:;"
             className="form-btn"
-            onClick={this.handleSubmit}
+            onClick={this.handleClick}
           >
             登录
           </a>

@@ -1,4 +1,43 @@
 .adr-j203r {
   padding: 15px 0 0 0;
   background-color: #f6f6f6;
+  * {
+    font-size: .9rem;
+  }
+  .picker-btn {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: #888;
+    &.left {
+      justify-content: flex-start;
+    }
+    span {
+      margin-right: 10px;
+    }
+  }
+  .small-padding {
+    padding: 6px 15px;
+  }
+}
+.text-area-j203r {
+  border-bottom: 1px solid #ddd;
+  padding: 20px 15px;
+  background-color: #fff;
+  textarea {
+    width: 100%;
+    border: none;
+    line-height: 1.5;
+  }
+}
+.set-default-j203r {
+  width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  a {
+    padding: 18px 15px;
+  }
 }

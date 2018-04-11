@@ -74,7 +74,7 @@ export async function login({ phone, password }) {
 
 /**
  * 获取验证码
- * @param {*} {phone, flag}
+ * @param {object} [obj]
  */
 export async function getCode({ phone, flag = 1 }) {
   return $(`resIdcodeSsm.action?flag=${flag}&phone=${phone}`)
@@ -134,4 +134,28 @@ export async function toggleDefaultAdr({ id, userID }) {
  */
 export async function delAdr(id) {
   return $(`delAddressAds.action?id=${id}`)
+}
+
+/**
+ * 新增地址
+ * @param {object} payload 内容 {status, label, city, name, phone, address, userid}
+ */
+export async function addAdr(payload) {
+  return $(`saveAddressAds.action`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+}
+
+/**
+ * 更新地址
+ * @param {object} payload 更新内容 {..., id}
+ */
+export async function updateAdr(payload) {
+  return $(`updateAddressOneAds.action`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
 }

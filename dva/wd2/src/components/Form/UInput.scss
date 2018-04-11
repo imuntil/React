@@ -1,4 +1,4 @@
-input.u-input-298jf {
+.u-input-298jf {
   padding: 10px;
   appearance: none;
   border: none;
@@ -7,9 +7,19 @@ input.u-input-298jf {
   width: 100%;
   color: #fff;
   &:focus {
-    box-shadow: 0 0 4px rgba(255, 255, 255, .4);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
   }
 }
-span.input-wrapper-298jf.shake {
-  box-shadow: 0 0 8px #e47f87;
+textarea.u-input-298jf {
+  color: #333;
+  box-sizing: border-box;
+  padding: 2px;
+}
+span.input-wrapper-298jf,
+div.input-wrapper-298jf {
+  display: block;
+  width: 100%;
+  &.shake {
+    box-shadow: 0 0 8px #e47f87;
+  }
 }

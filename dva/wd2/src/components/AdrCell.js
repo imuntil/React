@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import AdrRadio from './Form/AdrRadio'
 import './AdrCell.scss'
 
 const AdrCell = ({
@@ -26,14 +27,11 @@ const AdrCell = ({
           </p>
         </div>
         <div className="cell-bottom-19aop">
-          <a
-            href="javascript:;"
-            onClick={() => onToggleDefault(adr.status, adr.id)}
-            className={`cb-left ${adr.status ? 'checked' : ''}`}
-          >
-            <i />
-            默认地址
-          </a>
+          <AdrRadio
+            text="默认地址"
+            onRadioClick={() => onToggleDefault(adr.status, adr.id)}
+            checked={!!adr.status}
+          />
           <p className="cb-right">
             <a href="javascript:;" onClick={() => onEditClick(adr.id)}>
               编辑

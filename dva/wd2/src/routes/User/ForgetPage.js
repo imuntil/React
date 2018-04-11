@@ -43,7 +43,7 @@ class Step1 extends Step {
             required
           />
         </InputItem>
-        <p className="btn-box-57spq">
+        <p className="form-btn-box">
           <a
             href="javascript:;"
             className="form-btn"
@@ -108,29 +108,23 @@ class Step2 extends Step {
         <div className="step-item-57spq">
           <p className="warning">短信验证码已经发送到手机130****3937</p>
         </div>
-        <div className="step-item-57spq">
-          <div className="split-box-57spq">
-            <p className="form-item">
-              <label htmlFor="">
-                {'验证码'.split('').map(v => <i key={v}>{v}</i>)}
-              </label>
-              <UInput
-                name="code"
-                onInputChange={this.handleChange}
-                type="tel"
-                reg="^\d{6}$"
-                shake={submitted}
-                required
-              />
-            </p>
-            <UCode
-              onCodeClick={this.handleCodeClick}
-              ref={el => (this.codeEle = el)}
-              runningText="重新发送 $$"
-            />
-          </div>
-        </div>
-        <p className="btn-box-57spq">
+        <InputItem label="验证码" customClass="s2-ii">
+          <UInput
+            name="code"
+            onInputChange={this.handleChange}
+            type="tel"
+            reg="^\d{6}$"
+            shake={submitted}
+            wrapperClass="s2-input"
+            required
+          />
+          <UCode
+            onCodeClick={this.handleCodeClick}
+            ref={el => (this.codeEle = el)}
+            runningText="重新发送 $$"
+          />
+        </InputItem>
+        <p className="form-btn-box">
           <a
             href="javascript:;"
             className="form-btn"
@@ -184,21 +178,16 @@ class Step3 extends Step {
     const { submitted, isPwd, pwd } = this.state
     return (
       <div className="step3">
-        <div className="step-item-57spq">
-          <p className="form-item">
-            <label htmlFor="">
-              {'设置密码'.split('').map(v => <i key={v}>{v}</i>)}
-            </label>
-            <UInput
-              name="password"
-              onInputChange={this.handleChange}
-              shake={submitted}
-              type={isPwd ? 'password' : 'text'}
-              reg="password"
-              placeholder="6-20位字母、数字"
-              required
-            />
-          </p>
+        <InputItem label="设置密码">
+          <UInput
+            name="password"
+            onInputChange={this.handleChange}
+            shake={submitted}
+            type={isPwd ? 'password' : 'text'}
+            reg="password"
+            placeholder="6-20位字母、数字"
+            required
+          />
           <a
             href="javascript:;"
             className="show-pwd"
@@ -214,25 +203,20 @@ class Step3 extends Step {
               alt=""
             />
           </a>
-        </div>
-        <div className="step-item-57spq">
-          <p className="form-item">
-            <label htmlFor="">
-              {'确认密码'.split('').map(v => <i key={v}>{v}</i>)}
-            </label>
-            <UInput
-              name="confirm"
-              onInputChange={this.handleChange}
-              shake={submitted}
-              type="password"
-              reg="password"
-              placeholder="重新输入"
-              confirm={pwd}
-              required
-            />
-          </p>
-        </div>
-        <p className="btn-box-57spq">
+        </InputItem>
+        <InputItem label="确认密码">
+          <UInput
+            name="confirm"
+            onInputChange={this.handleChange}
+            shake={submitted}
+            type="password"
+            reg="password"
+            placeholder="重新输入"
+            confirm={pwd}
+            required
+          />
+        </InputItem>
+        <p className="form-btn-box">
           <a
             href="javascript:;"
             className="form-btn"

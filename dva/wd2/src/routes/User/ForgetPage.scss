@@ -12,6 +12,34 @@
       margin-left: 5px;
     }
   }
+  .step2 .s2-ii {
+    & > label {
+      width: 65px;
+    }
+    & > div {
+      display: flex;
+      margin-left: 5px;
+    }
+    .s2-input {
+      display: flex;
+      flex: 1;
+    }
+  }
+  .step2 .u-code {
+    color: $red;
+    position: relative;
+    margin-left: 10px;
+    &:before {
+      position: absolute;
+      width: 1px;
+      height: calc(100% + 20px);
+      left: -5px;
+      top: -10px;
+      content: '';
+      background-color: #ddd;
+    }
+  }
+
   /* new */
 
   .step-item-57spq {
@@ -19,16 +47,6 @@
     background-color: #fff;
     border-top: 1px solid #ddd;
     position: relative;
-  }
-  .form-item {
-    label {
-      color: #333;
-      font-size: 0.9rem;
-      font-weight: normal;
-    }
-    input {
-      color: #333;
-    }
   }
   .show-pwd {
     height: 100%;
@@ -47,38 +65,7 @@
     padding: 10px 0;
     color: $red;
   }
-  .step2 {
-    .form-item {
-      position: relative;
-      flex: 1;
-      &:before {
-        position: absolute;
-        width: 1px;
-        height: calc(100% + 20px);
-        right: 0;
-        top: -10px;
-        content: '';
-        background-color: #ddd;
-      }
-      label {
-        width: 60px;
-      }
-      span {
-        margin-left: 5px;
-      }
-    }
-    .u-code {
-      color: $red;
-    }
-  }
 }
 .forget-67spq .step-item-57spq:last-of-type {
   border-bottom: 1px solid #ddd;
-}
-.btn-box-57spq {
-  padding: 0 15px;
-  .form-btn {
-    padding: 15px;
-    border-radius: 2px;
-  }
 }

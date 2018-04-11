@@ -12,6 +12,10 @@ const buildIn = {
   objectId: /^[0-9a-fA-F]{24}$/
 }
 
+const El = ({ el, ...rest }) => {
+  return el === 'input' ? <input {...rest} /> : <textarea {...rest} />
+}
+
 class UInput extends PureComponent {
   animation = { translateX: '4%', yoyo: true, repeat: 7, duration: 50 }
   constructor(props) {
@@ -81,6 +85,7 @@ class UInput extends PureComponent {
       minL,
       wrapperClass = '',
       inputClass = '',
+      el,
       /* eslint-disable un-used-vars */
       shake,
       reg,
@@ -93,12 +98,13 @@ class UInput extends PureComponent {
     return (
       <TweenOne
         animation={this.aniShake ? this.animation : null}
-        component="span"
+        component={el === 'input' ? 'span' : 'div'}
         className={`${wrapperClass} ${
           this.aniShake ? 'shake' : ''
         } input-wrapper-298jf`}
       >
-        <input
+        <El
+          el={el}
           type={type}
           value={value}
           onChange={this.handleChange}
@@ -122,7 +128,8 @@ const numberValid = (props, propName, componentName) => {
 }
 
 UInput.defaultProps = {
-  type: 'text'
+  type: 'text',
+  el: 'input'
 }
 
 UInput.propTypes = {
@@ -133,6 +140,7 @@ UInput.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   confirm: PropTypes.string,
   shake: PropTypes.bool,
+  el: PropTypes.oneOf(['input', 'textarea']),
   /* 正则表达式 */
   reg: PropTypes.string,
   required: PropTypes.bool,

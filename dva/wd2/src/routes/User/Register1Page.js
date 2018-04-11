@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { delay } from '@/utils/cts'
@@ -6,11 +6,12 @@ import { getCode, isExist } from '@/services'
 import { Toast } from 'antd-mobile'
 import UInput from '@/components/Form/UInput'
 import UCode from '@/components/Form/UCode'
+import InputItem from '@/components/Form/InputItem'
+import Form from '@/components/Common/Form'
 import './LoginPage.scss'
 
 @connect()
-export default class Register1Page extends PureComponent {
-  state = { submitted: false }
+export default class Register1Page extends Form {
   form = { phone: {}, code: {} }
   /* phone/code input 实例 */
   phoneEle = null
@@ -18,19 +19,11 @@ export default class Register1Page extends PureComponent {
   /* server 返回的 code */
   code = ''
 
-  componentWillUnmount = () => {
-    this.setState = (state, callback) => {
-      return
-    } 
+  get formValid() {
+    return false
   }
 
-  handleChange = ({ value, name, $valid: { valid } }) => {
-    this.form[name] = { value, valid }
-  }
-
-  handleSubmit = async () => {
-    if (this.state.submitted) return
-    this.setState({ submitted: true })
+  handle = async () => {
     const { phone, code } = this.form
     if (this.checkForm(phone, code)) {
       const { dispatch, history } = this.props
@@ -43,8 +36,6 @@ export default class Register1Page extends PureComponent {
       })
       history.push('/user/reg2')
     }
-    await delay(1000)
-    this.setState({ submitted: false })
   }
 
   handleCodeClick = async cb => {
@@ -105,12 +96,7 @@ export default class Register1Page extends PureComponent {
     return (
       <div className="container login-82laj reg-0dmf9">
         <div className="box-82laj">
-          <p className="form-item">
-            <label>
-              <i>手</i>
-              <i>机</i>
-              <i>号</i>
-            </label>
+          <InputItem label="手机号" useWrap={false} customClass="lp-item">
             <UInput
               name="phone"
               onInputChange={this.handleChange}
@@ -120,12 +106,10 @@ export default class Register1Page extends PureComponent {
               shake={submitted}
               required
             />
-          </p>
+          </InputItem>
+
           <div className="sp-form-item-82laj">
-            <p className="form-item">
-              <label htmlFor="">
-                {'验证码'.split('').map(v => <i key={v}>{v}</i>)}
-              </label>
+            <InputItem label="验证码" useWrap={false} customClass="lp-item">
               <UInput
                 name="code"
                 onInputChange={this.handleChange}
@@ -134,7 +118,7 @@ export default class Register1Page extends PureComponent {
                 shake={submitted}
                 required
               />
-            </p>
+            </InputItem>
             <UCode
               onCodeClick={this.handleCodeClick}
               ref={el => (this.codeEle = el)}
@@ -143,7 +127,7 @@ export default class Register1Page extends PureComponent {
           <a
             href="javascript:;"
             className="form-btn"
-            onClick={this.handleSubmit}
+            onClick={this.handleClick}
           >
             下一步
           </a>

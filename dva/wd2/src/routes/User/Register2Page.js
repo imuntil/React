@@ -1,10 +1,12 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect } from 'dva'
 import { delay } from '@/utils/cts'
 import { register } from '@/services'
 import { Toast } from 'antd-mobile'
 import SweetAlert from 'sweetalert-react'
 import UInput from '@/components/Form/UInput'
+import InputItem from '@/components/Form/InputItem'
+import Form from '@/components/Common/Form'
 import './LoginPage.scss'
 
 function mapStateToProps(state) {
@@ -13,7 +15,7 @@ function mapStateToProps(state) {
 }
 
 @connect(mapStateToProps)
-export default class Register2Page extends PureComponent {
+export default class Register2Page extends Form {
   state = { submitted: false, password: '', visible: false }
   form = { nick: {}, password: {}, pw2: {} }
 
@@ -23,7 +25,7 @@ export default class Register2Page extends PureComponent {
     if (!phone || !code) {
       Toast.info('手机号码或者验证码有误', 1)
       setTimeout(() => {
-        history.go(-1)
+        // history.go(-1)
       }, 800)
     }
   }
@@ -36,27 +38,13 @@ export default class Register2Page extends PureComponent {
     window.addEventListener('popstate', this.hideSWAL)
   }
 
-  /* 表单是否合法 */
-  get formValid() {
-    return Object.values(this.form).every(v => v.valid)
-  }
-
   handleChange = ({ value, name, $valid: { valid } }) => {
     this.form[name] = { value, valid }
     name === 'password' && this.setState({ password: value })
   }
 
-  handleClick = async () => {
-    const { submitted } = this.state
-    if (submitted) return
-    this.setState({ submitted: true })
-    this.register()
-    await delay(1000)
-    this.setState({ submitted: false })
-  }
-
   /* 注册，将信息提交server */
-  register = async () => {
+  handle = async () => {
     if (!this.formValid) return
     const { nick, password } = this.form
     const { phone, dispatch } = this.props
@@ -94,11 +82,7 @@ export default class Register2Page extends PureComponent {
     return (
       <div className="container login-82laj reg-28dfh">
         <div className="box-82laj">
-          <p className="form-item">
-            <label htmlFor="">
-              <i>昵</i>
-              <i>称</i>
-            </label>
+          <InputItem label="昵称" useWrap={false} customClass="lp-item">
             <UInput
               name="nick"
               onInputChange={this.handleChange}
@@ -108,14 +92,8 @@ export default class Register2Page extends PureComponent {
               shake={submitted}
               required
             />
-          </p>
-          <p className="form-item">
-            <label htmlFor="">
-              <i>登</i>
-              <i>录</i>
-              <i>密</i>
-              <i>码</i>
-            </label>
+          </InputItem>
+          <InputItem label="登陆密码" useWrap={false} customClass="lp-item">
             <UInput
               name="password"
               onInputChange={this.handleChange}
@@ -124,14 +102,8 @@ export default class Register2Page extends PureComponent {
               reg="password"
               required
             />
-          </p>
-          <p className="form-item">
-            <label htmlFor="">
-              <i>确</i>
-              <i>认</i>
-              <i>密</i>
-              <i>码</i>
-            </label>
+          </InputItem>
+          <InputItem label="确认密码" useWrap={false} customClass="lp-item">
             <UInput
               name="pw2"
               onInputChange={this.handleChange}
@@ -141,7 +113,7 @@ export default class Register2Page extends PureComponent {
               confirm={password}
               required
             />
-          </p>
+          </InputItem>
           <a
             href="javascript:;"
             className="form-btn"

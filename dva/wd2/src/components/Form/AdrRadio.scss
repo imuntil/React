@@ -1,0 +1,42 @@
+@import '../../styles/decoration';
+.radio-20s4k {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  border-radius: 2px;
+  i {
+    &:before {
+      content: '';
+      width: 0;
+      height: 0;
+      transition: all 0.25s 0.1s;
+    }
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 1px solid #666;
+    border-radius: 100%;
+    margin-right: 10px;
+    box-sizing: border-box;
+    transition: all 0.25s;
+  }
+}
+.radio-20s4k.checked-20s4k i {
+  border: 3px solid $red;
+  position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    width: 0.4rem;
+    height: 0.4rem;
+    background-color: $red;
+    border-radius: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+}

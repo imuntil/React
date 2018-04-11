@@ -1,4 +1,10 @@
-import { fetchAdrList, toggleDefaultAdr, delAdr } from '@/services'
+import {
+  fetchAdrList,
+  toggleDefaultAdr,
+  delAdr,
+  addAdr,
+  updateAdr
+} from '@/services'
 import { delay } from '@/utils/cts'
 
 export default {
@@ -10,14 +16,16 @@ export default {
     // 以 id 为 key 的地址列表
     dic: {},
     // default adr id
-    defaultID: null
+    defaultID: null,
+    // 是否过期
+    expired: false
   },
 
   effects: {
     *fetchList({ payload }, { call, put, select }) {
-      const { list } = yield select(state => state.adr)
+      const { list, expired } = yield select(state => state.adr)
       const { userID } = yield select(state => state.user)
-      if (list && list.length) return
+      if (list && list.length && !expired) return
       const { data, err, fail } = yield call(fetchAdrList, userID)
       if (err || fail) {
         throw new Error((fail && fail.msg) || '出做了，请稍后再试')
@@ -43,6 +51,21 @@ export default {
       }
       yield call(delay, 500)
       yield put({ type: 'delAdr', ...payload })
+    },
+    *editAdr({ payload: { id, ...payload } }, { call, put, select }) {
+      const { userID } = yield select(state => state.user)
+      console.log(payload)
+      let res
+      if (id === -1) {
+        res = yield call(addAdr, { ...payload, userid: userID })
+      } else {
+        res = yield call(updateAdr, { ...payload, id, userid: userID })
+      }
+      if (!res.data) {
+        // throw new Error('操作失败了，请稍后再试')
+        // return
+      }
+      yield put({ type: 'expiredStore' })
     }
   },
 
@@ -54,7 +77,7 @@ export default {
         dic[v.id] = v
         v.status && (defaultID = v.id)
       })
-      return { dic, list: res.map(v => v.id), defaultID }
+      return { dic, list: res.map(v => v.id), defaultID, expired: false }
     },
     setDefault(state, { id }) {
       const { defaultID, dic } = state
@@ -63,7 +86,12 @@ export default {
       return {
         ...state,
         defaultID: id,
-        dic: { ...dic, [id]: newDefault, [defaultID]: oldDefault }
+        dic: {
+          ...dic,
+          [id]: newDefault,
+          [defaultID]: oldDefault,
+          expired: false
+        }
       }
     },
     delAdr(state, { id }) {
@@ -75,6 +103,9 @@ export default {
       const newDic = { ...dic }
       delete newDic[id]
       return { defaultID: newDefaultID, list: newList, dic: newDic }
+    },
+    expiredStore(state) {
+      return { ...state, expired: true }
     }
   }
 }
