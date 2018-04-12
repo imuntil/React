@@ -1,0 +1,19 @@
+.col-29kdp {
+  padding: 15px 0 0 0;
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
+  li {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    // padding: 10px;
+    background-color: #f00;
+    color: #fff;
+    box-sizing: border-box;
+  }
+  li:nth-child(odd) {
+    background-color: #000;
+  }
+}

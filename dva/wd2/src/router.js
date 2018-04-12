@@ -16,6 +16,7 @@ import Register2Page from './routes/User/Register2Page'
 import UserIndex from './routes/User/UserIndex'
 import ForgetPage from './routes/User/ForgetPage'
 import LogoutPage from './routes/User/LogoutPage'
+import CollectionPage from './routes/User/CollectionPage'
 
 import ModifyPwdPage from './routes/User/Modify/ModifyPwdPage'
 import ModifyNickPage from './routes/User/Modify/ModifyNickPage'
@@ -46,6 +47,7 @@ const User = () => {
       <AuthRoute path="/user/modify/pwd" component={ModifyPwdPage} />
       <AuthRoute path="/user/modify/nick" component={ModifyNickPage} />
       <AuthRoute path="/user/modify/avatar" component={ModifyAvatarPage} />
+      <AuthRoute path="/user/col" component={CollectionPage} />
     </Switch>
   )
 }

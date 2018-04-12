@@ -43,7 +43,11 @@ export default class UserIndex extends PureComponent {
             <Item key={2} arrow="horizontal" onClick={() => {}}>
               <p className="list-item">全部订单</p>
             </Item>
-            <Item key={3} arrow="horizontal" onClick={() => {}}>
+            <Item
+              key={3}
+              arrow="horizontal"
+              onClick={() => history.push('/user/col')}
+            >
               <p className="list-item">我的收藏</p>
             </Item>
           </QueueAnim>
