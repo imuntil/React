@@ -108,7 +108,7 @@ export async function register({ nick, password, phone }) {
  * @param {*} pwd 密码
  * @param {*} phone 手机号码
  */
-export async function modifyPwd({ pwd, phone }) {
+export async function resetPwd({ pwd, phone }) {
   return $(`userForgetUsr.action?newpwd=${md5(pwd)}&phone=${phone}`)
 }
 
@@ -159,4 +159,16 @@ export async function updateAdr(payload) {
     // body: JSON.stringify(payload)
     body: formatFormData(payload)
   })
+}
+
+/**
+ * 修改密码
+ * @param {object} nPwd.oPwd.phone string
+ */
+export async function modifyPwd({ nPwd, oPwd, phone }) {
+  return $(
+    `updatepwdrUsr.action?newpwd=${md5(nPwd)}&oldpwd=${md5(
+      oPwd
+    )}&phone=${phone}`
+  )
 }

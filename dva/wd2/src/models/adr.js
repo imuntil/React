@@ -54,10 +54,10 @@ export default {
       const { id } = payload
       const { list } = yield select(state => state.adr)
       if (list.indexOf(id) === -1) return
-      const { data } = yield call(delAdr, id)
-      if (!data) {
-        throw new Error('删除失败了，请稍后再试')
-      }
+      // const { data } = yield call(delAdr, id)
+      // if (!data) {
+      //   throw new Error('删除失败了，请稍后再试')
+      // }
       yield call(delay, 500)
       yield put({ type: 'delAdr', ...payload })
     },
@@ -108,15 +108,14 @@ export default {
         [id]: newDefault,
         [defaultID]: oldDefault
       }
-      const list = sort(Object.values(newDic)).map(v => v.id)
+      // const list = sort(Object.values(newDic)).map(v => v.id)
       // 需要重新排序
       return {
         ...state,
         defaultID: id,
         dic: newDic,
-        list,
         expired: false,
-        reSort: false
+        reSort: true
       }
     },
     delAdr(state, { id }) {

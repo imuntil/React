@@ -8,7 +8,8 @@
   border-top: 1px solid #ddd;
   position: relative;
   box-sizing: border-box;
-  &.bb, &:last-of-type {
+  &.bb,
+  &:last-of-type {
     border-bottom: 1px solid #ddd;
   }
 }
@@ -48,15 +49,22 @@
   label.text--center {
     justify-content: center;
   }
+  label.no-colon:after {
+    display: none;
+  }
+  label.no-colon + div {
+    margin-left: 5px;
+  }
   .content-qo83b {
     flex: 1;
     margin-left: 18px;
   }
 }
 .wrap-qo83b .form-item-qo83b {
-  label, input {
+  label,
+  input {
     color: #333;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: normal;
   }
 }

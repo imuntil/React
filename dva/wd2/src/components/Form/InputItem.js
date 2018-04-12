@@ -8,14 +8,15 @@ const InputItem = ({
   children,
   useWrap,
   className,
-  customClass
+  customClass,
+  noColon
 }) => {
   return (
     <div
       className={`input-cell-qo83b ${useWrap ? 'wrap-qo83b' : ''} ${className}`}
     >
       <div className={`form-item-qo83b ${customClass}`}>
-        <label htmlFor="" className={`text--${mode}`}>
+        <label htmlFor="" className={`text--${mode} ${noColon && 'no-colon'}`}>
           {mode === 'justify'
             ? label.split('').map(v => <i key={v}>{v}</i>)
             : label}
@@ -29,7 +30,8 @@ InputItem.defaultProps = {
   mode: 'justify',
   useWrap: true,
   className: '',
-  customClass: ''
+  customClass: '',
+  noColon: false
 }
 InputItem.propTypes = {
   label: PropTypes.string.isRequired,
@@ -37,7 +39,8 @@ InputItem.propTypes = {
   useWrap: PropTypes.bool,
   className: PropTypes.string,
   customClass: PropTypes.string,
-  labelWidth: PropTypes.number
+  labelWidth: PropTypes.number,
+  noColon: PropTypes.bool
 }
 
 export default InputItem

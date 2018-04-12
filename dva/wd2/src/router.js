@@ -15,6 +15,11 @@ import Register1Page from './routes/User/Register1Page'
 import Register2Page from './routes/User/Register2Page'
 import UserIndex from './routes/User/UserIndex'
 import ForgetPage from './routes/User/ForgetPage'
+import LogoutPage from './routes/User/LogoutPage'
+
+import ModifyPwdPage from './routes/User/Modify/ModifyPwdPage'
+import ModifyNickPage from './routes/User/Modify/ModifyNickPage'
+import ModifyAvatarPage from './routes/User/Modify/ModifyAvatarPage'
 
 import AdrListPage from './routes/Adr/AdrListPage'
 import AdrEditPage from './routes/Adr/AdrEditPage'
@@ -37,6 +42,10 @@ const User = () => {
       <Route path="/user/reg1" component={Register1Page} />
       <Route path="/user/reg2" component={Register2Page} />
       <Route path="/user/forget" component={ForgetPage} />
+      <AuthRoute path="/user/logout" component={LogoutPage} />
+      <AuthRoute path="/user/modify/pwd" component={ModifyPwdPage} />
+      <AuthRoute path="/user/modify/nick" component={ModifyNickPage} />
+      <AuthRoute path="/user/modify/avatar" component={ModifyAvatarPage} />
     </Switch>
   )
 }

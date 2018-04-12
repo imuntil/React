@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    ul {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      background: #000;
+    }
+
+    li {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      background-color: #ff00ff;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 100px;
+    }
+
+    /* .t:nth-child(1) {
+      order: 5
+    }
+
+    .t:nth-child(2) {
+      order: 4
+    } */
+
+    .t {
+      /* order: -1; */
+      /* display: none; */
+      height: 0;
+      margin: 0;
+    }
+  </style>
+  <title>Document</title>
+  <script src="./flip.min.js"></script>
+</head>
+
+<body>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  </ul>
+  <button class="btn">remove</button>
+  <script>
+    (function () {
+      const groups = FLIP.group([...document.querySelectorAll('li')].map(ele => ({
+        element: ele,
+        duration: 1000
+      })))
+
+      document.querySelector('.btn').addEventListener('click', () => {
+        groups.first()
+        groups.last(['t', 'x', 'x', 'x', 'x'].sort(() => Math.random() - .6))
+        groups.invert()
+        groups.play()
+      }, false)
+    })();
+  </script>
+</body>
+
+</html>

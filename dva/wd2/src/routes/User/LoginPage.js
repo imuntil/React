@@ -19,7 +19,11 @@ class LoginPage extends Form {
     }).then(v => {
       if (v === true) {
         Toast.success('登录成功', 1.5)
-        history.replace((location.state && location.state.from) || '/user')
+        const { state } = location
+        history.replace(
+          (state && state.from && state.from.pathname !== '/user/logout') ||
+            '/user'
+        )
         return
       }
       Toast.info(v.msg || '出错了-。-、请稍后再试', 1.5)

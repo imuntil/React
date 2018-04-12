@@ -8,7 +8,7 @@ import Step from '@/components/Common/Form'
 import InputItem from '@/components/Form/InputItem'
 import { delay, regs } from '@/utils/cts'
 /* eslint-disable no-unused-vars */
-import { getCode, isExist, modifyPwd } from '@/services'
+import { getCode, isExist, resetPwd } from '@/services'
 import './ForgetPage.scss'
 
 const phoneReg = regs.phone.reg
@@ -157,13 +157,13 @@ class Step3 extends Step {
 
   handle = async () => {
     if (!this.formValid) return
-    this.modifyPwd()
+    this.resetPwd()
   }
 
-  modifyPwd = async () => {
+  resetPwd = async () => {
     const { pwd } = this.state
     const { match, history } = this.props
-    // const { data } = await modifyPwd({ pwd, phone: match.params.phone })
+    // const { data } = await resetPwd({ pwd, phone: match.params.phone })
     const data = {}
     if (data) {
       Toast.success('修改成功', 2)

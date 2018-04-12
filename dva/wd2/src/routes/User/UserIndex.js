@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
+import { Link } from 'dva/router'
 import QueueAnim from 'rc-queue-anim'
 import { List, WhiteSpace } from 'antd-mobile'
 import { domain } from '@/services'
@@ -28,7 +29,7 @@ export default class UserIndex extends PureComponent {
             </a>
           </p>
           <p className="nick-ao289">
-            <a href="javascript:;">{nick}</a>
+            <Link to="/user/modify/nick">{nick}</Link>
           </p>
         </header>
         <div className="am-list">
@@ -50,7 +51,11 @@ export default class UserIndex extends PureComponent {
         <WhiteSpace />
         <div className="am-list">
           <QueueAnim className="am-list-body" delay={400}>
-            <Item key={4} arrow="horizontal" onClick={() => {}}>
+            <Item
+              key={4}
+              arrow="horizontal"
+              onClick={() => history.push('/user/logout')}
+            >
               <p className="list-item">账号安全</p>
             </Item>
             <Item
