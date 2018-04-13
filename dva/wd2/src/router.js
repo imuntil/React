@@ -22,7 +22,7 @@ import ModifyPwdPage from './routes/User/Modify/ModifyPwdPage'
 import ModifyNickPage from './routes/User/Modify/ModifyNickPage'
 import ModifyAvatarPage from './routes/User/Modify/ModifyAvatarPage'
 
-import AdrListPage from './routes/Adr/AdrListPage'
+import AdrListPage from './routes/Adr/AdrListPageV2'
 import AdrEditPage from './routes/Adr/AdrEditPage'
 
 const Pro = () => {

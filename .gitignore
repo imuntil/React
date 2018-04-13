@@ -112,3 +112,6 @@ ig-dir
 
 .gitignore
 .DS_Store
+
+video.mp4
+video_x264.mp4

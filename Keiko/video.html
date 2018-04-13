@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      color: #000;
+    }
+
+    .xx {
+      display: none;
+    }
+  </style>
+  <title>demo</title>
+</head>
+
+<body>
+  <video width="100%" preload x-webkit-airplay="deny" webkit-playsinline playsinline autoplay>
+    <source src="./video_x264.mp4">
+  </video>
+  <a href="javasript:;">Play</a>
+  <script>
+    (function () {
+      const video = document.querySelector('video')
+      const btn = document.querySelector('a')
+      video.addEventListener('play', function() {
+        btn.classList = 'xx'
+      })
+      btn.addEventListener('click', function () {
+        video.play()
+        this.classList = 'xx'
+      }, false)
+
+      document.addEventListener(
+        'WeixinJSBridgeReady',
+        () => {
+          video.play()
+        },
+        false
+      )
+    })()
+  </script>
+</body>
+
+</html>

@@ -18,6 +18,7 @@ const El = ({ el, ...rest }) => {
 
 class UInput extends PureComponent {
   animation = { translateX: '4%', yoyo: true, repeat: 7, duration: 50 }
+
   constructor(props) {
     super(props)
     const { value = '', minL, maxL } = this.props
@@ -27,6 +28,15 @@ class UInput extends PureComponent {
     const valid = this.valid(value)
     this.state = { value, forceShake: false, ...valid }
   }
+
+  componentWillReceiveProps = nextProps => {
+    const { value } = nextProps
+    if (value === '' && this.state.value !== '') {
+      const valid = this.valid('')
+      this.setState({ value: '', ...valid })
+    }
+  }
+
   handleChange = e => {
     const { onInputChange, name } = this.props
     const value = e.target.value.trim()

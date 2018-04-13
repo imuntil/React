@@ -1,86 +1,99 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
+import { SwipeAction, Toast } from 'antd-mobile'
 import { TransitionMotion, presets, spring } from 'react-motion'
+import ListCell from '@/components/ListCell'
+import Loading from '@/components/Common/Loading'
 import './CollectionPage.scss'
 
-@connect()
+const mapStateToProps = state => {
+  const { col, loading } = state
+  return { col, loading: loading.models.col }
+}
+
+const setStyle = (maxHeight, marginBottom, opacity) => ({
+  maxHeight,
+  marginBottom,
+  opacity
+})
+
+@connect(mapStateToProps)
 export default class CollectionPage extends PureComponent {
-  state = {
-    list: [...Array(10).keys()].map(v => ({ key: `t${v}`, data: v }))
+  handleDelete = async index => {
+    await this.props.dispatch({
+      type: 'col/deleteServerCol',
+      payload: { index }
+    })
+    Toast.success('已取消收藏', 1)
   }
 
   getDefaultStyle = () => {
-    return this.state.list.map(v => ({
-      ...v,
-      style: { maxHeight: 0, y: 10, x: 20 }
+    return this.props.col.list.map(v => ({
+      key: v,
+      style: setStyle(0, 0, 0)
     }))
   }
 
   getStyles = () => {
-    return this.state.list.map(v => ({
-      ...v,
-      style: {
-        maxHeight: spring(50, presets.gentle),
-        x: spring(0, presets.gentle),
-        y: spring(0, presets.gentle)
-      }
+    return this.props.col.list.map(v => ({
+      key: v,
+      style: setStyle(
+        spring(180, presets.gentle),
+        spring(15, presets.gentle),
+        spring(1, presets.gentle)
+      )
     }))
   }
 
   willEnter() {
-    return {
-      maxHeight: 0,
-      x: 20,
-      y: 10
-    }
+    return setStyle(0, 0, 0)
   }
 
   willLeave() {
-    return {
-      maxHeight: spring(0),
-      x: spring(-20),
-      y: spring(10)
-    }
-  }
-
-  shuttfle = () => {
-    const list = [...this.state.list]
-    const fourth = list.splice(3, 1)
-    list.unshift({ ...fourth[0], key: Math.random().toFixed(6) })
-    this.setState({
-      list: list
-    })
+    return setStyle(spring(0), spring(0), spring(0))
   }
 
   render() {
+    const { col: { dic, expired }, loading } = this.props
     return (
       <div className="container col-29kdp">
-        <TransitionMotion
-          defaultStyles={this.getDefaultStyle()}
-          styles={this.getStyles()}
-          willLeave={this.willLeave}
-          willEnter={this.willEnter}
-        >
-          {styles => (
-            <ul>
-              {/* {this.state.list.map(v => <li key={v}>{v}.XXXXXXXXXXXXXXX</li>)} */}
-              {styles.map(({ data, key, style: { x, y, maxHeight } }) => (
-                <li
-                  key={key}
-                  style={{
-                    maxHeight,
-                    transform: `translate3d(${x}px, ${y}px, 0)`
-                  }}
-                >
-                  {data}.XXXXXXXXXXXX
-                </li>
-              ))}
-            </ul>
-          )}
-        </TransitionMotion>
-        <a href="javascript:;" onClick={this.shuttfle}>
-          xx
-        </a>
+        {!expired ? (
+          <div className="content-29kdp">
+            <TransitionMotion
+              defaultStyles={this.getDefaultStyle()}
+              styles={this.getStyles()}
+              willLeave={this.willLeave}
+              willEnter={this.willEnter}
+            >
+              {styles => (
+                <div className="scroll-box">
+                  {styles.map(({ data, key, style }, index) => (
+                    <div key={key} style={style}>
+                      <SwipeAction
+                        style={{ backgroundColor: 'gray' }}
+                        autoClose
+                        className="cel-29kdp"
+                        right={[
+                          {
+                            text: '删除',
+                            onPress: () => this.handleDelete(index),
+                            style: {
+                              backgroundColor: '#F4333C',
+                              color: 'white'
+                            }
+                          }
+                        ]}
+                      >
+                        <ListCell pro={dic[key]} />
+                      </SwipeAction>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </TransitionMotion>
+          </div>
+        ) : null}
+        {loading ? <Loading /> : null}
       </div>
     )
   }

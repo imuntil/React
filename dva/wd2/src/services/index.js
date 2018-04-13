@@ -172,3 +172,29 @@ export async function modifyPwd({ nPwd, oPwd, phone }) {
     )}&phone=${phone}`
   )
 }
+
+/**
+ * 修改昵称
+ * @param {object} nick.phone string.string
+ */
+export async function modifyNick({ nick, phone }) {
+  return $(`updatenicknameUsr.action?nickname=${nick}&phone=${phone}`)
+}
+
+/**
+ * 获取购物车或用户收藏 cart || collection
+ * @param {object} flag.userID string.string
+ */
+export async function fetchUserC({ flag = 2, userID }) {
+  return $(`selectUsrShoppingCartSct.action?flag=${flag}&userid=${userID}`)
+}
+
+/**
+ * 删除用户收藏 collection
+ * @param {object} flag.proID.userID string.string.string
+ */
+export async function deleteUserC({ flag = 2, proID, userID }) {
+  return $(
+    `delcollectProSct.action?flag=${flag}&proid=${proID}&userid=${userID}`
+  )
+}

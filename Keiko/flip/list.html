@@ -46,7 +46,7 @@
   <ul>
     <li>1</li>
     <li>2</li>
-    <li>3</li>
+    <li class="x">3</li>
     <li>4</li>
     <li>5</li>
   </ul>
@@ -55,7 +55,7 @@
     (function () {
       const groups = FLIP.group([...document.querySelectorAll('li')].map(ele => ({
         element: ele,
-        duration: 1000
+        duration: 200
       })))
 
       document.querySelector('.btn').addEventListener('click', () => {

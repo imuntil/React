@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
-import { Icon } from 'antd-mobile'
+import { Icon, Toast } from 'antd-mobile'
 import Form from '@/components/Common/Form'
 import InputItem from '@/components/Form/InputItem'
 import UInput from '@/components/Form/UInput'
-import { modifyPwd } from '@/services'
+import { modifyNick } from '@/services'
 import { delay } from '@/utils/cts'
 import './ModifyPage.scss'
 
@@ -27,8 +27,28 @@ export default class ModifyNickPage extends Form {
     this.setState(({ forceRender }) => ({ forceRender: !forceRender }))
   }
 
+  // 清空nick，强制render
   handleClear = () => {
-    // xxx
+    this.form.nick = { value: '' }
+    this.setState(({ forceRender }) => ({ forceRender: !forceRender }))
+  }
+
+  handle = async () => {
+    if (!this.formValid) return
+    const { user, history, dispatch } = this.props
+    const nick = this.form.nick.value
+    const { data } = await modifyNick({
+      phone: user.phone,
+      nick
+    })
+    if (!data) {
+      Toast.info('操作失败，请稍后再试')
+      return
+    }
+    Toast.success('修改成功', 1.5)
+    dispatch({ type: 'user/setUser', payload: { nick } })
+    await delay(1000)
+    history.go(-1)
   }
 
   render() {

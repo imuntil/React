@@ -58,5 +58,11 @@ export default {
         currentIndex
       }
     }
+  },
+
+  subscriptions: {
+    setup({ dispatch }) {
+      dispatch({ type: 'fetch' })
+    }
   }
 }

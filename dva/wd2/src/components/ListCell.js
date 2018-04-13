@@ -4,7 +4,7 @@ import { SA } from '@/services'
 import { currency } from '@/utils/cts'
 import './ListCell.scss'
 
-const ListCell = ({ className, pro }) => {
+const ListCell = ({ className, pro = {} }) => {
   return (
     <section className={`list-cell-290jv ${className}`}>
       <div className="content-290jv">
@@ -16,7 +16,7 @@ const ListCell = ({ className, pro }) => {
             <p>{pro.englishname}</p>
             <p>{pro.proname}</p>
             <p>
-              <span className="color--red">{currency(pro.proprice)}</span>
+              <span className="color--red">{currency(pro.proprice || 0)}</span>
               <i>{pro.procontent}ml</i>
             </p>
           </div>

@@ -46,6 +46,10 @@ const AdrCell = ({
   )
 }
 
+AdrCell.defaultProps = {
+  adr: {}
+}
+
 AdrCell.propTypes = {
   adr: PropTypes.object.isRequired,
   onEditClick: PropTypes.func.isRequired,

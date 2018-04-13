@@ -119,18 +119,14 @@ class ProDetailPage extends PureComponent {
   }
   el = null
   componentWillMount = () => {
-    const { dic, match: { params: { id } }, dispatch } = this.props
-    if (!dic[id]) {
-      dispatch({ type: 'product/fetch' }).then(() => {
-        const type = this.props.dic[id].prolabel
-        this.fetchRecommendPros(type)
-      })
-    } else {
+    const { dic, match: { params: { id } } } = this.props
+    if (dic[id]) {
       this.fetchRecommendPros(dic[id].prolabel)
     }
   }
 
   componentWillReceiveProps = nextProps => {
+    debugger
     const preId = this.props.match.params.id
     const nextId = nextProps.match.params.id
     if (nextId === preId) return

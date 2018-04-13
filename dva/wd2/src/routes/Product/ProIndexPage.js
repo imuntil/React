@@ -13,12 +13,6 @@ class ProIndexPage extends PureComponent {
     refreshing: false
   }
 
-  componentWillMount = () => {
-    this.props.dispatch({
-      type: 'product/fetch'
-    })
-  }
-
   handleCellClick({ type, sort }) {
     if (type > 7) return
     this.props.history.push(`/pro/list?type=${type || -1}&sort=${sort || 1}`)
