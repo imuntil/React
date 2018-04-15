@@ -5,15 +5,20 @@ import Loading from '@/components/Common/Loading'
 import Radio from '@/components/Form/AdrRadio'
 import { SA, fetchRecommend } from '@/services'
 import Susume from '@/components/RecommendPro'
+import CustomTM from '@/components/Common/CustomTM'
 import { currency } from '@/utils/cts'
 import './CartPage.scss'
 
-const Cell = ({ pro = {} }) => {
+const Cell = ({ pro = {}, onChange }) => {
   return (
     <section className="cell-lwp2s">
       <div className="cell-box-lwp2s">
         <p className="radio">
-          <Radio className="in-cart" />
+          <Radio
+            className="in-cart"
+            onChange={onChange}
+            checked={pro.checked}
+          />
         </p>
         <p className="img">
           <img src={`${SA}${pro.image1}`} width="100%" alt="" />
@@ -62,7 +67,8 @@ const mapStateToProps = state => {
 @connect(mapStateToProps)
 export default class CartPage extends PureComponent {
   state = {
-    susume: [103, 102]
+    susume: [103, 102],
+    forceRender: false
   }
   constructor(props) {
     super(props)
@@ -79,9 +85,54 @@ export default class CartPage extends PureComponent {
     })
   }
 
+  delCartPro = (index, cid) => {
+    this.props.dispatch({
+      type: 'cart/delCartPro',
+      payload: { index, cid }
+    })
+  }
+
+  renderCell = (index, key) => {
+    const { cart: { dic }, dispatch } = this.props
+    return (
+      <SwipeAction
+        className="swipe"
+        autoClose
+        right={[
+          {
+            text: '删除',
+            onPress: () => {
+              this.delCartPro(index, dic[key].cid)
+            },
+            style: {
+              backgroundColor: '#e41035',
+              color: '#fff',
+              padding: '20px'
+            }
+          }
+        ]}
+      >
+        <Cell
+          key={key}
+          pro={dic[key]}
+          onChange={checked => {
+            dispatch({
+              type: 'cart/toggleSelected',
+              checked,
+              id: key
+            })
+            this.setState(({ forceRender }) => ({
+              forceRender: !forceRender
+            }))
+          }}
+        />
+      </SwipeAction>
+    )
+  }
+
   render() {
     const { cart: { list, dic, expired }, product } = this.props
-    const { susume } = this.state
+    const { susume, forceRender } = this.state
     if (list.length && susume.length === 2) {
       this.fetchRecommendPros(dic[list[0]].prolabel)
     }
@@ -90,26 +141,15 @@ export default class CartPage extends PureComponent {
         {!expired && susume.length !== 2 ? (
           <div className="content-lwp2s">
             {[
-              list.map(v => (
-                <SwipeAction
-                  className="swipe"
-                  autoClose
-                  right={[
-                    {
-                      text: '删除',
-                      onPress: () => {},
-                      style: {
-                        backgroundColor: '#e41035',
-                        color: '#fff',
-                        padding: '20px'
-                      }
-                    }
-                  ]}
-                >
-                  <Cell key={v} pro={dic[v]} />
-                </SwipeAction>
-              )),
+              <CustomTM
+                key="tm"
+                list={list}
+                forceRender={forceRender}
+                renderCell={this.renderCell}
+                marginBottom={10}
+              />,
               <Susume
+                key="susume"
                 className="susume-lwp2s"
                 title="猜你喜欢"
                 pros={susume.map(v => product[v])}

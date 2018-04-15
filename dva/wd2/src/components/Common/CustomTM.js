@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { TransitionMotion, presets, spring } from 'react-motion'
+import PropTypes from 'prop-types'
 
 const setStyle = (maxHeight, marginBottom, opacity) => ({
   maxHeight,
@@ -8,6 +9,22 @@ const setStyle = (maxHeight, marginBottom, opacity) => ({
 })
 
 export default class CustomTM extends PureComponent {
+  static defaultProps = {
+    maxHeight: 180,
+    marginBottom: 15
+  }
+  static propTypes = {
+    renderCell: PropTypes.func.isRequired,
+    list: PropTypes.array.isRequired,
+    forceRender: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.number,
+      PropTypes.string
+    ]),
+    maxHeight: PropTypes.number,
+    marginBottom: PropTypes.number,
+  }
+
   getDefaultStyle = () => {
     return this.props.list.map(v => ({
       key: `${v}`,
@@ -16,11 +33,12 @@ export default class CustomTM extends PureComponent {
   }
 
   getStyles = () => {
-    return this.props.list.map(v => ({
+    const { list, maxHeight, marginBottom } = this.props
+    return list.map(v => ({
       key: `${v}`,
       style: setStyle(
-        spring(180, presets.gentle),
-        spring(15, presets.gentle),
+        spring(maxHeight, presets.gentle),
+        spring(marginBottom, presets.gentle),
         spring(1, presets.gentle)
       )
     }))
@@ -31,7 +49,7 @@ export default class CustomTM extends PureComponent {
   }
 
   willLeave() {
-    return { ...setStyle(spring(0), spring(0), spring(0)), height: 0 }
+    return { ...setStyle(spring(0), spring(0), spring(0)) }
   }
 
   render() {

@@ -198,3 +198,11 @@ export async function deleteUserC({ flag = 2, proID, userID }) {
     `delcollectProSct.action?flag=${flag}&proid=${proID}&userid=${userID}`
   )
 }
+
+/**
+ * 删除购物车中商品
+ * @param {object} cid.flag string.string 购物车商品id 
+ */
+export async function deleteCartPro({cid, flag = 1}) {
+  return $(`delShoppingCartSct.action?cid=${cid}&flag=${flag}`)
+}
