@@ -101,13 +101,21 @@ export default {
     },
     setDefault(state, { id }) {
       const { defaultID, dic } = state
-      const oldDefault = { ...dic[defaultID], status: 0 }
       const newDefault = { ...dic[id], status: 1 }
-      const newDic = {
-        ...dic,
-        [id]: newDefault,
-        [defaultID]: oldDefault
+      let oldDefault
+      if (+id !== +defaultID) {
+        oldDefault = { ...dic[defaultID], status: 0 }
       }
+      const newDic = oldDefault
+        ? {
+            ...dic,
+            [id]: newDefault,
+            [defaultID]: oldDefault
+          }
+        : {
+            ...dic,
+            [id]: newDefault
+          }
       // const list = sort(Object.values(newDic)).map(v => v.id)
       // 需要重新排序
       return {

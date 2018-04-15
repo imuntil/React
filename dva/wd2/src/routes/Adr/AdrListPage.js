@@ -20,8 +20,7 @@ export default class AdrListPage extends PureComponent {
   }
 
   handleToggleDefault = (status, id) => {
-    if (status) return
-    this.props.dispatch({ type: 'adr/toggleDefault', payload: { id } })
+    this.props.dispatch({ type: 'adr/toggleDefault', payload: { id, status } })
   }
 
   handleDelClick = id => {

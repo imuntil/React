@@ -74,11 +74,10 @@ export default class AdrEditPage extends Form {
     this.setState(({ forceRender }) => ({ forceRender: !forceRender }))
   }
 
-  handleRadioChange = () => {
-    const { checked } = this.state
-    this.setState({ checked: !checked })
+  handleRadioChange = value => {
+    this.setState({ checked: value })
     this.handleChange({
-      value: +!checked,
+      value: +value,
       name: 'status',
       $valid: { valid: true }
     })
@@ -212,7 +211,7 @@ export default class AdrEditPage extends Form {
           <p className="set-default-j203r">
             <AdrRadio
               text="设为默认地址"
-              onRadioClick={this.handleRadioChange}
+              onChange={this.handleRadioChange}
               checked={checked}
             />
           </p>

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { List, Modal } from 'antd-mobile'
-import QueueAnim from 'rc-queue-anim'
 import AdrCell from '@/components/AdrCell'
 import Loading from '@/components/Common/Loading'
 import CustomTM from '@/components/Common/CustomTM'
@@ -21,8 +20,7 @@ export default class AdrListPage extends PureComponent {
   }
 
   handleToggleDefault = (status, id) => {
-    if (status) return
-    this.props.dispatch({ type: 'adr/toggleDefault', payload: { id } })
+    this.props.dispatch({ type: 'adr/toggleDefault', payload: { id, status } })
   }
 
   handleDelClick = id => {
@@ -56,7 +54,11 @@ export default class AdrListPage extends PureComponent {
     return (
       <div className="container adr-10aei">
         {list.length ? (
-          <CustomTM renderCell={this.renderCell} list={list} />
+          <CustomTM
+            renderCell={this.renderCell}
+            list={list}
+            forceRander={Math.random()}
+          />
         ) : null}
         <List key={-1}>
           <Item

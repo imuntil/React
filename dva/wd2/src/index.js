@@ -24,6 +24,7 @@ app.model(require('./models/product').default)
 app.model(require('./models/user').default)
 app.model(require('./models/adr').default)
 app.model(require('./models/collection').default)
+app.model(require('./models/cart').default)
 
 // 4. Router
 app.router(require('./router').default)

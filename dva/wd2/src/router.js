@@ -6,6 +6,7 @@ import NavBar from './components/NavBar'
 import IndexPage from './routes/IndexPage'
 /* eslint-disable no-unused-vars */
 import CocktailPage from './routes/CocktailPage'
+import CartPage from './routes/CartPage'
 import ProIndexPage from './routes/Product/ProIndexPage'
 import ProListPage from './routes/Product/ProListPage'
 import ProDetailPage from './routes/Product/ProDetailPage'
@@ -81,6 +82,7 @@ function RouterConfig({ history }) {
               <Route path="/pro" component={Pro} />
               <Route path="/user" component={User} />
               <Route path="/adr" component={Adr} />
+              <AuthRoute path="/cart" component={CartPage} />
             </Switch>
             {isVisible(location) ? <NavBar /> : null}
           </div>

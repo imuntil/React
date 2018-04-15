@@ -18,7 +18,7 @@ const NavBar = () => {
         <img src={require('../assets/nav/nav-3.jpg')} alt="" />
         <img className="active" src={require('../assets/nav/nav-3-a.jpg')} alt="" />
       </NavLink>
-      <NavLink to="/" activeClassName="active-link">
+      <NavLink to="/cart" activeClassName="active-link">
         <img src={require('../assets/nav/nav-4.jpg')} alt="" />
         <img className="active" src={require('../assets/nav/nav-4-a.jpg')} alt="" />
       </NavLink>

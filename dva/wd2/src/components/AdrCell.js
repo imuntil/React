@@ -28,8 +28,11 @@ const AdrCell = ({
         </div>
         <div className="cell-bottom-19aop">
           <AdrRadio
+            cancelAble={false}
             text="默认地址"
-            onRadioClick={() => onToggleDefault(adr.status, adr.id)}
+            onChange={value => {
+              onToggleDefault(value, adr.id)
+            }}
             checked={!!adr.status}
           />
           <p className="cb-right">

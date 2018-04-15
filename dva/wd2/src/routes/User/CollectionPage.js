@@ -19,6 +19,11 @@ const setStyle = (maxHeight, marginBottom, opacity) => ({
 
 @connect(mapStateToProps)
 export default class CollectionPage extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.props.dispatch({ type: 'col/fetchCol' })
+  }
+  
   handleDelete = async index => {
     await this.props.dispatch({
       type: 'col/deleteServerCol',
@@ -78,7 +83,7 @@ export default class CollectionPage extends PureComponent {
                             text: '删除',
                             onPress: () => this.handleDelete(index),
                             style: {
-                              backgroundColor: '#F4333C',
+                              backgroundColor: '#e41035',
                               color: 'white'
                             }
                           }

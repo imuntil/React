@@ -47,6 +47,10 @@ const ProGrid = ({
   )
 }
 
+ProGrid.defaultProps = {
+  price: 0
+}
+
 ProGrid.propTypes = {
   content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,

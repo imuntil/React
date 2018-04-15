@@ -1,0 +1,11 @@
+.recommend-29sdj > div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .recommend-pro {
+    width: 47%;
+  }
+}
+.recommend-29sdj + .recommend-29sdj {
+  padding-bottom: 60px !important;
+}

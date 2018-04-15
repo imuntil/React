@@ -58,13 +58,5 @@ export default {
         list: [...list.slice(0, index), ...list.slice(index + 1)]
       }
     }
-  },
-
-  subscriptions: {
-    setup({ dispatch, history }) {
-      if (history.location.pathname === '/user/col') {
-        dispatch({ type: 'fetchCol' })
-      }
-    }
   }
 }

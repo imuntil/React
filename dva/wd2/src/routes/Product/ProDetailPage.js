@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import Animate from 'rc-animate'
-import { Icon } from 'antd-mobile'
 import { SA, fetchRecommend } from '@/services'
 import { drinks, mustLike } from '@/services/config'
 import { currency, scrollTo } from '@/utils/cts'
-import ProGrid from '@/components/ProGrid'
+import Susume from '@/components/RecommendPro'
+import Loading from '@/components/Common/Loading'
 import './ProDetailPage.scss'
 
 const Like = ({ like, handleClick }) => {
@@ -78,27 +78,6 @@ const AfterService = ({ more, handleClick }) => {
   )
 }
 
-const Susume = ({ title, pros }) => {
-  return (
-    <section className="susume-u10n1">
-      <h2 className="section-titles">{title}</h2>
-      <div>
-        {pros.map(v => (
-          <ProGrid
-            className="recommend-pro"
-            src={`${SA}${v.image1}`}
-            price={v.proprice}
-            en={v.englishname}
-            cn={v.proname}
-            key={v.id}
-            id={v.id}
-          />
-        ))}
-      </div>
-    </section>
-  )
-}
-
 const BottomBar = ({ handleAddToCart, handleBuyNow }) => {
   return (
     <div className="bottom-bar-u10n1">
@@ -126,14 +105,13 @@ class ProDetailPage extends PureComponent {
   }
 
   componentWillReceiveProps = nextProps => {
-    debugger
-    const preId = this.props.match.params.id
+    const { dic, match } = this.props
+    const preId = match.params.id
     const nextId = nextProps.match.params.id
     if (nextId === preId) return
     if (this.el) {
       scrollTo(this.el)
     }
-    const dic = this.props.dic
     const [preType, nextType] = [dic[preId].prolabel, dic[nextId].prolabel]
     if (preType === nextType) return
     this.fetchRecommendPros(nextType)
@@ -167,6 +145,9 @@ class ProDetailPage extends PureComponent {
     const { dic, match: { params: { id } } } = this.props
     const { maybeLike, more } = this.state
     const d = dic[id]
+    if (!maybeLike.length && d) {
+      this.fetchRecommendPros(d.prolabel)
+    }
     return d && maybeLike.length ? (
       <div className="inner-wrapper">
         <div className="container detail-page-u10n1" ref={this.fn}>
@@ -211,16 +192,14 @@ class ProDetailPage extends PureComponent {
         />
       </div>
     ) : (
-      <p className="page-loading">
-        <Icon type="loading" />
-      </p>
+      <Loading />
     )
   }
 }
 
 function mapStateToProps(state) {
-  const { dic } = state.product
-  return { dic }
+  const { dic, list } = state.product
+  return { dic, list }
 }
 
 export default connect(mapStateToProps)(ProDetailPage)
