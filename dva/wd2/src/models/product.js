@@ -62,7 +62,7 @@ export default {
 
   subscriptions: {
     setup({ dispatch }) {
-      dispatch({ type: 'fetch' })
+      // dispatch({ type: 'fetch' })
     }
   }
 }

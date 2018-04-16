@@ -43,12 +43,12 @@ const Cell = ({ pro = {}, onChange }) => {
   )
 }
 
-const CartBar = () => {
+const CartBar = ({ onHandleClick, chosenAll }) => {
   return (
     <div className="cart-bar-lwp2s">
       <div className="bar-content">
         <p className="bar-left">
-          <Radio />全选
+          <Radio onChange={onHandleClick} checked={chosenAll} />全选
         </p>
         <p className="bar-right">
           <span>合计: {currency(100000)}</span>
@@ -60,8 +60,12 @@ const CartBar = () => {
 }
 
 const mapStateToProps = state => {
-  const { cart, product } = state
-  return { cart, product: product.dic }
+  const {
+    cart: { list, dic },
+    product
+  } = state
+  const all = list.some(v => !dic[v].checked)
+  return { cart: { list, dic, all: !all }, product: product.dic }
 }
 
 @connect(mapStateToProps)
@@ -92,8 +96,17 @@ export default class CartPage extends PureComponent {
     })
   }
 
+  forceRender = () => {
+    this.setState(({ forceRender }) => ({
+      forceRender: !forceRender
+    }))
+  }
+
   renderCell = (index, key) => {
-    const { cart: { dic }, dispatch } = this.props
+    const {
+      cart: { dic },
+      dispatch
+    } = this.props
     return (
       <SwipeAction
         className="swipe"
@@ -121,9 +134,7 @@ export default class CartPage extends PureComponent {
               checked,
               id: key
             })
-            this.setState(({ forceRender }) => ({
-              forceRender: !forceRender
-            }))
+            this.forceRender()
           }}
         />
       </SwipeAction>
@@ -131,7 +142,11 @@ export default class CartPage extends PureComponent {
   }
 
   render() {
-    const { cart: { list, dic, expired }, product } = this.props
+    const {
+      cart: { list, dic, expired, all },
+      product,
+      dispatch
+    } = this.props
     const { susume, forceRender } = this.state
     if (list.length && susume.length === 2) {
       this.fetchRecommendPros(dic[list[0]].prolabel)
@@ -139,27 +154,39 @@ export default class CartPage extends PureComponent {
     return (
       <div className="container cart-lwp2s">
         {!expired && susume.length !== 2 ? (
-          <div className="content-lwp2s">
-            {[
-              <CustomTM
-                key="tm"
-                list={list}
-                forceRender={forceRender}
-                renderCell={this.renderCell}
-                marginBottom={10}
-              />,
-              <Susume
-                key="susume"
-                className="susume-lwp2s"
-                title="猜你喜欢"
-                pros={susume.map(v => product[v])}
-              />
-            ]}
-          </div>
+          [
+            <div className="content-lwp2s" key="content">
+              {[
+                <CustomTM
+                  key="tm"
+                  list={list}
+                  forceRender={forceRender}
+                  renderCell={this.renderCell}
+                  marginBottom={10}
+                />,
+                <Susume
+                  key="susume"
+                  className="susume-lwp2s"
+                  title="猜你喜欢"
+                  pros={susume.map(v => product[v])}
+                />
+              ]}
+            </div>,
+            <CartBar
+              key="bar"
+              onHandleClick={() => {
+                dispatch({
+                  type: 'cart/toggleSelectedAll',
+                  checked: !all
+                })
+                this.forceRender()
+              }}
+              chosenAll={all}
+            />
+          ]
         ) : (
           <Loading />
         )}
-        <CartBar />
       </div>
     )
   }

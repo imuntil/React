@@ -201,8 +201,18 @@ export async function deleteUserC({ flag = 2, proID, userID }) {
 
 /**
  * 删除购物车中商品
- * @param {object} cid.flag string.string 购物车商品id 
+ * @param {object} cid.flag string.string 购物车商品id
  */
-export async function deleteCartPro({cid, flag = 1}) {
+export async function deleteCartPro({ cid, flag = 1 }) {
   return $(`delShoppingCartSct.action?cid=${cid}&flag=${flag}`)
+}
+
+/**
+ *
+ * @param {object} flag.status.userID string.string.string flag，订单状态，用户id
+ */
+export async function fetchOrderList({ flag = 0, status = 0, userID }) {
+  return $(
+    `selectOrderStatusOdr.action?flag=${flag}&orderstatus=${status}&userid=${userID}`
+  )
 }

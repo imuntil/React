@@ -64,6 +64,14 @@ export default {
           [id]: { ...pro, checked }
         }
       }
+    },
+    toggleSelectedAll(state, { checked }) {
+      const { list, dic } = state
+      const newDic = {}
+      list.forEach(v => {
+        newDic[v] = { ...dic[v], checked }
+      })
+      return { ...state, dic: newDic }
     }
   }
 }

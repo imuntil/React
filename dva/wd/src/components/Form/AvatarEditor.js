@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
 import ReactAvatarEditor from 'react-avatar-editor'
 import { WhiteSpace, Slider, Icon } from 'antd-mobile'
-import _ from 'lodash'
-import { delay } from '../../services/tools-fun'
-import styles from './AvatarEditor.css';
+// import _ from 'lodash'
+// import { delay } from '../../services/tools-fun'
+import styles from './AvatarEditor.css'
 
 class AvatarEditor extends React.Component {
   state = {
@@ -25,21 +25,23 @@ class AvatarEditor extends React.Component {
     })
   }
   handleFileChange = async e => {
-    const { files: [file] } = e.target
+    const {
+      files: [file]
+    } = e.target
     try {
       await this.readFile(file)
       this.setState({ file })
-    } catch (e) {
-      console.log(e.message);
+    } catch (err) {
+      console.log(err.message)
     }
     // await delay(500)
   }
   handleSliderChange = v => {
     this.setState({ scale: +(v / 10).toFixed(1) })
   }
-  handleRotateClick = (d) => {
+  handleRotateClick = d => {
     let { rotate } = this.state
-    rotate += (d ? -90 : 90)
+    rotate += d ? -90 : 90
     if (rotate < 0) {
       this.setState({ rotate: rotate + 360 })
     } else {
@@ -67,7 +69,11 @@ class AvatarEditor extends React.Component {
           <p className={styles.choose_file}>
             <a className={styles.btn} href="javascript:;">
               选择照片
-              <input type="file" onChange={this.handleFileChange} accept="image/*"/>
+              <input
+                type="file"
+                onChange={this.handleFileChange}
+                accept="image/*"
+              />
             </a>
           </p>
           <WhiteSpace />
@@ -80,39 +86,63 @@ class AvatarEditor extends React.Component {
             color={[255, 255, 255, 0.8]} // RGBA
             scale={scale}
             rotate={rotate}
-            ref={editor => { this.editor = editor }}
+            ref={editor => {
+              this.editor = editor
+            }}
           />
           <WhiteSpace />
           <div className={styles.fn_bar}>
             <Slider
-              defaultValue={scale * 10} min={10} max={40}
+              defaultValue={scale * 10}
+              min={10}
+              max={40}
               onAfterChange={this.handleSliderChange}
             />
             <WhiteSpace />
             <p className={styles.rotate_btns}>
               <a
-                href="javascript:;" className={styles.rotate}
-                onClick={() => { this.handleRotateClick(1) }}
+                href="javascript:;"
+                className={styles.rotate}
+                onClick={() => {
+                  this.handleRotateClick(1)
+                }}
               >
-                <Icon size="md" type={require('../../svg-files/ic_rotate_left_black_24px.svg')} />
+                <Icon
+                  size="md"
+                  type={require('../../svg-files/ic_rotate_left_black_24px.svg')}
+                />
               </a>
               <a
-                href="javascript:;" className={styles.rotate}
-                onClick={() => { this.handleRotateClick(0) }}
+                href="javascript:;"
+                className={styles.rotate}
+                onClick={() => {
+                  this.handleRotateClick(0)
+                }}
               >
-                <Icon size="md" type={require('../../svg-files/ic_rotate_right_black_24px.svg')} />
+                <Icon
+                  size="md"
+                  type={require('../../svg-files/ic_rotate_right_black_24px.svg')}
+                />
               </a>
             </p>
             <p className={styles.op_btns}>
-              <a href="javascript:;" onClick={onHide} className={styles.cancel}>取消</a>
-              <a href="javascript:;" onClick={this.handleOkClick} className={styles.ok}>确认上传</a>
+              <a href="javascript:;" onClick={onHide} className={styles.cancel}>
+                取消
+              </a>
+              <a
+                href="javascript:;"
+                onClick={this.handleOkClick}
+                className={styles.ok}
+              >
+                确认上传
+              </a>
             </p>
             <WhiteSpace />
-            <img src={this.state.temp} alt=""/>
+            <img src={this.state.temp} alt="" />
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -121,4 +151,4 @@ AvatarEditor.propTypes = {
   onEditEnd: PropTypes.func.isRequired
 }
 
-export default AvatarEditor;
+export default AvatarEditor

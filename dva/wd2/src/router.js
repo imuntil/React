@@ -26,6 +26,9 @@ import ModifyAvatarPage from './routes/User/Modify/ModifyAvatarPage'
 import AdrListPage from './routes/Adr/AdrListPageV2'
 import AdrEditPage from './routes/Adr/AdrEditPage'
 
+import OrderListPage from './routes/Order/OrderListPage'
+import OrderPage from './routes/Order/OrderPage'
+
 const Pro = () => {
   return (
     <Switch>
@@ -83,6 +86,8 @@ function RouterConfig({ history }) {
               <Route path="/user" component={User} />
               <Route path="/adr" component={Adr} />
               <AuthRoute path="/cart" component={CartPage} />
+              <AuthRoute path="/order" exact component={OrderPage} />
+              <AuthRoute path="/order/:status" component={OrderListPage} />
             </Switch>
             {isVisible(location) ? <NavBar /> : null}
           </div>
