@@ -182,6 +182,17 @@ export async function modifyNick({ nick, phone }) {
 }
 
 /**
+ *
+ * @param {object} payload phone, imgfile
+ */
+export async function modifyAvatar(payload) {
+  return $(`uploadImgUsr.action`, {
+    method: 'POST',
+    body: formatFormData(payload)
+  })
+}
+
+/**
  * 获取购物车或用户收藏 cart || collection
  * @param {object} flag.userID string.string
  */
@@ -208,7 +219,7 @@ export async function deleteCartPro({ cid, flag = 1 }) {
 }
 
 /**
- *
+ * 订单列表
  * @param {object} flag.status.userID string.string.string flag，订单状态，用户id
  */
 export async function fetchOrderList({ flag = 0, status = 0, userID }) {
