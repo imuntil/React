@@ -61,7 +61,12 @@ export default {
       yield call(delay, 500)
       yield put({ type: 'delAdr', ...payload })
     },
-    *editAdr({ payload: { id, ...payload } }, { call, put, select }) {
+    *editAdr(
+      {
+        payload: { id, ...payload }
+      },
+      { call, put, select }
+    ) {
       const { userID } = yield select(state => state.user)
       let res
       if (+id === -1) {
@@ -138,6 +143,16 @@ export default {
     },
     expiredStore(state) {
       return { ...state, expired: true }
+    }
+  },
+
+  subscriptions: {
+    setup({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        if (/^\/(adr|order)\/?$/.test(pathname)) {
+          dispatch({ type: 'fetchList' })
+        }
+      })
     }
   }
 }

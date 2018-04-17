@@ -59,7 +59,7 @@ const User = () => {
 const Adr = () => {
   return (
     <Switch>
-      <AuthRoute path="/adr/" exact component={AdrListPage} />
+      <AuthRoute path="/adr" exact component={AdrListPage} />
       <AuthRoute path="/adr/:edit" component={AdrEditPage} />
     </Switch>
   )

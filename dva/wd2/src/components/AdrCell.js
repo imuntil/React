@@ -8,12 +8,15 @@ const AdrCell = ({
   className,
   onEditClick,
   onDelClick,
-  onToggleDefault
+  onToggleDefault,
+  selected,
+  onSelected
 }) => {
   return (
     <div className={`adr-cell-19aop ${className || ''}`}>
+      {selected ? <i className="iconfont">&#xe672;</i> : null}
       <div className="content-19aop">
-        <div className="cell-top">
+        <div className="cell-top" onClick={() => onSelected(adr.id)}>
           <div className="contact-19aop">
             <p>
               <span>{adr.name}</span>
@@ -50,14 +53,18 @@ const AdrCell = ({
 }
 
 AdrCell.defaultProps = {
-  adr: {}
+  adr: {},
+  selected: false,
+  onSelected: () => {}
 }
 
 AdrCell.propTypes = {
   adr: PropTypes.object.isRequired,
   onEditClick: PropTypes.func.isRequired,
   onDelClick: PropTypes.func.isRequired,
-  onToggleDefault: PropTypes.func.isRequired
+  onToggleDefault: PropTypes.func.isRequired,
+  selected: PropTypes.bool,
+  onSelected: PropTypes.func
 }
 
 export default AdrCell

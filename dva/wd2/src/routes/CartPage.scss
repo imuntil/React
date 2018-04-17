@@ -60,47 +60,7 @@
   }
 }
 .num-box-lwp2s {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   margin-top: 10px;
-  * {
-    width: 32px;
-    height: 32px;
-    font-size: 0.85rem;
-  }
-  span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 0;
-    width: 50px;
-  }
-  a {
-    border: 1px solid #dddd;
-    font-size: 1.1rem;
-    position: relative;
-    &:before,
-    &:after {
-      content: '';
-      width: 40%;
-      height: 1px;
-      background-color: #333;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-    }
-  }
-  a:active {
-    background-color: #d6f6ff;
-  }
-  a:last-child:after {
-    width: 1px;
-    height: 44%;
-  }
 }
 .cart-bar-lwp2s {
   position: fixed;

@@ -14,7 +14,7 @@ export const thousandth = (str, decimal) => {
  * @param {string} $currency 货币符
  */
 export const currency = (str, $currency = '￥') =>
-  `${$currency} ${thousandth(str)}`
+  `${$currency}${thousandth(str)}`
 
 /**
  * 延时
@@ -71,4 +71,20 @@ export function formatFormData(form = {}) {
     }
   }
   return formData
+}
+
+/**
+ * 将search字符串转为对象
+ * @param {string} search search 字符串  eg. ?id=11&xx=22
+ */
+export function formatSearch(search) {
+  let q = search || window.location.search
+  q = decodeURIComponent(q.substring(1) || '')
+  const obj = {}
+  q &&
+    q.split('&').forEach(v => {
+      const [key, value] = v.split('=')
+      obj[decodeURIComponent(key)] = decodeURIComponent(value)
+    })
+  return obj
 }

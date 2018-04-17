@@ -4,6 +4,7 @@ import { List, Modal } from 'antd-mobile'
 import AdrCell from '@/components/AdrCell'
 import Loading from '@/components/Common/Loading'
 import CustomTM from '@/components/Common/CustomTM'
+import { formatSearch } from '@/utils/cts'
 import './AdrListPage.scss'
 
 const Item = List.Item
@@ -16,7 +17,10 @@ const mapStateToProps = state => {
 export default class AdrListPage extends PureComponent {
   constructor(props) {
     super(props)
-    this.props.dispatch({ type: 'adr/fetchList' })
+    this.state = {
+      selectedID: formatSearch(this.props.location.search || '').id || false,
+      forceRender: false
+    }
   }
 
   handleToggleDefault = (status, id) => {
@@ -35,8 +39,15 @@ export default class AdrListPage extends PureComponent {
     ])
   }
 
+  handleAdrSelected = id => {
+    this.setState({ selectedID: id })
+  }
+
   renderCell = (index, key) => {
-    const { history, adr: { dic } } = this.props
+    const {
+      history,
+      adr: { dic }
+    } = this.props
     return (
       <AdrCell
         className="adr-cell-10aei"
@@ -44,6 +55,8 @@ export default class AdrListPage extends PureComponent {
         onDelClick={this.handleDelClick}
         onToggleDefault={this.handleToggleDefault}
         adr={dic[key]}
+        selected={this.state.selectedID === key}
+        onSelected={this.handleAdrSelected}
       />
     )
   }

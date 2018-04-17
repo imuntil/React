@@ -6,6 +6,7 @@ import Radio from '@/components/Form/AdrRadio'
 import { SA, fetchRecommend } from '@/services'
 import Susume from '@/components/RecommendPro'
 import CustomTM from '@/components/Common/CustomTM'
+import NumBtns from '@/components/NumBtns'
 import { currency } from '@/utils/cts'
 import './CartPage.scss'
 
@@ -32,11 +33,7 @@ const Cell = ({ pro = {}, onChange }) => {
               {currency(pro.proprice || 0).replace(' ', '')}
             </span>
           </p>
-          <div className="num-box-lwp2s">
-            <a href="javascript:;" />
-            <span>{pro.pronum}</span>
-            <a href="javascript:;" />
-          </div>
+          <NumBtns className="num-box-lwp2s" value={pro.pronum} />
         </div>
       </div>
     </section>

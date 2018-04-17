@@ -1,24 +1,60 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
+import { Link } from 'dva/router'
+import NumBtns from '@/components/NumBtns'
+import { currency } from '@/utils/cts'
 import './OrderPage.scss'
 
-const Adr = ({ adr }) => {
+const Adr = ({ adr = {} }) => {
   return (
     <section className="adr-box-sl92k">
       <div className="content">
         <p>收货人</p>
         <p>
-          <span>姓&nbsp;&nbsp;名:&nbsp;lalal</span>{' '}
-          <span>手机号:&nbsp;13984758478</span>
+          <span>姓&nbsp;&nbsp;名:&nbsp;{adr.name}</span>
+          <span>手机号:&nbsp;{adr.phone}</span>
         </p>
         <p>
-          <span>地&nbsp;&nbsp;址:&nbsp;ldldldldldlddldl</span>
+          <span>
+            地&nbsp;&nbsp;址:&nbsp;{adr.city}
+            {adr.address}
+          </span>
         </p>
         <p>
-          <a href="javascript:;">编辑></a>
+          <Link to={`/adr${adr.id ? `?id=${adr.id}` : ''}`}>编辑></Link>
         </p>
       </div>
     </section>
+  )
+}
+
+const Cell = ({ editAble }) => {
+  return (
+    <div className="cell-sl92k">
+      <div>
+        <div className="img">
+          <img
+            src={require('@/assets/home-sellings-4.jpg')}
+            width="100%"
+            alt=""
+          />
+        </div>
+        <div className="right">
+          <div className="top-sec-sl92k">
+            <div className="info">
+              <p>SKYY Wild Turkey Real Kentucky Straight Bourbon Whiskey</p>
+              <p>蓝天阿玛尼</p>
+              <p>
+                <span className="color--red">{currency(100)}</span>
+                <span>1000 ml</span>
+              </p>
+            </div>
+            <div className="total">{currency(222)}</div>
+          </div>
+          <NumBtns className="num-btns" />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -26,7 +62,10 @@ const List = () => {
   return (
     <section className="order-box-sl92k">
       <p>商品信息</p>
-      <div className="main-sl92k">x</div>
+      <div className="main-sl92k">
+        <Cell />
+        <Cell />
+      </div>
       <p>
         <span>配送方式</span>
         <i>快递</i>
@@ -43,19 +82,25 @@ const List = () => {
   )
 }
 
-@connect()
+const mapStateToProps = state => {
+  const { adr, user, product } = state
+  const { defaultID, dic } = adr
+  return { adr: dic[defaultID] || false, user, product }
+}
+@connect(mapStateToProps)
 export default class OrderPage extends PureComponent {
   render() {
+    const { adr } = this.props
     return (
       <div className="container order-sl92k">
         <div className="content-sl92k">
-          <Adr />
+          <Adr adr={adr || {}} />
           <List />
-        </div>
-        <div className="bottom-bar-sl92k">
-          <a href="javascript:;" className="form-btn">
-            提交订单
-          </a>
+          <div className="bottom-bar-sl92k">
+            <a href="javascript:;" className="form-btn">
+              提交订单
+            </a>
+          </div>
         </div>
       </div>
     )
