@@ -7,8 +7,8 @@ import Loading from '@/components/Common/Loading'
 import './CollectionPage.scss'
 
 const mapStateToProps = state => {
-  const { col, loading } = state
-  return { col, loading: loading.models.col }
+  const { col, loading, product } = state
+  return { col, loading: loading.models.col, product }
 }
 
 const setStyle = (maxHeight, marginBottom, opacity) => ({
@@ -19,15 +19,10 @@ const setStyle = (maxHeight, marginBottom, opacity) => ({
 
 @connect(mapStateToProps)
 export default class CollectionPage extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.props.dispatch({ type: 'col/fetchCol' })
-  }
-  
-  handleDelete = async index => {
+  handleDelete = async proID => {
     await this.props.dispatch({
-      type: 'col/deleteServerCol',
-      payload: { index }
+      type: 'col/toggleServerLike',
+      payload: { proID, status: true }
     })
     Toast.success('已取消收藏', 1)
   }
@@ -59,7 +54,11 @@ export default class CollectionPage extends PureComponent {
   }
 
   render() {
-    const { col: { dic, expired }, loading } = this.props
+    const {
+      col: { expired },
+      loading,
+      product: { dic }
+    } = this.props
     return (
       <div className="container col-29kdp">
         {!expired ? (
@@ -81,7 +80,7 @@ export default class CollectionPage extends PureComponent {
                         right={[
                           {
                             text: '删除',
-                            onPress: () => this.handleDelete(index),
+                            onPress: () => this.handleDelete(key),
                             style: {
                               backgroundColor: '#e41035',
                               color: 'white'

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'dva'
 import Animate from 'rc-animate'
 import { SA, fetchRecommend } from '@/services'
@@ -10,7 +10,11 @@ import './ProDetailPage.scss'
 
 const Like = ({ like, handleClick }) => {
   return (
-    <a href="javascript:;" className={`like-btn-u10n1`} onClick={handleClick}>
+    <a
+      href="javascript:;"
+      className={`like-btn-u10n1`}
+      onClick={() => handleClick(like)}
+    >
       {!like ? (
         <img src={require('@/assets/not-like.png')} alt="" />
       ) : (
@@ -91,21 +95,30 @@ const BottomBar = ({ handleAddToCart, handleBuyNow }) => {
   )
 }
 
-class ProDetailPage extends PureComponent {
+class ProDetailPage extends Component {
   state = {
     maybeLike: [],
     more: false
   }
   el = null
+
+  get proID() {
+    return this.props.match.params.id
+  }
+
   componentWillMount = () => {
-    const { dic, match: { params: { id } } } = this.props
-    if (dic[id]) {
-      this.fetchRecommendPros(dic[id].prolabel)
-    }
+    const {
+      pro: { dic }
+    } = this.props
+    const pro = dic[this.proID] || {}
+    pro.prolabel && this.fetchRecommendPros(pro.prolabel)
   }
 
   componentWillReceiveProps = nextProps => {
-    const { dic, match } = this.props
+    const {
+      pro: { dic },
+      match
+    } = this.props
     const preId = match.params.id
     const nextId = nextProps.match.params.id
     if (nextId === preId) return
@@ -117,6 +130,22 @@ class ProDetailPage extends PureComponent {
     this.fetchRecommendPros(nextType)
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const {
+      pro: { dic },
+      cols
+    } = nextProps
+    const { maybeLike } = nextState
+    const d = dic[this.proID]
+    if (!d || !cols.length) return false
+    if (!maybeLike.length) {
+      this.fetchRecommendPros(d.prolabel)
+      return false
+    }
+    return true
+  }
+
+  /* 获取推荐商品 */
   fetchRecommendPros = async type => {
     const { data } = await fetchRecommend(type)
     if (!data) {
@@ -137,17 +166,33 @@ class ProDetailPage extends PureComponent {
     // ...
   }
 
+  /* toggle like */
+  handleToggleLike = currentLike => {
+    const { isLogin, dispatch } = this.props
+    if (!isLogin) {
+      // xx
+      return
+    }
+    dispatch({
+      type: 'col/toggleServerLike',
+      payload: {
+        status: currentLike,
+        proID: this.proID
+      }
+    })
+  }
+
   fn = el => {
     this.el = el
   }
 
   render() {
-    const { dic, match: { params: { id } } } = this.props
+    const {
+      pro: { dic },
+      cols
+    } = this.props
     const { maybeLike, more } = this.state
-    const d = dic[id]
-    if (!maybeLike.length && d) {
-      this.fetchRecommendPros(d.prolabel)
-    }
+    const d = dic[this.proID]
     return d && maybeLike.length ? (
       <div className="inner-wrapper">
         <div className="container detail-page-u10n1" ref={this.fn}>
@@ -160,7 +205,10 @@ class ProDetailPage extends PureComponent {
                 <p>{d.procontent}ml</p>
                 <p className="last-u10n1 color--red">{currency(d.proprice)}</p>
               </div>
-              <Like like={false} handleClick={() => console.log('like')} />
+              <Like
+                like={cols.indexOf(this.proID) !== -1}
+                handleClick={this.handleToggleLike}
+              />
             </div>
             <p className="separator-u10n1" />
             <MoreInfo
@@ -198,8 +246,8 @@ class ProDetailPage extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { dic, list } = state.product
-  return { dic, list }
+  const { product, col, user } = state
+  return { pro: product, cols: col.list, isLogin: !!user.phone }
 }
 
 export default connect(mapStateToProps)(ProDetailPage)

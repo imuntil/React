@@ -7,6 +7,7 @@ import { SA } from '@/services'
 import './ProIndexPage.scss'
 import ProTab from '@/components/ProTab'
 import ProGrid from '@/components/ProGrid'
+import Loading from '@/components/Common/Loading'
 
 class ProIndexPage extends PureComponent {
   state = {
@@ -38,47 +39,54 @@ class ProIndexPage extends PureComponent {
     const data = list.slice(0, perPage * currentIndex)
     return (
       <div className="container pro-index-82nlf">
-        <ProTab
-          className="header-82nlf"
-          onTypeCellClick={type => this.handleCellClick({ type })}
-          onSortCellClick={sort => this.handleCellClick({ sort })}
-        />
-        <div className="content-82nlf">
-          <PullToRefresh
-            style={{ height: '100%', overflow: 'auto' }}
-            indicator={
-              this.hasMore
-                ? {
-                    deactivate: '上拉加载',
-                    activate: '松开加载更多',
-                    finish: '完成'
-                  }
-                : {
-                    deactivate: '没有更多了',
-                    activate: '再拉也没有了╮(￣▽￣)╭',
-                    finish: '╮(￣▽￣)╭'
-                  }
-            }
-            direction="up"
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleLoadMore}
-            distanceToRefresh={50}
-          >
-            <QueueAnim className="wrapper-82nlf">
-              {data.map(v => (
-                <ProGrid
-                  className="selling-pro"
-                  src={`${SA}${v.image1}`}
-                  price={v.proprice}
-                  en={v.englishname}
-                  cn={v.proname}
-                  key={v.id}
-                  id={v.id}
-                />
-              ))}
-            </QueueAnim>
-          </PullToRefresh>
-        </div>
+        {list.length ? (
+          [
+            <ProTab
+              key="tab"
+              className="header-82nlf"
+              onTypeCellClick={type => this.handleCellClick({ type })}
+              onSortCellClick={sort => this.handleCellClick({ sort })}
+            />,
+            <div className="content-82nlf" key="content">
+              <PullToRefresh
+                style={{ height: '100%', overflow: 'auto' }}
+                indicator={
+                  this.hasMore
+                    ? {
+                        deactivate: '上拉加载',
+                        activate: '松开加载更多',
+                        finish: '完成'
+                      }
+                    : {
+                        deactivate: '没有更多了',
+                        activate: '再拉也没有了╮(￣▽￣)╭',
+                        finish: '╮(￣▽￣)╭'
+                      }
+                }
+                direction="up"
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleLoadMore}
+                distanceToRefresh={50}
+              >
+                <QueueAnim className="wrapper-82nlf">
+                  {data.map(v => (
+                    <ProGrid
+                      className="selling-pro"
+                      src={`${SA}${v.image1}`}
+                      price={v.proprice}
+                      en={v.englishname}
+                      cn={v.proname}
+                      key={v.id}
+                      id={v.id}
+                    />
+                  ))}
+                </QueueAnim>
+              </PullToRefresh>
+            </div>
+          ]
+        ) : (
+          <Loading />
+        )}
       </div>
     )
   }

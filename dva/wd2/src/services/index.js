@@ -182,7 +182,7 @@ export async function modifyNick({ nick, phone }) {
 }
 
 /**
- *
+ *  修改头像
  * @param {object} payload phone, imgfile
  */
 export async function modifyAvatar(payload) {
@@ -201,12 +201,30 @@ export async function fetchUserC({ flag = 2, userID }) {
 }
 
 /**
+ * 获取产品是否被用户收藏
+ * @param {object} id.userID string.string 产品 id 和用户 id
+ */
+export async function ifLike({ id, userID }) {
+  return $(`selcollectProSct.action?flag=2&proid=${id}&userid=${userID}`)
+}
+
+/**
  * 删除用户收藏 collection
  * @param {object} flag.proID.userID string.string.string
  */
-export async function deleteUserC({ flag = 2, proID, userID }) {
+export async function deleteUserC({ proID, userID }) {
+  return $(`delcollectProSct.action?flag=2&proid=${proID}&userid=${userID}`)
+}
+
+/**
+ * toggle 收藏状态
+ * @param {object} param0 {proID, userID, nextStatus: boolean}
+ */
+export async function toggleLike({ proID, userID, nextStatus }) {
   return $(
-    `delcollectProSct.action?flag=${flag}&proid=${proID}&userid=${userID}`
+    nextStatus
+      ? `insertShoppingCartSct.action?flag=2&id=${proID}&pronum=0&userid=${userID}`
+      : `delcollectProSct.action?flag=2&proid=${proID}&userid=${userID}`
   )
 }
 

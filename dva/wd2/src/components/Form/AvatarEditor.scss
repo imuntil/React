@@ -1,0 +1,102 @@
+@import '../../styles/decoration';
+.editor-wrapper-20fhd {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.btn-20fhd {
+  font-size: 0.8rem;
+  color: #444;
+  padding: 10px 20px;
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.content-20fhd {
+  width: 100%;
+  background-color: #f2f2f2;
+  border: 1px solid #d2d2d2;
+  border-radius: 10px;
+  max-height: 90%;
+  overflow: auto;
+  canvas {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #d2d2d2;
+    border-radius: 5px;
+  }
+}
+.choose-file-20fhd {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 30px;
+  box-sizing: border-box;
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  a {
+    position: relative;
+  }
+}
+
+.fn-bar-20fhd {
+  padding: 30px 20px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  .am-slider-handle {
+    border-color: $red;
+  }
+  .am-slider-track {
+    background-color: $red; 
+  }
+}
+.bottom-btns-20fhd {
+  display: flex;
+  justify-content: flex-end;
+  a {
+    @extend .btn-20fhd;
+  }
+  .confirm {
+    margin-left: 20px;
+    color: $red;
+    border: 1px solid $red;
+  }
+  .cancel {
+    color: #d2d2d2;
+  }
+}
+.rotate-btns-20fhd {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 15px;
+  a {
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 1px solid $red;
+    color: $red;
+  }
+  a:first-child {
+    border-right: none;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  a:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  img {
+    width: 100%;
+  }
+}

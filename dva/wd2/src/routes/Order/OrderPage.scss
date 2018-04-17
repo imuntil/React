@@ -1,0 +1,68 @@
+@import '../../styles/decoration';
+.order-sl92k {
+  padding: 0;
+  background-color: #f6f6f6;
+}
+.bottom-bar-sl92k {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+  a {
+    padding: 17px 0;
+    font-size: 0.95rem;
+    margin-top: 0;
+  }
+}
+.adr-box-sl92k {
+  padding: 20px 25px;
+  background: url(../../assets/watermark.jpg) no-repeat;
+  background-size: cover;
+  p {
+    line-height: 1.5;
+    font-size: 0.9rem;
+    padding: 2px 0;
+  }
+  p:first-child {
+    color: #999;
+    font-size: 0.95rem;
+  }
+  p:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+  }
+  p:last-child {
+    text-align: right;
+    a {
+      color: $red;
+      text-decoration: underline;
+    }
+  }
+}
+.order-box-sl92k {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  & > * {
+    border-bottom: 1px solid #ddd;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding: 15px 25px;
+  }
+  i {
+    font-style: normal;
+    color: #888;
+  }
+  p:not(:first-child) {
+    display: flex;
+    justify-content: space-between;
+  }
+  .strong {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+}
+.main-sl92k {
+  
+}
