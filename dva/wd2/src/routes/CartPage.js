@@ -62,19 +62,21 @@ const CartBar = ({ onHandleClick, chosenAll, value }) => {
 
 const mapStateToProps = state => {
   const {
-    cart: { list, dic },
+    cart: { list, dic, expired },
     product
   } = state
   const all = list.some(v => !dic[v].checked)
-  return { cart: { list, dic, all: !all }, product: product.dic }
+  return { cart: { list, dic, all: !all, expired }, product: product.dic }
 }
 
 @connect(mapStateToProps)
 export default class CartPage extends Component {
   state = {
-    susume: [103, 102],
+    susume: [],
     forceRender: false
   }
+  /* 获取推荐 */
+  fetched = false
 
   get money() {
     const { list, dic } = this.props.cart
@@ -94,17 +96,24 @@ export default class CartPage extends Component {
     const {
       cart: { list, dic, expired }
     } = nextProps
-    if (expired || !list.length) return false
-    if (susume.length === 2) {
-      this.fetchRecommendPros(dic[list[0]].prolabel)
+    if (expired) return false
+    if (susume.length === 0) {
+      this.fetchRecommendPros(list.length ? dic[list[0]].prolabel : false)
       return false
     }
     return true
   }
 
   fetchRecommendPros = async type => {
+    if (this.fetched) return
+    this.fetched = true
+    if (!type) {
+      this.setState({ susume: [103, 102] })
+      return
+    }
     const { data } = await fetchRecommend(type)
     if (!data) {
+      this.setState({ susume: [103, 102] })
       return
     }
     this.setState({
@@ -140,8 +149,10 @@ export default class CartPage extends Component {
   renderCell = (index, key) => {
     const {
       cart: { dic },
-      dispatch
+      dispatch,
+      product
     } = this.props
+    const pro = { ...product[key], ...dic[key] }
     return (
       <SwipeAction
         className="swipe"
@@ -150,7 +161,7 @@ export default class CartPage extends Component {
           {
             text: '删除',
             onPress: () => {
-              this.delCartPro(index, dic[key].cid)
+              this.delCartPro(index, pro.cid)
             },
             style: {
               backgroundColor: '#e41035',
@@ -162,7 +173,7 @@ export default class CartPage extends Component {
       >
         <Cell
           key={key}
-          pro={dic[key]}
+          pro={pro}
           onChange={checked => {
             dispatch({
               type: 'cart/toggleSelected',
@@ -180,7 +191,6 @@ export default class CartPage extends Component {
   }
 
   render() {
-    console.log('render')
     const {
       cart: { list, expired, all },
       product,
@@ -189,17 +199,23 @@ export default class CartPage extends Component {
     const { susume, forceRender } = this.state
     return (
       <div className="container cart-lwp2s">
-        {!expired && susume.length !== 2 ? (
+        {!expired ? (
           [
             <div className="content-lwp2s" key="content">
               {[
-                <CustomTM
-                  key="tm"
-                  list={list}
-                  forceRender={forceRender}
-                  renderCell={this.renderCell}
-                  marginBottom={10}
-                />,
+                list.length ? (
+                  <CustomTM
+                    key="tm"
+                    list={list}
+                    forceRender={forceRender}
+                    renderCell={this.renderCell}
+                    marginBottom={10}
+                  />
+                ) : (
+                  <div className="empty" key="empty">
+                    <img src={require('@/assets/empty-cart.jpg')} alt="" />
+                  </div>
+                ),
                 <Susume
                   key="susume"
                   className="susume-lwp2s"

@@ -21,8 +21,9 @@ class LoginPage extends Form {
         Toast.success('登录成功', 1.5)
         const { state } = location
         history.replace(
-          (state && state.from && state.from.pathname !== '/user/logout') ||
-            '/user'
+          state && state.from && state.from.pathname !== '/user/logout'
+            ? state.from
+            : '/user'
         )
         return
       }

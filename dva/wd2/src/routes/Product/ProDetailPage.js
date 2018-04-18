@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
 import Animate from 'rc-animate'
+import { Toast } from 'antd-mobile'
 import { SA, fetchRecommend } from '@/services'
 import { drinks, mustLike } from '@/services/config'
 import { currency, scrollTo } from '@/utils/cts'
@@ -132,12 +133,11 @@ class ProDetailPage extends Component {
 
   shouldComponentUpdate = (nextProps, nextState) => {
     const {
-      pro: { dic },
-      cols
+      pro: { dic }
     } = nextProps
     const { maybeLike } = nextState
     const d = dic[this.proID]
-    if (!d || !cols.length) return false
+    if (!d) return false
     if (!maybeLike.length) {
       this.fetchRecommendPros(d.prolabel)
       return false
@@ -158,8 +158,14 @@ class ProDetailPage extends Component {
     })
   }
 
-  addToCart = () => {
-    // ...
+  addToCart = async () => {
+    const { isLogin, dispatch, history, location } = this.props
+    if (!isLogin) {
+      history.push({ pathname: '/user/login', state: { from: location } })
+      return
+    }
+    await dispatch({ type: 'cart/addToCart', proID: this.proID })
+    Toast.success('添加完成', 1)
   }
 
   buyNow = () => {

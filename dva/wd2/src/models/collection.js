@@ -16,6 +16,10 @@ export default {
       const { expired } = yield select(state => state.col)
       if (!expired) return
       const { userID } = yield select(state => state.user)
+      if (!userID) {
+        // 未登录
+        return false
+      }
       const { data, fail } = yield call(fetchUserC, { userID })
       if (!data) {
         throw new Error((fail && fail.msg) || '出错了，请稍后再试')

@@ -237,6 +237,16 @@ export async function deleteCartPro({ cid, flag = 1 }) {
 }
 
 /**
+ * 添加购物车
+ * @param {object} proID.userID 
+ */
+export async function addToCart({ proID, userID }) {
+  return $(
+    `insertShoppingCartSct.action?flag=1&id=${proID}&pronum=1&userid=${userID}`
+  )
+}
+
+/**
  * 修改购物车中的商品数量
  * @param {object} cid.num 购物车商品 id，数量
  */
