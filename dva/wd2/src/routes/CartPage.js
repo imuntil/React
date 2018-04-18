@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Component } from 'react'
 import { connect } from 'dva'
 import { SwipeAction } from 'antd-mobile'
 import Loading from '@/components/Common/Loading'
@@ -10,7 +10,7 @@ import NumBtns from '@/components/NumBtns'
 import { currency } from '@/utils/cts'
 import './CartPage.scss'
 
-const Cell = ({ pro = {}, onChange }) => {
+const Cell = ({ pro = {}, onChange, onNumChange }) => {
   return (
     <section className="cell-lwp2s">
       <div className="cell-box-lwp2s">
@@ -33,14 +33,18 @@ const Cell = ({ pro = {}, onChange }) => {
               {currency(pro.proprice || 0).replace(' ', '')}
             </span>
           </p>
-          <NumBtns className="num-box-lwp2s" value={pro.pronum} />
+          <NumBtns
+            className="num-box-lwp2s"
+            onChange={onNumChange}
+            value={pro.pronum}
+          />
         </div>
       </div>
     </section>
   )
 }
 
-const CartBar = ({ onHandleClick, chosenAll }) => {
+const CartBar = ({ onHandleClick, chosenAll, value }) => {
   return (
     <div className="cart-bar-lwp2s">
       <div className="bar-content">
@@ -48,7 +52,7 @@ const CartBar = ({ onHandleClick, chosenAll }) => {
           <Radio onChange={onHandleClick} checked={chosenAll} />全选
         </p>
         <p className="bar-right">
-          <span>合计: {currency(100000)}</span>
+          <span>合计: {currency(value)}</span>
           <a href="javascript:;">去结算</a>
         </p>
       </div>
@@ -66,14 +70,36 @@ const mapStateToProps = state => {
 }
 
 @connect(mapStateToProps)
-export default class CartPage extends PureComponent {
+export default class CartPage extends Component {
   state = {
     susume: [103, 102],
     forceRender: false
   }
+
+  get money() {
+    const { list, dic } = this.props.cart
+    return list.reduce((money, key) => {
+      const { checked, pronum, proprice } = dic[key]
+      return money + (checked ? pronum * proprice : 0)
+    }, 0)
+  }
+
   constructor(props) {
     super(props)
     this.props.dispatch({ type: 'cart/fetch' })
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const { susume } = nextState
+    const {
+      cart: { list, dic, expired }
+    } = nextProps
+    if (expired || !list.length) return false
+    if (susume.length === 2) {
+      this.fetchRecommendPros(dic[list[0]].prolabel)
+      return false
+    }
+    return true
   }
 
   fetchRecommendPros = async type => {
@@ -97,6 +123,18 @@ export default class CartPage extends PureComponent {
     this.setState(({ forceRender }) => ({
       forceRender: !forceRender
     }))
+  }
+
+  handleNumChange = (payload, value, proID) => {
+    const v = value + payload
+    this.props.dispatch({
+      type: 'cart/modifyCartNum',
+      payload: {
+        proID,
+        value: v > 1 ? v : 1
+      }
+    })
+    this.forceRender()
   }
 
   renderCell = (index, key) => {
@@ -133,21 +171,22 @@ export default class CartPage extends PureComponent {
             })
             this.forceRender()
           }}
+          onNumChange={(v, value) => {
+            this.handleNumChange(v, value, key)
+          }}
         />
       </SwipeAction>
     )
   }
 
   render() {
+    console.log('render')
     const {
-      cart: { list, dic, expired, all },
+      cart: { list, expired, all },
       product,
       dispatch
     } = this.props
     const { susume, forceRender } = this.state
-    if (list.length && susume.length === 2) {
-      this.fetchRecommendPros(dic[list[0]].prolabel)
-    }
     return (
       <div className="container cart-lwp2s">
         {!expired && susume.length !== 2 ? (
@@ -179,6 +218,7 @@ export default class CartPage extends PureComponent {
                 this.forceRender()
               }}
               chosenAll={all}
+              value={this.money}
             />
           ]
         ) : (

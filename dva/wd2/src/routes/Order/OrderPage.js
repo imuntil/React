@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
+import { WhiteSpace } from 'antd-mobile'
+import QueueAnim from 'rc-queue-anim'
 import NumBtns from '@/components/NumBtns'
+import PaySheet from '@/components/PaySheet'
 import { currency } from '@/utils/cts'
 import './OrderPage.scss'
 
@@ -64,7 +67,6 @@ const List = () => {
       <p>商品信息</p>
       <div className="main-sl92k">
         <Cell />
-        <Cell />
       </div>
       <p>
         <span>配送方式</span>
@@ -84,24 +86,47 @@ const List = () => {
 
 const mapStateToProps = state => {
   const { adr, user, product } = state
-  const { defaultID, dic } = adr
-  return { adr: dic[defaultID] || false, user, product }
+  const { defaultID, dic, selectedID } = adr
+  return {
+    adr: (selectedID ? dic[selectedID] : dic[defaultID]) || false,
+    user,
+    product
+  }
 }
 @connect(mapStateToProps)
 export default class OrderPage extends PureComponent {
+  state = { psVisible: false }
+
+  handleClick = () => {
+    this.setState({ psVisible: true })
+  }
   render() {
     const { adr } = this.props
+    const { psVisible } = this.state
     return (
-      <div className="container order-sl92k">
+      <div className={`container order-sl92k`}>
         <div className="content-sl92k">
           <Adr adr={adr || {}} />
           <List />
-          <div className="bottom-bar-sl92k">
-            <a href="javascript:;" className="form-btn">
-              提交订单
-            </a>
-          </div>
+          <p style={{ height: 100 }} />
         </div>
+        <div className="bottom-bar-sl92k">
+          <a
+            href="javascript:;"
+            onClick={this.handleClick}
+            className="form-btn"
+          >
+            提交订单
+          </a>
+        </div>
+        <QueueAnim type="bottom">
+          {psVisible ? (
+            <PaySheet
+              onClose={() => this.setState({ psVisible: false })}
+              key="sheet"
+            />
+          ) : null}
+        </QueueAnim>
       </div>
     )
   }

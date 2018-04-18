@@ -2,9 +2,11 @@
 .order-sl92k {
   padding: 0;
   background-color: #f6f6f6;
+  overflow: hidden;
 }
 .content-sl92k {
-  padding-bottom: 100px;
+  height: 100%;
+  overflow: auto;
 }
 .bottom-bar-sl92k {
   position: fixed;

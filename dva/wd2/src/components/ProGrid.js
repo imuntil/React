@@ -48,7 +48,9 @@ const ProGrid = ({
 }
 
 ProGrid.defaultProps = {
-  price: 0
+  price: 0,
+  en: '',
+  cn: '',
 }
 
 ProGrid.propTypes = {

@@ -237,6 +237,14 @@ export async function deleteCartPro({ cid, flag = 1 }) {
 }
 
 /**
+ * 修改购物车中的商品数量
+ * @param {object} cid.num 购物车商品 id，数量
+ */
+export async function updateCartNum({ cid, num }) {
+  return $(`updateShopCartNumSct.action?cid=${cid}&flag=1&pronum=${num}`)
+}
+
+/**
  * 订单列表
  * @param {object} flag.status.userID string.string.string flag，订单状态，用户id
  */

@@ -24,7 +24,9 @@ export default {
     // 是否过期
     expired: false,
     // 是否需要重新排序
-    reSort: false
+    reSort: false,
+    // 下单时选中的 id
+    selectedID: null
   },
 
   effects: {
@@ -143,6 +145,10 @@ export default {
     },
     expiredStore(state) {
       return { ...state, expired: true }
+    },
+    /* 选择 地址 */
+    setSelectedID(state, { id }) {
+      return { ...state, selectedID: id }
     }
   },
 

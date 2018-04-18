@@ -5,21 +5,26 @@ import AdrCell from '@/components/AdrCell'
 import Loading from '@/components/Common/Loading'
 import CustomTM from '@/components/Common/CustomTM'
 import { formatSearch } from '@/utils/cts'
+import { delay } from '@/utils/cts'
 import './AdrListPage.scss'
 
 const Item = List.Item
 const alert = Modal.alert
 
 const mapStateToProps = state => {
-  return { adr: state.adr, loading: state.loading.models.adr }
+  const loading = state.loading
+  return {
+    adr: state.adr,
+    loading: loading.models.adr,
+    pageLoading: loading.effects['adr/fetchList']
+  }
 }
 @connect(mapStateToProps)
 export default class AdrListPage extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      selectedID: formatSearch(this.props.location.search || '').id || false,
-      forceRender: false
+      selectedID: formatSearch(this.props.location.search || '').id || false
     }
   }
 
@@ -39,8 +44,12 @@ export default class AdrListPage extends PureComponent {
     ])
   }
 
-  handleAdrSelected = id => {
-    this.setState({ selectedID: id })
+  handleAdrSelected = async id => {
+    this.setState({ selectedID: `${id}` })
+    const { history, dispatch } = this.props
+    dispatch({ type: 'adr/setSelectedID', id })
+    await delay(300)
+    history.go(-1)
   }
 
   renderCell = (index, key) => {
@@ -48,6 +57,7 @@ export default class AdrListPage extends PureComponent {
       history,
       adr: { dic }
     } = this.props
+    const { selectedID } = this.state
     return (
       <AdrCell
         className="adr-cell-10aei"
@@ -55,14 +65,15 @@ export default class AdrListPage extends PureComponent {
         onDelClick={this.handleDelClick}
         onToggleDefault={this.handleToggleDefault}
         adr={dic[key]}
-        selected={this.state.selectedID === key}
+        value={selectedID === key}
         onSelected={this.handleAdrSelected}
+        selectAble={!!selectedID}
       />
     )
   }
 
   render() {
-    const { adr, loading, history } = this.props
+    const { adr, loading, history, pageLoading } = this.props
     const { list = [] } = adr
     return (
       <div className="container adr-10aei">
@@ -70,19 +81,21 @@ export default class AdrListPage extends PureComponent {
           <CustomTM
             renderCell={this.renderCell}
             list={list}
-            forceRander={Math.random()}
+            forceRender={Math.random()}
           />
         ) : null}
-        <List key={-1}>
-          <Item
-            arrow="horizontal"
-            onClick={() => {
-              history.push('/adr/-1')
-            }}
-          >
-            <p className="list-item">添加收货地址</p>
-          </Item>
-        </List>
+        {pageLoading ? null : (
+          <List key={-1}>
+            <Item
+              arrow="horizontal"
+              onClick={() => {
+                history.push('/adr/-1')
+              }}
+            >
+              <p className="list-item">添加收货地址</p>
+            </Item>
+          </List>
+        )}
         {loading ? <Loading /> : null}
       </div>
     )

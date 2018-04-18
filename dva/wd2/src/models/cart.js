@@ -1,4 +1,5 @@
-import { fetchUserC, deleteCartPro } from '../services'
+import { fetchUserC, deleteCartPro, updateCartNum } from '../services'
+import { delay } from '@/utils/cts'
 
 export default {
   namespace: 'cart',
@@ -31,7 +32,21 @@ export default {
       // }
       yield put({ type: 'delPro', index })
       return true
-    }
+    },
+    *modifyCartNum({ payload }, { call, select, put }) {
+      const { proID, value } = payload
+      const { cid, pronum } = yield select(state => state.cart.dic[proID])
+      if (+pronum === +value) return
+      yield put({ type: 'updateNum', proID, value })
+      yield put({ type: 'updateServerNum', cid, value })
+    },
+    updateServerNum: [
+      function*({ cid, value }, { call, select, put }) {
+        yield call(delay, 1000)
+        yield call(updateCartNum, { cid, num: value })
+      },
+      { type: 'takeLatest' }
+    ]
   },
 
   reducers: {
@@ -72,6 +87,14 @@ export default {
         newDic[v] = { ...dic[v], checked }
       })
       return { ...state, dic: newDic }
+    },
+    updateNum(state, { proID, value }) {
+      const dic = state.dic
+      const pro = { ...dic[proID], pronum: value }
+      return {
+        ...state,
+        dic: { ...dic, [proID]: pro }
+      }
     }
   }
 }

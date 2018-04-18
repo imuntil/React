@@ -26,7 +26,7 @@ export default {
         // fetch failed
         return
       }
-      const { result } = data
+      const { result } = data || {}
       yield put({ type: 'saveAll', payload: result })
       return
     },
