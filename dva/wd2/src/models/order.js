@@ -1,4 +1,4 @@
-import __pick from 'lodash.pick'
+// import __pick from 'lodash.pick'
 export default {
   namespace: 'order',
 
@@ -9,7 +9,7 @@ export default {
     fromCart: false,
     // 详情
     detail: {
-      102: 1
+      // 102: 1
     }
   },
 

@@ -6,7 +6,6 @@ import Loading from '@/components/Common/Loading'
 import { SA } from '@/services'
 import { currency } from '@/utils/cts'
 import './OrderListPage.scss'
-import { ENODEV } from 'constants'
 
 /**
  * status
@@ -56,7 +55,7 @@ const OrderSection = ({ order = {} }) => {
 }
 
 const mapStateToProps = state => {
-  return { order: state.order }
+  return { order: state.orderList }
 }
 
 @connect(mapStateToProps)

@@ -7,6 +7,7 @@ import { drinks, mustLike } from '@/services/config'
 import { currency, scrollTo } from '@/utils/cts'
 import Susume from '@/components/RecommendPro'
 import Loading from '@/components/Common/Loading'
+import add2Cart_buyNow from '@/components/HOC/add2Cart_buyNow'
 import './ProDetailPage.scss'
 
 const Like = ({ like, handleClick }) => {
@@ -158,34 +159,6 @@ class ProDetailPage extends Component {
     })
   }
 
-  /* 前往登陆 */
-  toLogin = () => {
-    const { history, location } = this.props
-    history.push({ pathname: '/user/login', state: { from: location } })
-  }
-
-  /* 加入购物车 */
-  addToCart = async () => {
-    const { isLogin, dispatch } = this.props
-    if (!isLogin) {
-      this.toLogin()
-      return
-    }
-    await dispatch({ type: 'cart/addToCart', proID: this.proID })
-    Toast.success('添加完成', 1)
-  }
-
-  /* 立即购买 */
-  buyNow = () => {
-    const { history, dispatch } = this.props
-    dispatch({
-      type: 'order/setLocal',
-      fromCart: false,
-      detail: { [this.proID]: 1 }
-    })
-    history.push('/order')
-  }
-
   /* toggle like */
   handleToggleLike = currentLike => {
     const { isLogin, dispatch } = this.props
@@ -209,7 +182,9 @@ class ProDetailPage extends Component {
   render() {
     const {
       pro: { dic },
-      cols
+      cols,
+      addToCart,
+      buyNow
     } = this.props
     const { maybeLike, more } = this.state
     const d = dic[this.proID]
@@ -255,8 +230,8 @@ class ProDetailPage extends Component {
           <Susume title={'一定喜欢'} pros={mustLike.map(v => dic[v])} />
         </div>
         <BottomBar
-          handleAddToCart={this.addToCart}
-          handleBuyNow={this.buyNow}
+          handleAddToCart={() => addToCart(this.proID)}
+          handleBuyNow={() => buyNow(this.proID)}
         />
       </div>
     ) : (
@@ -270,4 +245,4 @@ function mapStateToProps(state) {
   return { pro: product, cols: col.list, isLogin: !!user.phone }
 }
 
-export default connect(mapStateToProps)(ProDetailPage)
+export default connect(mapStateToProps)(add2Cart_buyNow(ProDetailPage))

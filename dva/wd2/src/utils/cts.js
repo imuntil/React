@@ -97,3 +97,13 @@ export function isEmptyObj(obj) {
   if (typeof obj !== 'object') return false
   return !Object.keys(obj).length
 }
+
+/**
+ * 混入 mixins
+ * @param {*} list 
+ */
+export function mixins(...list) {
+  return function(target) {
+    Object.assign(target.prototype, ...list)
+  }
+}

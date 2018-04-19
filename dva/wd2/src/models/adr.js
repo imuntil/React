@@ -33,6 +33,7 @@ export default {
     *fetchList({ payload }, { call, put, select }) {
       const { list, expired, reSort } = yield select(state => state.adr)
       const { userID } = yield select(state => state.user)
+      if (!userID) return
       if (list && list.length && !expired) {
         reSort && (yield put({ type: 'reSort' }))
         return

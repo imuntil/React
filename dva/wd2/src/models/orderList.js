@@ -11,7 +11,7 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, select, put }) {
-      const { expired } = yield select(state => state.order)
+      const { expired } = yield select(state => state.orderList)
       if (!expired) return
       const { userID } = yield select(state => state.user)
       const { data, fail } = yield call(fetchOrderList, { userID })
