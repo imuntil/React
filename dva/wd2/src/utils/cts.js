@@ -88,3 +88,12 @@ export function formatSearch(search) {
     })
   return obj
 }
+
+/**
+ *  判断对象是否为空
+ * @param {object} obj
+ */
+export function isEmptyObj(obj) {
+  if (typeof obj !== 'object') return false
+  return !Object.keys(obj).length
+}

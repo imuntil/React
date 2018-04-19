@@ -1,13 +1,13 @@
 import React, { PureComponent, Component } from 'react'
 import { connect } from 'dva'
-import { SwipeAction } from 'antd-mobile'
+import { SwipeAction, Toast } from 'antd-mobile'
 import Loading from '@/components/Common/Loading'
 import Radio from '@/components/Form/AdrRadio'
 import { SA, fetchRecommend } from '@/services'
 import Susume from '@/components/RecommendPro'
 import CustomTM from '@/components/Common/CustomTM'
 import NumBtns from '@/components/NumBtns'
-import { currency } from '@/utils/cts'
+import { currency, isEmptyObj } from '@/utils/cts'
 import './CartPage.scss'
 
 const Cell = ({ pro = {}, onChange, onNumChange }) => {
@@ -44,16 +44,18 @@ const Cell = ({ pro = {}, onChange, onNumChange }) => {
   )
 }
 
-const CartBar = ({ onHandleClick, chosenAll, value }) => {
+const CartBar = ({ onToggleSelect, chosenAll, value, onClearing }) => {
   return (
     <div className="cart-bar-lwp2s">
       <div className="bar-content">
         <p className="bar-left">
-          <Radio onChange={onHandleClick} checked={chosenAll} />全选
+          <Radio onChange={onToggleSelect} checked={chosenAll} />全选
         </p>
         <p className="bar-right">
           <span>合计: {currency(value)}</span>
-          <a href="javascript:;">去结算</a>
+          <a href="javascript:;" onClick={onClearing}>
+            去结算
+          </a>
         </p>
       </div>
     </div>
@@ -72,17 +74,21 @@ const mapStateToProps = state => {
 @connect(mapStateToProps)
 export default class CartPage extends Component {
   state = {
-    susume: [],
+    susume: [103, 102],
     forceRender: false
   }
   /* 获取推荐 */
   fetched = false
 
   get money() {
-    const { list, dic } = this.props.cart
+    const {
+      cart: { list, dic },
+      product
+    } = this.props
+    if (isEmptyObj(product)) return 0
     return list.reduce((money, key) => {
-      const { checked, pronum, proprice } = dic[key]
-      return money + (checked ? pronum * proprice : 0)
+      const { checked, pronum } = dic[key]
+      return money + (checked ? pronum * product[key].proprice : 0)
     }, 0)
   }
 
@@ -94,11 +100,12 @@ export default class CartPage extends Component {
   shouldComponentUpdate = (nextProps, nextState) => {
     const { susume } = nextState
     const {
-      cart: { list, dic, expired }
+      cart: { list, expired },
+      product
     } = nextProps
-    if (expired) return false
-    if (susume.length === 0) {
-      this.fetchRecommendPros(list.length ? dic[list[0]].prolabel : false)
+    if (expired || !list.length || !Object.keys(product).length) return false
+    if (!this.fetched) {
+      this.fetchRecommendPros(product[list[0]].prolabel)
       return false
     }
     return true
@@ -106,21 +113,15 @@ export default class CartPage extends Component {
 
   fetchRecommendPros = async type => {
     if (this.fetched) return
-    this.fetched = true
-    if (!type) {
-      this.setState({ susume: [103, 102] })
-      return
-    }
     const { data } = await fetchRecommend(type)
-    if (!data) {
-      this.setState({ susume: [103, 102] })
-      return
-    }
+    this.fetched = true
+    if (!data) return
     this.setState({
       susume: data.result.map(v => v.id).concat(103, 102)
     })
   }
 
+  /* 删除商品 */
   delCartPro = (index, cid) => {
     this.props.dispatch({
       type: 'cart/delCartPro',
@@ -128,12 +129,14 @@ export default class CartPage extends Component {
     })
   }
 
+  /* 强制渲染 */
   forceRender = () => {
     this.setState(({ forceRender }) => ({
       forceRender: !forceRender
     }))
   }
 
+  /* 修改商品数量 */
   handleNumChange = (payload, value, proID) => {
     const v = value + payload
     this.props.dispatch({
@@ -144,6 +147,29 @@ export default class CartPage extends Component {
       }
     })
     this.forceRender()
+  }
+
+  /* 结算 */
+  handleClearing = () => {
+    const {
+      dispatch,
+      history,
+      cart: { list, dic }
+    } = this.props
+    const detail = list.reduce((obj, id) => {
+      dic[id].checked && (obj[id] = dic[id].pronum)
+      return obj
+    }, {})
+    if (isEmptyObj(detail)) {
+      Toast.fail('请选择商品', 1)
+      return
+    }
+    dispatch({
+      type: 'order/setLocal',
+      fromCart: true,
+      detail
+    })
+    history.push('/order')
   }
 
   renderCell = (index, key) => {
@@ -191,6 +217,7 @@ export default class CartPage extends Component {
   }
 
   render() {
+    console.log('render')
     const {
       cart: { list, expired, all },
       product,
@@ -226,13 +253,14 @@ export default class CartPage extends Component {
             </div>,
             <CartBar
               key="bar"
-              onHandleClick={() => {
+              onToggleSelect={() => {
                 dispatch({
                   type: 'cart/toggleSelectedAll',
                   checked: !all
                 })
                 this.forceRender()
               }}
+              onClearing={this.handleClearing}
               chosenAll={all}
               value={this.money}
             />

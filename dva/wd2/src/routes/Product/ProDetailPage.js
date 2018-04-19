@@ -158,25 +158,39 @@ class ProDetailPage extends Component {
     })
   }
 
+  /* 前往登陆 */
+  toLogin = () => {
+    const { history, location } = this.props
+    history.push({ pathname: '/user/login', state: { from: location } })
+  }
+
+  /* 加入购物车 */
   addToCart = async () => {
-    const { isLogin, dispatch, history, location } = this.props
+    const { isLogin, dispatch } = this.props
     if (!isLogin) {
-      history.push({ pathname: '/user/login', state: { from: location } })
+      this.toLogin()
       return
     }
     await dispatch({ type: 'cart/addToCart', proID: this.proID })
     Toast.success('添加完成', 1)
   }
 
+  /* 立即购买 */
   buyNow = () => {
-    // ...
+    const { history, dispatch } = this.props
+    dispatch({
+      type: 'order/setLocal',
+      fromCart: false,
+      detail: { [this.proID]: 1 }
+    })
+    history.push('/order')
   }
 
   /* toggle like */
   handleToggleLike = currentLike => {
     const { isLogin, dispatch } = this.props
     if (!isLogin) {
-      // xx
+      this.toLogin()
       return
     }
     dispatch({

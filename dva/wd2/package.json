@@ -12,6 +12,7 @@
     "china-division": "^2.0.0",
     "dva": "^2.1.0",
     "dva-loading": "^2.0.0",
+    "lodash.pick": "^4.4.0",
     "md5": "^2.2.1",
     "prop-types": "^15.6.1",
     "rc-animate": "^2.4.4",

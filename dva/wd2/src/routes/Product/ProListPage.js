@@ -6,8 +6,16 @@ import ReactList from 'react-list'
 import ListCell from '@/components/ListCell'
 import ProTab from '@/components/ProTab'
 import { fetchProducts } from '@/services'
+import { formatSearch } from '@/utils/cts'
+import { add2Cart_buyNow } from '@/services/decorator'
 
-@connect()
+const mapStateToProps = state => {
+  const { user } = state
+  return { user, isLogin: !!user.phone }
+}
+
+@connect(mapStateToProps)
+@add2Cart_buyNow  
 class ProListPage extends PureComponent {
   state = {
     list: [],
@@ -28,7 +36,7 @@ class ProListPage extends PureComponent {
     duration: 250
   }
   componentWillMount() {
-    const query = this.formatSearch()
+    const query = formatSearch(this.props.location.search)
     this.setFilterAndFetch(query)
   }
 
@@ -38,7 +46,7 @@ class ProListPage extends PureComponent {
     this.setState(preState => {
       return { loadTime: ++preState.loadTime }
     })
-    const query = this.formatSearch(location)
+    const query = formatSearch(location.search)
     this.setFilterAndFetch(query)
   }
 
@@ -50,26 +58,27 @@ class ProListPage extends PureComponent {
     this.fetchFilterPro()
   }
 
-  /* format search */
-  formatSearch = location => {
-    const { search } = location || this.props.location
-    const res = {}
-    search
-      .substr(1)
-      .split('&')
-      .forEach(v => {
-        const [key, value] = v.split('=')
-        res[key] = +value === -1 ? '' : +value
-      })
-    return res
-  }
-
   handleCellClick = ({ type, sort }) => {
     if (type > 7) return
     const t = type || this.filter.type
     const s = sort || this.filter.sort
     this.listEle.scrollTo(0)
     this.props.history.replace(`/pro/list?type=${t}&sort=${s}`)
+  }
+
+  /* 加入购物车 */
+  handleAddToCart = id => {
+    const { isLogin, dispatch } = this.props
+    if (!isLogin) {
+      this.toLogin()
+      return
+    }
+    // await dispatch
+  }
+
+  /* 立即购买 */
+  handleBuyNow = id => {
+    // ...
   }
 
   /* 根据条件查询 */
@@ -93,12 +102,17 @@ class ProListPage extends PureComponent {
         className="list-cell-xlw29"
         key={key}
       >
-        <ListCell pro={pro} key={pro.id} />
+        <ListCell
+          pro={pro}
+          key={pro.id}
+          onCartClick={this.handleAddToCart}
+          onBuyClick={this.handleBuyNow}
+        />
       </TweenOne>
     )
   }
 
-  render() {
+  render () {
     const { list, loadTime } = this.state
     const { type, sort } = this.filter
     return (
@@ -107,8 +121,8 @@ class ProListPage extends PureComponent {
           className="header-xlw29"
           onTypeCellClick={type => this.handleCellClick({ type })}
           onSortCellClick={sort => this.handleCellClick({ sort })}
-          type={type}
-          sort={sort}
+          type={+type}
+          sort={+sort}
         />
         <div className="content-xlw29">
           {loadTime % 2 === 0 ? (

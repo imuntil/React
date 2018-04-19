@@ -71,11 +71,21 @@
     padding: 0;
   }
 }
-
+.postage-sl92k {
+  position: relative;
+  .free {
+    display: inline-block;
+    position: absolute;
+    right: 25px;
+    bottom: 1px;
+    font-size: .55rem;
+    color: #444;
+  }
+}
 
 .cell-sl92k {
   padding: 15px 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   &:not(:last-child) {
     border-bottom: 1px solid #ddd;
   }
@@ -103,6 +113,9 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  .info {
+    padding-right: 5px;
+  }
   p {
     width: 100%;
     white-space: normal;
@@ -119,6 +132,11 @@
   .total {
     color: #888;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    span:last-child {
+      padding-top: 15px;
+    }
   }
 }

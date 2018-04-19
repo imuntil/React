@@ -10,7 +10,7 @@ class AdrRadio extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { checked } = nextProps
+    const { checked, name } = nextProps
     if (checked !== this.state.value) {
       this.setState({ value: checked })
     }
@@ -51,6 +51,7 @@ AdrRadio.propTypes = {
   checked: PropTypes.bool,
   className: PropTypes.string,
   cancelAble: PropTypes.bool,
+  name: PropTypes.string,
 }
 
 export default AdrRadio
