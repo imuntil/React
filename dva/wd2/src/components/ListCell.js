@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'dva/router'
 import { SA } from '@/services'
 import { currency } from '@/utils/cts'
+import ImgHolder from '@/components/Common/ImgHolder'
 import './ListCell.scss'
 
 const ListCell = ({ className, pro = {}, onCartClick, onBuyClick }) => {
@@ -10,15 +11,16 @@ const ListCell = ({ className, pro = {}, onCartClick, onBuyClick }) => {
     <section className={`list-cell-290jv ${className}`}>
       <div className="content-290jv">
         <Link to={`/pro/${pro.id}`}>
-          <img src={`${SA}${pro.image1}`} alt="" />
+          <ImgHolder src={`${SA}${pro.image1}`} alt="" />
         </Link>
         <div className="right-box-290jv">
           <div className="top-box-290jv">
             <p>{pro.englishname}</p>
             <p>{pro.proname}</p>
             <p>
-              <span className="color--red">{currency(pro.proprice || 0)}</span>
-              <i>{pro.procontent}ml</i>
+              <span className="color--red">{currency(pro.realPrice)}</span>
+              {pro.onSale ? <i className="on-sale">{currency(pro.proprice)}</i> : null}
+              {pro.procontent ? <i>{pro.procontent}ml</i> : null}
             </p>
           </div>
           <p className="bottom-box-290jv">

@@ -35,7 +35,7 @@ class ProIndexPage extends PureComponent {
     return totalPage > currentIndex
   }
   render() {
-    const { list, perPage, currentIndex } = this.props
+    const { list, perPage, currentIndex, dic } = this.props
     const data = list.slice(0, perPage * currentIndex)
     return (
       <div className="container pro-index-82nlf">
@@ -45,7 +45,11 @@ class ProIndexPage extends PureComponent {
               key="tab"
               className="header-82nlf"
               onTypeCellClick={type => this.handleCellClick({ type })}
-              onSortCellClick={sort => this.handleCellClick({ sort })}
+              onSortCellClick={sort =>
+                this.handleCellClick({
+                  sort
+                })
+              }
             />,
             <div className="content-82nlf" key="content">
               <PullToRefresh
@@ -72,12 +76,12 @@ class ProIndexPage extends PureComponent {
                   {data.map(v => (
                     <ProGrid
                       className="selling-pro"
-                      src={`${SA}${v.image1}`}
-                      price={v.proprice}
-                      en={v.englishname}
-                      cn={v.proname}
-                      key={v.id}
-                      id={v.id}
+                      src={`${SA}${dic[v].image1}`}
+                      price={dic[v].realPrice}
+                      en={dic[v].englishname}
+                      cn={dic[v].proname}
+                      key={dic[v].id}
+                      id={dic[v].id}
                     />
                   ))}
                 </QueueAnim>
@@ -93,8 +97,7 @@ class ProIndexPage extends PureComponent {
 }
 
 function mapStateToProps(state) {
-  const { list, currentIndex, totalPage, perPage } = state.product
-  return { list, currentIndex, totalPage, perPage }
+  return { ...state.product }
 }
 
 export default connect(mapStateToProps)(ProIndexPage)

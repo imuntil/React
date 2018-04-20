@@ -3,6 +3,7 @@ import createLoading from 'dva-loading'
 import { Toast } from 'antd-mobile'
 import 'sweetalert/dist/sweetalert.css'
 import './styles/index.scss'
+require('@/assets/placeholder.png')
 
 // 1. Initialize
 const app = dva({

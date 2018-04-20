@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'dva'
 import TweenOne from 'rc-tween-one'
 import ReactList from 'react-list'
@@ -6,17 +6,21 @@ import { Toast } from 'antd-mobile'
 import ListCell from '@/components/ListCell'
 import ProTab from '@/components/ProTab'
 import add2Cart_buyNow from '@/components/HOC/add2Cart_buyNow'
+import Loading from '@/components/Common/Loading'
 import { fetchProducts } from '@/services'
 import { formatSearch } from '@/utils/cts'
 import './ProListPage.scss'
 
 const mapStateToProps = state => {
-  const { user } = state
-  return { user, isLogin: !!user.phone }
+  const {
+    user,
+    product: { dic, list: all }
+  } = state
+  return { user, isLogin: !!user.phone, dic, all }
 }
 
 // @connect(mapStateToProps)
-class ProListPage extends PureComponent {
+class ProListPage extends Component {
   state = {
     list: [],
     loadTime: 1
@@ -53,6 +57,13 @@ class ProListPage extends PureComponent {
     this.setFilterAndFetch(query)
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const { all } = nextProps
+    // 如果产品总列表没有加载，则不渲染
+    if (!all.length) return false
+    return true
+  }
+
   /* set filter and fetch */
   setFilterAndFetch(query) {
     const { type, sort } = query
@@ -78,7 +89,7 @@ class ProListPage extends PureComponent {
       return
     }
     this.setState({
-      list: data.result
+      list: data.result.map(v => v.id)
     })
   }
 
@@ -87,8 +98,8 @@ class ProListPage extends PureComponent {
   }
 
   renderItem = (index, key) => {
-    const pro = this.state.list[index]
-    const { addToCart, buyNow } = this.props
+    const id = this.state.list[index]
+    const { addToCart, buyNow, dic } = this.props
     return (
       <TweenOne
         animation={{ ...this.animation, delay: index * 100 }}
@@ -96,8 +107,8 @@ class ProListPage extends PureComponent {
         key={key}
       >
         <ListCell
-          pro={pro}
-          key={pro.id}
+          pro={dic[id]}
+          key={id}
           onCartClick={addToCart}
           onBuyClick={buyNow}
         />
@@ -110,34 +121,41 @@ class ProListPage extends PureComponent {
     const { type, sort } = this.filter
     return (
       <div className="container pro-list-xlw29">
-        <ProTab
-          className="header-xlw29"
-          onTypeCellClick={type => this.handleCellClick({ type })}
-          onSortCellClick={sort => this.handleCellClick({ sort })}
-          type={+type}
-          sort={+sort}
-        />
-        <div className="content-xlw29">
-          {loadTime % 2 === 0 ? (
-            <ReactList
-              itemRenderer={this.renderItem}
-              length={list.length}
-              type="simple"
-              pageSize={8}
-              ref={el => (this.listEle = el)}
-              key={1}
-            />
-          ) : (
-            <ReactList
-              itemRenderer={this.renderItem}
-              length={list.length}
-              type="simple"
-              pageSize={8}
-              ref={el => (this.listEle = el)}
-              key={2}
-            />
-          )}
-        </div>
+        {this.props.all.length ? (
+          [
+            <ProTab
+              key="tab"
+              className="header-xlw29"
+              onTypeCellClick={type => this.handleCellClick({ type })}
+              onSortCellClick={sort => this.handleCellClick({ sort })}
+              type={+type}
+              sort={+sort}
+            />,
+            <div className="content-xlw29" key="content">
+              {loadTime % 2 === 0 ? (
+                <ReactList
+                  itemRenderer={this.renderItem}
+                  length={list.length}
+                  type="simple"
+                  pageSize={8}
+                  ref={el => (this.listEle = el)}
+                  key={1}
+                />
+              ) : (
+                <ReactList
+                  itemRenderer={this.renderItem}
+                  length={list.length}
+                  type="simple"
+                  pageSize={8}
+                  ref={el => (this.listEle = el)}
+                  key={2}
+                />
+              )}
+            </div>
+          ]
+        ) : (
+          <Loading />
+        )}
       </div>
     )
   }

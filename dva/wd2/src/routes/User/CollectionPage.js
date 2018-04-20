@@ -1,14 +1,15 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'dva'
 import { SwipeAction, Toast } from 'antd-mobile'
 import { TransitionMotion, presets, spring } from 'react-motion'
 import ListCell from '@/components/ListCell'
 import Loading from '@/components/Common/Loading'
+import add2Cart_buyNow from '@/components/HOC/add2Cart_buyNow'
 import './CollectionPage.scss'
 
 const mapStateToProps = state => {
-  const { col, loading, product } = state
-  return { col, loading: loading.models.col, product }
+  const { col, loading, product, user } = state
+  return { col, loading: loading.models.col, product, isLogin: !!user.phone }
 }
 
 const setStyle = (maxHeight, marginBottom, opacity) => ({
@@ -17,8 +18,16 @@ const setStyle = (maxHeight, marginBottom, opacity) => ({
   opacity
 })
 
-@connect(mapStateToProps)
-export default class CollectionPage extends PureComponent {
+class CollectionPage extends Component {
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const {
+      col: { expired },
+      product: { list }
+    } = nextProps
+    if (expired || !list.length) return false
+    return true
+  }
+
   handleDelete = async proID => {
     await this.props.dispatch({
       type: 'col/toggleServerLike',
@@ -57,7 +66,9 @@ export default class CollectionPage extends PureComponent {
     const {
       col: { expired },
       loading,
-      product: { dic }
+      product: { dic, list },
+      addToCart,
+      buyNow
     } = this.props
     return (
       <div className="container col-29kdp">
@@ -88,7 +99,11 @@ export default class CollectionPage extends PureComponent {
                           }
                         ]}
                       >
-                        <ListCell pro={dic[key]} />
+                        <ListCell
+                          pro={dic[key]}
+                          onCartClick={addToCart}
+                          onBuyClick={buyNow}
+                        />
                       </SwipeAction>
                     </div>
                   ))}
@@ -102,3 +117,5 @@ export default class CollectionPage extends PureComponent {
     )
   }
 }
+
+export default connect(mapStateToProps)(add2Cart_buyNow(CollectionPage))

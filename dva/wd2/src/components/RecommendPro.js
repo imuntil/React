@@ -12,7 +12,7 @@ const RecommendPro = ({ title, pros, className = '', gridClass = '' }) => {
           <ProGrid
             className={`recommend-pro ${gridClass}`}
             src={`${SA}${v.image1}`}
-            price={v.proprice}
+            price={v.realPrice}
             en={v.englishname}
             cn={v.proname}
             key={index}

@@ -49,8 +49,8 @@ const Cell = ({ editAble, pro = {}, num = 1, onChange }) => {
               <p>{pro.englishname}</p>
               <p>{pro.proname}</p>
               <p>
-                <span className="color--red">{currency(pro.proprice)}</span>
-                <span>{pro.procontent} ml</span>
+                <span className="color--red">{currency(pro.realPrice)}</span>
+                <span>{pro.procontent ? `${pro.procontent}ml` : '-'}</span>
               </p>
             </div>
             <div className="total">

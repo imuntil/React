@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter } from 'dva/router'
 import PropTypes from 'prop-types'
+import ImgHolder from '@/components/Common/ImgHolder'
 import { currency } from '../utils/cts'
 import './ProGrid.scss'
 
@@ -28,7 +29,8 @@ const ProGrid = ({
       onClick={handleClick ? handleClick : push}
     >
       <div className="img">
-        <img src={src} alt="" />
+        {/* <img src={src} alt="" /> */}
+        <ImgHolder src={src} />
         {vHot ? (
           <span className="hot">
             <img src={require('../assets/hot-1.png')} alt="" />
@@ -50,7 +52,7 @@ const ProGrid = ({
 ProGrid.defaultProps = {
   price: 0,
   en: '',
-  cn: '',
+  cn: ''
 }
 
 ProGrid.propTypes = {

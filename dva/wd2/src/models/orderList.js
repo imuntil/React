@@ -1,3 +1,4 @@
+import __pick from 'lodash.pick'
 import { fetchOrderList } from '../services'
 
 export default {
@@ -25,8 +26,29 @@ export default {
   reducers: {
     setOrder(state, { res }) {
       const dic = {}
-      const list = res.map(v => {
-        dic[v.ordernum] = v
+      const list = res.map(({ products = [], ...v }) => {
+        const p = products.map(({ proprice, discountprice, ...x }) => {
+          const newX = __pick(x, [
+            'cid',
+            'coupon',
+            'englishname',
+            'id',
+            'image1',
+            'num',
+            'postagefree',
+            'price',
+            'procontent',
+            'proname',
+            'proweight'
+          ])
+          let [wasSale, realPrice] = [false, proprice]
+          if (discountprice && discountprice < proprice) {
+            wasSale = true
+            realPrice = discountprice
+          }
+          return { ...newX, wasSale, realPrice }
+        })
+        dic[v.ordernum] = { ...v, products: p }
         return v.ordernum
       })
       return { ...state, list, dic, expired: false }

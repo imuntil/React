@@ -1,11 +1,13 @@
 import React, { PureComponent, Component } from 'react'
 import { connect } from 'dva'
+import { Link } from 'dva/router'
 import { SwipeAction, Toast } from 'antd-mobile'
 import Loading from '@/components/Common/Loading'
 import Radio from '@/components/Form/AdrRadio'
 import { SA, fetchRecommend } from '@/services'
 import Susume from '@/components/RecommendPro'
 import CustomTM from '@/components/Common/CustomTM'
+import ImgHolder from '@/components/Common/ImgHolder'
 import NumBtns from '@/components/NumBtns'
 import { currency, isEmptyObj } from '@/utils/cts'
 import './CartPage.scss'
@@ -21,16 +23,16 @@ const Cell = ({ pro = {}, onChange, onNumChange }) => {
             checked={pro.checked}
           />
         </p>
-        <p className="img">
-          <img src={`${SA}${pro.image1}`} width="100%" alt="" />
-        </p>
+        <Link to={`/pro/${pro.id}`} className="img">
+          <ImgHolder src={`${SA}${pro.image1}`} width="100%" alt="" />
+        </Link>
         <div className="main-box-lwp2s">
           <p>{pro.englishname}</p>
           <p>{pro.proname}</p>
           <p className="price">
-            <span>{pro.procontent} ml</span>{' '}
+            <span>{pro.procontent ? `${pro.procontent}ml` : '-'}</span>
             <span className="color--red">
-              {currency(pro.proprice || 0).replace(' ', '')}
+              {currency(pro.realPrice || 0).replace(' ', '')}
             </span>
           </p>
           <NumBtns

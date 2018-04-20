@@ -1,3 +1,4 @@
+import __pick from 'lodash.pick'
 import { fetchProducts } from '../services'
 import { delay } from '../utils/cts'
 
@@ -5,7 +6,7 @@ export default {
   namespace: 'product',
 
   state: {
-    // 所有产品数组
+    // 所有产品数组 id
     list: [],
     // 以 id 为 key 的产品列表
     dic: {},
@@ -42,12 +43,20 @@ export default {
     saveAll(state, { payload }) {
       const { perPage } = state
       const data = {}
+      const list = []
       payload.forEach(v => {
-        data[v.id] = v
+        const { proprice, discountprice, id } = v
+        let [onSale, realPrice] = [false, proprice]
+        if (discountprice && discountprice < proprice) {
+          onSale = true
+          realPrice = discountprice
+        }
+        data[id] = { ...v, onSale, realPrice }
+        list.push(id)
       })
       return {
         ...state,
-        list: payload,
+        list,
         dic: data,
         totalPage: Math.ceil(payload.length / perPage)
       }

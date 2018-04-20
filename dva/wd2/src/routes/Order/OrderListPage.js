@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import ReactList from 'react-list'
 import TweenOne from 'rc-tween-one'
 import Loading from '@/components/Common/Loading'
+import ImgHolder from '@/components/Common/ImgHolder'
 import { SA } from '@/services'
 import { currency } from '@/utils/cts'
 import './OrderListPage.scss'
@@ -15,6 +16,9 @@ import './OrderListPage.scss'
 
 const OrderSection = ({ order = {} }) => {
   const { products = [] } = order
+  const total = products.forEach((pre, num) => {
+    return pre + num
+  }, 0)
   return (
     <section className="sec-2wiso">
       <p className="header">
@@ -26,15 +30,17 @@ const OrderSection = ({ order = {} }) => {
           <div className="pro-2wiso" key={v.id}>
             <div className="content-2wiso">
               <div className="img">
-                <img src={`${SA}${v.image1}`} width="100%" alt="" />
+                <ImgHolder src={`${SA}${v.image1}`} width="100%" alt="" />
               </div>
               <div className="name">
                 <p>{v.englishname}</p>
                 <p>{v.proname}</p>
-                <p className="color--gray">{v.procontent} ml</p>
+                <p className="color--gray">
+                  {v.procontent ? `${v.procontent}ml` : '-'}
+                </p>
               </div>
               <div className="price">
-                <p>{currency(v.proprice || 0)}</p>
+                <p>{currency(v.realPrice || 0)}</p>
                 <p className="color--gray">x {v.num}</p>
               </div>
             </div>
@@ -43,8 +49,8 @@ const OrderSection = ({ order = {} }) => {
       </div>
       <div className="footer">
         <p>
-          <span className="color--gray">共2件商品</span>
-          实付￥1000.00
+          <span className="color--gray">共{total}件商品</span>
+          实付{currency(order.orderprice || 0)}
         </p>
         <p className="operation">
           <a href="javascript:;">已取消</a>
