@@ -28,6 +28,8 @@ app.model(require('./models/collection').default)
 app.model(require('./models/cart').default)
 app.model(require('./models/orderList').default)
 app.model(require('./models/order').default)
+// 微信
+app.model(require('./models/wx').default)
 
 // 4. Router
 app.router(require('./router').default)

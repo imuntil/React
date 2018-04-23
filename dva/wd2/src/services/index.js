@@ -238,7 +238,7 @@ export async function deleteCartPro({ cid, flag = 1 }) {
 
 /**
  * 添加购物车
- * @param {object} proID.userID 
+ * @param {object} proID.userID
  */
 export async function addToCart({ proID, userID }) {
   return $(
@@ -254,6 +254,22 @@ export async function updateCartNum({ cid, num }) {
   return $(`updateShopCartNumSct.action?cid=${cid}&flag=1&pronum=${num}`)
 }
 
+/**
+ * 下单
+ * @param {object} order
+ * userid,
+ * prolist,
+ * pronumlist,
+ * orderaddress,
+ * orderphone,
+ * express： 运费
+ * consognee： 收货人姓名
+ * code: y | n 是否使用优惠券
+ * Openid
+ */
+export async function placeOrder(order) {
+  return $(`saveOrderOdr.action`)
+}
 /**
  * 订单列表
  * @param {object} flag.status.userID string.string.string flag，订单状态，用户id
