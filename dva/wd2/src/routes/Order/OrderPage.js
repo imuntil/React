@@ -8,7 +8,7 @@ import PaySheet from '@/components/PaySheet'
 import Loading from '@/components/Common/Loading'
 import postages, { box } from '@/services/postage'
 import { currency } from '@/utils/cts'
-import { SA } from '@/services'
+import { SA, placeOrder } from '@/services'
 import './OrderPage.scss'
 
 const provinceList = Object.keys(postages)
@@ -104,13 +104,14 @@ const List = ({ editAble, list, dic, num, onChange, postage, payment }) => {
 }
 
 const mapStateToProps = state => {
-  const { adr, user, product, order } = state
+  const { adr, user, product, order, wx } = state
   const { defaultID, dic, selectedID } = adr
   return {
     adr: (selectedID ? dic[selectedID] : dic[defaultID]) || false,
     user,
     order,
-    product
+    product,
+    wx
   }
 }
 @connect(mapStateToProps)
@@ -211,6 +212,28 @@ export default class OrderPage extends Component {
     this.setState({ psVisible: true })
   }
 
+  /* 下单&支付 */
+  placeOrder = () => {
+    const {
+      user: { userID },
+      adr: { city, address, name, phone },
+      order: { detail },
+      wx: { openID }
+    } = this.props
+    const order = {
+      userid: userID,
+      prolist: Object.keys(detail).join('-'),
+      pronumlist: Object.values(detail).join('-'),
+      orderaddress: city + address,
+      orderphone: phone,
+      express: this.postage.amount,
+      consognee: name,
+      code: 'y',
+      Openid: openID
+    }
+    console.log(order)
+  }
+
   /* 商品数量变化 */
   handleNumChange = (id, payload, value) => {
     const v = value + payload
@@ -262,6 +285,7 @@ export default class OrderPage extends Component {
                   money={this.payment}
                   key="sheet"
                   couponAble={this.couponAble}
+                  onPay={this.placeOrder}
                 />
               ) : null}
             </QueueAnim>

@@ -10,6 +10,7 @@ export default class PaySheet extends PureComponent {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     money: PropTypes.number.isRequired,
+    onPay: PropTypes.func.isRequired,
     couponAble: PropTypes.bool
   }
 
@@ -26,7 +27,7 @@ export default class PaySheet extends PureComponent {
   }
 
   render() {
-    const { onClose, money, couponAble } = this.props
+    const { onClose, money, couponAble, onPay } = this.props
     const { payMethod } = this.state
     return (
       <div className="sheet-wrapper-w0jk3" onClick={this.handleBGClick}>
@@ -71,7 +72,7 @@ export default class PaySheet extends PureComponent {
               支付<span className="color--red">{currency(money)}</span>
             </p>
             <p className="form-btn-box">
-              <a href="javascript:;" className="form-btn">
+              <a href="javascript:;" onClick={onPay} className="form-btn">
                 去支付
               </a>
             </p>
