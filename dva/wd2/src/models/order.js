@@ -1,3 +1,5 @@
+import { placeOrder, deleteCartPro } from '../services'
+
 // import __pick from 'lodash.pick'
 export default {
   namespace: 'order',
@@ -14,14 +16,35 @@ export default {
   },
 
   effects: {
-    // *setOrder({ formCart, list }, { select, put }) {
-    //   const { dic } = yield select(state => state.product)
-    //   const detail = {}
-    //   list.forEach(id => {
-    //     detail[id] = { _num: 1 }
-    //   })
-    //   yield put({ type: 'setLocal', formCart, list, detail })
-    // }
+    *placeOrder({ adr, code, express }, { call, put, select, take }) {
+      const { city, address, name, phone } = adr
+      const { userID, openID } = yield select(state => state.user)
+      const { detail, fromCart, list } = yield select(state => state.order)
+      const order = {
+        userid: userID,
+        prolist: Object.keys(detail).join('-'),
+        pronumlist: Object.values(detail).join('-'),
+        orderaddress: city + address,
+        orderphone: phone,
+        express,
+        consognee: name,
+        code,
+        Openid: openID
+      }
+      // 下单
+      const { data, fail } = yield call(placeOrder, order)
+      if (!data) {
+        throw new Error((fail && fail.msg) || '出错了，请稍后再试')
+      }
+      // 删除购物车中商品
+      if (fromCart) {
+        yield put({ type: 'cart/clearCart', ids: [...list] })
+        // 阻塞
+        yield take('cart/clearCart/@@end');
+      }
+      // 返回订单号
+      return data.result
+    }
   },
 
   reducers: {

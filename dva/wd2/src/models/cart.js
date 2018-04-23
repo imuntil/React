@@ -56,6 +56,19 @@ export default {
       yield put({ type: 'delPro', index })
       return true
     },
+    /* 下单后，如果订单来自cart，删除订单中的商品 */
+    *clearCart({ ids }, { call, put, select }) {
+      const { dic } = yield select(state => state.cart)
+      while (ids.length) {
+        const { cid } = dic[ids.shift()]
+        // 删除商品，忽略异常
+        // yield call(deleteCartPro, { cid })
+        // 延时100
+        yield call(delay, 100)
+      }
+      // 设置cart过期
+      yield put({ type: 'setLocalExpired' })
+    },
     /* 修改商品数量 */
     *modifyCartNum({ payload }, { call, select, put }) {
       const { proID, value } = payload

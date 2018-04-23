@@ -8,7 +8,7 @@ import PaySheet from '@/components/PaySheet'
 import Loading from '@/components/Common/Loading'
 import postages, { box } from '@/services/postage'
 import { currency } from '@/utils/cts'
-import { SA, placeOrder } from '@/services'
+import { SA } from '@/services'
 import './OrderPage.scss'
 
 const provinceList = Object.keys(postages)
@@ -214,24 +214,13 @@ export default class OrderPage extends Component {
 
   /* 下单&支付 */
   placeOrder = () => {
-    const {
-      user: { userID },
-      adr: { city, address, name, phone },
-      order: { detail },
-      wx: { openID }
-    } = this.props
-    const order = {
-      userid: userID,
-      prolist: Object.keys(detail).join('-'),
-      pronumlist: Object.values(detail).join('-'),
-      orderaddress: city + address,
-      orderphone: phone,
-      express: this.postage.amount,
-      consognee: name,
-      code: 'y',
-      Openid: openID
-    }
-    console.log(order)
+    const { dispatch, adr } = this.props
+    dispatch({
+      type: 'order/placeOrder',
+      adr,
+      code: 'n',
+      express: this.postage.amount
+    })
   }
 
   /* 商品数量变化 */

@@ -2,6 +2,7 @@ import React, { PureComponent, Component } from 'react'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { SwipeAction, Toast } from 'antd-mobile'
+import __eq from 'lodash.eq'
 import Loading from '@/components/Common/Loading'
 import Radio from '@/components/Form/AdrRadio'
 import { SA, fetchRecommend } from '@/services'
@@ -100,16 +101,17 @@ export default class CartPage extends Component {
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    const { susume } = nextState
     const {
-      cart: { list, expired },
+      cart: { list, expired, dic },
       product
     } = nextProps
-    if (expired || !list.length || !Object.keys(product).length) return false
+    if (expired || !Object.keys(product).length) return false
     if (!this.fetched) {
       this.fetchRecommendPros(product[list[0]].prolabel)
       return false
     }
+    if (__eq(nextState, this.state) && __eq(dic, this.props.cart.dic))
+      return false
     return true
   }
 

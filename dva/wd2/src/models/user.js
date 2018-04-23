@@ -16,7 +16,7 @@ export default {
     }
   },
   effects: {
-    *login({ payload }, { call, put }) {
+    *login({ payload }, { call, put, select }) {
       const { data, fail, err } = yield call(login, payload)
       if (err || fail) {
         return err || fail
@@ -27,7 +27,12 @@ export default {
         phone,
         usersid: userID
       } = data.result
-      yield put({ type: 'setUser', payload: { nick, avatar, phone, userID, ran: Math.random() } })
+      const { openID } = yield select(state => state.wx)
+      console.log(openID)
+      yield put({
+        type: 'setUser',
+        payload: { nick, avatar, phone, userID, ran: Math.random(), openID }
+      })
       return true
     }
   },

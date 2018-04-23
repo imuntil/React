@@ -268,8 +268,29 @@ export async function updateCartNum({ cid, num }) {
  * Openid
  */
 export async function placeOrder(order) {
-  return $(`saveOrderOdr.action`)
+  console.log(order)
+  return $(`saveOrderOdr.action`, {
+    method: 'POST',
+    body: formatFormData(order)
+  })
 }
+
+/**
+ * 微信支付
+ * @param {object} order 
+ * WIDout_trade_no: 订单号
+ * WIDsubject: Campari
+ * WIDtotal_fee: 1
+ * WIDbody: ..
+ * openid: 
+ */ 
+export async function wxPay(order) {
+  return $(`weixingongzWnc.action`, {
+    method: 'POST',
+    body: formatFormData(order)
+  })
+}
+
 /**
  * 订单列表
  * @param {object} flag.status.userID string.string.string flag，订单状态，用户id

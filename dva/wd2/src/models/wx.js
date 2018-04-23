@@ -4,7 +4,7 @@ export default {
   namespace: 'wx',
 
   state: {
-    openID: ''
+    openID: '123'
   },
 
   effects: {
@@ -21,7 +21,7 @@ export default {
   },
 
   reducers: {
-    setLocal(state, { openID }) {
+    setLocal(state, { openID = '123' }) {
       return { openID }
     }
   },
