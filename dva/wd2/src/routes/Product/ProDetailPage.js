@@ -161,9 +161,9 @@ class ProDetailPage extends Component {
 
   /* toggle like */
   handleToggleLike = currentLike => {
-    const { isLogin, dispatch } = this.props
+    const { isLogin, dispatch, toLogin } = this.props
     if (!isLogin) {
-      this.toLogin()
+      toLogin()
       return
     }
     dispatch({

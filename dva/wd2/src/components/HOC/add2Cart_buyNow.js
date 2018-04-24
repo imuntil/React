@@ -33,7 +33,7 @@ const add2Cart_buyNow = Cmp => {
 
     render() {
       return (
-        <Cmp {...this.props} addToCart={this.addToCart} buyNow={this.buyNow} />
+        <Cmp {...this.props} addToCart={this.addToCart} buyNow={this.buyNow} toLogin={this.toLogin} />
       )
     }
   }

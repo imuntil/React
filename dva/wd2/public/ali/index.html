@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    .page-header {
+      line-height: 1.5;
+      font-size: 1rem;
+      margin-top: 20%;
+      color: #555;
+      width: 100%;
+      text-align: center;
+    }
+    .ali-tip a {
+      display: inline-block;
+      background-color: #e41035;
+      color: #fff;
+      text-align: center;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 5px;
+      width: 80%;
+      text-decoration: none;
+      font-size: .9rem;
+    }
+    .ali-tip {
+      width: 100%;
+      text-align: center;
+      display: none;
+    }
+    .ali-tip img {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    .ali-tip.ai .iphone {
+      display: block;
+    }
+    .ali-tip.aa .android {
+      display: block;
+    }
+  </style>
+  <title>Campari</title>
+</head>
+
+<body>
+  <div class="ali-tip at-1">
+    <img src="./ali-tip.jpg" class="iphone" width="100%" alt="">
+    <img src="./ali-tip-ad.jpg" class="android" width="100%" alt="">
+    <a href="../index.html">返回首页</a>
+  </div>
+  <div class="ali-tip at-2">
+    <div class="page-header">
+      支付成功，请返回微信，
+      <br> 到《我的 > 订单》中查看
+    </div>
+  </div>
+  <script>
+    (function () {
+      var Q = (function () {
+        var qs = (location.search.length > 0 ? decodeURIComponent(location.search.substring(1)) : '');
+
+        var args = {};
+
+        var items = qs.split('&');
+        var item = null,
+          key = null,
+          value = null;
+
+        for (var i = 0; i < items.length; i++) {
+          item = items[i].split('=');
+          key = decodeURIComponent(item[0]);
+          value = decodeURIComponent(item[1]);
+          args[key] = value;
+        }
+        return args;
+      })();
+
+      var device = (function () {
+        var ua = navigator.userAgent.toLowerCase();
+
+        function gd() {
+          var d = {};
+          (/mobile/i.test(ua)) ? d.mobile = true: d.mobile = false;
+          (/ipad/i.test(ua)) ? d.ipad = true: d.ipad = false;
+          (/iphone os/i.test(ua)) ? d.iphone = true: d.iphone = false;
+          (/android/i.test(ua)) ? d.android = true: d.android = false;
+          (/windows phone/i.test(ua)) ? d.winPhone = true: d.winPhone = false;
+          return d;
+        }
+
+        function wb() {
+          if (/mobile/.test(ua) && /micromessenger/.test(ua)) {
+            return true;
+          }
+          return false;
+        }
+
+        return {
+          d: gd(),
+          isWechatBro: wb()
+        }
+      })()
+
+      if (device.isWechatBro) {
+
+        if (Q.ok) {
+          document.querySelector('.at-2').className = 'at-2 active'
+          return;
+        }
+
+        var build = 'http://115.28.239.3:8080/campariShop_Api/',
+          dev = 'http://192.168.2.98:8080/campariShop_Api/';
+        var url = 'zhifupayApy.action?WIDout_trade_no=' + Q.o + '&WIDsubject=Campari&WIDtotal_amount=' + Q.m +
+          '&WIDbody=ali';
+        if (window.location.href.indexOf('api.jtuntech') > -1) {
+          window.location.replace(build + url);
+        } else {
+          window.location.replace(dev + url);
+        }
+
+      } else {
+        var classList = device.d.iphone ? ' ai': ' aa'
+        document.querySelector('.at-1').className = 'ali-tip at-1 active' + classList
+      }
+
+
+    })()
+
+  </script>
+</body>
+
+</html>

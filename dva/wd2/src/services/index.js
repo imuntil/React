@@ -276,6 +276,14 @@ export async function placeOrder(order) {
 }
 
 /**
+ * 判断用户是否可以使用优惠券
+ * @param {string} openID 
+ */
+export async function able2UseCoupon(openID) {
+  return $(`selVoucherByOpenidUsr.action?Openid=${openID}`)
+}
+
+/**
  * 微信支付
  * @param {object} order 
  * WIDout_trade_no: 订单号

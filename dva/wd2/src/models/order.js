@@ -32,7 +32,8 @@ export default {
         Openid: openID
       }
       // 下单
-      const { data, fail } = yield call(placeOrder, order)
+      // const { data, fail } = yield call(placeOrder, order)
+      const { data, fail } = { data: { result: '1234567' } }
       if (!data) {
         throw new Error((fail && fail.msg) || '出错了，请稍后再试')
       }
@@ -40,7 +41,7 @@ export default {
       if (fromCart) {
         yield put({ type: 'cart/clearCart', ids: [...list] })
         // 阻塞
-        yield take('cart/clearCart/@@end');
+        yield take('cart/clearCart/@@end')
       }
       // 返回订单号
       return data.result

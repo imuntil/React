@@ -106,9 +106,21 @@ export default class CartPage extends Component {
       product
     } = nextProps
     if (expired || !Object.keys(product).length) return false
+    // 购物车为空，取消获取推荐
+    // if (!list.length && !this.fetched) {
+    //   this.fetched = true
+    //   return true
+    // }
     if (!this.fetched) {
-      this.fetchRecommendPros(product[list[0]].prolabel)
-      return false
+      if (list.length) {
+        this.fetchRecommendPros(product[list[0]].prolabel)
+        return false
+      } else {
+        /* 购物车为空，取消fetchRecommend */
+        console.log('x')
+        this.fetched = true
+        return true
+      }
     }
     if (__eq(nextState, this.state) && __eq(dic, this.props.cart.dic))
       return false
@@ -143,6 +155,7 @@ export default class CartPage extends Component {
   /* 修改商品数量 */
   handleNumChange = (payload, value, proID) => {
     const v = value + payload
+    if (v < 1) return
     this.props.dispatch({
       type: 'cart/modifyCartNum',
       payload: {

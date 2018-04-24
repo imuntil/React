@@ -72,7 +72,11 @@ export default class PaySheet extends PureComponent {
               支付<span className="color--red">{currency(money)}</span>
             </p>
             <p className="form-btn-box">
-              <a href="javascript:;" onClick={onPay} className="form-btn">
+              <a
+                href="javascript:;"
+                onClick={() => onPay(payMethod)}
+                className="form-btn"
+              >
                 去支付
               </a>
             </p>
