@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./exif.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="file" class="file">
+  <span id="msg"></span>
+  <script>
+    document.querySelector('.file').addEventListener('change', e => {
+      EXIF.getData(e.target.files[0], function () {
+        document.querySelector('#msg').innerHTML = EXIF.pretty(this)
+      })
+    }, false)
+  </script>
+</body>
+
+</html>
