@@ -5,6 +5,7 @@ import QueueAnim from 'rc-queue-anim'
 import Susume from '../components/Susume'
 import ProGrid from '../components/ProGrid'
 import CocktailGrid from '../components/CocktailGrid'
+import { cocktails } from '@/services/config'
 import './IndexPage.scss'
 
 class IndexPage extends PureComponent {
@@ -64,24 +65,19 @@ class IndexPage extends PureComponent {
             </a>
           </h1>
           <div className="content">
-            <CocktailGrid
-              className="cocktail-item"
-              src={require('../assets/cocktail/cocktail-1.jpg')}
-              cn="NEGRONI"
-              en="内格罗尼"
-            />
-            <CocktailGrid
-              className="cocktail-item"
-              src={require('../assets/cocktail/cocktail-2.jpg')}
-              cn="AMERICANO"
-              en="美国佬"
-            />
-            <CocktailGrid
-              className="cocktail-item"
-              src={require('../assets/cocktail/cocktail-3.jpg')}
-              cn="APEROL SPRITZ"
-              en="阿佩罗橙色气泡"
-            />
+            {cocktails
+              .slice(0, 3)
+              .map(v => (
+                <CocktailGrid
+                  className="cocktail-item"
+                  src={v.src}
+                  cn={v.cn}
+                  en={v.en}
+                  more
+                  key={v.key}
+                  to={v.link}
+                />
+              ))}
           </div>
         </section>
       </QueueAnim>

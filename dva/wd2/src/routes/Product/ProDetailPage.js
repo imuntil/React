@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import Animate from 'rc-animate'
 import { Toast } from 'antd-mobile'
 import { SA, fetchRecommend } from '@/services'
-import { drinks, mustLike } from '@/services/config'
+import { drinks, mustLike, cocktailLink } from '@/services/config'
 import { currency, scrollTo } from '@/utils/cts'
 import Susume from '@/components/RecommendPro'
 import Loading from '@/components/Common/Loading'
@@ -33,7 +33,14 @@ const MoreInfo = ({ alcoholic, origin, type, weight, method }) => {
       <p>来自: {origin}</p>
       <p>类别: {type}</p>
       <p>重量: {weight}g</p>
-      <p>引用方式: {method}</p>
+      <p>
+        引用方式:{' '}
+        {method.match(/^id=\d+$/) ? (
+          <a href={`${cocktailLink}?${method}`}>调制鸡尾酒</a>
+        ) : (
+          method
+        )}
+      </p>
     </div>
   )
 }
