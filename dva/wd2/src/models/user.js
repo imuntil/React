@@ -34,6 +34,24 @@ export default {
         payload: { nick, avatar, phone, userID, ran: Math.random(), openID }
       })
       return true
+    },
+    *logout({ payload }, { put }) {
+      yield put({ type: 'adr/expiredStore' })
+      yield put({ type: 'cart/setLocalExpired' })
+      yield put({ type: 'col/setLocalExpired' })
+      yield put({ type: 'orderList/setLocalExpired' })
+      yield put({ type: 'order/clearOrder' })
+      yield put({
+        type: 'setUser',
+        payload: {
+          openID: '',
+          phone: '',
+          nick: '',
+          userID: '',
+          avatar: '',
+          ran: ''
+        }
+      })
     }
   },
 

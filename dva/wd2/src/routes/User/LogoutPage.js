@@ -9,17 +9,7 @@ const Item = List.Item
 @connect()
 export default class LogoutPage extends PureComponent {
   handleLogout = () => {
-    this.props.dispatch({
-      type: 'user/setUser',
-      payload: {
-        openID: '',
-        phone: '',
-        nick: '',
-        userID: '',
-        avatar: '',
-        ran: ''
-      }
-    })
+    this.props.dispatch({ type: 'user/logout' })
   }
 
   render() {

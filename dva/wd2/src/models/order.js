@@ -6,7 +6,7 @@ export default {
 
   state: {
     // 产品 id 列表
-    list: ['102'],
+    list: [],
     // 来源，来自购物车或者来自立即购买
     fromCart: false,
     // 详情
@@ -54,6 +54,9 @@ export default {
     },
     updateCountLocal(state, { proID, num }) {
       return { ...state, detail: { ...state.detail, [proID]: num } }
+    },
+    clearOrder (state) {
+      return { ...state, detail: {}, list: [] }
     }
   }
 }

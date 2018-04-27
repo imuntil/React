@@ -52,6 +52,9 @@ export default {
         return v.ordernum
       })
       return { ...state, list, dic, expired: false }
+    },
+    setLocalExpired (state) {
+      return { ...state, expired: true }
     }
   },
 

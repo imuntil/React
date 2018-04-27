@@ -66,6 +66,9 @@ export default {
         ...state,
         list: [proID, ...list]
       }
+    },
+    setLocalExpired (state) {
+      return { ...state, expired: true }
     }
   },
 
