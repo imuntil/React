@@ -6,7 +6,7 @@ import UInput from '@/components/Form/UInput'
 import UCode from '@/components/Form/UCode'
 import Step from '@/components/Common/Form'
 import InputItem from '@/components/Form/InputItem'
-import { delay, regs } from '@/utils/cts'
+import { delay, regs } from '@/utils/cts.ts'
 /* eslint-disable no-unused-vars */
 import { getCode, isExist, resetPwd } from '@/services'
 import './ForgetPage.scss'

@@ -8,7 +8,7 @@ import PaySheet from '@/components/PaySheet'
 import Loading from '@/components/Common/Loading'
 import postages, { box } from '@/services/postage'
 import { wxPay } from '@/services/pay'
-import { currency } from '@/utils/cts'
+import { currency } from '../../utils/cts'
 import { SA, able2UseCoupon } from '@/services'
 import './OrderPage.scss'
 

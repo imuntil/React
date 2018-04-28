@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { delay } from '@/utils/cts'
+import { delay } from '@/utils/cts.ts'
 import { register } from '@/services'
 import { Toast } from 'antd-mobile'
 import SweetAlert from 'sweetalert-react'

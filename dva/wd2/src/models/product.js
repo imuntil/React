@@ -1,6 +1,6 @@
 import __pick from 'lodash.pick'
 import { fetchProducts } from '../services'
-import { delay } from '../utils/cts'
+import { delay } from '../utils/cts.ts'
 
 export default {
   namespace: 'product',

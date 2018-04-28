@@ -29,6 +29,8 @@ import AdrEditPage from './routes/Adr/AdrEditPage'
 import OrderListPage from './routes/Order/OrderListPage'
 import OrderPage from './routes/Order/OrderPage'
 
+import CouponPage from './routes/User/CouponPage'
+
 const Pro = () => {
   return (
     <Switch>
@@ -52,6 +54,7 @@ const User = () => {
       <AuthRoute path="/user/modify/nick" component={ModifyNickPage} />
       <AuthRoute path="/user/modify/avatar" component={ModifyAvatarPage} />
       <AuthRoute path="/user/col" component={CollectionPage} />
+      <AuthRoute path="/user/coupon" component={CouponPage} />
     </Switch>
   )
 }

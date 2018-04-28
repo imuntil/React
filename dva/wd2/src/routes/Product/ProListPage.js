@@ -8,7 +8,7 @@ import ProTab from '@/components/ProTab'
 import add2Cart_buyNow from '@/components/HOC/add2Cart_buyNow'
 import Loading from '@/components/Common/Loading'
 import { fetchProducts } from '@/services'
-import { formatSearch } from '@/utils/cts'
+import { formatSearch } from '@/utils/cts.ts'
 import './ProListPage.scss'
 
 const mapStateToProps = state => {

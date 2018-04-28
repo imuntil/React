@@ -4,7 +4,7 @@ import {
   updateCartNum,
   addToCart
 } from '../services'
-import { delay } from '@/utils/cts'
+import { delay } from '@/utils/cts.ts'
 
 /**
  *  两种情况

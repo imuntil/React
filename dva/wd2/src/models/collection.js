@@ -1,5 +1,5 @@
 import { fetchUserC, deleteUserC, toggleLike } from '../services'
-import { delay } from '../utils/cts'
+import { delay } from '../utils/cts.ts'
 
 export default {
   namespace: 'col',

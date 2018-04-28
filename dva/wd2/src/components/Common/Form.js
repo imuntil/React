@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { delay } from '@/utils/cts'
+import { delay } from '@/utils/cts.ts'
 
 export default class Step extends PureComponent {
   state = { submitted: false }

@@ -1,10 +1,45 @@
 import md5 from 'md5'
 import request from '../utils/request'
-import { formatFormData } from '../utils/cts'
+import { toFormData } from '../utils/cts.ts'
+import CryptoJS from 'crypto-js'
+const {
+  mode: { ECB },
+  pad: { Pkcs7 },
+  enc,
+  DES
+} = CryptoJS
+const k = enc.Utf8.parse('12345678901czzwejwuehhd4565545')
+const { encrypt, decrypt } = DES
 
-// 115.28.239.3:8080/campariShop_Api/productShowPro.action?flag=1&sort=1
+const e = v => {
+  v = JSON.stringify(v)
+  if (!v) return ''
+  const en = encrypt(v, k, {
+    mode: ECB,
+    padding: Pkcs7
+  })
+  return en.toString()
+}
+
+const d = v => {
+  const keyHex = CryptoJS.enc.Utf8.parse('12345678901czzwejwuehhd4565545')
+  // direct decrypt ciphertext
+  const decrypted = decrypt(
+    {
+      ciphertext: enc.Base64.parse(v)
+    },
+    keyHex,
+    {
+      mode: ECB,
+      padding: Pkcs7
+    }
+  )
+  return decrypted.toString(CryptoJS.enc.Utf8)
+}
 
 export const domain = 'http://115.28.239.3:8080/campariShop_Api/'
+// export const dm2 = 'http://192.168.2.125:8080/campariCRM_U1/'
+export const dm2 = 'http://api.jtuntech.com:8080/campariCRM_U1/'
 const staticAssets = 'http://115.28.239.3:8080/campariShop/upload/'
 export const SA = staticAssets
 
@@ -18,8 +53,8 @@ export const SA = staticAssets
  * data: ok,数据正常
  * fail: 请求成功,但非期望数据
  */
-export async function $(url, options) {
-  const { err, data } = await request(`${domain}${url}`, options)
+export async function $(url, options, $new = false) {
+  const { err, data } = await request(`${$new ? dm2 : domain}${url}`, options)
   if (err) {
     // store.commit({
     //   type: 'error',
@@ -144,7 +179,7 @@ export async function delAdr(id) {
 export async function addAdr(payload) {
   return $(`saveAddressAds.action`, {
     method: 'POST',
-    body: formatFormData(payload)
+    body: toFormData(payload)
   })
 }
 
@@ -157,7 +192,7 @@ export async function updateAdr(payload) {
     method: 'POST',
     // headers: { 'Content-Type': 'application/json' },
     // body: JSON.stringify(payload)
-    body: formatFormData(payload)
+    body: toFormData(payload)
   })
 }
 
@@ -188,7 +223,7 @@ export async function modifyNick({ nick, phone }) {
 export async function modifyAvatar(payload) {
   return $(`uploadImgUsr.action`, {
     method: 'POST',
-    body: formatFormData(payload)
+    body: toFormData(payload)
   })
 }
 
@@ -271,13 +306,13 @@ export async function placeOrder(order) {
   console.log(order)
   return $(`saveOrderOdr.action`, {
     method: 'POST',
-    body: formatFormData(order)
+    body: toFormData(order)
   })
 }
 
 /**
  * 判断用户是否可以使用优惠券
- * @param {string} openID 
+ * @param {string} openID
  */
 export async function able2UseCoupon(openID) {
   return $(`selVoucherByOpenidUsr.action?Openid=${openID}`)
@@ -285,17 +320,18 @@ export async function able2UseCoupon(openID) {
 
 /**
  * 微信支付
- * @param {object} order 
+ * @param {object} order
  * WIDout_trade_no: 订单号
  * WIDsubject: Campari
  * WIDtotal_fee: 1
  * WIDbody: ..
- * openid: 
- */ 
+ * openid:
+ */
+
 export async function wxPay(order) {
   return $(`weixingongzWnc.action`, {
     method: 'POST',
-    body: formatFormData(order)
+    body: toFormData(order)
   })
 }
 
@@ -306,5 +342,22 @@ export async function wxPay(order) {
 export async function fetchOrderList({ flag = 0, status = 0, userID }) {
   return $(
     `selectOrderStatusOdr.action?flag=${flag}&orderstatus=${status}&userid=${userID}`
+  )
+}
+
+/**
+ * 获取用户优惠券
+ * @param {object} param0
+ * status
+ * 0: 未使用
+ * 1： 已使用
+ */
+export async function fetchCoupons({ userID, phone, status = 0 }) {
+  return $(
+    `user/findUserAllCoup?usersid=${e(userID)}&phone=${e(
+      +phone
+    )}&exchange=${e(status)}`,
+    null,
+    true
   )
 }
