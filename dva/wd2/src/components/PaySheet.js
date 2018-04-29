@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Radio from '@/components/Form/AdrRadio'
-import { currency } from '@/utils/cts.ts'
+import { currency } from '@/utils/cts'
 import './PaySheet.scss'
 
 export default class PaySheet extends PureComponent {

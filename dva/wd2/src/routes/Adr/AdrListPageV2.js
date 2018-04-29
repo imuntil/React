@@ -4,8 +4,8 @@ import { List, Modal } from 'antd-mobile'
 import AdrCell from '@/components/AdrCell'
 import Loading from '@/components/Common/Loading'
 import CustomTM from '@/components/Common/CustomTM'
-import { formatSearch } from '@/utils/cts.ts'
-import { delay } from '@/utils/cts.ts'
+import { formatSearch } from '@/utils/cts'
+import { delay } from '@/utils/cts'
 import './AdrListPage.scss'
 
 const Item = List.Item

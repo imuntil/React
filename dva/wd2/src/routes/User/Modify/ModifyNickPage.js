@@ -6,7 +6,7 @@ import Form from '@/components/Common/Form'
 import InputItem from '@/components/Form/InputItem'
 import UInput from '@/components/Form/UInput'
 import { modifyNick } from '@/services'
-import { delay } from '@/utils/cts.ts'
+import { delay } from '@/utils/cts'
 import './ModifyPage.scss'
 
 const mapStateToProps = state => {

@@ -5,7 +5,7 @@ import {
   addAdr,
   updateAdr
 } from '@/services'
-import { delay } from '@/utils/cts.ts'
+import { delay } from '@/utils/cts'
 
 function sort(arr) {
   return arr.sort((a, b) => b.status - a.status || b.id - a.id)

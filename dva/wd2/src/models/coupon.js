@@ -2,14 +2,25 @@ import { fetchCoupons } from '../services'
 export default {
   namespace: 'coupon',
 
-  state: {},
+  state: {
+    list: []
+  },
 
   effects: {
     *fetchCoupons({ status }, { call, put, select }) {
       const { userID, phone } = yield select(state => state.user)
       console.log('x')
-      const res = yield call(fetchCoupons, { userID, phone, status })
-      console.log(res)
+      const { data, fail } = yield call(fetchCoupons, { userID, phone, status })
+      if (!data) {
+        throw new Error((fail && fail.msg) || '出错了，请稍后重试')
+      }
+      yield put({ type: 'setCoupons', result: data.result })
+    }
+  },
+
+  reducers: {
+    setCoupons(state, { result }) {
+      return { ...state, list: result }
     }
   },
 

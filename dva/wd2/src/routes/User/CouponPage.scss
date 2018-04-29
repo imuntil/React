@@ -67,7 +67,7 @@
   }
   .checked {
     top: 0;
-    color: rgb(0, 225, 255);
+    color: #e4113480;
     font-size: 3rem;
   }
   .box {
@@ -118,6 +118,15 @@
       white-space: normal;
       line-height: 1.4;
     }
+  }
+  i.tag {
+    font-style: normal;
+    font-size: .6rem;
+    color: #fff;
+    background-color: rgb(218, 178, 0);
+    padding: .1rem .3rem;
+    margin-right: 5px;
+    border-radius: 2px;
   }
   a {
     background-color: $red;

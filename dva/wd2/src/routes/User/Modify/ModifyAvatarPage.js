@@ -5,7 +5,7 @@ import QueueAnim from 'rc-queue-anim'
 import AvatarEditor from '@/components/Form/AvatarEditor'
 import { domain, modifyAvatar } from '@/services'
 import { avatars } from '@/services/config'
-import { delay } from '@/utils/cts.ts'
+import { delay } from '@/utils/cts'
 import './ModifyPage.scss'
 
 const Avatar = ({ src, active, onAvatarClick }) => (

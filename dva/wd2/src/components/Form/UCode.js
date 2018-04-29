@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { delay } from '@/utils/cts.ts'
+import { delay } from '@/utils/cts'
 import './UCode.scss'
 
 class UCode extends PureComponent {

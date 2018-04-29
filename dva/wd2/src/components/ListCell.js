@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'dva/router'
 import { SA } from '@/services'
-import { currency } from '@/utils/cts.ts'
+import { currency } from '@/utils/cts'
 import ImgHolder from '@/components/Common/ImgHolder'
 import './ListCell.scss'
 

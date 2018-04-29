@@ -1,16 +1,17 @@
 import md5 from 'md5'
 import request from '../utils/request'
-import { toFormData } from '../utils/cts.ts'
+import { toFormData } from '../utils/cts'
 import CryptoJS from 'crypto-js'
 const {
   mode: { ECB },
   pad: { Pkcs7 },
-  enc,
+  enc: { Utf8, Base64 },
   DES
 } = CryptoJS
-const k = enc.Utf8.parse('12345678901czzwejwuehhd4565545')
+const k = Utf8.parse('12345678901czzwejwuehhd4565545')
 const { encrypt, decrypt } = DES
 
+/* des 加密 */
 const e = v => {
   v = JSON.stringify(v)
   if (!v) return ''
@@ -21,21 +22,22 @@ const e = v => {
   return en.toString()
 }
 
+/* des 解密 */
 const d = v => {
-  const keyHex = CryptoJS.enc.Utf8.parse('12345678901czzwejwuehhd4565545')
-  // direct decrypt ciphertext
   const decrypted = decrypt(
     {
-      ciphertext: enc.Base64.parse(v)
+      ciphertext: Base64.parse(v)
     },
-    keyHex,
+    k,
     {
       mode: ECB,
       padding: Pkcs7
     }
   )
-  return decrypted.toString(CryptoJS.enc.Utf8)
+  return decrypted.toString(Utf8)
 }
+
+export const decode = d
 
 export const domain = 'http://115.28.239.3:8080/campariShop_Api/'
 // export const dm2 = 'http://192.168.2.125:8080/campariCRM_U1/'
@@ -56,19 +58,23 @@ export const SA = staticAssets
 export async function $(url, options, $new = false) {
   const { err, data } = await request(`${$new ? dm2 : domain}${url}`, options)
   if (err) {
-    // store.commit({
-    //   type: 'error',
-    //   code: -1,
-    //   msg: '未知错误'
-    // })
+    // store.commit({ type: 'error' })
     return { err: true }
   }
-  const { resultcode: code, result, ...rest } = data
-  if (+code !== 1 && +code !== 200) {
-    // store.commit({ type: 'error', code, msg })
-    return { fail: { code, msg: result } }
+  let { resultcode, code, result, data: res, ...rest } = data
+  /* 旧接口 */
+  if (code === undefined) {
+    code = +resultcode
+    if (code !== 1 && code !== 200) {
+      return { fail: { code, msg: result } }
+    }
+    return { data: { code, result, ...rest } }
   }
-  return { data: { code, result, ...rest } }
+  /* 新接口 */
+  if (+code !== 200) {
+    return { fail: { code, ...rest } }
+  }
+  return { data: { code, result: JSON.parse(d(res)), ...rest } }
 }
 
 /**
@@ -354,9 +360,9 @@ export async function fetchOrderList({ flag = 0, status = 0, userID }) {
  */
 export async function fetchCoupons({ userID, phone, status = 0 }) {
   return $(
-    `user/findUserAllCoup?usersid=${e(userID)}&phone=${e(
-      +phone
-    )}&exchange=${e(status)}`,
+    `user/findUserAllCoup?usersid=${e(userID)}&phone=${e(+phone)}&exchange=${e(
+      status
+    )}`,
     null,
     true
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'dva/router'
 import PropTypes from 'prop-types'
 import ImgHolder from '@/components/Common/ImgHolder'
-import { currency } from '../utils/cts.ts'
+import { currency } from '../utils/cts'
 import './ProGrid.scss'
 
 const ProGrid = ({

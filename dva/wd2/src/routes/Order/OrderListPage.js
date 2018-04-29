@@ -5,7 +5,7 @@ import TweenOne from 'rc-tween-one'
 import Loading from '@/components/Common/Loading'
 import ImgHolder from '@/components/Common/ImgHolder'
 import { SA } from '@/services'
-import { currency } from '@/utils/cts.ts'
+import { currency } from '@/utils/cts'
 import './OrderListPage.scss'
 
 /**

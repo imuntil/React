@@ -10,7 +10,7 @@ import Susume from '@/components/RecommendPro'
 import CustomTM from '@/components/Common/CustomTM'
 import ImgHolder from '@/components/Common/ImgHolder'
 import NumBtns from '@/components/NumBtns'
-import { currency, isEmptyObj } from '@/utils/cts.ts'
+import { currency, isEmptyObj } from '@/utils/cts'
 import './CartPage.scss'
 
 const Cell = ({ pro = {}, onChange, onNumChange }) => {

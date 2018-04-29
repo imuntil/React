@@ -1,6 +1,6 @@
 import wx from 'weixin-js-sdk'
 import request from './request'
-import { delay, random } from './cts.ts'
+import { delay, random } from './cts'
 
 export interface IRes {
   data?: any
