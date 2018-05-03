@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    dot {
+      display: inline-block;
+      height: 1em;
+      line-height: 1;
+      text-align-last: left;
+      vertical-align: -.25em;
+      overflow: hidden;
+    }
+
+    dot::before {
+      display: block;
+      content: '...\A..\A.';
+      white-space: pre-wrap;
+      animation: dot 3s step-start infinite both;
+    }
+
+    @keyframes dot {
+      33% {
+        transform: translateY(-2em);
+      }
+      66% {
+        transform: translateY(-1em);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <p>loading
+    <dot>...</dot>
+  </p>
+  <pre>
+      （1）为什么使用<i>dot</i>这个元素？
+
+      （2）为什么使用::before，可不可以使用::after？
+      
+      （3）从content属性值来看，是3个点在第1行，而1个点反而在最后一行，为什么这么处理？
+      
+      （4）这里white-space值为何使用的是pre-wrap而不是pre？
+      
+      这4个问题的答案分别如下。
+      
+      （1）<i>dot</i>是自定义的一个标签元素，除了简约、语义化明显外，更重要的是方便向下兼容，IE8等低版本浏览器不认识自定义的HTML标签，因此，会乖乖地显示里面默认的3个点，对我们的CSS代码完全忽略。
+      
+      （2）伪元素使用::before同时display设置为block，是为了在高版本浏览器下原来的3个点推到最下面，不会影响content的3行内容显示，如果使用::after怕是效果就很难实现了。
+      
+      （3）3个点在第一行的目的在于兼容IE9浏览器，因为IE9浏览器认识<i>dot</i>以及::before，但是不支持CSS新世界的animation属性，所以，为了IE9也能正常显示静态的3个点，故而把3个点放在第一行。
+      
+      （4）这里的white-space:pre-wrap改成white-space:pre效果其实是一样的，之所以使用pre-wrap作为值完全是心情使然。关于两者的差异本书后面会介绍，这里先不用深究。
+  </pre>
+</body>
+
+</html>

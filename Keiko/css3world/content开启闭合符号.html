@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* 为不同语言指定引号的表现 */
+
+    :lang(ch)>q {
+      quotes: '“' '”';
+    }
+
+    :lang(en)>q {
+      quotes: '"' '"';
+    }
+
+    :lang(no)>q {
+      quotes: '«' '»';
+    }
+
+    /* 在q标签的前后插入引号 */
+
+    q:before {
+      content: open-quote;
+    }
+
+    q:after {
+      content: close-quote;
+    }
+
+    .ques {
+      quotes: '提问: “' '”';
+    }
+
+    .ans {
+      quotes: '回答: “' '”';
+    }
+
+    p::before {
+      content: open-quote;
+    }
+
+    p::after {
+      content: close-quote;
+    }
+    img::after {
+      content: attr(alt);
+    }
+  </style>
+</head>
+
+<body>
+  <p lang="ch">
+    <q>这本书很赞！</q>
+  </p>
+  <p lang="en">
+    <q>This book is very good!</q>
+  </p>
+  <p lang="no">
+    <q>denne bog er fantastisk!</q>
+  </p>
+  <pre>
+    /* 为不同语言指定引号的表现 */ 
+    :lang(ch) > q { quotes: '“' '”'; }
+    :lang(en) > q { quotes: '"' '"'; } 
+    :lang(no) > q { quotes: '«' '»';
+    } 
+    /* 在q标签的前后插入引号 */ 
+    q:before { content: open-quote; } 
+    q:after { content: close-quote; }
+  </pre>
+  <p class="ques">why?</p>
+  <p class="ans">because ....</p>
+  <img alt="nihao">
+</body>
+
+</html>

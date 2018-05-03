@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>content 计数器</title>
+  <style>
+    .counter {
+      counter-reset: wangxiaoer 2;
+    }
+    .counter::before,
+    .counter::after {
+      counter-increment: wangxiaoer 2;
+      content: counter(wangxiaoer);
+    }
+    .roman::before {
+      content: counter(wangxiaoer, lower-roman);
+    }
+  </style>
+</head>
+<body>
+  <p class="counter"></p>
+  <p class="roman"></p>
+</body>
+</html>

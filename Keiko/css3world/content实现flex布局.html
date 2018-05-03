@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      width: 256px;
+      height: 256px;
+      text-align: justify;
+      background-color: #ddd;
+    }
+
+    div::before {
+      content: '';
+      height: 100%;
+      display: inline-block;
+    }
+
+    div::after {
+      content: '';
+      width: 100%;
+      display: inline-block;
+    }
+
+    i {
+      display: inline-block;
+      width: 25px;
+      background-color: #000;
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div><i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+  </div>
+  <pre>
+      div {
+        width: 256px;
+        height: 256px;
+        text-align: justify;
+        background-color: #ddd;
+      }
+      div::before {
+        content: '';
+        height: 100%;
+        display: inline-block;
+      }
+      div::after {
+        content: '';
+        width: 100%;
+        display: inline-block;
+      }
+      i {
+        display: inline-block;
+        width: 25px;
+        background-color: #000;
+        height: 100px;
+      }
+  </pre>
+  <p>这一方法的最大好处是足够兼容，如果想要兼容IE7浏览器，直接使用标签元素即可，但这种方法也有不足之处，就是HTML代码需要注意有些地方不能换行或者空格，有些地方则必须要换行或者有空格</p>
+</body>
+
+</html>
