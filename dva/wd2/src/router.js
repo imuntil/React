@@ -54,7 +54,7 @@ const User = () => {
       <AuthRoute path="/user/modify/nick" component={ModifyNickPage} />
       <AuthRoute path="/user/modify/avatar" component={ModifyAvatarPage} />
       <AuthRoute path="/user/col" component={CollectionPage} />
-      <AuthRoute path="/user/coupon" component={CouponPage} />
+      <AuthRoute path="/user/coupon/:mode?" component={CouponPage} />
     </Switch>
   )
 }

@@ -35,6 +35,18 @@
       border-bottom: 1px solid currentColor;
       transition: all 200ms;
     }
+    i {
+      position: absolute;
+      right: 0;
+      top: 25%;
+      font-size: .5rem;
+      width: .5rem;
+      background-color: $red;
+      border-radius: 100%;
+      padding: 1px;
+      color: #fff;
+      font-style: normal;
+    }
   }
   .active a {
     color: $red;
@@ -87,7 +99,7 @@
     }
   }
   &:active {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 .info-109je {
@@ -121,17 +133,25 @@
   }
   i.tag {
     font-style: normal;
-    font-size: .6rem;
+    font-size: 0.6rem;
     color: #fff;
     background-color: rgb(218, 178, 0);
-    padding: .1rem .3rem;
+    padding: 0.1rem 0.3rem;
     margin-right: 5px;
     border-radius: 2px;
+  }
+  i.from {
+    @extend i.tag;
+    background-color: transparent;
+    color: rgb(0, 174, 255);
   }
   a {
     background-color: $red;
     color: #fff;
     padding: 0.2rem 0.8rem;
     border-radius: 0.1rem;
+  }
+  a:active {
+    opacity: .8;
   }
 }

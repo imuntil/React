@@ -3,24 +3,33 @@ export default {
   namespace: 'coupon',
 
   state: {
-    list: []
+    unUseList: [],
+    usedList: [],
+    expired: [1, 1]
   },
 
   effects: {
     *fetchCoupons({ status }, { call, put, select }) {
+
+      const { expired } = yield select(state => state.coupon)
+      if (!expired[status]) {
+        // 存在未过期的数据
+        return
+      }
       const { userID, phone } = yield select(state => state.user)
-      console.log('x')
       const { data, fail } = yield call(fetchCoupons, { userID, phone, status })
       if (!data) {
         throw new Error((fail && fail.msg) || '出错了，请稍后重试')
       }
-      yield put({ type: 'setCoupons', result: data.result })
+      yield put({ type: 'setCoupons', result: data.result, status })
     }
   },
 
   reducers: {
-    setCoupons(state, { result }) {
-      return { ...state, list: result }
+    setCoupons(state, { result, status }) {
+      const [x, y] = [...state.expired]
+      const expired = status ? [x, 0] : [0, y]
+      return { ...state, [status ? 'usedList' : 'unUseList']: result, expired }
     }
   },
 

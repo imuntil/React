@@ -5,12 +5,13 @@ import QueueAnim from 'rc-queue-anim'
 import './CouponPage.scss'
 // import { currency } from '../../utils/cts'
 
-const Tab = ({ onTabClick, status }) => {
+const Tab = ({ onTabClick, status, nums }) => {
   return (
     <div className="tab-108je">
       <p className={status ? '' : 'active'}>
         <a href="javascript:;" onClick={() => onTabClick(0)}>
           未使用
+          {nums !== undefined ? <i>{nums}</i> : null}
         </a>
       </p>
       <p className={status ? 'active' : ''}>
@@ -22,13 +23,18 @@ const Tab = ({ onTabClick, status }) => {
   )
 }
 
-const Coupon = ({ onCheck, cp = {}, checked }) => {
+const Coupon = ({ onCheck, cp = {}, checked, viewLink }) => {
   const { cpiEnd, cpiStart, scene, couponInfo = {} } = cp
   const { cpiCategory, cpiFaceVal, cpiName } = couponInfo
   const end = new Date(cpiEnd)
   const rest = (end - new Date()) / 1000 / 60 / 60
   return (
-    <section className="coupon-109je" onClick={onCheck}>
+    <section
+      className="coupon-109je"
+      onClick={() => {
+        onCheck(cp.conpId)
+      }}
+    >
       <div className="box">
         ￥{cpiFaceVal}
         <i>满{cpiFaceVal}元可用</i>
@@ -43,9 +49,15 @@ const Coupon = ({ onCheck, cp = {}, checked }) => {
         </p>
         <p>
           <span>
-            获得方式: <i className="tag">{scene}</i>
+            获得方式: <i className="from">{scene}</i>
           </span>
-          <Link to="/pro">立即使用</Link>
+          {viewLink ? (
+            <Link onClick={e => e.stopPropagation()} to="/pro">
+              立即使用
+            </Link>
+          ) : (
+            <a href="javascript:;">立即使用</a>
+          )}
         </p>
       </div>
       {rest < 24 * 2 ? <i className="iconfont">&#xe602;</i> : null}
@@ -55,29 +67,54 @@ const Coupon = ({ onCheck, cp = {}, checked }) => {
 }
 
 const mapStateToProps = state => {
-  const { list } = state.coupon
-  return { cps: list }
+  return state.coupon
 }
 @connect(mapStateToProps)
 export default class CouponPage extends Component {
   state = { status: 0 }
+  get modeCheck() {
+    return this.props.match.params.mode === 'check'
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    const { status } = nextState
+    const { expired } = nextProps
+    if (expired[status]) return false
+    return true
+  }
+
+  handleTabClick = status => {
+    this.props.dispatch({ type: 'coupon/fetchCoupons', status })
+    this.setState({ status })
+  }
+
+  handleChoose = id => {
+    if (!this.modeCheck) return
+    console.log(id)
+  }
 
   render() {
     const { status } = this.state
-    const { cps } = this.props
+    const { usedList, unUseList } = this.props
+    const cps = status ? usedList : unUseList
+    console.log('render')
     return (
       <div className="container coupon-page-109je">
         <Tab
           status={status}
-          onTabClick={status =>
-            this.setState({
-              status
-            })
-          }
+          onTabClick={this.handleTabClick}
+          nums={unUseList.length}
         />
         <div className="content-109je">
           <QueueAnim>
-            {cps.map(v => <Coupon key={v.conpId} cp={v} />)}
+            {cps.map(v => (
+              <Coupon
+                key={v.conpId}
+                cp={v}
+                onCheck={this.handleChoose}
+                viewLink={!this.modeCheck}
+              />
+            ))}
           </QueueAnim>
         </div>
       </div>
