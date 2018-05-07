@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .column-left,
+    .column-right {
+      margin-bottom: -9999px;
+      padding-bottom: 9999px;
+      float: left;
+      width: 50%;
+    }
+
+    .column-left {
+      background-color: #ff00ff;
+    }
+
+    .column-right {
+      background-color: #00ff00;
+    }
+
+    .container {
+      overflow: hidden;
+    }
+
+    .cl2,
+    .cr2 {
+      display: table-cell;
+      background-color: #ddd;
+    }
+
+    .cr2 {
+      background-color: #bbb;
+    }
+
+    .box {
+      height: 100px;
+    }
+
+    .child {
+      height: 80px;
+      margin-bottom: 100px;
+    }
+
+    .icon-menu {
+      width: 120px;
+      height: 20px;
+      border-top: 60px double;
+      border-bottom: 20px solid;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="column-left">
+      <p>xx</p>
+      <p>xx</p>
+      <p>xx</p>
+    </div>
+    <div class="column-right">
+      <p>bbb</p>
+      <p>bbb</p>
+      <p>bbb</p>
+      <p>bbb</p>
+      <p>bbb</p>
+    </div>
+  </div>
+
+  <div class="ct2">
+    <div class="cl2">
+      <p>xx</p>
+      <p>xx</p>
+      <p>xx</p>
+    </div>
+    <div class="cr2">
+      <p>bbb</p>
+      <p>bbb</p>
+      <p>bbb</p>
+      <p>bbb</p>
+      <p>bbb</p>
+    </div>
+  </div>
+
+  <span style="background-color: #000; color: #fff;">---</span>
+  <input type="text">
+
+  <div class="box">
+
+    <div class="child"></div>
+  </div>
+
+  <div class="icon-menu"></div>
+
+</body>
+
+</html>

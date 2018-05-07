@@ -68,7 +68,7 @@ const Cell = ({ editAble, pro = {}, num = 1, onChange }) => {
   )
 }
 
-const List = ({ editAble, list, dic, num, onChange, postage, payment }) => {
+const List = ({ editAble, list, dic, num, onChange, postage, payment, onCouponClick, coupon }) => {
   return (
     <section className="order-box-sl92k">
       <p>商品信息</p>
@@ -96,6 +96,10 @@ const List = ({ editAble, list, dic, num, onChange, postage, payment }) => {
           </i>
         ) : null}
       </p>
+      <p className="coupon-sl92k" onClick={onCouponClick}>
+        <span>优惠</span>
+        <i className="iconfont">&#xe600;</i>
+      </p>
       <p className="strong">
         <span>需要支付</span>
         <span className="color--red">{currency(payment)}</span>
@@ -105,14 +109,15 @@ const List = ({ editAble, list, dic, num, onChange, postage, payment }) => {
 }
 
 const mapStateToProps = state => {
-  const { adr, user, product, order, wx } = state
+  const { adr, user, product, order, wx, coupon } = state
   const { defaultID, dic, selectedID } = adr
   return {
     adr: (selectedID ? dic[selectedID] : dic[defaultID]) || false,
     user,
     order,
     product,
-    wx
+    wx,
+    couponList: coupon.unUseList
   }
 }
 @connect(mapStateToProps)
@@ -278,10 +283,14 @@ export default class OrderPage extends Component {
   render() {
     const {
       adr,
-      order: { fromCart, list, detail },
-      product: { dic, list: proList }
+      order: { fromCart, list, detail, coupon },
+      product: { dic, list: proList },
+      history,
+      couponList
     } = this.props
     const { psVisible, able2UseCoupon } = this.state
+    /* 优惠券 */
+    const selectedCoupon = coupon ? couponList[coupon] : false
     console.log('render')
     return (
       <div className={`container order-sl92k`}>
@@ -297,6 +306,8 @@ export default class OrderPage extends Component {
                 onChange={this.handleNumChange}
                 postage={this.postage}
                 payment={this.payment}
+                onCouponClick={() => history.push('/user/coupon/check')}
+                coupon={selectedCoupon}
               />
               <p style={{ height: 100 }} />
             </div>,

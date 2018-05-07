@@ -12,7 +12,8 @@ export default {
     // 详情
     detail: {
       // 102: 1
-    }
+    },
+    coupon: ''
   },
 
   effects: {
@@ -57,6 +58,9 @@ export default {
     },
     clearOrder (state) {
       return { ...state, detail: {}, list: [] }
+    },
+    setCoupon (state, { coupon }) {
+      return { ...state, coupon }
     }
   }
 }

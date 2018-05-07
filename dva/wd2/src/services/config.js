@@ -130,3 +130,5 @@ export const cocktails = [
     link: `${cocktailLink}?id=13`
   }
 ]
+
+export const pointsCDTime = 1000 * 60

@@ -1,20 +1,28 @@
 import md5 from 'md5'
 import request from '../utils/request'
-import { toFormData } from '../utils/cts'
+import {toFormData} from '../utils/cts'
 import CryptoJS from 'crypto-js'
 const {
-  mode: { ECB },
-  pad: { Pkcs7 },
-  enc: { Utf8, Base64 },
+  mode: {
+    ECB
+  },
+  pad: {
+    Pkcs7
+  },
+  enc: {
+    Utf8,
+    Base64
+  },
   DES
 } = CryptoJS
 const k = Utf8.parse('12345678901czzwejwuehhd4565545')
-const { encrypt, decrypt } = DES
+const {encrypt, decrypt} = DES
 
 /* des 加密 */
 const e = v => {
   v = JSON.stringify(v)
-  if (!v) return ''
+  if (!v) 
+    return ''
   const en = encrypt(v, k, {
     mode: ECB,
     padding: Pkcs7
@@ -24,16 +32,12 @@ const e = v => {
 
 /* des 解密 */
 const d = v => {
-  const decrypted = decrypt(
-    {
-      ciphertext: Base64.parse(v)
-    },
-    k,
-    {
-      mode: ECB,
-      padding: Pkcs7
-    }
-  )
+  const decrypted = decrypt({
+    ciphertext: Base64.parse(v)
+  }, k, {
+    mode: ECB,
+    padding: Pkcs7
+  })
   return decrypted.toString(Utf8)
 }
 
@@ -56,25 +60,59 @@ export const SA = staticAssets
  * fail: 请求成功,但非期望数据
  */
 export async function $(url, options, $new = false) {
-  const { err, data } = await request(`${$new ? dm2 : domain}${url}`, options)
+  const {err, data} = await request(`${$new
+    ? dm2
+    : domain}${url}`, options)
   if (err) {
     // store.commit({ type: 'error' })
-    return { err: true }
+    return {err: true}
   }
-  let { resultcode, code, result, data: res, ...rest } = data
+  let {
+    resultcode,
+    code,
+    result,
+    data: res,
+    ...rest
+  } = data
   /* 旧接口 */
   if (code === undefined) {
     code = +resultcode
     if (code !== 1 && code !== 200) {
-      return { fail: { code, msg: result } }
+      return {
+        fail: {
+          code,
+          msg: result
+        }
+      }
     }
-    return { data: { code, result, ...rest } }
+    return {
+      data: {
+        code,
+        result,
+        ...rest
+      }
+    }
   }
   /* 新接口 */
-  if (+code !== 200) {
-    return { fail: { code, ...rest } }
+  if (+ code !== 200) {
+    return {
+      fail: {
+        code,
+        ...rest
+      }
+    }
   }
-  return { data: { code, result: JSON.parse(d(res)), ...rest } }
+  return {
+    data: {
+      code,
+      result: JSON.parse(d(res)),
+      ...rest
+    }
+  }
+}
+
+export async function $$(url, options) {
+  return $(url, options, true)
 }
 
 /**
@@ -110,7 +148,7 @@ export async function fetchRecommend(type) {
  * 登录
  * @param {*} {phone, password}
  */
-export async function login({ phone, password }) {
+export async function login({phone, password}) {
   return $(`loginUsersUsr.action?password=${md5(password)}&phone=${phone}`)
 }
 
@@ -118,7 +156,10 @@ export async function login({ phone, password }) {
  * 获取验证码
  * @param {object} [obj]
  */
-export async function getCode({ phone, flag = 1 }) {
+export async function getCode({
+  phone,
+  flag = 1
+}) {
   return $(`resIdcodeSsm.action?flag=${flag}&phone=${phone}`)
 }
 
@@ -136,12 +177,8 @@ export async function isExist(phone) {
  * @param {string} password string
  * @param {string} phone string
  */
-export async function register({ nick, password, phone }) {
-  return $(
-    `userRegsUsr.action?nickname=${nick}&password=${md5(
-      password
-    )}&phone=${phone}`
-  )
+export async function register({nick, password, phone}) {
+  return $(`userRegsUsr.action?nickname=${nick}&password=${md5(password)}&phone=${phone}`)
 }
 
 /**
@@ -149,7 +186,7 @@ export async function register({ nick, password, phone }) {
  * @param {*} pwd 密码
  * @param {*} phone 手机号码
  */
-export async function resetPwd({ pwd, phone }) {
+export async function resetPwd({pwd, phone}) {
   return $(`userForgetUsr.action?newpwd=${md5(pwd)}&phone=${phone}`)
 }
 
@@ -166,7 +203,7 @@ export async function fetchAdrList(userID) {
  * @param {string} id 地址 id
  * @param {string} userID 用户 userID
  */
-export async function toggleDefaultAdr({ id, userID }) {
+export async function toggleDefaultAdr({id, userID}) {
   return $(`updateAddressAds.action?id=${id}&userid=${userID}`)
 }
 
@@ -196,8 +233,8 @@ export async function addAdr(payload) {
 export async function updateAdr(payload) {
   return $(`updateAddressOneAds.action`, {
     method: 'POST',
-    // headers: { 'Content-Type': 'application/json' },
-    // body: JSON.stringify(payload)
+    // headers: { 'Content-Type': 'application/json' }, body:
+    // JSON.stringify(payload)
     body: toFormData(payload)
   })
 }
@@ -206,19 +243,15 @@ export async function updateAdr(payload) {
  * 修改密码
  * @param {object} nPwd.oPwd.phone string
  */
-export async function modifyPwd({ nPwd, oPwd, phone }) {
-  return $(
-    `updatepwdrUsr.action?newpwd=${md5(nPwd)}&oldpwd=${md5(
-      oPwd
-    )}&phone=${phone}`
-  )
+export async function modifyPwd({nPwd, oPwd, phone}) {
+  return $(`updatepwdrUsr.action?newpwd=${md5(nPwd)}&oldpwd=${md5(oPwd)}&phone=${phone}`)
 }
 
 /**
  * 修改昵称
  * @param {object} nick.phone string.string
  */
-export async function modifyNick({ nick, phone }) {
+export async function modifyNick({nick, phone}) {
   return $(`updatenicknameUsr.action?nickname=${nick}&phone=${phone}`)
 }
 
@@ -237,7 +270,10 @@ export async function modifyAvatar(payload) {
  * 获取购物车或用户收藏 cart || collection
  * @param {object} flag.userID string.string
  */
-export async function fetchUserC({ flag = 2, userID }) {
+export async function fetchUserC({
+  flag = 2,
+  userID
+}) {
   return $(`selectUsrShoppingCartSct.action?flag=${flag}&userid=${userID}`)
 }
 
@@ -245,7 +281,7 @@ export async function fetchUserC({ flag = 2, userID }) {
  * 获取产品是否被用户收藏
  * @param {object} id.userID string.string 产品 id 和用户 id
  */
-export async function ifLike({ id, userID }) {
+export async function ifLike({id, userID}) {
   return $(`selcollectProSct.action?flag=2&proid=${id}&userid=${userID}`)
 }
 
@@ -253,7 +289,7 @@ export async function ifLike({ id, userID }) {
  * 删除用户收藏 collection
  * @param {object} flag.proID.userID string.string.string
  */
-export async function deleteUserC({ proID, userID }) {
+export async function deleteUserC({proID, userID}) {
   return $(`delcollectProSct.action?flag=2&proid=${proID}&userid=${userID}`)
 }
 
@@ -261,19 +297,20 @@ export async function deleteUserC({ proID, userID }) {
  * toggle 收藏状态
  * @param {object} param0 {proID, userID, nextStatus: boolean}
  */
-export async function toggleLike({ proID, userID, nextStatus }) {
-  return $(
-    nextStatus
-      ? `insertShoppingCartSct.action?flag=2&id=${proID}&pronum=0&userid=${userID}`
-      : `delcollectProSct.action?flag=2&proid=${proID}&userid=${userID}`
-  )
+export async function toggleLike({proID, userID, nextStatus}) {
+  return $(nextStatus
+    ? `insertShoppingCartSct.action?flag=2&id=${proID}&pronum=0&userid=${userID}`
+    : `delcollectProSct.action?flag=2&proid=${proID}&userid=${userID}`)
 }
 
 /**
  * 删除购物车中商品
  * @param {object} cid.flag string.string 购物车商品id
  */
-export async function deleteCartPro({ cid, flag = 1 }) {
+export async function deleteCartPro({
+  cid,
+  flag = 1
+}) {
   return $(`delShoppingCartSct.action?cid=${cid}&flag=${flag}`)
 }
 
@@ -281,17 +318,15 @@ export async function deleteCartPro({ cid, flag = 1 }) {
  * 添加购物车
  * @param {object} proID.userID
  */
-export async function addToCart({ proID, userID }) {
-  return $(
-    `insertShoppingCartSct.action?flag=1&id=${proID}&pronum=1&userid=${userID}`
-  )
+export async function addToCart({proID, userID}) {
+  return $(`insertShoppingCartSct.action?flag=1&id=${proID}&pronum=1&userid=${userID}`)
 }
 
 /**
  * 修改购物车中的商品数量
  * @param {object} cid.num 购物车商品 id，数量
  */
-export async function updateCartNum({ cid, num }) {
+export async function updateCartNum({cid, num}) {
   return $(`updateShopCartNumSct.action?cid=${cid}&flag=1&pronum=${num}`)
 }
 
@@ -345,10 +380,12 @@ export async function wxPay(order) {
  * 订单列表
  * @param {object} flag.status.userID string.string.string flag，订单状态，用户id
  */
-export async function fetchOrderList({ flag = 0, status = 0, userID }) {
-  return $(
-    `selectOrderStatusOdr.action?flag=${flag}&orderstatus=${status}&userid=${userID}`
-  )
+export async function fetchOrderList({
+  flag = 0,
+  status = 0,
+  userID
+}) {
+  return $(`selectOrderStatusOdr.action?flag=${flag}&orderstatus=${status}&userid=${userID}`)
 }
 
 /**
@@ -358,12 +395,31 @@ export async function fetchOrderList({ flag = 0, status = 0, userID }) {
  * 0: 未使用
  * 1： 已使用
  */
-export async function fetchCoupons({ userID, phone, status = 0 }) {
-  return $(
-    `user/findUserAllCoup?usersid=${e(userID)}&phone=${e(+phone)}&exchange=${e(
-      status
-    )}`,
-    null,
-    true
-  )
+export async function fetchCoupons({
+  userID,
+  phone,
+  status = 0
+}) {
+  return $$(`user/findUserAllCoup?usersid=${e(userID)}&phone=${e(+ phone)}&exchange=${e(status)}`)
+}
+
+/**
+ * 使用优惠券
+ * @param {string} conpId 优惠券id
+ * @param {string} mctId
+ * @param {number} exchange 0未领取，1未使用，2已使用，3失效，
+ */
+export async function useCoupon(conpId, mctId, exchange = 2) {
+  return $$(`user/update`, {
+    method: 'POST',
+    body: toFormData({ conpId, mctId, exchange })
+  })
+}
+
+/**
+ * 查询用户积分
+ * @param {string} phone
+ */
+export async function fetchUserPoints(phone) {
+  return $$(`user/findScoreCount?phone=${e(+ 15036269646)}`)
 }

@@ -27,6 +27,7 @@ const Coupon = ({ onCheck, cp = {}, checked, viewLink }) => {
   const { cpiEnd, cpiStart, scene, couponInfo = {} } = cp
   const { cpiCategory, cpiFaceVal, cpiName } = couponInfo
   const end = new Date(cpiEnd)
+  /* 即将过期？ */
   const rest = (end - new Date()) / 1000 / 60 / 60
   return (
     <section
@@ -91,11 +92,12 @@ export default class CouponPage extends Component {
   handleChoose = id => {
     if (!this.modeCheck) return
     console.log(id)
+    this.props.dispatch({ type: 'order/setCoupon', coupon: id })    
   }
 
   render() {
     const { status } = this.state
-    const { usedList, unUseList } = this.props
+    const { usedList, unUseList, expired } = this.props
     const cps = status ? usedList : unUseList
     console.log('render')
     return (
@@ -116,6 +118,9 @@ export default class CouponPage extends Component {
               />
             ))}
           </QueueAnim>
+          {
+            !expired[status] ? <p className="no-data">╮(╯▽╰)╭，什么也没有</p> : null
+          }
         </div>
       </div>
     )

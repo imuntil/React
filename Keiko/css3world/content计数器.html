@@ -17,10 +17,40 @@
     .roman::before {
       content: counter(wangxiaoer, lower-roman);
     }
+    .reset {
+      padding-left: 20px;
+      counter-reset: wxe;
+    }
+    .count::before {
+      content: counters(wxe, '-') '、 ';
+      counter-increment: wxe;
+    }
   </style>
 </head>
 <body>
   <p class="counter"></p>
   <p class="roman"></p>
+  <div class="reset">
+    <div class="count">
+      我是王小二
+      <div class="reset">
+        <div class="count">我是王小二的大儿子</div>
+        <div class="count">我是王小二的二儿子
+          <div class="reset">
+            <div class="count">我是王小二的二儿子的大儿子</div>
+            <div class="count">我是王小二的二儿子的二儿子</div>
+          </div>
+        </div>
+        <div class="count">我是王小二的三儿子</div>
+      </div>
+    </div>
+    <div class="count">我是王小三</div>
+    <div class="count">我是王小四
+      <div class="reset">
+        <div class="count">我是王小四的大儿子</div>
+        <div class="count">我是王小四的二儿子</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
