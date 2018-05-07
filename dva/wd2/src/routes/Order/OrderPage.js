@@ -247,6 +247,7 @@ export default class OrderPage extends Component {
       express: this.postage.amount
     })
       .then(orderNumber => {
+        // 处理优惠券
         method ? this.wxPayOrder(orderNumber) : this.aliPayOrder(orderNumber)
       })
       .catch(e => {
