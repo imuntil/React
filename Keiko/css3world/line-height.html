@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .box {
+      border: 1px solid #000;
+      line-height: 20px;
+      display: block;
+    }
+    .inner {
+      border: 1px solid #ddd;
+      line-height: 100px;
+    }
+    .box2 {
+      line-height: 80px;
+      border: 1px dashed #000;
+    }
+    .lala {
+      border: 1px solid #000;
+      line-height: 120px;
+    }
+    .lala span {
+      line-height: 20px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    div.xx {
+      border: 1px solid #000;
+      height: 100px;
+      margin-top: 10px;
+    }
+    .xx > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .xxx::after {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <p class="box">
+    <span class="inner">123</span>
+  </p>
+  <br>
+  <a href="#" class="box">
+    <span class="inner">456</span>
+  </a>
+  <br>
+  <br>
+  <div class="box">
+    <div class="box2">
+        
+    </div>
+  </div>
+  <p style="border: 1px solid #000;">nihao</p>
+  <div class="lala">
+    <span>xxx <br> xxx</span>
+  </div>
+  <div class="xx">
+    <span style="height: 100%;"></span>
+    <span>xxxx <br> nnn</span>
+  </div>
+  <div class="xx xxx">
+    <span class="xxs"> dddd <br> dkdj</span>
+  </div>
+</body>
+</html>
