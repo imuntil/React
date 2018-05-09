@@ -412,7 +412,7 @@ export async function fetchCoupons({
 export async function useCoupon(conpId, mctId, exchange = 2) {
   return $$(`user/update`, {
     method: 'POST',
-    body: toFormData({ conpId, mctId, exchange })
+    body: toFormData({conpId, mctId, exchange})
   })
 }
 
@@ -422,4 +422,19 @@ export async function useCoupon(conpId, mctId, exchange = 2) {
  */
 export async function fetchUserPoints(phone) {
   return $$(`user/findScoreCount?phone=${e(+ 15036269646)}`)
+}
+
+/**
+ * 获取积分产品
+ */
+export async function fetchPointsPros() {
+  return $$(``)
+}
+
+/**
+ *
+ * @param {string} id 产品id
+ */
+export async function fetchPPDetail(id) {
+  return $$(`${e(id)}`)
 }

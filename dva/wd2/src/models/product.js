@@ -1,4 +1,3 @@
-import __pick from 'lodash.pick'
 import { fetchProducts } from '../services'
 import { delay } from '../utils/cts'
 
