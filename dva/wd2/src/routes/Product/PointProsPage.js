@@ -14,7 +14,6 @@ export default class PointPros extends PureComponent {
       src: '',
       id: Math.floor(Math.random() * 100 + 200)
     }))
-    const { history } = this.props
     return <div className="pp-12d9f">
       <QueueAnim className="content-12d9f">
         {
