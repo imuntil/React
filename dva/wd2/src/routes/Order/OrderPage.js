@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import { Link } from 'dva/router'
-import { WhiteSpace, Toast } from 'antd-mobile'
+import { Toast } from 'antd-mobile'
 import QueueAnim from 'rc-queue-anim'
 import NumBtns from '@/components/NumBtns'
 import PaySheet from '@/components/PaySheet'
 import Loading from '@/components/Common/Loading'
+import AdrChosen from '@/components/AdrChosen'
 import postages, { box } from '@/services/postage'
 import { wxPay } from '@/services/pay'
 import { currency } from '../../utils/cts'
@@ -13,29 +13,6 @@ import { SA, able2UseCoupon } from '@/services'
 import './OrderPage.scss'
 
 const provinceList = Object.keys(postages)
-
-const Adr = ({ adr = {} }) => {
-  return (
-    <section className="adr-box-sl92k">
-      <div className="content">
-        <p>收货人</p>
-        <p>
-          <span>姓&nbsp;&nbsp;名:&nbsp;{adr.name}</span>
-          <span>手机号:&nbsp;{adr.phone}</span>
-        </p>
-        <p>
-          <span>
-            地&nbsp;&nbsp;址:&nbsp;{adr.city}
-            {adr.address}
-          </span>
-        </p>
-        <p>
-          <Link to={`/adr${adr.id ? `?id=${adr.id}` : ''}`}>编辑></Link>
-        </p>
-      </div>
-    </section>
-  )
-}
 
 const Cell = ({ editAble, pro = {}, num = 1, onChange }) => {
   return (
@@ -122,6 +99,7 @@ const mapStateToProps = state => {
 }
 @connect(mapStateToProps)
 export default class OrderPage extends Component {
+  /* pay sheet visible ? */
   state = { psVisible: false, able2UseCoupon: false }
 
   /* 运费 */
@@ -298,7 +276,7 @@ export default class OrderPage extends Component {
         {proList.length ? (
           [
             <div className="content-sl92k" key="content">
-              <Adr adr={adr || {}} />
+              <AdrChosen adr={adr || {}} />
               <List
                 editAble={!fromCart}
                 list={list}

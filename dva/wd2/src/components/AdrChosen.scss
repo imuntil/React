@@ -1,0 +1,26 @@
+@import '../styles/decoration.scss';
+.adr-box-d820s {
+  padding: 20px 25px;
+  background: url(../assets/watermark.jpg) no-repeat;
+  background-size: cover;
+  p {
+    line-height: 1.5;
+    font-size: 0.9rem;
+    padding: 2px 0;
+  }
+  p:first-child {
+    color: #999;
+    font-size: 0.95rem;
+  }
+  p:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+  }
+  p:last-child {
+    text-align: right;
+    a {
+      color: $red;
+      text-decoration: underline;
+    }
+  }
+}

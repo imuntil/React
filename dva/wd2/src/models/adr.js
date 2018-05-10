@@ -156,7 +156,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (/^\/(adr|order)\/?$/.test(pathname)) {
+        if (/^\/(adr|order|exchange)\/?$/.test(pathname)) {
           dispatch({ type: 'fetchList' })
         }
       })

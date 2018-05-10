@@ -1,0 +1,75 @@
+@import '../../styles/decoration.scss';
+.ppd-s09w2 {
+  .banner {
+    padding: 30%;
+    position: relative;
+    img {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 0;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.content-s09w2 {
+  padding: 15px;
+  .top {
+    font-size: 1.05rem;
+    padding: .2rem .5rem;
+    &::after {
+      content: '';
+      display: block;
+      width: 0;
+      clear: both;
+    }
+    span {
+      float: left;
+    }
+    span:last-child {
+      float: right;
+      color: $gold;
+    }
+    i {
+      font-style: normal;
+      font-size: .8rem;
+      font-style: normal;
+      padding: 0 .2em;
+    }
+  }
+  .detail {
+    padding: 1em;
+    font-size: .8rem;
+    line-height: 1.4;
+    margin-top: 1.8em;
+    background-color: #f2f2f2;
+  }
+  .bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    // height: 80px;
+    text-align: center;
+    background-color: #f2f2f2;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+    span {
+      line-height: 28px;
+      font-size: .9rem;
+    }
+  }
+  .charge {
+    display: block;
+    font-size: 1rem;
+    padding: .9em 0;
+    text-align: center;
+    color: #fff;
+    background-color: $red;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .charge:active {
+    opacity: .8;
+  }
+}

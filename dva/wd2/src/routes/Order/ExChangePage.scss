@@ -1,0 +1,62 @@
+@import '../../styles/decoration.scss';
+.exchange-20kdl {
+  padding: 0;
+  -webkit-overflow-scrolling: auto;  
+  .exchange {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 1rem;
+    padding: .9em 0;
+    text-align: center;
+    color: #fff;
+    background-color: $red;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .exchange:active {
+    opacity: .75;
+  }
+}
+
+.box-20kdl {
+  font-size: .9rem;
+  &>p {
+    padding: 1rem;
+  }
+  &>* {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.box-split-20kdl {
+  padding: 1rem;
+  &>* {
+    display: inline-block;
+  }
+  .img {
+    width: 30%;
+    img {
+      width: 100%;
+    }
+  }
+  .box {
+    width: 60%;
+    float: right;
+  }
+  .box p {
+    margin-bottom: .5em;
+    line-height: 1.4;
+    *:first-child {
+      margin-left: .4em;
+    }
+    span,
+    i {
+      color: $gold;
+    }
+    .to {
+      margin: 0 .5em;
+      color: #666;
+    }
+  }
+}

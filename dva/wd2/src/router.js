@@ -11,6 +11,7 @@ import ProIndexPage from './routes/Product/ProIndexPage'
 import ProListPage from './routes/Product/ProListPage'
 import ProDetailPage from './routes/Product/ProDetailPage'
 import PointProsPage from './routes/Product/PointProsPage'
+import PointProDetailPage from './routes/Product/PointProDetail'
 
 import LoginPage from './routes/User/LoginPage'
 import Register1Page from './routes/User/Register1Page'
@@ -29,6 +30,7 @@ import AdrEditPage from './routes/Adr/AdrEditPage'
 
 import OrderListPage from './routes/Order/OrderListPage'
 import OrderPage from './routes/Order/OrderPage'
+import ExChangePage from './routes/Order/ExChangePage'
 
 import CouponPage from './routes/User/CouponPage'
 
@@ -38,6 +40,7 @@ const Pro = () => {
       <Route path="/pro/" exact component={ProIndexPage}/>
       <Route path="/pro/list" component={ProListPage}/>
       <AuthRoute path="/pro/points" component={PointProsPage}/>
+      <AuthRoute path="/pro/point/:id" component={PointProDetailPage}/>
       <Route path="/pro/:id" component={ProDetailPage}/>
     </Switch>
   )
@@ -89,6 +92,7 @@ function RouterConfig({history}) {
             <Route path="/adr" component={Adr}/>
             <AuthRoute path="/cart" component={CartPage}/>
             <AuthRoute path="/order" exact component={OrderPage}/>
+            <AuthRoute path="/exchange" component={ExChangePage}/>
             <AuthRoute path="/order/:status" component={OrderListPage}/>
           </Switch>
           {isVisible(location)

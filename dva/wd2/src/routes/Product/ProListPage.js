@@ -30,7 +30,7 @@ class ProListPage extends Component {
     sort: null,
     type: null,
     get flag() {
-      return this.type ? 2 : 1
+      return this.type > -1 ? 2 : 1
     }
   }
 
