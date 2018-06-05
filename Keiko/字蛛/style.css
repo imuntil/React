@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Porsche';
+  src: url('./PorscheNextTT-Regular.ttf#font-spider');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Porsche';
+  src: url('./PorscheNextTT-Italic.ttf');
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Porsche";
+  src: url('./PorscheNextTT-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+html {
+  font-family: "Porsche";
+}
