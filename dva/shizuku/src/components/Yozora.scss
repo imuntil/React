@@ -1,0 +1,38 @@
+.yozora-8uej {
+  height: 100%;
+  background: linear-gradient(to bottom, #000000 0%, #5788fe 100%);
+  .landscape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(../assets/bg3.png);
+    background-position: center bottom;
+    background-size: cover;
+  }
+  .filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; 
+    background: #ff3434;
+    animation: fade 15s ease-in-out infinite both;
+    mix-blend-mode: overlay;
+  }
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .9;
+  }
+}
+
+#canvas {
+  position: relative;
+}
