@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import './Yozora.scss'
+import randomColor from 'randomcolor'
+import tinycolor from 'tinycolor2'
 
 class Star {
   constructor(id, x, y, ctx, h) {
@@ -7,14 +9,19 @@ class Star {
     this.x = x
     this.y = y
     this.r = Math.floor(Math.random() * 2) + 1
-    this.color = `rgba(255, 255, 255, ${ (Math.floor(Math.random() * 10) + 1) / 20})`
+    this.color = tinycolor(randomColor({luminosity: 'light', format: 'rgba'}))
     this.ctx = ctx
     this.HEIGHT = h
   }
   draw() {
     const ctx = this.ctx
-    ctx.fillStyle = this.color
+    ctx.fillStyle = this
+      .color
+      .toRgbString()
     ctx.shadowBlur = this.r * 2
+    ctx.shadowColor = this
+      .color
+      .toRgbString()
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
     ctx.closePath()
@@ -39,7 +46,9 @@ class Dot extends Star {
     this.setColor()
     this.dir = Math.floor(Math.random() * 140) + 200
     this.ctx = ctx
-    Dot.collection.push(this)
+    Dot
+      .collection
+      .push(this)
   }
   static getPreviousDot(id, stepback) {
     if (id === 0 || id - stepback < 0) {
@@ -88,8 +97,17 @@ class Dot extends Star {
     delete Dot.collection[this.id]
   }
   setColor() {
-    this.color = `rgba(255, 255, 255, ${this.alpha})`
     this.linkColor = `rgba(255, 255, 255, ${this.alpha / 4})`
+    if (!this.color) {
+      this.color = tinycolor(randomColor({luminosity: 'dark', hue: 'yellow', format: 'rgba', alpha: this.alpha}))
+      return
+    }
+    // this.color = `rgba(255, 255, 255, ${this.alpha})`
+    this
+      .color
+      .setAlpha(this.alpha >= 0
+        ? this.alpha
+        : 0)
   }
   deg2Rad(deg) {
     return deg * (Math.PI / 180)
@@ -137,8 +155,7 @@ class Yozora extends Component {
 
   init = () => {
     const {ctx, starCount, WIDTH, HEIGHT} = this
-    ctx.strokeStyle = '#ffffff'
-    ctx.shadowColor = '#ffffff'
+    // ctx.strokeStyle = '#ffffff' ctx.shadowColor = '#ffffff'
     this.stars = [...Array(starCount).keys()].map(v => {
       return new Star(v, Math.floor(Math.random() * WIDTH), Math.floor(Math.random() * HEIGHT), ctx, HEIGHT)
     })
@@ -162,7 +179,14 @@ class Yozora extends Component {
   drawIfMouseMoving = () => {
     if (!this.mouseMoving) 
       return
-    const {dots, mouseX, mouseY, dotsMinDist, maxDistFromCursor, ctx} = this
+    const {
+      dots,
+      mouseX,
+      mouseY,
+      dotsMinDist,
+      maxDistFromCursor,
+      ctx
+    } = this
     if (!dots.length) {
       dots[0] = new Dot(0, mouseX, mouseY, ctx)
       dots[0].move()
@@ -189,11 +213,15 @@ class Yozora extends Component {
   }
 
   render() {
+    const { children } = this.props
     return (
       <div className="yozora-8uej">
         <canvas id="canvas" ref={canvas => this.canvas = canvas}></canvas>
         <div className="landscape"></div>
         <div className="filter"></div>
+        {
+          children ? children : null
+        }
       </div>
     )
   }

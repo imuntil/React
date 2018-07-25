@@ -1,1 +1,19 @@
-.
+.login-ui83 {
+  position: absolute;
+  right: 10vw;
+  bottom: 10vh;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 1rem;
+  padding: 2em 3rem 0;
+  .login-form {
+    width: 250px;
+  }
+  .last-item {
+    display: flex;
+    justify-content: space-between;
+  }
+  .login-form-button {
+    display: block;
+    width: 100%;
+  }
+}

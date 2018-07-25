@@ -1,14 +1,20 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import {connect} from 'dva'
 import Yozora from '../components/Yozora'
 import './IndexPage.scss'
 
-function IndexPage() {
-  return (
-    <Yozora />
-  )
+@connect()
+class IndexPage extends PureComponent {
+  componentDidMount() {
+    // x
+  }
+  render () {
+    return (
+      <Yozora className="IndexPage">
+        IndexPage
+      </Yozora>
+    )
+  }
 }
 
-IndexPage.propTypes = {}
-
-export default connect()(IndexPage)
+export default IndexPage
