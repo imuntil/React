@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {connect} from 'dva'
 import Yozora from '../components/Yozora'
 import './LoginPage.scss'
-import {Form, Icon, Input, Button, Checkbox} from 'antd'
+import {Form, Icon, Input, Button, Checkbox, message} from 'antd'
 import {login} from '../services/index'
 const FormItem = Form.Item
 
@@ -15,9 +15,9 @@ class LoginPage extends PureComponent {
       if (error) {
         return
       }
-      const {data, err, fail} = await login('imuntil@qq.com', 'k0kEwcW!')
+      const {data, err, fail} = await login(values.userName, values.password)
       if (!data) {
-        alert((fail && fail.message) || err.message || '出错了，请稍后再试')
+        message.error((fail && fail.message) || err.message || '出错了，请稍后再试')
         return
       }
       dispatch({type: 'user/setUser', payload: data})
@@ -36,14 +36,14 @@ class LoginPage extends PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: '请输入账号!'
+                    message: '请输入邮箱账号!'
                   }
                 ]
               })(
                 <Input
                   autoComplete="off"
                   prefix={< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)' }}/>}
-                  placeholder="Username"/>
+                  placeholder="Email"/>
               )}
             </FormItem>
             <FormItem>
