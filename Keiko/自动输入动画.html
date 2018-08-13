@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      display: inline-block;
+      position: relative;
+      font-family: "Fira Mono", monospace;
+    }
+
+    div::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      content: '';
+      background-color: #000;
+      animation: ani 5s steps(13) infinite alternate;
+    }
+
+    @keyframes ani {
+      from {
+        left: 0%;
+        margin-right: auto;
+      }
+      to {
+        left: 100%;
+        margin-left: 1.2em;
+        margin-right: -1.2em;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div>
+    hello world
+  </div>
+</body>
+
+</html>
