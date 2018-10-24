@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <p>
+     正弦曲线变换 正弦曲线公式：<bold>y = A sin(Bx + C) + D</bold> <br>
+     A 控制振幅，A 值越大，波峰和波谷越大，A 值越小，波峰和波谷越小；<br>
+     B 值会影响周期，B 值越大，那么周期越短，B 值越小，周期越长。 <br>
+     C 值会影响图像左右移动，C值为正数，图像右移，C 值为负数，图像左移。<br> 
+     D 值控制上下移动。
+  </p>
+  <canvas id="canvas" width="800" height="400"></canvas>
+  <script>
+    function valueMapping(x, inMin, inMax, outMin, outMax) {
+      return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    }
+
+    const canvas = document.querySelector('canvas')
+    const ctx = canvas.getContext('2d')
+
+    class Wave {
+      constructor(cavans, options) {
+        this.canvas = canvas
+        this.options = options
+        this.xMove = this.options.offset
+        this.xSpeed = this.options.xSpeed
+        this.resize()
+      }
+      resize() {
+        this.width = canvas.width
+        this.height = canvas.height
+        this.amplitude = this.canvas.height * this.options.amplitude
+      }
+
+      draw(ctx) {
+        ctx.beginPath()
+        this.xMove += this.xSpeed
+        ctx.moveTo(0, this.height / 2)
+        var grad = ctx.createLinearGradient(0, 0, this.width, 0);
+        grad.addColorStop(0, this.options.start);
+        grad.addColorStop(1, this.options.stop);
+        ctx.strokeStyle = grad
+        ctx.lineWidth = this.options.lineWidth
+        for (let x = 0; x < this.width; x++) {
+          const radians = x / this.width * Math.PI * 2
+          const scale = (Math.sin(radians - Math.PI * 0.5) + 1) * 0.5
+          const y = Math.sin(x * 0.02 + this.xMove) * this.amplitude * scale + this.height / 2
+          ctx.lineTo(x, y)
+        }
+        ctx.stroke()
+        ctx.closePath()
+      }
+    }
+
+    const gradients = [
+      ['#6e45e2', '#88d3ce'],
+      ['#de6262', '#ffb88c'],
+      ['#64b3f4', '#c2e59c'],
+      ['#0fd850', '#f9f047'],
+      ['#007adf', '#00ecbc'],
+      ['#B6CEE8', '#F578DC'],
+      ['#9be15d', '#00e3ae']
+    ]
+
+    let waves = []
+
+    const init = () => {
+      waves = []
+      for (let i = 0; i < 5; i++) {
+        const [start, stop] = gradients[Math.floor(Math.random() * gradients.length)]
+        waves.push(new Wave(canvas, {
+          start,
+          stop,
+          lineWidth: 1,
+          xSpeed: valueMapping(Math.random(), 0, 1, -0.05, -0.08),
+          amplitude: valueMapping(Math.random(), 0, 1, 0.05, 0.5),
+          offset: Math.random() * 100
+        }))
+      }
+    }
+
+    init()
+
+    const run = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      waves.forEach(wave => {
+        wave.draw(ctx)
+      })
+      requestAnimationFrame(run)
+    }
+    run()
+
+  </script>
+</body>
+
+</html>
