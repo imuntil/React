@@ -1,0 +1,67 @@
+.login-box {
+  width: 300px;
+  // height: 200px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: .5rem;
+  position: absolute;
+  right: 5%;
+  bottom: 40%;
+  // border: 1px solid rgba(255, 255, 255, .5);
+  box-shadow: 1em 1px 2em .1em rgba(0, 0, 0, 0.2);
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  padding: 2rem 2rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.group {
+  display: flex;
+  justify-content: space-between;
+  padding: .2rem 0;
+  align-items: center;
+}
+
+.btn-group {
+  composes: group;
+  padding: .5em 1em;
+  margin-top: 2em;
+}
+
+.input-group {
+  composes: group;
+  margin-bottom: 1em;
+
+  label {
+    font-size: .9rem;
+    display: inline-block;
+    text-align-last: justify;
+    padding-right: 1em;
+    width: 4em;
+  }
+
+  input {
+    background: rgba(0, 0, 0, 0);
+    box-shadow: 0 0 .35em .1em rgba(255, 255, 255, 0.5), 0 0 .35em .1em rgba(255, 255, 255, .5) inset;
+    font-size: 1rem;
+    width: 11em;
+    padding: .3em .5em;
+    border-radius: .25rem;
+  }
+
+  input:-webkit-autofill {
+    box-shadow:
+      0 0 .35em .1em rgba(255, 255, 255, 0.5),
+      0 0 .35em .1em rgba(255, 255, 255, .5) inset,
+      0 0 0 1000px #fff inset;
+  }
+}
+
+// .login-btn {
+//   padding: .5em 2em;
+// }
+
+// .reg-btn {
+//   padding: .5em 1em;
+// }

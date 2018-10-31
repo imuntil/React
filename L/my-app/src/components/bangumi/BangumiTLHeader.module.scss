@@ -1,0 +1,22 @@
+.bgm-header {
+  width: 1160px;
+  position: relative;
+}
+.arrow-left {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 14px;
+  height: 26px;
+  background: url(../../assets/icons.png) no-repeat;
+  background-size: 247px 663px;
+  background-position: -77px -542px;
+  cursor: pointer;
+  z-index: 1;
+}
+.arrow-right {
+  @extend .arrow-left;
+  right: 0;
+  left: auto;
+  background-position: -158px -542px;
+}

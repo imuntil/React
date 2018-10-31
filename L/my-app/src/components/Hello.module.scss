@@ -1,0 +1,30 @@
+.hello {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 2rem 0;
+}
+
+.asatsu {
+  font-size: 2rem;
+  color: #000;
+}
+
+.btn {
+  appearance: none;
+  padding: .5em 1em;
+  background-color: #fff;
+}
+
+.btn2 {
+  composes: btn;
+  background-color: rgb(190, 253, 255);
+  color: rgb(255, 110, 110);
+}
+
+.other {
+  color: #ff00ff;
+}
