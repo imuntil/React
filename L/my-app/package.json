@@ -7,6 +7,7 @@
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.10.0",
     "dayjs": "^1.7.7",
+    "live2d-widget-model-hijiki": "^1.0.5",
     "node-sass": "^4.9.4",
     "randomcolor": "^0.5.3",
     "rc-tween-one": "^2.2.14",
@@ -14,8 +15,11 @@
     "react-app-rewired": "^1.6.2",
     "react-css-modules": "^4.7.7",
     "react-dom": "^16.6.0",
+    "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "tinycolor2": "^1.4.1"
   },
   "scripts": {

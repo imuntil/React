@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import Bangumi from '../containers/Bangumi'
+import cssModules from 'react-css-modules'
+import Bangumi from '@/containers/Bangumi/Bangumi'
+import styles from './HomePage.module.scss'
 
-export default class HomePage extends Component {
+class HomePage extends Component {
   render() {
     return (
       <div style={{ padding: '1rem' }}>
@@ -10,3 +12,5 @@ export default class HomePage extends Component {
     )
   }
 }
+
+export default cssModules(HomePage, styles)

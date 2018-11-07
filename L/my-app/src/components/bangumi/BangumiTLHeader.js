@@ -4,7 +4,7 @@ import cssModules from 'react-css-modules'
 import styles from './BangumiTLHeader.module.scss'
 import Week from './Week'
 
-function BangumiTLHeader({ x, week, onArrowClick }) {
+function BangumiTLHeader({ x, week, onArrowClick, duration }) {
   return (
     <div styleName="bgm-header">
       {x !== 0 ? (
@@ -13,7 +13,7 @@ function BangumiTLHeader({ x, week, onArrowClick }) {
           onClick={() => onArrowClick('left')}
         />
       ) : null}
-      <Week x={x * 280} week={week} />
+      <Week x={x} week={week} duration={duration} />
       {x !== -3 ? (
         <div
           styleName="arrow-right"
@@ -27,6 +27,7 @@ function BangumiTLHeader({ x, week, onArrowClick }) {
 BangumiTLHeader.propTypes = {
   x: PropTypes.number.isRequired,
   week: PropTypes.array.isRequired,
+  duration: PropTypes.number.isRequired,
   onArrowClick: PropTypes.func.isRequired
 }
 

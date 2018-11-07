@@ -21,9 +21,17 @@ button {
   background: none;
 }
 
-a {
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
   display: inline;
   text-decoration: none;
+}
+
+a:focus {
+  text-decoration: none !important;
 }
 
 html,
@@ -35,4 +43,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
 }

@@ -1,12 +1,27 @@
 import axios from 'axios'
 
+let bearer = ''
+
+const getToken = () => {
+  return bearer ? bearer : (bearer = localStorage.getItem('szk_token') || '')
+}
+
 const instance = axios.create({
   baseURL: '/shizuku/',
   timeout: 1000
 })
 
 instance.interceptors.request.use(
-  config => config,
+  config => {
+    const headers = config.headers
+    return {
+      ...config,
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${getToken()}`
+      }
+    }
+  },
   err => {
     console.error('__request:', err.message)
     return Promise.reject(err)
@@ -27,3 +42,4 @@ instance.interceptors.response.use(
 
 export default instance
 export * from './user'
+export * from './li'

@@ -14,6 +14,7 @@ class LoginPage extends Component {
       if (res) {
         console.log(res)
         this.context.login(res.data)
+        localStorage.setItem('szk_token', res.data.token)
         this.props.history.push('/')
       }
     } catch (error) {
