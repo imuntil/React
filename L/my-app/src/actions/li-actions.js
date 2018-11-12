@@ -17,9 +17,8 @@ const receiveLiPost = data => ({
 export function fetchLiPosts(pager) {
   return async function(dispatch) {
     dispatch(requestLiPosts(pager))
-    // dispatch(loadingStart())
-    const { res, fail } = await fetchLiList(pager)
+    const res = await fetchLiList(pager)
+    console.log(res)
     res && dispatch(receiveLiPost(res.data))
-    console.log(fail)
   }
 }

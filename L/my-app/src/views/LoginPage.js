@@ -10,11 +10,11 @@ class LoginPage extends Component {
   static contextType = UserContext
   handleLogin = async user => {
     try {
-      const { res } = await login(user)
+      const res = await login(user)
       if (res) {
         console.log(res)
-        this.context.login(res.data)
-        localStorage.setItem('szk_token', res.data.token)
+        this.context.login(res)
+        localStorage.setItem('szk_token', res.token)
         this.props.history.push('/')
       }
     } catch (error) {

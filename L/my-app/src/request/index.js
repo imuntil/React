@@ -1,4 +1,6 @@
 import axios from 'axios'
+import store from '../store'
+import { errorOccurred } from '@/actions/error-actions'
 
 let bearer = ''
 
@@ -31,11 +33,15 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => {
     const { data } = response
-    return { [data.code === 1 ? 'res' : 'fail']: data }
+    if (data.code !== 1) {
+      store.dispatch(errorOccurred(data.message))
+      return
+    }
+    return data.data
   },
   err => {
-    console.error('__response:', err.message)
-    console.log(err)
+    console.error('__response__:', err.message)
+    store.dispatch(errorOccurred(`${err.response.status}:${err.response.statusText}`))
     return Promise.reject(err)
   }
 )
