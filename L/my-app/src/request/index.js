@@ -35,7 +35,7 @@ instance.interceptors.response.use(
     const { data } = response
     if (data.code !== 1) {
       store.dispatch(errorOccurred(data.message))
-      return
+      return Promise.reject(data.message)
     }
     return data.data
   },

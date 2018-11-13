@@ -3,27 +3,11 @@ import Router from './router'
 import { UserContext } from './context/user-context'
 import { TestContext } from './context/test-context'
 // import logo from './logo.svg'
+import withMessage from '@/HOC/withMessage'
 
 class App extends Component {
   constructor(props) {
     super(props)
-
-    this.login = info => {
-      this.setState(({ user }) => ({
-        user: {
-          ...user,
-          info
-        }
-      }))
-    }
-    this.logout = () => {
-      this.setState(({ user }) => ({
-        user: {
-          ...user,
-          info: {}
-        }
-      }))
-    }
 
     this.state = {
       user: {
@@ -36,6 +20,24 @@ class App extends Component {
       }
     }
   }
+
+  login = info => {
+    this.setState(({ user }) => ({
+      user: {
+        ...user,
+        info
+      }
+    }))
+  }
+
+  logout = () => {
+    this.setState(({ user }) => ({
+      user: {
+        ...user,
+        info: {}
+      }
+    }))
+  }
   render() {
     return (
       <UserContext.Provider value={this.state.user}>
@@ -47,4 +49,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default withMessage(App)

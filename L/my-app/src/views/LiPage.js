@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import cssModules from 'react-css-modules'
+import { message } from 'antd'
 import styles from './LiPage.module.scss'
 import { fetchLiPosts } from '@/actions/li-actions'
 
@@ -13,11 +14,18 @@ class LiPage extends Component {
   componentDidMount = () => {
     this.props.fetchLiPosts({ page: 1, size: 10 })
   }
-  
+
   render() {
     return (
       <div>
         Li
+        <button
+          onClick={() => {
+            message.error('123')
+          }}
+        >
+          message
+        </button>
       </div>
     )
   }
@@ -31,4 +39,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(cssModules(LiPage, styles))
+export default connect(
+  null,
+  mapDispatchToProps
+)(cssModules(LiPage, styles))

@@ -6,12 +6,12 @@ const cm = {
   user: UserContext
 }
 
-export default (WrappedConponent, context = 'user') => {
+export default (WrappedComponent, context = 'user') => {
   return class extends Component {
     static contextType = cm[context]
-    static displayName = `WithContext(${getDisplayName(WrappedConponent)})`
+    static displayName = `WithContext(${getDisplayName(WrappedComponent)})`
     render() {
-      return <WrappedConponent {...this.props} user={this.context} />
+      return <WrappedComponent {...this.props} user={this.context} />
     }
   }
 }

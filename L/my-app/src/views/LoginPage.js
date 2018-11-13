@@ -12,7 +12,6 @@ class LoginPage extends Component {
     try {
       const res = await login(user)
       if (res) {
-        console.log(res)
         this.context.login(res)
         localStorage.setItem('szk_token', res.token)
         this.props.history.push('/')
