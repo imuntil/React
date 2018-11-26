@@ -5,14 +5,15 @@ import { connect } from 'react-redux'
 
 export default WrappedComponent => {
   class WithMessage extends Component {
-    shouldComponentUpdate = (nextProps, nextState) => {
-      const { error, message: msg } = nextProps.errorMsg
+
+    componentDidUpdate = (prevProps, prevState) => {
+      const { error, message: msg } = this.props.errorMsg
       error && message.error(msg)
-      return false
     }
 
     static display = `WithMessage(${getDisplayName(WrappedComponent)})`
     render() {
+      console.log('render.........')
       return <WrappedComponent {...this.props} />
     }
   }

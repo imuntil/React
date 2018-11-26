@@ -1,7 +1,8 @@
-.bgm-header {
+.main {
   width: 1160px;
   position: relative;
 }
+
 .arrow-left {
   position: absolute;
   bottom: 4px;
@@ -14,9 +15,39 @@
   cursor: pointer;
   z-index: 1;
 }
+
 .arrow-right {
   @extend .arrow-left;
   right: 0;
   left: auto;
   background-position: -158px -542px;
+}
+
+.more {
+  padding: .5em 1rem;
+  text-align: right;
+
+  a {
+    border-bottom: 1px solid currentColor;
+    padding: 0 0 0 .5em;
+    box-shadow: 0 1px 0 rgba(24, 144, 255, .2),
+      0 3px 2px -2px rgba(24, 144, 255, .2),
+      0 5px 4px -4px rgba(24, 144, 255, .2),
+      0 7px 5px -6px rgba(24, 144, 255, .2),
+      0 9px 6px -8px rgba(24, 144, 255, .2),
+  }
+
+  a:after {
+    content: '';
+    display: inline-block;
+  }
+
+  .icon {
+    margin-right: -1em;
+    filter: blur(1px);
+  }
+}
+
+.bgm-header {
+  display: block;
 }

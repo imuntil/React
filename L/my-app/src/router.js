@@ -5,8 +5,10 @@ import DefaultLayout from '@/layout/DefaultLayout'
 import CustomRoute from '@/components/CustomRoute'
 
 import HomePage from './views/HomePage'
+import BangumiIndex from './views/BangumiIndex'
 import LoginPage from './views/LoginPage'
 import LiPage from '@/views/LiPage'
+import SearchPage from '@/views/SearchPage'
 import Page404 from '@/views/404'
 
 function RouterConfig({ history }) {
@@ -20,6 +22,12 @@ function RouterConfig({ history }) {
           component={HomePage}
           lv={1}
         />
+        <CustomRoute
+          path="/index"
+          layout={DefaultLayout}
+          component={BangumiIndex}
+          lv={1}
+        />
         <Route path="/login" component={LoginPage} />
         <CustomRoute
           path="/li"
@@ -27,7 +35,13 @@ function RouterConfig({ history }) {
           component={LiPage}
           lv={5}
         />
-        <Route component={Page404}></Route>
+        <CustomRoute
+          path="/search"
+          layout={DefaultLayout}
+          component={SearchPage}
+          lv={1}
+        />
+        <Route component={Page404} />
       </Switch>
     </Router>
   )

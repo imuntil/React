@@ -21,7 +21,7 @@ class Live2D extends Component {
     return false
   }
   render() {
-    return <canvas styleName="canvas" id="live2d" width="300" height="350" />
+    return <canvas styleName="canvas" id="live2d" width="200" height="230" />
   }
 }
 

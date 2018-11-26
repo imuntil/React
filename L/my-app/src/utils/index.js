@@ -58,3 +58,23 @@ export const lvMap = {
     lv: 6
   }
 }
+
+export const mockImg = (
+  w = 800,
+  h = 600,
+  bg = 'FFF',
+  color = 'AAA',
+  text = 'IMG'
+) => `https://dummyimage.com/${w}x${h}/${bg}/${color}.png&text=${text}`
+
+/* 将search字符串转换为对象 */
+export const formatSearch = (search) => {
+  let q = search || window.location.search
+  q = decodeURIComponent(q.substring(1) || '') || ''
+  const obj = {}
+  q.split('&').forEach(v => {
+    const [key, value] = v.split('=')
+    obj[decodeURIComponent(key)] = decodeURIComponent(value)
+  })
+  return obj
+}

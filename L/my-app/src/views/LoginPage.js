@@ -4,7 +4,8 @@ import Yozora from '../components/Yozora'
 import Login from '../containers/Login'
 import styles from './Login.module.scss'
 import { UserContext } from '../context/user-context'
-import { login } from '../request'
+import { login } from '@/request/user'
+import { setToken } from '@/request'
 
 class LoginPage extends Component {
   static contextType = UserContext
@@ -13,7 +14,7 @@ class LoginPage extends Component {
       const res = await login(user)
       if (res) {
         this.context.login(res)
-        localStorage.setItem('szk_token', res.token)
+        setToken(res.token)
         this.props.history.push('/')
       }
     } catch (error) {

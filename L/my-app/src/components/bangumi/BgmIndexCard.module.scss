@@ -1,0 +1,39 @@
+.cover {
+  position: relative;
+  img {
+    width: 160px;
+    height: 213px;
+  }
+}
+
+.links {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem .5rem .25rem;
+  background: linear-gradient(0deg, rgba(0, 0, 0, .6) 0, rgba(0, 0, 0, 0));
+
+  i {
+    font-size: 1.5rem;
+    color: #fff;
+  }
+}
+
+.name {
+  font-size: 12px;
+  word-break: normal;
+  margin: 0;
+  padding: .5em;
+}
+
+.card {
+  display: inline-block;
+  width: 160px;
+  border-radius: 5px;
+  // overflow: hidden;
+  // margin-right: 20px;
+  cursor: pointer;
+  margin-bottom: 1.25rem /* 20/16 */;
+  padding-bottom: 1em;
+}

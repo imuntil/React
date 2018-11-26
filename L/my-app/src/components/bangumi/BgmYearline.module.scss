@@ -1,0 +1,9 @@
+@import '../../styles/def.scss';
+
+.item {
+  cursor: pointer;
+
+  &:hover {
+    color: $blue;
+  }
+}

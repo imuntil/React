@@ -8,8 +8,10 @@
     "babel-plugin-import": "^1.10.0",
     "dayjs": "^1.7.7",
     "live2d-widget-model-hijiki": "^1.0.5",
+    "lodash.chunk": "^4.2.0",
     "node-sass": "^4.9.4",
     "randomcolor": "^0.5.3",
+    "rc-queue-anim": "^1.6.7",
     "rc-tween-one": "^2.2.14",
     "react": "^16.6.0",
     "react-app-rewired": "^1.6.2",
@@ -20,6 +22,7 @@
     "react-scripts": "2.0.5",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "the-platform": "^0.9.3",
     "tinycolor2": "^1.4.1"
   },
   "scripts": {

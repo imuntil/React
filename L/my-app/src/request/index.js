@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 import { errorOccurred } from '@/actions/error-actions'
+import { loadingEnd } from '@/actions/loading-actions'
 
 let bearer = ''
 
@@ -8,9 +9,26 @@ const getToken = () => {
   return bearer ? bearer : (bearer = localStorage.getItem('szk_token') || '')
 }
 
+/**
+ * 清除token
+ */
+export const clearToken = () => {
+  bearer = ''
+  localStorage.removeItem('szk_token')
+}
+
+/**
+ * 设置token
+ * @param {string} token
+ */
+export const setToken = token => {
+  bearer = token
+  localStorage.setItem('szk_token', token)
+}
+
 const instance = axios.create({
   baseURL: '/shizuku/',
-  timeout: 1000
+  timeout: 15000
 })
 
 instance.interceptors.request.use(
@@ -40,12 +58,22 @@ instance.interceptors.response.use(
     return data.data
   },
   err => {
-    console.error('__response__:', err.message)
-    store.dispatch(errorOccurred(`${err.response.status}:${err.response.statusText}`))
+    const __type = err.config.action
+    if (/^REQUEST_/.test(__type)) {
+      store.dispatch(loadingEnd(`loading@${__type.replace('REQUEST_', '')}`))
+    }
+    if (err.response) {
+      store.dispatch(
+        errorOccurred(`${err.response.status}:${err.response.statusText}`)
+      )
+    } else if (err.request) {
+      store.dispatch(errorOccurred(`网络连接异常，请检查您的网络`))
+    } else {
+      store.dispatch(errorOccurred(err.message || '系统处理异常，请稍后重试'))
+    }
+
     return Promise.reject(err)
   }
 )
 
 export default instance
-export * from './user'
-export * from './li'
