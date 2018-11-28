@@ -1,0 +1,64 @@
+.anime-list {
+  list-style: none;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+  padding: 0;
+}
+
+.anime-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  height: 48px;
+  padding: 0 10px;
+
+  &:hover {
+    background: #e6f7ff;
+  }
+
+  &+.anime-item {
+    border-top: 1px solid #ddd;
+  }
+
+  &>* {
+    padding-right: 10px;
+    box-sizing: content-box;
+  }
+
+  .date {
+    width: 75px;
+  }
+
+  .type {
+    width: 65px;
+  }
+
+  .subtitle {
+    width: 100px;
+  }
+
+  .title {
+    flex: 1;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .size {
+    width: 80px;
+  }
+
+  .magnet {
+    width: 40px;
+    padding-right: 0;
+  }
+}
+
+.header {
+  font-weight: bold;
+  font-size: 14px;
+}

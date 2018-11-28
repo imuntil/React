@@ -66,6 +66,7 @@ instance.interceptors.response.use(
       store.dispatch(
         errorOccurred(`${err.response.status}:${err.response.statusText}`)
       )
+      err.response.status === 401 && window.location.replace('/login')
     } else if (err.request) {
       store.dispatch(errorOccurred(`网络连接异常，请检查您的网络`))
     } else {

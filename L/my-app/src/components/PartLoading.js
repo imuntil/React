@@ -16,21 +16,24 @@ const style = {
   backgroundColor: 'rgba(255, 255, 255, .75)'
 }
 
-const PartLoading = ({ children, loading }) => {
+const PartLoading = ({ children, loading, replace = false }) => {
   return (
     <div style={{ position: 'relative' }}>
-      {children}
+      {!replace && children}
       {loading ? (
         <div style={style}>
           <Spin />
         </div>
+      ) : replace ? (
+        children
       ) : null}
     </div>
   )
 }
 
 PartLoading.propTypes = {
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  replace: PropTypes.bool
 }
 
 export default PartLoading

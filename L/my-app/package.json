@@ -6,6 +6,7 @@
     "antd": "^3.10.3",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.10.0",
+    "classnames": "^2.2.6",
     "dayjs": "^1.7.7",
     "live2d-widget-model-hijiki": "^1.0.5",
     "lodash.chunk": "^4.2.0",
@@ -20,6 +21,7 @@
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
+    "react-virtualized": "^9.21.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "the-platform": "^0.9.3",
@@ -48,7 +50,8 @@
     "@storybook/addons": "^3.4.11",
     "@storybook/react": "^3.4.11",
     "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "less-loader": "^4.1.0"
   },
   "proxy": "http://localhost:21001"
 }

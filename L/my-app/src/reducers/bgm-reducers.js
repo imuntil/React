@@ -2,7 +2,8 @@ import {
   RECEIVE_YEARS,
   RECEIVE_BGMS,
   SET_CURRENT_YEAR,
-  RECEIVE_ANIME_FROM_DMHY
+  RECEIVE_ANIME_FROM_DMHY,
+  SET_DMHY_PAGE
 } from '../actions/bgm-actions'
 
 export const years = (state = [], action) => {
@@ -53,12 +54,14 @@ export const dmhy = (state = initDmhyState, action) => {
     case RECEIVE_ANIME_FROM_DMHY:
       const { count, next, page, res, name } = action.payload
       const { chunk, total } = state
+      const oth = { page, next, total: total + count, name }
+      return name === state.name
+        ? { ...oth, chunk: [...chunk, res] }
+        : { ...oth, chunk: [res] }
+    case SET_DMHY_PAGE:
       return {
-        page,
-        next,
-        total: total + count,
-        name,
-        chunk: [...chunk, res]
+        ...state,
+        page: action.payload.page
       }
     default:
       return state

@@ -1,4 +1,9 @@
-import { fetchYears as fy, fetchBgmByYear as fbby, fetchAnimeFromDmhy as fafd } from '../request/bgm'
+import {
+  fetchYears as fy,
+  fetchBgmByYear as fbby,
+  fetchAnimeFromDmhy as fafd
+} from '../request/bgm'
+import mock from './bgm.mock'
 
 export const REQUEST_BGMS = 'REQUEST_BGMS'
 const requestBgms = () => ({
@@ -40,6 +45,11 @@ const receiveAnimeFromDmhy = payload => ({
   payload
 })
 
+export const SET_DMHY_PAGE = 'SET_DMHY_PAGE'
+const setDmhyPage = payload => ({
+  type: SET_DMHY_PAGE,
+  payload
+})
 
 export const fetchYears = () => async (dispatch, getState) => {
   const { years } = getState()
@@ -62,8 +72,13 @@ export const fetchBgmByYear = year => async (dispatch, getState) => {
 }
 
 export const fetchAnimeFromDmhy = payload => async (dispatch, getState) => {
+  const { chunk, name } = getState().dmhy
+  if (payload.name === name && payload.page <= chunk.length) {
+    dispatch(setDmhyPage(payload))
+    return
+  }
   dispatch(requestAnimeFromDmhy())
   const res = await fafd(payload, REQUEST_ANIME_FROM_DMHY)
-  console.log(res)
-  res && dispatch(receiveAnimeFromDmhy(res))
+  // const res = mock
+  res && dispatch(receiveAnimeFromDmhy({ ...res, name: payload.name }))
 }
