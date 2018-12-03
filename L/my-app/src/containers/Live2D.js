@@ -15,7 +15,6 @@ class Live2D extends Component {
     }
   }
   handlePreventClick = e => {
-    console.log(e)
     e.preventDefault()
     e.stopPropagation()
     return false

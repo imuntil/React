@@ -12,11 +12,12 @@ const style = {
   left: 0,
   justifyContent: 'center',
   alignItems: 'flex-start',
-  paddingTop: '300px',
+  padding: '300px 0 300px',
   backgroundColor: 'rgba(255, 255, 255, .75)'
 }
 
 const PartLoading = ({ children, loading, replace = false }) => {
+  replace && delete style.position
   return (
     <div style={{ position: 'relative' }}>
       {!replace && children}

@@ -28,6 +28,9 @@
 
   .date {
     width: 75px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
   }
 
   .type {
@@ -49,12 +52,19 @@
   }
 
   .size {
+    @extend .date;
     width: 80px;
   }
 
   .magnet {
     width: 40px;
     padding-right: 0;
+  }
+
+  .sort-box {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
   }
 }
 

@@ -1,26 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Pagination } from 'antd'
+import cssModules from 'react-css-modules'
+import styles from './SimplifyPager.module.scss'
 
 const SimplifyPager = ({
-  total,
+  totalPages,
   page,
-  next,
+  hasNext,
   onChange,
-  count,
-  position = 'top'
+  totalCount,
+  position = 'top',
+  currentCount,
+  style = {},
+  ...rest
 }) => {
-  const t = total === page && next ? total + 1 : total
+  const t = hasNext ? totalPages + 1 : totalPages
+  const st = {
+    alignItems: position === 'top' ? 'flex-end' : 'flex-start',
+    ...style
+  }
   return (
-    <div
-      style={{
-        display: 'flex',
-        padding: '1em 0',
-        justifyContent: 'space-between',
-        alignItems: position === 'top' ? 'flex-end' : 'flex-start'
-      }}
-    >
-      <span style={{ fontSize: 12 }}>共[{count}]条数据</span>
+    <div styleName="simplify-pager" style={st} {...rest}>
+      <span style={{ fontSize: 12, marginRight: 12 }}>
+        共[{currentCount}/{totalCount}]条数据
+      </span>
       <Pagination
         defaultCurrent={1}
         current={page}
@@ -33,10 +37,12 @@ const SimplifyPager = ({
 }
 
 SimplifyPager.propTypes = {
-  total: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  next: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired
+  hasNext: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  currentCount: PropTypes.number.isRequired,
+  totalCount: PropTypes.number.isRequired
 }
 
-export default SimplifyPager
+export default cssModules(SimplifyPager, styles)

@@ -3,6 +3,7 @@ import {
   fetchBgmByYear as fbby,
   fetchAnimeFromDmhy as fafd
 } from '../request/bgm'
+import { TYPE_INVERSE_MAP } from '@/utils/constant'
 import mock from './bgm.mock'
 
 export const REQUEST_BGMS = 'REQUEST_BGMS'
@@ -51,6 +52,30 @@ const setDmhyPage = payload => ({
   payload
 })
 
+export const SET_DMHY_FILTER = 'SET_DMHY_FILTER'
+export const setDmhyFilter = payload => ({
+  type: SET_DMHY_FILTER,
+  payload
+})
+
+export const SET_DMHY_MODE = 'SET_DMHY_MODE'
+export const setDmhyMode = payload => ({
+  type: SET_DMHY_MODE,
+  payload
+})
+
+export const SET_FILTERED_DMHY = 'SET_FILTERED_DMHY'
+export const setFilteredDmhy = payload => ({
+  type: SET_FILTERED_DMHY,
+  payload
+})
+
+export const SET_DMHY_SORT = 'SET_DMHY_SORT'
+export const setDmnySort = payload => ({
+  type: SET_DMHY_SORT,
+  payload
+})
+
 export const fetchYears = () => async (dispatch, getState) => {
   const { years } = getState()
   if (years && years.length) return
@@ -71,14 +96,59 @@ export const fetchBgmByYear = year => async (dispatch, getState) => {
   res && dispatch(receiveBgms(res))
 }
 
+const isLocal = (payload, { totalPages }) => payload.page <= totalPages
+const isFilterSame = (payload, { name, type }) =>
+  payload.name === name && payload.type === type
+
 export const fetchAnimeFromDmhy = payload => async (dispatch, getState) => {
-  const { chunk, name } = getState().dmhy
-  if (payload.name === name && payload.page <= chunk.length) {
-    dispatch(setDmhyPage(payload))
-    return
+  const state = getState().dmhy
+  // 筛选条件为改变
+  if (isFilterSame(payload, state)) {
+    // 本地有缓存，不在请求结果
+    if (isLocal(payload, state)) {
+      dispatch(setDmhyPage(payload))
+      return
+    }
+    // else 本地没有缓存
+  } else {
+    // 筛选条件变化，页码重置为1
+    payload.page = 1
   }
   dispatch(requestAnimeFromDmhy())
+  // 条件变化，本地没有缓存，page至1
   const res = await fafd(payload, REQUEST_ANIME_FROM_DMHY)
   // const res = mock
-  res && dispatch(receiveAnimeFromDmhy({ ...res, name: payload.name }))
+  res &&
+    dispatch(
+      receiveAnimeFromDmhy({
+        ...res,
+        name: payload.name,
+        type: payload.type
+      })
+    )
+}
+
+export const filterDmhy = payload => (dispatch, getState) => {
+  const state = getState()
+  const { name, type, subtitle } = state.dmhyFilter
+  if (
+    name === payload.name &&
+    type === payload.type &&
+    subtitle === payload.subtitle
+  ) {
+    dispatch(setDmhyFilter(payload))
+  } else {
+    const { data, ids } = state.dmhy
+    dispatch(setDmhyFilter({ ...payload, page: 1 }))
+    const totalData = ids.filter(id => {
+      const v = data[id]
+      const nameF = payload.name ? v.title.indexOf(payload.name) > -1 : true
+      const typeF = payload.type ? v.type === payload.type : true
+      const subtitleF = payload.subtitle
+        ? v.subtitle === payload.subtitle
+        : true
+      return nameF && typeF && subtitleF
+    })
+    dispatch(setFilteredDmhy(totalData))
+  }
 }

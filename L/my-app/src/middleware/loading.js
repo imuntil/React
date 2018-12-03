@@ -7,6 +7,11 @@ const getName = (type, pre) => `loading@${type.replace(pre, '')}`
 export const loading = store => next => action => {
   const type = action.type
   type.startsWith(REQUEST_) && next(loadingStart(getName(type, REQUEST_)))
-  type.startsWith(RECEIVE_) && next(loadingEnd(getName(type, RECEIVE_)))
+  // type.startsWith(RECEIVE_) && next(loadingEnd(getName(type, RECEIVE_)))
+  // return next(action)
+  if (type.startsWith(RECEIVE_)) {
+    next(action)
+    return next(loadingEnd(getName(type, RECEIVE_)))
+  }
   return next(action)
 }

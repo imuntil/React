@@ -25,12 +25,14 @@ storiesOf('Welcome', module).add('to Storybook', () => (
 //   ))
 storiesOf('Button', module).add('with text', () => <Button text={'lala'} />)
 
-storiesOf('SearchBar', module).add('with type & sub', () => (
+storiesOf('SearchBar', module).add('default', () => (
   <SearchBar
     typeOptions={['动画', '季度全集', 'RAW']}
     subOptions={['动漫国字幕组', '诸神Kamigami字幕组', '悠哈C9字幕社']}
     onChange={(type, v) => {
       console.log(type, v)
     }}
+    onSearch={() => console.log('search')}
+    onFilter={() => console.log('filter')}
   />
 ))
