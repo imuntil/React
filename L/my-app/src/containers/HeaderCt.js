@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import withContext from '@/HOC/withContext'
 import Header from '@/components/Header'
 
@@ -9,7 +10,7 @@ class HeaderCt extends Component {
   }
 
   handleSearch = query => {
-    console.log(query)
+    this.props.history.push(`/search?name=${query}`)
   }
 
   render() {
@@ -17,4 +18,4 @@ class HeaderCt extends Component {
   }
 }
 
-export default withContext(HeaderCt)
+export default withContext(withRouter(HeaderCt))

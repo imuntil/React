@@ -1,9 +1,12 @@
+@import '../../styles/def.scss';
+
 .anime-list {
   list-style: none;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   margin: 0;
   padding: 0;
+  text-align: left;
 }
 
 .anime-item {
@@ -15,6 +18,14 @@
 
   &:hover {
     background: #e6f7ff;
+  }
+
+  &.chosen {
+    background: #fff1f5;
+
+    .chosen-square {
+      color: #fb7299;
+    }
   }
 
   &+.anime-item {
@@ -57,8 +68,15 @@
   }
 
   .magnet {
-    width: 40px;
+    width: 55px;
     padding-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    * {
+      font-size: 16px;
+    }
   }
 
   .sort-box {
@@ -71,4 +89,21 @@
 .header {
   font-weight: bold;
   font-size: 14px;
+}
+
+.sm-box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &>* {
+    padding: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      color: $blue;
+    }
+  }
 }

@@ -3,13 +3,26 @@ import PropTypes from 'prop-types'
 import cssModules from 'react-css-modules'
 import styles from './AnimeList.module.scss'
 import classNames from 'classnames/bind'
-import { Tag, Icon } from 'antd'
+import { Tag, Icon, Tooltip } from 'antd'
 import { SORTS } from '@/utils/constant'
 const cx = classNames.bind(styles)
 
-let Item = ({ date, type, subtitle, title, size, magnet, link }) => {
+let Item = ({
+  date,
+  type,
+  subtitle,
+  title,
+  size,
+  magnet,
+  link,
+  isChoosing,
+  index,
+  toggleChoose,
+  id,
+  isChosen
+}) => {
   return (
-    <li styleName="anime-item">
+    <li className={cx('anime-item', { chosen: isChosen })}>
       <div styleName="date">{date}</div>
       <div styleName="type">
         <Tag color="#2db7f5" style={{ margin: 0 }}>
@@ -33,26 +46,40 @@ let Item = ({ date, type, subtitle, title, size, magnet, link }) => {
         ) : null}
       </div>
       <div styleName="title">
-        <a href={link} target="__blank">
-          {title}
+        {title}
+        <a href={link} target="__blank" style={{ marginLeft: 5 }}>
+          <Icon type="link" />
         </a>
       </div>
       <div styleName="size">
         <Tag color="#108ee9">{size}</Tag>
       </div>
       <div styleName="magnet">
-        <a href={magnet} download={magnet} target="__blank">
-          <Tag color="blue" style={{ margin: 0 }}>
-            磁链
-          </Tag>
-        </a>
+        {isChoosing ? (
+          <Icon
+            type="check-square"
+            onClick={() => {
+              toggleChoose(id, index)
+            }}
+            className={cx('chosen-square')}
+          />
+        ) : (
+          <a
+            href={magnet}
+            download={magnet}
+            target="__blank"
+            style={{ padding: 5 }}
+          >
+            <Icon type="download" />
+          </a>
+        )}
       </div>
     </li>
   )
 }
 Item = cssModules(Item, styles)
 
-let Head = ({ sort, onClick }) => (
+let Head = ({ sort, onClick, setMode, isChoosing, onConfirm, onCancel }) => (
   <li className={cx('anime-item', 'header')}>
     <div styleName="date" onClick={() => onClick('date', sort)}>
       日期
@@ -83,13 +110,42 @@ let Head = ({ sort, onClick }) => (
         />
       </div>
     </div>
-    <div styleName="magnet">磁链</div>
+    <div styleName="magnet">
+      {isChoosing ? (
+        <div styleName="sm-box">
+          <Tooltip title="批量下载">
+            <Icon type="download" onClick={onConfirm} />
+          </Tooltip>
+          <Tooltip title="取消">
+            <Icon type="close" onClick={onCancel} />
+          </Tooltip>
+        </div>
+      ) : (
+        <Tooltip title="点击批量选择">
+          <i
+            className="iconfont icon-cili"
+            onClick={setMode}
+            style={{ fontSize: 18 }}
+          />
+        </Tooltip>
+      )}
+    </div>
   </li>
 )
 Head = cssModules(Head, styles)
 
 const AnimeList = props => {
-  const { data, sort, onSortClick } = props
+  const {
+    data,
+    sort,
+    onSortClick,
+    isChoosing,
+    setMode,
+    toggleChoose,
+    chosenList,
+    onConfirm,
+    onCancel
+  } = props
   const handleSort = (type, st) => {
     let value
     if (type === 'date') {
@@ -100,19 +156,41 @@ const AnimeList = props => {
     onSortClick(value)
   }
   return (
-    <ul styleName="anime-list">
-      <Head sort={sort} onClick={handleSort} />
-      {data.map(v => (
-        <Item {...v} key={v.magnet} />
-      ))}
-    </ul>
+    <div>
+      <ul styleName="anime-list">
+        <Head
+          sort={sort}
+          onClick={handleSort}
+          setMode={setMode}
+          isChoosing={isChoosing}
+          onCancel={onCancel}
+          onConfirm={onConfirm}
+        />
+        {data.map((v, index) => (
+          <Item
+            toggleChoose={toggleChoose}
+            {...v}
+            key={v.magnet}
+            isChoosing={isChoosing}
+            index={index}
+            isChosen={isChoosing && chosenList.indexOf(v.id) > -1}
+          />
+        ))}
+      </ul>
+    </div>
   )
 }
 
 AnimeList.propTypes = {
   data: PropTypes.array.isRequired,
   sort: PropTypes.number,
-  onSortClick: PropTypes.func
+  onSortClick: PropTypes.func,
+  isChoosing: PropTypes.bool,
+  setMode: PropTypes.func,
+  toggleChoose: PropTypes.func,
+  chosenList: PropTypes.array,
+  onConfirm: PropTypes.func,
+  onCancel: PropTypes.func,
 }
 
 export default cssModules(AnimeList, styles)

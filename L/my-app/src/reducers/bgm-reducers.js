@@ -4,12 +4,9 @@ import {
   SET_CURRENT_YEAR,
   RECEIVE_ANIME_FROM_DMHY,
   SET_DMHY_PAGE,
-  SET_DMHY_FILTER,
-  SET_DMHY_MODE,
-  SET_FILTERED_DMHY,
   SET_DMHY_SORT
 } from '../actions/bgm-actions'
-import { SORTS, DMHY_MODE } from '@/utils/constant'
+import { SORTS } from '@/utils/constant'
 
 export const years = (state = [], action) => {
   switch (action.type) {
@@ -49,9 +46,8 @@ const initDmhyState = {
   // 是否有下一页
   hasNext: false,
   // id map
-  data: {},
+  data: [],
   // 全部数据id列表
-  ids: [],
   name: '',
   // 已经获取的总数据量
   total: 0,
@@ -59,36 +55,53 @@ const initDmhyState = {
   totalPages: 0,
   // 类别
   type: '',
-  // subOptions
-  subOptions: []
+  // 排序
+  sort: SORTS.DATE_DESC
 }
+
+/**
+ * 排序辅助方法
+ * @param {SORTS} sort
+ * @param {object} data
+ */
+const sortHelper = sort => {
+  switch (sort) {
+    case SORTS.DATE_ASC:
+      return (a, b) => new Date(a.real_date) - new Date(b.real_date)
+    case SORTS.SIZE_ASC:
+      return (a, b) => a.real_size - b.real_size
+    case SORTS.SIZE_DESC:
+      return (a, b) => b.real_size - a.real_size
+    case SORTS.DATE_DESC:
+    default:
+      return (a, b) => new Date(b.real_date) - new Date(a.real_date)
+  }
+}
+
 export const dmhy = (state = initDmhyState, action) => {
+  const {
+    count,
+    next: hasNext,
+    page,
+    res,
+    name,
+    type,
+    sort = SORTS.DATE_DESC
+  } = action.payload || {}
+  const { data, total, totalPages } = state
   switch (action.type) {
     case RECEIVE_ANIME_FROM_DMHY:
-      const { count, next: hasNext, page, res, name, type } = action.payload
-      const { data, total, totalPages, ids, subOptions } = state
-      const oth = { page, hasNext, total: total + count, name, type }
-      const map = {}
-      const subs = []
-      const _ids = res.map(v => {
-        map[v.id] = v
-        v.subtitle && subs.push(v.subtitle)
-        return v.id
-      })
+      const oth = { page, hasNext, total: total + count, name, type, sort }
       return name === state.name && type === state.type
         ? {
             ...oth,
-            data: { ...data, ...map },
-            ids: [...ids, ..._ids],
-            totalPages: totalPages + 1,
-            subOptions: [...new Set([...subOptions, ...subs])]
+            data: [...data, ...res],
+            totalPages: totalPages + 1
           }
         : {
             ...oth,
-            data: map,
-            totalPages: 1,
-            ids: _ids,
-            subOptions: [...new Set(subs)]
+            data: res,
+            totalPages: 1
           }
 
     case SET_DMHY_PAGE:
@@ -96,38 +109,18 @@ export const dmhy = (state = initDmhyState, action) => {
         ...state,
         page: action.payload.page
       }
+    case SET_DMHY_SORT:
+      const sorter = sortHelper(sort)
+      const _data = data.sort(sorter)
+      return {
+        ...state,
+        sort,
+        data: _data,
+        page: 1
+      }
     default:
       return state
   }
-}
-
-export const dmhyMode = (state = DMHY_MODE.SEARCH, action) => {
-  if (action.type === SET_DMHY_MODE) {
-    return action.payload
-  }
-  return state
-}
-
-const filterState = {
-  name: '',
-  page: 0,
-  type: '',
-  subtitle: ''
-}
-
-export const dmhyFilter = (state = filterState, action) => {
-  if (action.type === SET_DMHY_FILTER) {
-    return { ...state, ...action.payload }
-  }
-  return state
-}
-
-// 保存筛选过的dmhy数据，减少重复删选
-export const filteredDmhy = (state = [], action) => {
-  if (action.type === SET_FILTERED_DMHY) {
-    return action.payload
-  }
-  return state
 }
 
 // 设置排序

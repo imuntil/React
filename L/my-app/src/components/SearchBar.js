@@ -8,16 +8,7 @@ const Search = Input.Search
 
 const SearchBar = memo(
   cssModules(function SearchBar(props) {
-    const {
-      onChange,
-      subOptions,
-      typeOptions,
-      onQuery,
-      onFilter,
-      model,
-      onReset,
-      mode
-    } = props
+    const { onChange, typeOptions, onQuery, model, onReset } = props
     return (
       <div>
         <Select
@@ -31,35 +22,15 @@ const SearchBar = memo(
             <Option key={v}>{v}</Option>
           ))}
         </Select>
-        <Select
-          defaultValue="-"
-          onChange={v => onChange('subtitle', v === '-' ? '' : v)}
-          style={{ width: 150, marginRight: '.5em' }}
-          value={model.subtitle}
-        >
-          <Option key="-">全部</Option>
-          {subOptions.map(v => (
-            <Option key={v}>{v}</Option>
-          ))}
-        </Select>
         <Search
           onChange={v => onChange('name', v.target.value)}
-          onSearch={onFilter}
+          onSearch={onQuery}
           style={{ width: 250, marginRight: '.5em' }}
           placeholder="关键字"
           value={model.name}
         />
         <Button
-          shape="circle"
-          type="danger"
-          ghost
-          icon="close"
-          size="small"
-          style={{ marginRight: '.5em' }}
-          onClick={onReset}
-        />
-        <Button
-          type={mode === 'SEARCH' ? 'primary' : ''}
+          type="primary"
           icon="search"
           style={{ marginRight: '.5em' }}
           onClick={onQuery}
@@ -67,11 +38,11 @@ const SearchBar = memo(
           搜索
         </Button>
         <Button
-          type={mode === 'FILTER' ? 'primary' : ''}
-          icon="filter"
-          onClick={onFilter}
+          icon="close"
+          style={{ marginRight: '.5em' }}
+          onClick={onReset}
         >
-          筛选
+          重置
         </Button>
       </div>
     )
@@ -80,17 +51,13 @@ const SearchBar = memo(
 
 SearchBar.propTypes = {
   typeOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  subOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   onQuery: PropTypes.func.isRequired,
-  onFilter: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
   model: PropTypes.shape({
     type: PropTypes.string,
-    subtitle: PropTypes.string,
     name: PropTypes.string
-  }).isRequired,
-  mode: PropTypes.string
+  }).isRequired
 }
 
 export default SearchBar

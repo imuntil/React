@@ -3,7 +3,7 @@ import {
   fetchBgmByYear as fbby,
   fetchAnimeFromDmhy as fafd
 } from '../request/bgm'
-import { TYPE_INVERSE_MAP } from '@/utils/constant'
+import { TYPE_INVERSE_MAP, SORTS } from '@/utils/constant'
 import mock from './bgm.mock'
 
 export const REQUEST_BGMS = 'REQUEST_BGMS'
@@ -58,12 +58,6 @@ export const setDmhyFilter = payload => ({
   payload
 })
 
-export const SET_DMHY_MODE = 'SET_DMHY_MODE'
-export const setDmhyMode = payload => ({
-  type: SET_DMHY_MODE,
-  payload
-})
-
 export const SET_FILTERED_DMHY = 'SET_FILTERED_DMHY'
 export const setFilteredDmhy = payload => ({
   type: SET_FILTERED_DMHY,
@@ -71,7 +65,7 @@ export const setFilteredDmhy = payload => ({
 })
 
 export const SET_DMHY_SORT = 'SET_DMHY_SORT'
-export const setDmnySort = payload => ({
+export const setDmhySort = payload => ({
   type: SET_DMHY_SORT,
   payload
 })
@@ -126,29 +120,4 @@ export const fetchAnimeFromDmhy = payload => async (dispatch, getState) => {
         type: payload.type
       })
     )
-}
-
-export const filterDmhy = payload => (dispatch, getState) => {
-  const state = getState()
-  const { name, type, subtitle } = state.dmhyFilter
-  if (
-    name === payload.name &&
-    type === payload.type &&
-    subtitle === payload.subtitle
-  ) {
-    dispatch(setDmhyFilter(payload))
-  } else {
-    const { data, ids } = state.dmhy
-    dispatch(setDmhyFilter({ ...payload, page: 1 }))
-    const totalData = ids.filter(id => {
-      const v = data[id]
-      const nameF = payload.name ? v.title.indexOf(payload.name) > -1 : true
-      const typeF = payload.type ? v.type === payload.type : true
-      const subtitleF = payload.subtitle
-        ? v.subtitle === payload.subtitle
-        : true
-      return nameF && typeF && subtitleF
-    })
-    dispatch(setFilteredDmhy(totalData))
-  }
 }

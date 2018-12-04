@@ -14,12 +14,9 @@ import SearchBar from '@/components/SearchBar'
  */
 export class SearchBarCt extends Component {
   static propTypes = {
-    subOptions: PropTypes.array.isRequired,
     onQuery: PropTypes.func.isRequired,
-    onFilter: PropTypes.func.isRequired,
     onReset: PropTypes.func,
     initName: PropTypes.string.isRequired,
-    mode: PropTypes.string,
   }
 
   constructor(props) {
@@ -27,7 +24,6 @@ export class SearchBarCt extends Component {
 
     this.state = {
       type: '-',
-      subtitle: '-',
       name: props.initName
     }
   }
@@ -35,19 +31,15 @@ export class SearchBarCt extends Component {
   typeOptions = ['季度全集', '動畫', 'RAW']
 
   get formatedState() {
-    const { type, subtitle, name } = this.state
+    const { type, name } = this.state
     return {
       name,
-      type: type === '-' ? '' : type,
-      subtitle: subtitle === '-' ? '' : subtitle
+      type: type === '-' ? '' : type
     }
   }
 
   handleQuery = () => {
     this.props.onQuery(this.formatedState)
-  }
-  handleFilter = () => {
-    this.props.onFilter(this.formatedState)
   }
   handleChange = (type, v) => {
     if (type === 'name') {
@@ -57,20 +49,17 @@ export class SearchBarCt extends Component {
     }
   }
   handleReset = () => {
-    this.setState({ type: '-', subtitle: '-', name: '' })
+    this.setState({ type: '-', name: '' })
   }
 
   render() {
     return (
       <SearchBar
-        subOptions={this.props.subOptions}
         typeOptions={this.typeOptions}
         onChange={this.handleChange}
         onQuery={this.handleQuery}
-        onFilter={this.handleFilter}
         model={this.state}
         onReset={this.handleReset}
-        mode={this.props.mode}
       />
     )
   }

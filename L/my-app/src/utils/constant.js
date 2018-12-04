@@ -20,8 +20,3 @@ export const SORTS = {
   SIZE_DESC: 10,
   SIZE_ASC: 11
 }
-
-export const DMHY_MODE = {
-  SEARCH: 'SEARCH',
-  FILTER: 'FILTER'
-}
