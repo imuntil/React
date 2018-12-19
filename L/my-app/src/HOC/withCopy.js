@@ -23,13 +23,17 @@ export default WrappedComponent => {
     render() {
       return (
         <div>
-          <input
+          <textarea
             type="text"
             ref={this.copyInput}
             style={{
               position: 'absolute',
               zIndex: -1,
               opacity: 0,
+              width: '1em',
+              padding: 0,
+              margin: 0,
+              height: '1em'
             }}
           />
           <WrappedComponent {...this.props} execCopy={this.copy} />

@@ -1,4 +1,4 @@
-import $ from './index'
+import $, { bgmi as $$ } from './index'
 
 /**
  * 根据时间（年份）获取番剧列表
@@ -6,7 +6,7 @@ import $ from './index'
  */
 export const fetchBgmByYear = async (year, action) =>
   $({
-    url: `bangumi/${year}`,
+    url: `/bangumi/${year}`,
     method: 'get',
     action
   })
@@ -16,7 +16,7 @@ export const fetchBgmByYear = async (year, action) =>
  */
 export const fetchYears = async () =>
   $({
-    url: 'bangumi/range',
+    url: '/bangumi/range',
     method: 'get'
   })
 
@@ -24,8 +24,8 @@ export const fetchYears = async () =>
  * 获取本周跟新的新番
  */
 export const fetchBgmDaily = async () =>
-  $({
-    url: 'bangumi/daily',
+  $$({
+    url: '/calendar',
     method: 'get'
   })
 

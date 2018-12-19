@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  width: 100%;
+  background-color: rgba(162, 247, 253, 0.39);
+  border-radius: 3px;
+  overflow: hidden;
+  padding: .2em .4em;
+  box-sizing: border-box;
+  transition: all .25s;
+  transform-origin: center top;
+  &.dragging {
+    background-color: rgba(255, 144, 209, 0.568);
+  }
+  &.dragging-over {
+    transform: scale(1.2, 1.2);
+  }
+}
+
+.cover {
+  font-size: 0;
+  border-radius: 4px;
+  overflow: hidden;
+
+  img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    display: inline-block;
+  }
+}
+
+.icon-font {
+  font-size: 1rem;
+}
+
+.font-wrap {
+  display: inline-block;
+  position: absolute;
+  padding: 3px;
+}
+
+.box {
+  flex: 1;
+  padding: .2rem 0 .2rem .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.some {
+  text-align: right;
+}

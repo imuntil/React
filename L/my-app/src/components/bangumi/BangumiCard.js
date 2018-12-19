@@ -7,20 +7,23 @@ function BangumiCard({
   link = 'https://imuntil.com',
   title = '青春猪头少年不会梦到兔女郎学姐ssss古利特曼',
   wa = 5,
-  follow = false
+  follow = false,
+  images = {},
+  name_cn,
+  name
 }) {
   return (
     <div styleName="season-group">
       <div styleName="time">22:00</div>
       <div styleName="season-list">
         <a href={link} styleName="bgm-pic">
-          <img src={require('../../assets/bgm-card.webp')} alt="" />
+          <img src={images && images.common} alt="" />
         </a>
         <div styleName="season-body">
           <a href={link}>
-            <div title={title} styleName="title">
+            <div title={name_cn || name} styleName="title">
               {follow ? <span styleName="follow">已追番</span> : null}
-              {title}
+              {name_cn || name}
             </div>
           </a>
           <a href={link} styleName="wa">

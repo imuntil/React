@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center;
+  & > div {
+    margin: 1rem;
+    padding: .5em;
+    border: 1px solid #ddd;
+  }
+}
+.dnd-item {
+  width: 30%;
+}

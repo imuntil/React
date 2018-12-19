@@ -16,6 +16,7 @@ export class AnimeListCt extends Component {
     list: []
   }
   list = new Set()
+  magnets = {}
   setMode = () => {
     this.setState(
       state => ({ isChoosing: !state.isChoosing }),
@@ -29,11 +30,12 @@ export class AnimeListCt extends Component {
     this.props.setDmhySort({ sort })
   }
 
-  handleToggleChoose = (id, index) => {
+  handleToggleChoose = (id, index, magnet) => {
     this.list.has(id) ? this.list.delete(id) : this.list.add(id)
     this.setState({
       list: [...this.list]
     })
+    this.magnets[id] = magnet
   }
 
   clearChosen(closeChoosing = false) {
@@ -46,8 +48,11 @@ export class AnimeListCt extends Component {
   }
 
   handleConfirm = () => {
-    // todo
-    this.props.execCopy('niaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhao')
+    // this.props.execCopy('niaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhao')
+    const str = this.state.list.map(v => this.magnets[v]).join('\n')
+    console.log(str)
+    this.props.execCopy(str)
+    this.clearChosen(true)
   }
 
   render() {

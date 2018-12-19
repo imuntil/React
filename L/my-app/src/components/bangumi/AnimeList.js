@@ -45,11 +45,11 @@ let Item = ({
           </Tag>
         ) : null}
       </div>
-      <div styleName="title">
-        {title}
-        <a href={link} target="__blank" style={{ marginLeft: 5 }}>
+      <div styleName="title" title={title}>
+        <a href={link} target="__blank" style={{ marginRight: 5 }}>
           <Icon type="link" />
         </a>
+        {title}
       </div>
       <div styleName="size">
         <Tag color="#108ee9">{size}</Tag>
@@ -59,7 +59,7 @@ let Item = ({
           <Icon
             type="check-square"
             onClick={() => {
-              toggleChoose(id, index)
+              toggleChoose(id, index, magnet)
             }}
             className={cx('chosen-square')}
           />
@@ -190,7 +190,7 @@ AnimeList.propTypes = {
   toggleChoose: PropTypes.func,
   chosenList: PropTypes.array,
   onConfirm: PropTypes.func,
-  onCancel: PropTypes.func,
+  onCancel: PropTypes.func
 }
 
 export default cssModules(AnimeList, styles)

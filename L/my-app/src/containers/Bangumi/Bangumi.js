@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import cssModules from 'react-css-modules'
 import styles from './Bangumi.module.scss'
 import BangumiTLHeader from '@/components/Bangumi/BangumiTLHeader'
 import BangumiTLBody from './BangumiTLBody'
 import { getDays } from '@/utils'
+import { fetchCalendar } from '@/actions/calendar-actions'
 
 class Bangumi extends Component {
   static propTypes = {}
@@ -26,6 +28,11 @@ class Bangumi extends Component {
       }
     })
   }
+
+  componentDidMount = () => {
+    this.props.fetchCalendar()
+  }
+
   render() {
     return (
       <div styleName="main-bangumi">
@@ -34,11 +41,22 @@ class Bangumi extends Component {
             {...this.state}
             onArrowClick={this.handleArrowClick}
           />
-          <BangumiTLBody {...this.state} />
+          <BangumiTLBody {...this.state} calendar={this.props.calendar} />
         </div>
       </div>
     )
   }
 }
 
-export default cssModules(Bangumi, styles)
+const mapStateToProps = state => {
+  const calendar = state.calendar
+  return { calendar }
+}
+const mapDispatchToProps = dispatch => ({
+  fetchCalendar: () => dispatch(fetchCalendar())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(cssModules(Bangumi, styles))

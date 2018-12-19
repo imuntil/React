@@ -10,19 +10,20 @@ class BangumiTLBody extends Component {
     // prop: PropTypes
     week: PropTypes.array.isRequired,
     x: PropTypes.number,
-    duration: PropTypes.number
+    duration: PropTypes.number,
+    calendar: PropTypes.array.isRequired,
   }
 
   render() {
-    const { week = [], x = 0, duration = 450 } = this.props
+    const { x = 0, duration = 450, calendar = [] } = this.props
     return (
       <div styleName="tl-wrapper">
         <TweenOne
           styleName="tl-body"
           animation={{ x: x * 280, duration, ease: 'easeOutBack' }}
         >
-          {week.map(v => (
-            <BangumiTimeline key={v.date} />
+          {calendar.map((v, i) => (
+            <BangumiTimeline key={i} list={v} />
           ))}
         </TweenOne>
       </div>

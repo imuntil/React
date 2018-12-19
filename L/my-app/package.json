@@ -8,6 +8,7 @@
     "babel-plugin-import": "^1.10.0",
     "classnames": "^2.2.6",
     "dayjs": "^1.7.7",
+    "http-proxy-middleware": "^0.19.1",
     "live2d-widget-model-hijiki": "^1.0.5",
     "lodash.chunk": "^4.2.0",
     "node-sass": "^4.9.4",
@@ -52,6 +53,5 @@
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "less-loader": "^4.1.0"
-  },
-  "proxy": "http://localhost:21001"
+  }
 }
