@@ -27,9 +27,7 @@ storiesOf('Button', module)
     </Button>
   ))
 storiesOf('Drag', module).add('default', () => <Drag />)
-storiesOf('Dnd', module).add('test', () => <DndBoardCt />)
-storiesOf('Dnd-items', module).add('item', () => (
-  <DndItem name="兔女郎学姐" from="bilibili" />
-))
-
+storiesOf('Dnd', module)
+  .add('列表', () => <DndBoardCt />)
+  .add('item', () => <DndItem name="兔女郎学姐" from="bilibili" />)
 storiesOf('antd', module).add('btn', () => <Btn type="primary">ceshi</Btn>)

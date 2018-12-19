@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import DndBoard from '../components/DndBoard'
-import { Modal } from 'antd'
 
 const model = {
   id: PropTypes.string,
@@ -89,7 +88,11 @@ const combinedQuoteMap = ({ quoteMap, source, combine }) => {
   }
 }
 
+const getTargets = () => {}
+
 class DndBoardCt extends Component {
+  cache = {}
+
   state = {
     BANGUMI: [
       { id: 1, from: 'bangumi', name: '兔女郎学姐', src: 'xx1.png' },
@@ -115,36 +118,34 @@ class DndBoardCt extends Component {
   }
 
   onDragEnd = result => {
-    this.setState({
-      visible: true
+    console.log(result)
+    this.cache = result
+    const { combine, source, destination, type } = result
+    if (combine) {
+      if (type === 'COLUMN') {
+        return
+      }
+      // 不允许同一个list的item combine
+      const data = combinedQuoteMap({
+        quoteMap: this.state,
+        source,
+        combine
+      })
+      this.setState({ ...data.quoteMap })
+    }
+    if (!destination) return
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return
+    }
+    const data = reorderQuoteMap({
+      quoteMap: this.state,
+      source,
+      destination
     })
-    // console.log(result)
-    // const { combine, source, destination, type } = result
-    // if (combine) {
-    //   if (type === 'COLUMN') {
-    //     return
-    //   }
-    //   // 不允许同一个list的item combine
-    //   const data = combinedQuoteMap({
-    //     quoteMap: this.state,
-    //     source,
-    //     combine
-    //   })
-    //   this.setState({ ...data.quoteMap })
-    // }
-    // if (!destination) return
-    // if (
-    //   source.droppableId === destination.droppableId &&
-    //   source.index === destination.index
-    // ) {
-    //   return
-    // }
-    // const data = reorderQuoteMap({
-    //   quoteMap: this.state,
-    //   source,
-    //   destination
-    // })
-    // this.setState({ ...data.quoteMap })
+    this.setState({ ...data.quoteMap })
   }
 
   handleOk = () => {
@@ -157,19 +158,7 @@ class DndBoardCt extends Component {
   render() {
     const list = ['BANGUMI', 'BILIBILI', 'IQIYI']
     return (
-      <div>
-        <Modal
-          title="Basic Modal"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-        <DndBoard values={this.state} keys={list} onDragEnd={this.onDragEnd} />
-      </div>
+      <DndBoard values={this.state} keys={list} onDragEnd={this.onDragEnd} />
     )
   }
 }
