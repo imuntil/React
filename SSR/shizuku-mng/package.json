@@ -26,7 +26,8 @@
     "react-dom": "^16.6.3",
     "react-redux": "5.0.7",
     "redux": "4.0.0",
-    "redux-saga": "0.16.0"
+    "redux-saga": "0.16.0",
+    "why-did-you-update": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",

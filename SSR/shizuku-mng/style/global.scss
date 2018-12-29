@@ -1,0 +1,8 @@
+:global(.__center) {
+  text-align: center;
+}
+:global(.f__center) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

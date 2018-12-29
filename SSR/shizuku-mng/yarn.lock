@@ -7974,6 +7974,11 @@ react-error-overlay@^5.1.0:
   resolved "http://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-5.1.0.tgz#c516995a5652e7bfbed8b497910d5280df74a7e8"
   integrity sha1-xRaZWlZS57++2LSXkQ1SgN90p+g=
 
+react-fast-compare@^2.0.3:
+  version "2.0.4"
+  resolved "http://registry.npm.taobao.org/react-fast-compare/download/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
+  integrity sha1-6EtNRVsP7BE+BALDKTUnFRlvgfk=
+
 react-fuzzy@^0.5.2:
   version "0.5.2"
   resolved "http://registry.npm.taobao.org/react-fuzzy/download/react-fuzzy-0.5.2.tgz#fc13bf6f0b785e5fefe908724efebec4935eaefe"
@@ -9918,6 +9923,14 @@ which@1, which@^1.2.14, which@^1.2.9:
   integrity sha1-pFBD1U9YBTFtqNYvn1CRjT2nCwo=
   dependencies:
     isexe "^2.0.0"
+
+why-did-you-update@^1.0.6:
+  version "1.0.6"
+  resolved "http://registry.npm.taobao.org/why-did-you-update/download/why-did-you-update-1.0.6.tgz#2e2c6a04291e715755ecdff1ac8272f721df6f04"
+  integrity sha1-LixqBCkecVdV7N/xrIJy9yHfbwQ=
+  dependencies:
+    lodash "^4.17.11"
+    react-fast-compare "^2.0.3"
 
 wide-align@^1.1.0:
   version "1.1.3"

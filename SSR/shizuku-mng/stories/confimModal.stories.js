@@ -4,6 +4,8 @@ import { storiesOf } from '@storybook/react'
 import ConfirmModal from '../components/ConfirmModal'
 import AnimeSimCard from '../components/AnimeSimCard'
 
+import '../style/global.scss'
+
 const origin = { id: 1, from: 'bangumi', name: '兔女郎学姐', src: 'xx1.png' }
 const target = {
   id: 2414,
