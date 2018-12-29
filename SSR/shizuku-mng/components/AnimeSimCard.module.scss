@@ -1,7 +1,8 @@
 .sim-card {
-  padding: .5rem 1rem .5rem .5rem;
+  padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
+  width: 280px;
 
   h3 {
     text-align: center;
@@ -37,7 +38,13 @@
   }
 
   .value {
-    padding-left: .5em;
+    padding: 0 1em;
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  .use {
+    flex: 0 0 1.5em;
   }
 
   .cover {

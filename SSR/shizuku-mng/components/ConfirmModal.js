@@ -6,46 +6,76 @@ import styles from './ConfirmModal.module.scss'
 import cssModules from 'react-css-modules'
 // import { wdyu } from '../utils'
 // wdyu(React)
+const getIds = obj => {
+  const { id, ids, from } = obj
+  return ids ? ids : { [from]: id }
+}
 
 class ConfirmModal extends Component {
   state = {
-    chosen: null
+    chosen: null,
+    result: {},
+    checks: {},
+    ids: {}
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { origin, target } = nextProps
+    const { ids } = prevState
+    if (Object.keys(ids).length) {
+      return null
+    }
+    return {
+      ids: { ...getIds(origin), ...getIds(target) }
+    }
+  }
+
   handleChosen = is => {
     this.setState({ chosen: is })
   }
   onOk = () => {
     this.props.handleOk(this.props[this.state.chosen.toLowerCase()])
   }
+  handleChange = (checked, key, value, obj, from) => {
+    console.log(checked, key, value, obj)
+    const { result, checks } = this.state
+    if (key !== 'id') {
+      this.setState({
+        result: { ...result, [key]: checked ? value : '' },
+        checks: { ...checks, [key]: checked ? obj : '' }
+      })
+    }
+  }
+
   render() {
     const { visible, handleCancel, origin, target } = this.props
-    const { chosen } = this.state
+    const { chosen, result, checks } = this.state
     return (
       <Modal
         title="选择卡片"
         visible={visible}
         onOk={this.onOk}
         onCancel={handleCancel}
-        width={600}
+        width={1000}
       >
         <div styleName="body">
-          <div>
-            <AnimeSimCard
-              data={target}
-              is={'TARGET'}
-              onChoose={this.handleChosen}
-              active={chosen === 'TARGET'}
-            />
-          </div>
-          <div styleName="divider" />
-          <div>
-            <AnimeSimCard
-              data={origin}
-              is={'ORIGIN'}
-              onChoose={this.handleChosen}
-              active={chosen === 'ORIGIN'}
-            />
-          </div>
+          <AnimeSimCard data={result} is={'RESULT'} />
+          <AnimeSimCard
+            data={target}
+            is={'TARGET'}
+            onChoose={this.handleChosen}
+            active={chosen === 'TARGET'}
+            onChange={this.handleChange}
+            checks={checks}
+          />
+          <AnimeSimCard
+            data={origin}
+            is={'ORIGIN'}
+            onChoose={this.handleChosen}
+            active={chosen === 'ORIGIN'}
+            onChange={this.handleChange}
+            checks={checks}
+          />
         </div>
       </Modal>
     )

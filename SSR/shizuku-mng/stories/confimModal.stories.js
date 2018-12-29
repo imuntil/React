@@ -6,12 +6,14 @@ import AnimeSimCard from '../components/AnimeSimCard'
 
 import '../style/global.scss'
 
-const origin = { id: 1, from: 'bangumi', name: '兔女郎学姐', src: 'xx1.png' }
+const origin = { id: 1, from: 'bangumi', name: '兔女郎学姐', cover: 'xx1.png' }
 const target = {
   id: 2414,
   from: 'bilibili',
   name: '青春兔女郎学姐',
-  src: 'bb1.png'
+  cover: 'bb1.png',
+  date: '11:00pm',
+  some: 'follow'
 }
 storiesOf('Dnd', module).add('确认框', () => (
   <ConfirmModal

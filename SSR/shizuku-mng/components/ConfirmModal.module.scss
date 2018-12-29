@@ -1,8 +1,9 @@
 .body {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   padding: 0 1rem;
+  align-items: stretch;
+
 }
 .divider {
   width: 1.5rem;
