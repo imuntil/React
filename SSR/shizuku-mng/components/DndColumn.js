@@ -75,6 +75,7 @@ const DndColumn = memo(function DndColumn(props) {
                       isDragging={ds.isDragging}
                       name={v.name}
                       from={v.from}
+                      cover={v.cover}
                     />
                   </div>
                 )}

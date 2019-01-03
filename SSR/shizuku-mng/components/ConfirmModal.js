@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Modal } from 'antd'
+import { Modal, message } from 'antd'
 import AnimeSimCard from './AnimeSimCard'
 import styles from './ConfirmModal.module.scss'
 import cssModules from 'react-css-modules'
@@ -12,33 +12,77 @@ const getIds = obj => {
 }
 
 class ConfirmModal extends Component {
+  static propTypes = {
+    visible: PropTypes.bool.isRequired,
+    handleCancel: PropTypes.func,
+    handleOk: PropTypes.func,
+    origin: PropTypes.object.isRequired,
+    target: PropTypes.object.isRequired
+  }
+
   state = {
-    chosen: null,
     result: {},
     checks: {},
     ids: {}
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { origin, target } = nextProps
+    const { origin, target, visible } = nextProps
     const { ids: prevIds } = prevState
-    if (Object.keys(prevIds).length) {
+    if (Object.keys(prevIds).length || !visible) {
       return null
     }
     const ids = { ...getIds(origin), ...getIds(target) }
     return {
       ids,
       checks: { id: ['TARGET', 'ORIGIN'] },
-      result: { ids }
+      result: { ids, id: target.id, _stems: target._stems }
+    }
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (!nextProps.visible && !this.props.visible) return false
+    return true
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.visible && !this.props.visible) {
+      this.setState({
+        result: {},
+        checks: {},
+        ids: {}
+      })
     }
   }
 
   handleChosen = is => {
-    this.setState({ chosen: is })
+    const data = this.props[is.toLowerCase()]
+    const { id, ids, _stems, ...rest } = data
+    this.setState(({ result, checks }) => {
+      const { ids: prevIds, ...restResult } = result
+      return {
+        result: {
+          ...restResult,
+          ...rest,
+          ids: ids ? { ...prevIds, ...ids } : { ...prevIds, [rest.from]: id }
+        },
+        checks: Object.keys(rest).reduce(
+          (prev, key) => ({ ...prev, [key]: is }),
+          checks
+        )
+      }
+    })
   }
+
   onOk = () => {
-    this.props.handleOk(this.props[this.state.chosen.toLowerCase()])
+    const { ids, from, cover, name } = this.state.result
+    if (!ids || !from || !cover || !name) {
+      message.warning('ids, 来源, 封面, 番剧名必选')
+      return
+    }
+    this.props.handleOk(this.state.result)
   }
+
   handleChange = (checked, key, value, obj, from) => {
     console.log(checked, key, value, obj, from)
     const { result, checks } = this.state
@@ -52,8 +96,9 @@ class ConfirmModal extends Component {
   }
 
   render() {
+    console.log('render')
     const { visible, handleCancel, origin, target } = this.props
-    const { chosen, result, checks } = this.state
+    const { result, checks } = this.state
     return (
       <Modal
         title="选择卡片"
@@ -68,7 +113,6 @@ class ConfirmModal extends Component {
             data={target}
             is={'TARGET'}
             onChoose={this.handleChosen}
-            active={chosen === 'TARGET'}
             onChange={this.handleChange}
             checks={checks}
           />
@@ -76,7 +120,6 @@ class ConfirmModal extends Component {
             data={origin}
             is={'ORIGIN'}
             onChoose={this.handleChosen}
-            active={chosen === 'ORIGIN'}
             onChange={this.handleChange}
             checks={checks}
           />
@@ -84,14 +127,6 @@ class ConfirmModal extends Component {
       </Modal>
     )
   }
-}
-
-ConfirmModal.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  handleCancel: PropTypes.func,
-  handleOk: PropTypes.func,
-  origin: PropTypes.object.isRequired,
-  target: PropTypes.object.isRequired
 }
 
 export default cssModules(ConfirmModal, styles)

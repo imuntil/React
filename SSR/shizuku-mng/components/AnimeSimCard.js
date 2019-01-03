@@ -46,14 +46,7 @@ const IDS = memo(
 
 const AnimeSimCard = memo(
   cssModules(function AnimeSimCard(props) {
-    const {
-      is = '',
-      data = {},
-      onChoose,
-      active,
-      onChange,
-      checks = {}
-    } = props
+    const { is = '', data = {}, onChoose, onChange, checks = {} } = props
     const chooseAble = is !== 'RESULT'
     const computeChecked = key =>
       Array.isArray(checks[key])
@@ -63,16 +56,19 @@ const AnimeSimCard = memo(
       onChange(e.target.checked, key, data[key], is, data.from)
     }
     return (
-      <div className={cx('sim-card', is.toLowerCase(), { active })}>
+      <div className={cx('sim-card', is.toLowerCase())}>
         <h3>{is}</h3>
-        <Field
-          chooseAble={chooseAble}
-          label="来源"
-          onChange={e => handleChange(e, 'from')}
-          checked={computeChecked('from')}
-        >
+        <Field chooseAble={false} label="来源">
           {data.from}
         </Field>
+        <Field chooseAble={false} label="ID">
+          {data.id}
+        </Field>
+        {data.ids ? (
+          <Field chooseAble={false} label="IDs">
+            <IDS ids={data.ids} />
+          </Field>
+        ) : null}
         <Field
           chooseAble={chooseAble}
           label="封面"
@@ -92,14 +88,6 @@ const AnimeSimCard = memo(
           checked={computeChecked('name')}
         >
           {data.name}
-        </Field>
-        <Field
-          chooseAble={chooseAble}
-          label={data.ids ? 'IDs' : 'ID'}
-          onChange={e => handleChange(e, 'id')}
-          checked={computeChecked('id')}
-        >
-          {!data.ids ? data.id : <IDS ids={data.ids} />}
         </Field>
         <Field
           chooseAble={chooseAble}
@@ -142,8 +130,7 @@ AnimeSimCard.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }),
   is: PropTypes.oneOf(['TARGET', 'ORIGIN']),
-  onChoose: PropTypes.func,
-  active: PropTypes.bool
+  onChoose: PropTypes.func
 }
 
 export default AnimeSimCard

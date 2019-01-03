@@ -42,7 +42,10 @@ const DndItem = memo(function DndItem(props) {
       })}
     >
       <div styleName="cover">
-        <img src="https://dummyimage.com/120x120?text=PNG" alt="" />
+        <img
+          src={`https://dummyimage.com/120x120?text=${props.cover}`}
+          alt=""
+        />
       </div>
       <div styleName="box">
         <div styleName="title">{props.name}</div>
@@ -58,7 +61,8 @@ DndItem.propTypes = {
   name: PropTypes.string,
   from: PropTypes.string,
   isDragging: PropTypes.bool,
-  isDraggingOver: PropTypes.bool
+  isDraggingOver: PropTypes.bool,
+  cover: PropTypes.string,
 }
 
 export default DndItem
