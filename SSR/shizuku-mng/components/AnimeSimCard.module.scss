@@ -16,13 +16,13 @@
   }
 
   &.active {
-    border-color: rgba(71, 221, 71, .4);
-    box-shadow: inset 1px 1px 8px 2px rgba(71, 221, 71, .2);
+    border-color: rgba(71, 221, 71, 0.4);
+    box-shadow: inset 1px 1px 8px 2px rgba(71, 221, 71, 0.2);
   }
 }
 
 .wrap {
-  padding: .25em 0;
+  padding: 0.25em 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -54,7 +54,21 @@
   }
 }
 
+.line {
+  border-bottom: 1px solid #ddd;
+  padding: .2em 0;
+  .key {
+    padding-right: .25rem;
+    &::after {
+      content: ':';
+    }
+  }
+  .key-value {
+    color: #000;
+  }
+}
+
 .btn {
   text-align: center;
-  padding: 1em 0 .5em;
+  padding: 1em 0 0.5em;
 }

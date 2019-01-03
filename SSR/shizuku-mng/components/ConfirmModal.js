@@ -21,12 +21,15 @@ class ConfirmModal extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { origin, target } = nextProps
-    const { ids } = prevState
-    if (Object.keys(ids).length) {
+    const { ids: prevIds } = prevState
+    if (Object.keys(prevIds).length) {
       return null
     }
+    const ids = { ...getIds(origin), ...getIds(target) }
     return {
-      ids: { ...getIds(origin), ...getIds(target) }
+      ids,
+      checks: { id: ['TARGET', 'ORIGIN'] },
+      result: { ids }
     }
   }
 
@@ -37,13 +40,14 @@ class ConfirmModal extends Component {
     this.props.handleOk(this.props[this.state.chosen.toLowerCase()])
   }
   handleChange = (checked, key, value, obj, from) => {
-    console.log(checked, key, value, obj)
+    console.log(checked, key, value, obj, from)
     const { result, checks } = this.state
     if (key !== 'id') {
       this.setState({
         result: { ...result, [key]: checked ? value : '' },
         checks: { ...checks, [key]: checked ? obj : '' }
       })
+      return
     }
   }
 

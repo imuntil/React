@@ -29,6 +29,21 @@ const Field = memo(
   styles)
 )
 
+const IDS = memo(
+  cssModules(function IDS({ ids }) {
+    return (
+      <div>
+        {Object.entries(ids).map(v => (
+          <div styleName="line" key={v[0]}>
+            <span styleName="key">{v[0]}</span>
+            <span styleName="key-value">{v[1]}</span>
+          </div>
+        ))}
+      </div>
+    )
+  }, styles)
+)
+
 const AnimeSimCard = memo(
   cssModules(function AnimeSimCard(props) {
     const {
@@ -40,9 +55,12 @@ const AnimeSimCard = memo(
       checks = {}
     } = props
     const chooseAble = is !== 'RESULT'
-    const computeChecked = key => checks[key] === is
+    const computeChecked = key =>
+      Array.isArray(checks[key])
+        ? checks[key].indexOf(is) > -1
+        : checks[key] === is
     const handleChange = (e, key) => {
-      onChange(e.target.checked, key, data[key], is, from)
+      onChange(e.target.checked, key, data[key], is, data.from)
     }
     return (
       <div className={cx('sim-card', is.toLowerCase(), { active })}>
@@ -77,11 +95,11 @@ const AnimeSimCard = memo(
         </Field>
         <Field
           chooseAble={chooseAble}
-          label="ID"
+          label={data.ids ? 'IDs' : 'ID'}
           onChange={e => handleChange(e, 'id')}
           checked={computeChecked('id')}
         >
-          {data.id}
+          {!data.ids ? data.id : <IDS ids={data.ids} />}
         </Field>
         <Field
           chooseAble={chooseAble}
