@@ -94,7 +94,8 @@ const combinedQuoteMap = ({ quoteMap, source, combine }) => {
 }
 
 class DndBoardCt extends Component {
-  cache = {}
+  
+  isSameSource = false
 
   state = {
     BANGUMI: [
@@ -141,6 +142,7 @@ class DndBoardCt extends Component {
     if (type === 'COLUMN') {
       return
     }
+    this.isSameSource = source.droppableId === combine.droppableId
     const data = combinedQuoteMap({
       quoteMap: this.state,
       source,
@@ -151,6 +153,9 @@ class DndBoardCt extends Component {
       origin: data.origin,
       target: data.target,
       visible: true
+    }, () => {
+      console.log('this.state.origin', this.state.origin)
+      console.log('this.state.target', this.state.target)
     })
   }
 
@@ -177,7 +182,13 @@ class DndBoardCt extends Component {
   }
 
   handleOk = result => {
+    // debugger
+    // 需要区分 merge 的数据源是否一致，若不一致，则无影响
+    // 若一致，则不能使用以下处理。因为在 combinedQuoteMap 操作中，会暂时删除 origin。
+    // 可能会导致 _stems 记录的index 和 数据源 column 的 length 起冲突。针对同一数据源的 merge
+    // 应当先 merge 在 del
     console.log('result', result)
+    console.log('this.isSameSource', this.isSameSource)
     const { index, from } = result._stems
     const prevList = this.state[from]
     // delete result._stems

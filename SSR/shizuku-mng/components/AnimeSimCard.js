@@ -59,7 +59,7 @@ const AnimeSimCard = memo(
       <div className={cx('sim-card', is.toLowerCase())}>
         <h3>{is}</h3>
         <Field chooseAble={false} label="来源">
-          {data.from}
+          {(data.from || '').toString()}
         </Field>
         <Field chooseAble={false} label="ID">
           {data.id}
