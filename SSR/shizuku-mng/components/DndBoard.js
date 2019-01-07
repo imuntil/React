@@ -5,7 +5,7 @@ import styles from './DndBoard.module.scss'
 import DndColumn from './DndColumn'
 
 const DndBoard = memo(function DndBoard(props) {
-  const { onDragEnd, keys, values } = props
+  const { onDragEnd, keys, values, onPreview } = props
   return (
     <div>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -28,6 +28,7 @@ const DndBoard = memo(function DndBoard(props) {
                   title={v}
                   index={i}
                   key={v}
+                  onPreview={onPreview}
                   styleName="dnd-item"
                 />
               ))}

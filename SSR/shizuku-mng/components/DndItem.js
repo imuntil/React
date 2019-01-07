@@ -4,6 +4,12 @@ import styles from './DndItem.module.scss'
 import classNames from 'classnames/bind'
 const cx = classNames.bind(styles)
 
+const sorts = {
+  bilibili: 0,
+  iqiyi: 1,
+  bangumi: 2
+}
+
 const Icon = ({ from }) => {
   switch (from) {
     case 'bilibili':
@@ -17,7 +23,7 @@ const Icon = ({ from }) => {
     case 'iqiyi':
       return (
         <i
-          style={{ color: '#00be06' }}
+          style={{ color: '#00be06', fontSize: '1.2rem' }}
           styleName="icon-font"
           className="iconfont icon-iqiyi"
         />
@@ -25,7 +31,7 @@ const Icon = ({ from }) => {
     default:
       return (
         <i
-          style={{ color: '#fb7299' }}
+          style={{ color: '#fb7299', fontSize: '1.2rem' }}
           styleName="icon-font"
           className="iconfont icon-fanju"
         />
@@ -34,6 +40,9 @@ const Icon = ({ from }) => {
 }
 
 const DndItem = memo(function DndItem(props) {
+  const from = Array.isArray(props.from)
+    ? props.from.sort((a, b) => sorts[a] - sorts[b])
+    : [props.from]
   return (
     <div
       className={cx('container', {
@@ -41,7 +50,7 @@ const DndItem = memo(function DndItem(props) {
         'dragging-over': props.isDraggingOver
       })}
     >
-      <div styleName="cover">
+      <div styleName="cover" onClick={props.onClick}>
         <img
           src={`https://dummyimage.com/120x120?text=${props.cover}`}
           alt=""
@@ -50,7 +59,9 @@ const DndItem = memo(function DndItem(props) {
       <div styleName="box">
         <div styleName="title">{props.name}</div>
         <div styleName="some">
-          <Icon from={props.from} />
+          {from.map(v => (
+            <Icon from={v} key={v} />
+          ))}
         </div>
       </div>
     </div>
@@ -59,10 +70,14 @@ const DndItem = memo(function DndItem(props) {
 
 DndItem.propTypes = {
   name: PropTypes.string,
-  from: PropTypes.string,
+  from: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   isDragging: PropTypes.bool,
   isDraggingOver: PropTypes.bool,
   cover: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 export default DndItem

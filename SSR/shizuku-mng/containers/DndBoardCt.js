@@ -2,99 +2,11 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import DndBoard from '../components/DndBoard'
 import ConfirmModal from '../components/ConfirmModal'
+import PreviewModal from '../components/PreviewModal'
 import pick from 'lodash.pick'
-
-const model = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  cover: PropTypes.string,
-  from: PropTypes.string,
-  content: PropTypes.arrayOf(
-    PropTypes.shape({
-      from: PropTypes.string,
-      id: PropTypes.string
-    })
-  )
-}
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
-
-  return result
-}
-
-const reorderQuoteMap = ({ quoteMap, source, destination }) => {
-  const current = [...quoteMap[source.droppableId]]
-  const next = [...quoteMap[destination.droppableId]]
-  const target = current[source.index]
-
-  // 同一list drag
-  if (source.droppableId === destination.droppableId) {
-    const reordered = reorder(current, source.index, destination.index)
-    const result = {
-      ...quoteMap,
-      [source.droppableId]: reordered
-    }
-    return {
-      quoteMap: result
-    }
-  }
-  // 不同list drag
-  current.splice(source.index, 1)
-  next.splice(destination.index, 0, target)
-  const result = {
-    ...quoteMap,
-    [source.droppableId]: current,
-    [destination.droppableId]: next
-  }
-  return {
-    quoteMap: result
-  }
-}
-
-const combinedQuoteMap = ({ quoteMap, source, combine }) => {
-  const originList = [...quoteMap[source.droppableId]]
-  const targetList = [...quoteMap[combine.droppableId]]
-  const origin = { ...originList[source.index] }
-  const targetIndex = targetList.findIndex(v => v.id === combine.draggableId)
-  const target = { ...targetList[targetIndex] }
-  // 保存来源，便于 merge 或者取消
-  origin._stems = {
-    index: source.index,
-    from: source.droppableId
-  }
-  target._stems = {
-    index: targetIndex,
-    from: combine.droppableId
-  }
-  // todo
-  // 1> 暂时删除origin
-  // 2> 返回target & origin
-  originList.splice(source.index, 1)
-  let result = {}
-  if (combine.droppableId !== source.droppableId) {
-    result = {
-      ...quoteMap,
-      [combine.droppableId]: targetList,
-      [source.droppableId]: originList
-    }
-  } else {
-    result = {
-      ...quoteMap,
-      [combine.droppableId]: originList
-    }
-  }
-  return {
-    quoteMap: result,
-    origin,
-    target
-  }
-}
+import { reorder, reorderQuoteMap, combinedQuoteMap } from '../utils'
 
 class DndBoardCt extends Component {
-  
   isSameSource = false
 
   state = {
@@ -120,7 +32,9 @@ class DndBoardCt extends Component {
     ],
     visible: false,
     target: {},
-    origin: {}
+    origin: {},
+    preivew: false,
+    pvData: {}
   }
 
   onDragEnd = result => {
@@ -148,15 +62,18 @@ class DndBoardCt extends Component {
       source,
       combine
     })
-    this.setState({
-      ...data.quoteMap,
-      origin: data.origin,
-      target: data.target,
-      visible: true
-    }, () => {
-      console.log('this.state.origin', this.state.origin)
-      console.log('this.state.target', this.state.target)
-    })
+    this.setState(
+      {
+        ...data.quoteMap,
+        origin: data.origin,
+        target: data.target,
+        visible: true
+      },
+      () => {
+        console.log('this.state.origin', this.state.origin)
+        console.log('this.state.target', this.state.target)
+      }
+    )
   }
 
   /**
@@ -188,48 +105,87 @@ class DndBoardCt extends Component {
     // 可能会导致 _stems 记录的index 和 数据源 column 的 length 起冲突。针对同一数据源的 merge
     // 应当先 merge 在 del
     console.log('result', result)
-    console.log('this.isSameSource', this.isSameSource)
     const { index, from } = result._stems
-    const prevList = this.state[from]
-    // delete result._stems
+    delete result._stems
+    if (!this.isSameSource) {
+      const prevList = this.state[from]
+      this.setState({
+        [from]: [
+          ...prevList.slice(0, index),
+          result,
+          ...prevList.slice(index + 1)
+        ],
+        origin: {},
+        target: {},
+        visible: false
+      })
+      return
+    }
+    const original = this.handleCancel(false)
+    const _new = [
+      ...original.slice(0, index),
+      result,
+      ...original.slice(index + 1)
+    ].filter(v => !v._stems)
     this.setState({
-      [from]: [
-        ...prevList.slice(0, index),
-        result,
-        ...prevList.slice(index + 1)
-      ],
+      [from]: _new,
       origin: {},
       target: {},
       visible: false
     })
   }
-  handleCancel = () => {
+  handleCancel = (ss = true) => {
     // 取消 ‘暂时删除origin’ 的操作
     const { origin } = this.state
     const { index, from } = origin._stems
     const list = this.state[from]
+    const original = [...list.slice(0, index), origin, ...list.slice(index)]
+    if (!ss) {
+      return original
+    }
     delete origin._stems
     this.setState({
-      [from]: [...list.slice(0, index), origin, ...list.slice(index)],
+      [from]: original,
       origin: {},
       target: {},
       visible: false
     })
   }
 
+  handlePreivew = data => {
+    this.setState({
+      pvData: data,
+      preview: true
+    })
+  }
+
   render() {
     const list = ['BANGUMI', 'BILIBILI', 'IQIYI']
-    const { visible, target, origin } = this.state
+    const { visible, target, origin, preview, pvData } = this.state
     const values = pick(this.state, list)
     return (
       <Fragment>
-        <DndBoard values={values} keys={list} onDragEnd={this.onDragEnd} />
+        <DndBoard
+          values={values}
+          keys={list}
+          onDragEnd={this.onDragEnd}
+          onPreview={this.handlePreivew}
+        />
         <ConfirmModal
           visible={visible}
           target={target}
           origin={origin}
           handleOk={this.handleOk}
           handleCancel={this.handleCancel}
+        />
+        <PreviewModal
+          visible={preview}
+          data={pvData}
+          hidePreview={() =>
+            this.setState({
+              preview: false
+            })
+          }
         />
       </Fragment>
     )

@@ -10,6 +10,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.6",
+    "@emotion/styled": "^10.0.6",
     "@zeit/next-sass": "^1.0.1",
     "antd": "^3.11.2",
     "babel-plugin-react-css-modules": "^5.0.0",

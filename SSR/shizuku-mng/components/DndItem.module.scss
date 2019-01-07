@@ -8,9 +8,11 @@
   box-sizing: border-box;
   transition: all .25s;
   transform-origin: center top;
+
   &.dragging {
     background-color: rgba(255, 144, 209, 0.568);
   }
+
   &.dragging-over {
     transform: scale(1.2, 1.2);
   }
@@ -55,4 +57,8 @@
 
 .some {
   text-align: right;
+
+  &>* {
+    margin: 0 .2em;
+  }
 }

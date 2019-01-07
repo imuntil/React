@@ -42,7 +42,15 @@ const Title = ({ title }) => {
 }
 
 const DndColumn = memo(function DndColumn(props) {
-  const { list, listId, title, index, isCombineEnabled = true, ...rest } = props
+  const {
+    list,
+    listId,
+    title,
+    index,
+    isCombineEnabled = true,
+    onPreview,
+    ...rest
+  } = props
   return (
     <div {...rest} styleName="column-box">
       <h3 styleName="column-title">
@@ -73,9 +81,8 @@ const DndColumn = memo(function DndColumn(props) {
                     <DndItem
                       isDraggingOver={Boolean(ds.combineTargetFor)}
                       isDragging={ds.isDragging}
-                      name={v.name}
-                      from={v.from}
-                      cover={v.cover}
+                      {...v}
+                      onClick={() => onPreview(v)}
                     />
                   </div>
                 )}

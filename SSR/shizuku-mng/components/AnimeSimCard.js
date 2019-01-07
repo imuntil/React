@@ -47,7 +47,7 @@ const IDS = memo(
 const AnimeSimCard = memo(
   cssModules(function AnimeSimCard(props) {
     const { is = '', data = {}, onChoose, onChange, checks = {} } = props
-    const chooseAble = is !== 'RESULT'
+    const chooseAble = is && is !== 'RESULT'
     const computeChecked = key =>
       Array.isArray(checks[key])
         ? checks[key].indexOf(is) > -1
@@ -57,7 +57,7 @@ const AnimeSimCard = memo(
     }
     return (
       <div className={cx('sim-card', is.toLowerCase())}>
-        <h3>{is}</h3>
+        {is ? <h3>{is}</h3> : null}
         <Field chooseAble={false} label="来源">
           {(data.from || '').toString()}
         </Field>
@@ -105,7 +105,7 @@ const AnimeSimCard = memo(
         >
           {data.some}
         </Field>
-        {is === 'RESULT' ? null : (
+        {!is || is === 'RESULT' ? null : (
           <div styleName="btn">
             <Button
               onClick={() => onChoose(is)}
@@ -129,7 +129,7 @@ AnimeSimCard.propTypes = {
     name: PropTypes.string,
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }),
-  is: PropTypes.oneOf(['TARGET', 'ORIGIN']),
+  is: PropTypes.oneOf(['TARGET', 'ORIGIN', 'RESULT']),
   onChoose: PropTypes.func
 }
 
