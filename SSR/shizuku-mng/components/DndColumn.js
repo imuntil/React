@@ -68,6 +68,7 @@ const DndColumn = memo(function DndColumn(props) {
             className={cx('column-body', {
               'dragging-over': snapshot.isDraggingOver
             })}
+            data-simplebar
           >
             {list.map((v, i) => (
               <Draggable key={v.id} draggableId={v.id} index={i}>

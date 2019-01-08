@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styles from './calendar.module.scss'
 import cssModules from 'react-css-modules'
+import DndBoardCt from '../containers/DndBoardCt'
 
-export class Calendar extends Component {
+class Calendar extends Component {
   static propTypes = {
     // prop: PropTypes
   }
 
   render() {
-    return <div styleName="test">Calendar</div>
+    return <DndBoardCt />
   }
 }
 
@@ -21,4 +22,4 @@ const mapDispatchToProps = {}
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(cssModules(Calendar, styles))
+)(Calendar)

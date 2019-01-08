@@ -1,8 +1,10 @@
-import App, { Container, Head } from 'next/app'
+import App, { Container } from 'next/app'
+import Head from 'next/head'
 import React from 'react'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
 import withReduxSaga from 'next-redux-saga'
+import '../style/global.scss'
 
 import createStore from '../store'
 

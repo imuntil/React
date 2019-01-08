@@ -35,6 +35,10 @@
   margin-bottom: .5rem;
 }
 
+.column-body .item-wrap:last-child {
+  margin-bottom: 0;
+}
+
 .column-box {
   padding: .5rem;
   width: 240px;

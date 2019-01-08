@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Drag.module.scss'
-import cssModules from 'react-css-modules'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 const grid = 8
@@ -106,4 +105,4 @@ class Drag extends Component {
   }
 }
 
-export default cssModules(Drag, styles)
+export default Drag

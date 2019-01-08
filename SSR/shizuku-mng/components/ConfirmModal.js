@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, message } from 'antd'
 import AnimeSimCard from './AnimeSimCard'
-import styles from './ConfirmModal.module.scss'
-import cssModules from 'react-css-modules'
+import './ConfirmModal.module.scss'
 import omit from 'lodash.omit'
 // import { wdyu } from '../utils'
 // wdyu(React)
@@ -141,4 +140,4 @@ class ConfirmModal extends Component {
   }
 }
 
-export default cssModules(ConfirmModal, styles)
+export default ConfirmModal
