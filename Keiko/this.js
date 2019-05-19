@@ -9,6 +9,16 @@ const obj = {
   },
   d: () => {
     return this.e
+  },
+  x () {
+    setTimeout(() => {
+      console.log('this.a', this.a)
+    }, 1);
+  },
+  y () {
+    return (context => {
+      console.log('this.a', context.a)
+    })(this)
   }
 }
 
@@ -35,3 +45,21 @@ const {b, c, d} = obj
 console.log(b() === 'global.a')
 console.log(c() === 'global.a')
 console.log(d() === undefined)
+
+obj.x()
+obj.x.call(global)
+console.log('__this.a', this.a)
+
+var name = '123'
+class My {
+  constructor () {
+    this.name = 'zhin'
+  }
+
+  tell = () => {
+    console.log('this.name', this.name)
+  }
+}
+const my = new My()
+my.tell()
+my.tell.call(global)
