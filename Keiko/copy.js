@@ -14,11 +14,32 @@ function createData(deep, breadth) {
   return data
 }
 
+function runTime(fn) {
+  // 针对日常开发中较长碰到的情形，广度50，深度10，这已经是很极限的情况了
+  const source = createData(3, 15)
+  // const source = createData(5, 20)
+  // const source = createData(10, 50)
+  const stime = Date.now()
+  let count = 0
+  while (Date.now() - stime < 2000) {
+    fn(source)
+    count++
+  }
+  return count
+}
+
+const sym = Symbol.for('sample')
+
 function test(deepFn) {
   console.log('测试方法: ', deepFn.name)
   console.log('--------------start-----------------')
   // 普通
-  const ta = { x: { m: [1, 2, 3, { a: 'lalala' }] }, y: 1, z: [1, 3] }
+  const ta = {
+    x: { m: [1, 2, 3, { a: 'lalala' }] },
+    y: 1,
+    z: [1, 3],
+    [sym]: 123
+  }
   console.log('基本测试:', deepFn(ta).x.m[3] !== ta.x.m[3])
   console.log(ta)
   console.log(deepFn(ta))
@@ -184,7 +205,7 @@ function cloneLoop(source) {
 
 /**
  * 广度优先??
- * 解决深度过深爆栈问题
+ * 解决深度过深无法处理的问题
  * 非递归，保持引用
  * 相当于上面 cloneLoop 和 cloneDeep_hash || cloneDeep_arry 的结合
  * @param {*} source
@@ -205,6 +226,9 @@ function cloneForce(source) {
       key === undefined ? parent : (parent[key] = Array.isArray(data) ? [] : {})
     // 设置 hash 表
     hash.set(data, res)
+    // 如果要处理 Symbol 类型，这里可以将 for...in...data 换成 Reflect.ownKeys
+    // 就像下面注释
+    // 也可以使用 Object.getOwnPropertySymbols 单独遍历 Symbol 属性
     for (let k in data) {
       if (Object.prototype.hasOwnProperty.call(data, k)) {
         if (isObject(data[k])) {
@@ -214,8 +238,30 @@ function cloneForce(source) {
         }
       }
     }
+    // Reflect.ownKeys(data).forEach(k => {
+    //   if (isObject(data[k])) {
+    //     loopList.push({ parent: res, key: k, data: data[k] })
+    //   } else {
+    //     res[k] = data[k]
+    //   }
+    // })
   }
   return root
 }
 
-test(cloneForce)
+// test(cloneForce)
+
+function cloneJSON(source) {
+  return JSON.parse(JSON.stringify(source))
+}
+
+const rt = {
+  clone: runTime(clone),
+  cloneJSON: runTime(cloneJSON),
+  cloneDeep_hash: runTime(cloneDeep_hash),
+  cloneDeep_array: runTime(cloneDeep_array),
+  cloneLoop: runTime(cloneLoop),
+  cloneForce: runTime(cloneForce)
+}
+
+console.table(rt)
