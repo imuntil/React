@@ -20,6 +20,8 @@ function test(deepFn) {
   // 普通
   const ta = { x: { m: [1, 2, 3, { a: 'lalala' }] }, y: 1, z: [1, 3] }
   console.log('基本测试:', deepFn(ta).x.m[3] !== ta.x.m[3])
+  console.log(ta)
+  console.log(deepFn(ta))
   // 保持引用
   const b = { m: ta, n: ta }
   const cloneB = deepFn(b)
@@ -27,9 +29,9 @@ function test(deepFn) {
   // 深度过深导致爆栈
   try {
     deepFn(createData(10000))
-    console('深度过深: OK')
+    console.log('深度过深: OK')
   } catch (error) {
-    console.log('深度过深: 爆栈')
+    console.log('深度过深: ', error.message)
   }
   // 循环引用导致爆栈
   try {
@@ -38,7 +40,7 @@ function test(deepFn) {
     deepFn(tb)
     console.log('循环引用: OK')
   } catch (error) {
-    console.log('循环引用: 爆栈')
+    console.log('循环引用: ', error.message)
   }
   console.log('--------------end-----------------')
   console.log('')
@@ -140,5 +142,80 @@ function cloneDeep_array(source, uniqueList) {
   return res
 }
 
-test(cloneDeep_hash)
-test(cloneDeep_array)
+// test(cloneDeep_hash)
+// test(cloneDeep_array)
+
+/**
+ * 广度优先？？
+ * （个人感觉这是深度优先诶，明显的后入先出；把 pop 改成 shift 才是 广度优先）
+ * 非递归
+ * 不保持引用
+ * 解决深度过深爆栈问题
+ * 不能处理循环引用，会无限执行下去。。。
+ * @param {*} source
+ */
+function cloneLoop(source) {
+  if (!isObject(source)) return source
+  const root = {}
+  const loopList = [{ parent: root, key: undefined, data: source }]
+  while (loopList.length) {
+    const { parent, key, data } = loopList.pop()
+    let res = parent
+    // 初始化赋值目标，如果 key 为 undefined，则当前为根对象，拷贝到父对象。反之则拷贝到子对象
+    // parent[key] & data
+    // data 可以理解成是 source， 而 parent 则是拷贝的结果对象，data 拷贝得到的结果就是 parent[key]
+    if (key !== undefined) {
+      res = parent[key] = Array.isArray(data) ? [] : {}
+    }
+    for (let k in data) {
+      if (Object.prototype.hasOwnProperty.call(data, k)) {
+        if (isObject(data[k])) {
+          loopList.push({ parent: res, key: k, data: data[k] })
+        } else {
+          res[k] = data[k]
+        }
+      }
+    }
+  }
+  return root
+}
+
+// test(cloneLoop)
+
+/**
+ * 广度优先??
+ * 解决深度过深爆栈问题
+ * 非递归，保持引用
+ * 相当于上面 cloneLoop 和 cloneDeep_hash || cloneDeep_arry 的结合
+ * @param {*} source
+ */
+function cloneForce(source) {
+  if (!isObject(source)) return source
+  const root = {}
+  const hash = new WeakMap()
+  const loopList = [{ parent: root, key: undefined, data: source }]
+  while (loopList.length) {
+    const { parent, key, data } = loopList.pop()
+    // 查询 hash 表
+    if (hash.has(data)) {
+      parent[key] = hash.get(data)
+      continue
+    }
+    const res =
+      key === undefined ? parent : (parent[key] = Array.isArray(data) ? [] : {})
+    // 设置 hash 表
+    hash.set(data, res)
+    for (let k in data) {
+      if (Object.prototype.hasOwnProperty.call(data, k)) {
+        if (isObject(data[k])) {
+          loopList.push({ parent: res, key: k, data: data[k] })
+        } else {
+          res[k] = data[k]
+        }
+      }
+    }
+  }
+  return root
+}
+
+test(cloneForce)
