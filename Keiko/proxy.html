@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="count">0</div>
+    <button onclick="increase()">+</button>
+    <button onclick="decrease()">-</button>
+    <script>
+      const data = { count: 0 }
+      const proxy = new Proxy(data, {
+        get(target, name) {
+          return Reflect.get(target, name)
+        },
+        set(target, name, value) {
+          Reflect.set(target, name, value)
+          render()
+        }
+      })
+
+      function render() {
+        document.querySelector('.count').textContent = proxy.count
+      }
+
+      function increase() {
+        proxy.count++
+      }
+      function decrease() {
+        proxy.count--
+      }
+    </script>
+  </body>
+</html>
