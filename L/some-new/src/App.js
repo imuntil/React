@@ -4,6 +4,8 @@ import './App.css'
 import SASS from './SASS'
 import HOOKS from './HOOKS'
 import ChineseInput from './ChineseInput'
+import FP from './FP'
+import Nm from './Nm'
 
 function App() {
   const [visible, setVisible] = useState(true)
@@ -16,6 +18,8 @@ function App() {
     // </div>
     <div className="App">
       <ChineseInput className="x" />
+      <FP />
+      <Nm />
     </div>
   )
 }
