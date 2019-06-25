@@ -1,11 +1,5 @@
-import './style.scss'
+// import '@babel/polyfill'
 
-const btn = document.createElement('button')
-btn.innerHTML = '新增'
-document.body.append(btn)
-
-btn.onclick = function () {
-  const item = document.createElement('div')
-  item.innerHTML = 'item'
-  document.body.append(item)
-}
+const arr = [new Promise(() => 1), 1, 'ss']
+arr.find(v => v === 1)
+arr.some(v => v > 10)
