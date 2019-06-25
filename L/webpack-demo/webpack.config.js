@@ -29,13 +29,22 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 2,
-              modules: true
+              importLoaders: 2
             }
           },
           'sass-loader',
           'postcss-loader'
         ]
+      },
+      {
+        test: /\.(eot|ttf|svg|woff|woff2)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'fonts/',
+            name: '[name].[ext]'
+          }
+        }
       }
     ]
   }
