@@ -4,13 +4,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   mode: 'development',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     main: './src/index.js'
   },
   output: {
     filename: '[name]-[hash:9].js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: 'https://cdn.com.cn'
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
