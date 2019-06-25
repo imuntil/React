@@ -8,8 +8,9 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    filename: 'bundle-[hash:9].js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name]-[hash:9].js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: 'https://cdn.com.cn'
   },
   module: {
     rules: [
