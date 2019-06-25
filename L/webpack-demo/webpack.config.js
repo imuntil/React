@@ -5,6 +5,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
+  devServer: {
+    contentBase: './dist',
+    // 自动开启浏览器
+    open: true
+  },
   entry: {
     main: './src/index.js'
   },
