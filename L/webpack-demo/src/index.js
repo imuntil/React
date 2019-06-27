@@ -1,5 +1,10 @@
-// import '@babel/polyfill'
+import React, { Component } from 'react'
+import ReactDom from 'react-dom'
 
-const arr = [new Promise(() => 1), 1, 'ss']
-arr.find(v => v === 1)
-arr.some(v => v > 10)
+export default class App extends Component {
+  render() {
+    return <div>hello react</div>
+  }
+}
+
+ReactDom.render(<App />, document.querySelector('#root'))
