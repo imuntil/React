@@ -11,7 +11,8 @@ module.exports = {
     // 自动开启浏览器
     open: true,
     // hmr
-    hot: true
+    hot: true,
+    historyApiFallback: true
   },
   entry: {
     main: './src/index.js'
