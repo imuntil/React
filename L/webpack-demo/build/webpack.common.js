@@ -7,9 +7,7 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    filename: '[name]-[hash:9].js',
-    path: path.resolve(__dirname, '../dist'),
-    chunkFilename: '[name].chunk.js'
+    path: path.resolve(__dirname, '../dist')
   },
   module: {
     rules: [
@@ -45,6 +43,10 @@ module.exports = {
     splitChunks: {
       // async 表示只对异步代码生效， all 同异步， initial： 同步
       chunks: 'all'
+    },
+    // 针对旧版本每次打包即使没做变更，生成的文件名称依然发生变化的处理
+    runtimeChunk: {
+      name: 'runtime'
     }
   },
   plugins: [

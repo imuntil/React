@@ -6,6 +6,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const productConfig = {
   mode: 'production',
   devtool: 'cheap-module-source-map',
+  output: {
+    filename: '[name]-[contenthash].js',
+    chunkFilename: '[name].chunk-[contenthash].js',
+  },
   module: {
     rules: [
       {
