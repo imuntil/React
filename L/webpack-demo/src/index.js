@@ -1,16 +1,20 @@
-import _ from 'lodash'
-import $ from 'jquery'
+function getComponent() {
+  return import(/* webpackChunkName:"lodash" */ 'lodash').then(_ => {
+    const element = document.createElement('div')
+    element.innerHTML = _.join(['Hello', 'world'], ' ')
+    return element
+  })
+}
 
-console.log(_.join(['a', 'b', 'c'], '***'))
-
-// function getComponent() {
-//   return import(/* webpackChunkName:"lodash" */ 'lodash').then(_ => {
-//     const element = document.createElement('div')
-//     element.innerHTML = _.join(['Hello', 'world'], ' ')
-//     return element
-//   })
-// }
-
-// getComponent().then(element => {
-//   document.body.appendChild(element)
-// })
+document.addEventListener(
+  'click',
+  () => {
+    getComponent().then(element => {
+      document.body.appendChild(element)
+    })
+    import(/* webpackChunkName: 'test' */ './test').then(({default: test}) => {
+      test.run()
+    })
+  },
+  false
+)
