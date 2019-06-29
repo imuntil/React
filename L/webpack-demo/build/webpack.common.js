@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     filename: '[name]-[hash:9].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, '../dist')
   },
   module: {
     rules: [
@@ -53,6 +53,11 @@ module.exports = {
         }
       }
     ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
