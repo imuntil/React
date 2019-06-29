@@ -8,7 +8,8 @@ module.exports = {
   },
   output: {
     filename: '[name]-[hash:9].js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../dist'),
+    chunkFilename: '[name].chunk.js'
   },
   module: {
     rules: [

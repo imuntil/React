@@ -4,7 +4,7 @@ const common = require('./webpack.common')
 
 const devConfig = {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: './dist',
     // 自动开启浏览器
