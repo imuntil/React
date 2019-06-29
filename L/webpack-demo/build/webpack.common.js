@@ -30,20 +30,6 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2
-            }
-          },
-          'sass-loader',
-          'postcss-loader'
-        ]
-      },
-      {
         test: /\.(eot|ttf|svg|woff|woff2)$/,
         use: {
           loader: 'file-loader',
@@ -58,7 +44,7 @@ module.exports = {
   optimization: {
     splitChunks: {
       // async 表示只对异步代码生效， all 同异步， initial： 同步
-      chunks: 'all',
+      chunks: 'all'
     }
   },
   plugins: [

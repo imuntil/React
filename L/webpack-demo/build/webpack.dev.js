@@ -12,6 +12,24 @@ const devConfig = {
     // hmr
     hot: true
   },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
+          'sass-loader',
+          'postcss-loader'
+        ]
+      },
+    ]
+  }
   plugins: [new webpack.HotModuleReplacementPlugin()]
 }
 
