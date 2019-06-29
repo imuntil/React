@@ -3,7 +3,7 @@
 // console.log(_.join(['a', 'b', 'c'], '***'))
 
 function getComponent() {
-  return import('lodash').then(({ default: _ }) => {
+  return import('lodash').then(_ => {
     const element = document.createElement('div')
     element.innerHTML = _.join(['Hello', 'world'], ' ')
     return element
