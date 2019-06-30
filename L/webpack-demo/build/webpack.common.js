@@ -17,7 +17,8 @@ function addFile() {
 
 module.exports = {
   entry: {
-    main: './src/index.js'
+    main: './src/index.js',
+    list: './src/List.js'
   },
   output: {
     path: path.resolve(__dirname, '../dist')
@@ -75,7 +76,15 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      title: '=.-'
+      title: '首页',
+      filename: 'index.html',
+      chunks: ['runtime', 'vendors', 'main']
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      title: '列表页',
+      filename: 'list.html',
+      chunks: ['runtime', 'vendors', 'list']
     }),
     new CleanWebpackPlugin(),
     // 简单的写法
