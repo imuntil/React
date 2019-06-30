@@ -1,6 +1,11 @@
+import React, { Component } from 'react'
+import reactDom from 'react-dom'
 import _ from 'lodash'
-import $ from 'jquery'
 
-const dom = $('<div>')
-dom.html(_.join(['hello', 'world'], ' '))
-$('body').append(dom)
+class App extends Component {
+  render() {
+    return <div>{_.join(['this', 'is', 'home'], ' ')}</div>
+  }
+}
+
+reactDom.render(<App/>, document.querySelector('#root'))

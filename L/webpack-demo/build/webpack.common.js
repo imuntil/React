@@ -1,7 +1,19 @@
 const path = require('path')
+const fs = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
+
+function addFile() {
+  const files = fs.readdirSync(path.resolve(__dirname, '../dll'))
+  return files.map(v => {
+    const filepath = path.resolve(__dirname, '../dll', v)
+    return /dll\.js$/.test(v)
+      ? new AddAssetHtmlWebpackPlugin({ filepath })
+      : new webpack.DllReferencePlugin({ manifest: filepath })
+  })
+}
 
 module.exports = {
   entry: {
@@ -66,9 +78,20 @@ module.exports = {
       title: '=.-'
     }),
     new CleanWebpackPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      _join: ['lodash', 'join']
-    })
+    // 简单的写法
+    // new AddAssetHtmlWebpackPlugin({
+    //   filepath: path.resolve(__dirname, '../dll/reacts.dll.js')
+    // }),
+    // new AddAssetHtmlWebpackPlugin({
+    //   filepath: path.resolve(__dirname, '../dll/vendors.dll.js')
+    // }),
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.resolve(__dirname, '../dll/reacts.manifest.json')
+    // }),
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.resolve(__dirname, '../dll/vendors.manifest.json')
+    // })
+    // 优化写法
+    ...addFile()
   ]
 }

@@ -33,7 +33,7 @@ const devConfig = {
         ]
       },
     ]
-  }
+  },
   plugins: [new webpack.HotModuleReplacementPlugin()]
 }
 
