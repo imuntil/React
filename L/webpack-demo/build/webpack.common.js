@@ -10,6 +10,16 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist')
   },
+  resolve: {
+    // 引入模块式不用编写文件后缀，系统会按照名称来查找相关的js或jsx文件
+    extensions: ['.js', '.jsx'],
+    // 引入目录时，会自动查找目录下的index.js 或 some_test.js
+    mainFiles: ['index.js', 'some_test.js'],
+    // 目录别名
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
+  },
   module: {
     rules: [
       {
