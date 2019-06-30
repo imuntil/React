@@ -12,7 +12,8 @@ module.exports = {
     open: true,
     // hmr
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    overlay: true
   },
   entry: {
     main: './src/index.js'
@@ -26,7 +27,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: ['babel-loader', 'eslint-loader']
       },
       {
         test: /\.jpg$/,
