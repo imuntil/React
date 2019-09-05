@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CSS Shape</title>
+    <style>
+      .shape-left {
+        float: left;
+        width: 200px;
+        height: 500px;
+        shape-outside: polygon(0 0, 100% 0, 0 100%);
+      }
+      .shape-right {
+        float: right;
+        width: 200px;
+        height: 500px;
+        shape-outside: polygon(100% 0, 100% 100%, 0 100%);
+      }
+      .content {
+        display: block;
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shape-left"></div>
+    <div class="shape-right"></div>
+    <content class="content">
+      不规则形状的广告更能引起用户的注意力，从而提高广告点击率。
+      于是对于平行四边形布局，左上角和右下角的三角空缺正好可以用来放两个三角形广告，既充分利用空间，又有高收益。
+      前端开发通常与公司的业务收入直接关联不大，但是这里却不一样，如果你实现的新颖的布局效果能够大幅提高公司的收入，证明了你在这一块的价值，相信对你的绩效会很不错，可以在项目中试一试。
+      然而实际开发的时候，展示的文字内容有多有少，走平行四边形并不合适，因为会导致三角很小，或者右下角的三角位置无法确定的问题，因此，推荐实现的布局形状是下图这样子的。
+    </content>
+  </body>
+</html>
