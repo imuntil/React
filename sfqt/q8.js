@@ -20,3 +20,5 @@ function move(steps) {
   }
   return count
 }
+
+move([[0, 0]])
