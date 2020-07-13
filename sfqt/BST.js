@@ -83,7 +83,12 @@ class BST {
   // 查找排名为num的节点的
   // 简单的说，如果num=5，就是查找整个树中，共有5个节点的key值小于要找的节点
   // 也就是key排第5位的节点
-  selectKey = (node, num) => {
+  selectKey = (num) => {
+    const node = this._selectKey(this.root, num)
+    return node && node.key
+  }
+
+  _selectKey = (node, num) => {
     if (node === null) return null
     const t = this.size(node.left)
     if (t > num) {
@@ -100,13 +105,16 @@ class BST {
   }
 
   // 返回给定key的排名
-  rank = (key, node) => {
+  rank = (key) => {
+    return this._rank(this.root, key)
+  }
+
+  _rank = (node, key) => {
     if (node === null) return 0
-    const t = node.key - key
-    if (t > 0) {
-      return this.rank(key, node.left)
-    } else if (t < 0) {
-      return 1 + this.size(node.left) + this.rank(key, node.right)
+    if (node.key > key) {
+      return this._rank(node.left, key)
+    } else if (node.key < key) {
+      return this._rank(node.right, key) + this.size(node.left) + 1
     } else {
       return this.size(node.left)
     }
@@ -114,34 +122,45 @@ class BST {
 
   // 返回删除最小节点后的树
   deleteMin = (node) => {
+    return this._deleteMin(node || this.root)
+  }
+
+  _deleteMin = (node) => {
     if (node.left === null) return node.right
-    node.left = this.deleteMin(node.left)
+    node.left = this._deleteMin(node.left)
     node.N = this.size(node.left) + this.size(node.right) + 1
     return node
   }
 
   // 返回删除最大节点后的树
   deleteMax = (node) => {
+    return this._deleteMax(node || this.root)
+  }
+
+  _deleteMax = (node) => {
     if (node.right === null) return node.left
-    node.right = this.deleteMax(node.right)
+    node.right = this._deleteMax(node.right)
     node.N = this.size(node.left) + this.size(node.right) + 1
     return node
   }
 
   // 删除节点
   deleteKey = (node, key) => {
-    const t = node.key - key
-    if (t > 0) {
-      node.left = this.deleteKey(node.left, key)
-    } else if (t < 0) {
-      node.right = this.deleteKey(node.right, key)
+    return this._deleteKey(node || this.root, key)
+  }
+
+  _deleteKey = (node, key) => {
+    if (node.key > key) {
+      node.left = this._deleteKey(node.left, key)
+    } else if (node.key < key) {
+      node.right = this._deleteKey(node.right, key)
     } else {
-      if (node.right === null) return node.left
       if (node.left === null) return node.right
-      const minRight = this.minKey(node.right)
-      minRight.left = node.left
-      minRight.right = this.deleteMax(node.right)
-      node = minRight
+      if (node.right === null) return node.left
+      const n = this.minKey(node.right)
+      n.left = node.left
+      n.right = this._deleteMin(node.right)
+      node = n
     }
     node.N = this.size(node.left) + this.size(node.right) + 1
     return node
