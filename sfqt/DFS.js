@@ -85,6 +85,14 @@ class BreadthFirstPaths {
   }
   hasPathTo = (v) => this.marked[v]
   pathTo = (v) => {
-    // 和上面一样
+    if (!this.hasPathTo(v)) return false
+    let prev = this.edgeTo[v]
+    const path = []
+    while (prev !== this.s) {
+      path.push(prev)
+      prev = this.edgeTo[prev]
+    }
+    path.push(this.s)
+    return path
   }
 }
