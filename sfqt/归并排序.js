@@ -1,8 +1,4 @@
 /**
- * 自顶向下的归并排序
- */
-
-/**
  * 取一个数组的两部分 left：[lo,...,mid], right: [mid+1,...,hi]
  * 从 lo 到 hi，遍历原数组：当 left 的值，小于 right 的值，则去left，反之取right。
  * 一方被取完没有剩余，则去另外一方
@@ -30,6 +26,9 @@ function merge(arr, aux, lo, mid, hi) {
   }
 }
 
+/**
+ * 自顶向下的归并排序
+ */
 function mergeSort(arr) {
   function sort(a, aux, lo, hi) {
     if (hi <= lo) return
@@ -42,4 +41,15 @@ function mergeSort(arr) {
   const aux = Array(arr.length)
   sort(arr, aux, 0, arr.length - 1)
   return arr
+}
+
+// 自底向上的归并排序
+function mergeUB(arr) {
+  const N = arr.length
+  const aux = Array(N)
+  for (let size = 1; size < N; size = size + size) {
+    for (let lo = 0; lo < N - size; lo += size + size) {
+      merge(arr, aux, lo, lo + size - 1, Math.min(N - 1, lo + size + size - 1))
+    }
+  }
 }
