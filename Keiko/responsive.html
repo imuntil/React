@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @media (min-resolution: 1dppx) {
+        div {
+          color: #000;
+        }
+      }
+      @media (min-resolution: 2dppx) {
+        div {
+          color: #f00;
+        }
+      }
+      @media (min-resolution: 3dppx) {
+        div {
+          color: #0f0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>test</div>
+    <img
+      src="./assets/haruhi-shugi.png"
+      alt="xx"
+      srcset="
+        ./assets/IMG_4025.JPG                              960w,
+        ./assets/haruhi-shugi.png                         1920w,
+        https://dummyimage.com/2880x1400/4A7BF7&text=2880 2880w
+      "
+      sizes="(min-resolution: 1dppx) 100px, (min-resolution: 2dppx) 100px, (min-resolution: 3dppx) 100px"
+    />
+    <img
+      src="https://dummyimage.com/100x50/4A7BF7&text=100"
+      alt="xxx"
+      srcset="
+        https://dummyimage.com/100x50/4A7BF7&text=100  100w,
+        https://dummyimage.com/200x100/4A7BF7&text=200 200w,
+        https://dummyimage.com/300x150/4A7BF7&text=300 300w
+      "
+      sizes="(min-resolution: 1dppx) 100px, (min-resolution: 2dppx) 100px, (min-resolution: 3dppx) 100px"
+    />
+  </body>
+</html>
