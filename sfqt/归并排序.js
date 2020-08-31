@@ -44,7 +44,7 @@ function mergeSort(arr) {
 }
 
 // 自底向上的归并排序
-function mergeUB(arr) {
+function mergeBU(arr) {
   const N = arr.length
   const aux = Array(N)
   for (let size = 1; size < N; size = size + size) {
