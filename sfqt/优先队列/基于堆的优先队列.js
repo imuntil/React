@@ -62,3 +62,5 @@ class MaxPQ {
     return this.pq[i] < this.pq[j]
   }
 }
+
+export default MaxPQ
