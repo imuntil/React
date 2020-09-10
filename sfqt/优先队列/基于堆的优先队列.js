@@ -1,3 +1,5 @@
+// 二叉堆实现优先队列
+
 class MaxPQ {
   constructor() {
     // 基于堆的完全二叉树
