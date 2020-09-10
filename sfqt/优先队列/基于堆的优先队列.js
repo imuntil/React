@@ -66,3 +66,6 @@ class MaxPQ {
 }
 
 export default MaxPQ
+
+// 索引优先队列
+// https://www.cnblogs.com/nullzx/p/6624731.html
