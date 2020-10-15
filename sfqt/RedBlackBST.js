@@ -78,4 +78,24 @@ class RedBlackBST {
     node.N = this.size(node.left) + this.size(node.right) + 1
     return node
   }
+
+  moveRedLeft = node => {
+    this.flipColors(node)
+    if (this.isRed(node.right.left)) {
+      
+    }
+  }
+
+
+  deleteMin = () => {
+    if (!this.isRed(root.left) && !this.isRed(root.right)) {
+      this.root.color = RED
+    }
+
+  }
+
+  _deleteMin = node => {
+    if (!node.left) return null
+
+  }
 }
