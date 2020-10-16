@@ -1,17 +1,18 @@
 class MSD {
-  charAt = (s, d) => {
-    return s.length >= d ? s.charCodeAt(d) : -1
+  charAt(s, d) {
+    return s.length > d ? s.charCodeAt(d) : -1
   }
 
-  sort = (a) => {
+  sort(a) {
     this.N = a.length
     this.aux = Array(this.N).fill(0)
     this._sort(a, 0, this.N - 1, 0)
   }
 
-  _sort = (a, low, high, d) => {
+  _sort(a, low, high, d) {
+    if (high <= low) return
     // 计算频率
-    const count = []
+    const count = [0]
     for (let i = low; i <= high; i++) {
       const index = this.charAt(a[i], d) + 2
       count[index] ? count[index]++ : (count[index] = 1)
@@ -45,8 +46,28 @@ class MSD {
     }
 
     // 递归地以每个字符为键进行排序
-    for (let k = 0; k < count.length; k++) {
+    for (let k = 0; k < count.length - 1; k++) {
       this._sort(a, low + count[k], low + count[k + 1] - 1, d + 1)
     }
   }
 }
+
+const input = [
+  'she',
+  'sells',
+  'seashells',
+  'by',
+  'the',
+  'seashore',
+  'the',
+  'shells',
+  'she',
+  'sells',
+  'are',
+  'surely',
+  'seashells',
+]
+
+const msd = new MSD()
+msd.sort(input)
+console.log(input)
