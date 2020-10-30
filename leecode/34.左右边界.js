@@ -74,7 +74,8 @@ function right_bound2(nums, target) {
     }
   }
   if (right < 0) return -1
-  return nums[right] === target ? right : -1
+  // 注意。想不明白可以画图推算。建议都是用闭区间
+  return nums[right - 1] === target ? right - 1 : -1
 }
 
 /**
@@ -83,7 +84,7 @@ function right_bound2(nums, target) {
  * @return {number[]}
  */
 var searchRange = function (nums, target) {
-  const left = left_bound(nums, target)
-  const right = right_bound(nums, target)
+  const left = left_bound2(nums, target)
+  const right = right_bound2(nums, target)
   return [left, right]
 }
