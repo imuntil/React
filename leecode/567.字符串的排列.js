@@ -71,6 +71,9 @@ var checkInclusion2 = function (s1, s2) {
       left++
       if (need[c2]) {
         // __todo  why???
+        // 上面的典型滑动窗口中，”window[c2] < need[c2] && valid--” 可以按预期执行, 本例中却不行
+        // 因为上例中的先决条件是 valid === needSize, 任何一个window[c2] < need[c2]，都会使得valid--
+        // 而本例中，自己体会，不好说。
         window[c2] === need[c2] && valid--
         window[c2]--
       }
