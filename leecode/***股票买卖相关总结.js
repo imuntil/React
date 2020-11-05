@@ -9,14 +9,14 @@
  * dp[-1][i][1] = -infinity (交易未开始，已持有，不可能)
  * dp[0][k][0] = 0 (第0天，k次交易，未持有，0收益)
  * dp[0][k][1] = -price[0] || -infinity (第0天，k次交易，已经持有)
- * 
+ *
  * 基本套路
  * for (i:prices) {
  *  for (k = 1; k <= K; k++) {
  *    // 转移方程
  *  }
  * }
- * 
+ *
  * K <= 1 的简化方程:
  * 带入状态转移方程
  * dp[i][0][0] = 0
@@ -27,24 +27,36 @@
  * dp_i0 = 0, dp_i1 = -infinity
  * dp_i0 = max(dp_i0, dp_i1 + prices[i])
  * dp_i1 = max(dp_i1, -prices[i])
- * 
+ *
  * K <= prices.length/2:
  * 当prices很大时，会生成NxKx2的dp数组，可能导致内存溢出。
- * 解决问题，不必保存每天每次交易的结果，只保存每次交易的结果，那么只需处理2*K个变量，则有
+ * 解决这个问题，可以不保存每天每次交易的结果，只保存每次交易的结果，那么只需处理2*K个变量，则有
  * for (j:K)
  *  // 初始化，相当于第0天
  *  dp[j][0] = 0
  *  dp[j][1] = -prices[0]
- * 那么则有状态转移方程
+ * 那么则可以得到状态转移方程
  * dp[j][0] = max(dp[j][0], dp[j][1] + prices[i])
  * dp[j][1] = max(dp[j][1], dp[j-1][0] - prices[i])
- * 
- * 
+ *
+ *
  * K === 2:
  * 相当于上面的一个特例，因为只有4个变量，可以罗列出来，以提高性能
  * dp_i10, dp_i11, dp_i20, dp_i21
- * 
- * 
+ * 可得到转移方程
+ * dp_i10 = max(dp_i10, dp_i11 + prices[i])
+ * dp_i11 = max(dp_i11, dp[i-1][j-1][0] - prices[i]) 【j为1】
+ *        = max(dp_i11, -prices[i])
+ * dp_i20 = max(dp_i20, dp_i21 + prices[i])
+ * dp_i21 = max(dp_i21, dp_i10 - prices[i])
+ * 修改下顺序
+ * dp_i20 = max(dp_i20, dp_i21 + prices[i])
+ * dp_i21 = max(dp_i21, dp_i10 - prices[i])
+ * dp_i10 = max(dp_i10, dp_i11 + prices[i])
+ * dp_i11 = max(dp_i11, -prices[i])
+ *
+ *
+ *
  * K > prices.length / 2 (k无限):
  * 依然套入方程
  * dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
@@ -58,6 +70,14 @@
  * temp = dp_i0
  * dp_i0 = max(dp_i0, dp_i1 + prices[i])
  * dp_i1 = max(dp_i1, temp - prices[0])
+ *
+ *
+ * 另外还有一些变体
+ * 手续费，很简单，卖出的时候额外减去手续费就行
+ * dp[i][k][0] = max(dp[i-1][k][0], dp[i-1[k][1] - prices[i] - fee)
  * 
- * 
+ * 冷却时间：
+ * 设每次交易后有x天冷却时间，正常的可以理解为有0天的冷却时间，那么下面的
+ * 状态转移方程就很好理解了
+ * dp[i][k][1] = max(dp[i-1][k][1], dp[i-x][k-1][0] - prices[i])
  */
