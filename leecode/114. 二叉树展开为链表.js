@@ -13,4 +13,18 @@ function TreeNode(val, left, right) {
   this.right = right === undefined ? null : right
 }
 
-var flatten = function (root) {}
+var flatten = function (root) {
+  if (!root) return null
+  flatten(root.left)
+  flatten(root.right)
+  const temp = root.right
+  root.right = root.left
+  root.left = null
+  let parent = root
+  while (parent.right) {
+    parent = parent.right
+  }
+  parent.right = temp
+  return root
+}
+
