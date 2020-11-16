@@ -8,23 +8,46 @@ function TreeNode(val, left, right) {
   this.right = right === undefined ? null : right
 }
 
-function gen(list, low, high, p, d, root, count, res) {
+function gen(low, high) {
   if (low > high) {
-    if (root.size === list.length && d === 'right') {
-      res.push(JSON.stringify(root))
-    }
-    return null
+    return [null]
   }
-  count++
+  const result = []
   for (let i = low; i <= high; i++) {
-    const node = new TreeNode(list[i])
-    p ? (p[d] = node) : (root = node)
-    root.size = (root.size || 0) + 1
-    gen(list, low, i - 1, node, 'left', root, count, res)
-    gen(list, i + 1, high, node, 'right', root, count, res)
-    p && (p[d] = null)
-    root.size--
+    const leftTrees = gen(low, i - 1)
+    const rightTrees = gen(i + 1, high)
+    for (let left of leftTrees) {
+      for (let right of rightTrees) {
+        const node = new TreeNode(i)
+        node.left = left
+        node.right = right
+        result.push(node)
+      }
+    }
   }
+  return result
+}
+
+function gen2(low, high, memo) {
+  !memo && (memo = {})
+  if (low > high) return [null]
+  const key = `${low}-${high}`
+  if (memo[key]) return memo[key]
+  const result = []
+  for (let i = low; i <= high; i++) {
+    const leftTrees = gen2(low, i - 1, memo)
+    const rightTrees = gen2(i+1, high, memo)
+    for (let left of leftTrees) {
+      for (let right of rightTrees) {
+        const node = new TreeNode(i)
+        node.left = left
+        node.right = right
+        result.push(node)
+      }
+    }
+  }
+  memo[key] = result
+  return result
 }
 
 /**
@@ -32,10 +55,6 @@ function gen(list, low, high, p, d, root, count, res) {
  * @return {TreeNode[]}
  */
 var generateTrees = function (n) {
-  const res = []
-  const list = Array(n)
-    .fill('')
-    .map((_, ix) => ix + 1)
-  gen(list, 0, list.length - 1, null, null, null, 0, res)
-  return res.map((v) => JSON.parse(v))
+  if (!n) return []
+  return gen(1, n)
 }
