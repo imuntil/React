@@ -35,16 +35,11 @@ var recoverTree = function (root) {
     root = root.right
   }
 
-  // xxxxx wrong!!!!!!!
-  // const x = t[0]
-  // const y = t[t.length - 1]
-  // const { left, right } = x
-  // x.left = y.left
-  // x.right = y.right
-  // y.left = left
-  // y.right = right
+  const x = t[0]
+  const y = t[t.length - 1]
+  [x.val, y.val] = [y.val, x.val]
 
-  return rootCopy.val === x.val ? y : rootCopy
+  return rootCopy
 }
 
 function TreeNode(val, left, right) {
