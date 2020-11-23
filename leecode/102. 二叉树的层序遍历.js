@@ -15,13 +15,27 @@ var levelOrder = function (root) {
   const res = []
   let temp = []
   let count = 1
-  while (q.length) {
-    const current = q.shift()
-    temp.push(current.val)
+
+  const compare = function () {
     if (temp.length === count) {
-      res.push(temp)
+      temp.length && res.push(temp)
+      count = 2 * temp.length
       temp = []
-      count = 0
     }
   }
+  while (q.length) {
+    const current = q.shift()
+    if (!current) {
+      count--
+      compare()
+      continue
+    }
+    temp.push(current.val)
+    compare()
+
+    q.push(current.left)
+    q.push(current.right)
+  }
+
+  return res
 }
