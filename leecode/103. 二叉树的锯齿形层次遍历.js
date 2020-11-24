@@ -29,3 +29,27 @@ var zigzagLevelOrder = function (root) {
   }
   return res
 }
+
+zigzagLevelOrder = function (root) {
+  if (!root) return []
+  const res = []
+  let leftDir = true
+  let arr = [root]
+  while (arr.length) {
+    const arr2 = []
+    const temp = Array(arr.length)
+    let ix = leftDir ? 0 : arr.length - 1
+    while (arr.length) {
+      const cur = arr.shift()
+      // temp[leftDir ? 'push' : 'unshift'](cur.val)
+      temp[ix] = cur.val
+      leftDir ? ix++ : ix--
+      cur.left && arr2.push(cur.left)
+      cur.right && arr2.push(cur.right)
+    }
+    res.push(temp)
+    arr = arr2
+    leftDir = !leftDir
+  }
+  return res
+}
