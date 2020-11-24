@@ -39,3 +39,23 @@ var levelOrder = function (root) {
 
   return res
 }
+
+// s2
+levelOrder = function (root) {
+  if (!root) return []
+  const res = []
+  let arr = [root]
+  while (arr.length) {
+    const arr2 = []
+    const temp = []
+    while (arr.length) {
+      const cur = arr.shift()
+      temp.push(cur.val)
+      cur.left && arr2.push(cur.left)
+      cur.right && arr2.push(cur.right)
+    }
+    res.push(temp)
+    arr = arr2
+  }
+  return res
+}
