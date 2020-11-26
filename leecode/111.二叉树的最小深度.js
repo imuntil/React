@@ -10,6 +10,8 @@
  * @param {TreeNode} root
  * @return {number}
  */
+
+// 广度优先
 var minDepth = function (root) {
   if (!root) return 0
   const q = []
@@ -28,4 +30,23 @@ var minDepth = function (root) {
     depth++
   }
   return depth
+}
+
+// 深度优先
+minDepth = function (root) {
+  if (!root) return 0
+  let res = Number.MAX_SAFE_INTEGER
+  const dfs = (node, depth) => {
+    if (node.left) {
+      dfs(node.left, depth + 1)
+    }
+    if (node.right) {
+      dfs(node.right, depth + 1)
+    }
+    if (!node.left && !node.right) {
+      res = Math.min(res, depth)
+    }
+  }
+  dfs(root, 1)
+  return res
 }

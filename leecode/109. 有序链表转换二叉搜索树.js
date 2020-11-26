@@ -27,6 +27,7 @@ var sortedListToBST = function (head) {
 
   const helper = (start, end) => {
     if (start === end) return new TreeNode(nums[start])
+    if (start > end) return null
     const mid = (start + end) >> 1
     const root = new TreeNode(nums[mid])
     root.left = helper(start, mid - 1)
