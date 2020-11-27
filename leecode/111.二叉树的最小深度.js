@@ -50,3 +50,22 @@ minDepth = function (root) {
   dfs(root, 1)
   return res
 }
+
+// 深度优先优化...反倒更慢了-。-！
+minDepth = function (root) {
+  if (!root) return 0
+  let res = Number.MAX_SAFE_INTEGER
+  const dfs = (node, depth) => {
+    if (node.left && depth < res) {
+      dfs(node.left, depth + 1)
+    }
+    if (node.right && depth < res) {
+      dfs(node.right, depth + 1)
+    }
+    if (!node.left && !node.right) {
+      res = Math.min(res, depth)
+    }
+  }
+  dfs(root, 1)
+  return res
+}
