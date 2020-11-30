@@ -10,20 +10,17 @@
  * @param {number} sum
  * @return {boolean}
  */
-var hasPathSum = function(root, sum) {
-
-};
-
-function helper(root, prev) {
-  // if (!root) return prev
-  prev -= root.val
-  if (!root.left && !root.right && prev === 0) {
-    return true
+var hasPathSum = function (root, sum) {
+  const helper = (node, val) => {
+    if (!node) return
+    val += node.val
+    if (!node.left && !node.right && val === sum) {
+      return true
+    }
+    const left = helper(node.left, val)
+    if (left === true) return true
+    const right = helper(node.right, val)
+    if (right === true) return true
   }
-  if (root.left) {
-    return helper(root.left, prev)
-  }
-  if (root.right) {
-    return helper(root.right, prev)
-  }
+  return helper(root, 0) === true
 }
