@@ -28,3 +28,20 @@ var flatten = function (root) {
   return root
 }
 
+flatten = function (root) {
+  const helper = (node) => {
+    if (!node) return
+    helper(node.left)
+    helper(node.right)
+    const temp = node.right
+    node.right = node.left
+    node.left = null
+    let x = node
+    while (x.right) {
+      x = x.right
+    }
+    x.right = temp
+  }
+  helper(root)
+  return root
+}
