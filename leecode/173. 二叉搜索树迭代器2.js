@@ -10,31 +10,32 @@
  * @param {TreeNode} root
  */
 var BSTIterator = function (root) {
-  const q = []
-  const helper = (node) => {
-    if (!node) return
-    helper(node.left)
-    q.push(node.val)
-    helper(node.right)
+  this.q = []
+  while (root) {
+    this.q.push(root)
+    root = root.left
   }
-  helper(root)
-  this.q = q
-  this.N = q.length
-  this.ix = 0
 }
 
 /**
  * @return {number}
  */
 BSTIterator.prototype.next = function () {
-  return this.q[this.ix++]
+  let cur = this.q.pop()
+  const val = cur.val
+  cur = cur.right
+  while (cur) {
+    this.q.push(cur)
+    cur = cur.left
+  }
+  return val
 }
 
 /**
  * @return {boolean}
  */
 BSTIterator.prototype.hasNext = function () {
-  return this.ix >= this.N
+  return this.q.length > 0
 }
 
 /**
