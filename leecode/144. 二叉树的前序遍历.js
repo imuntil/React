@@ -16,16 +16,12 @@ var preorderTraversal = function (root) {
   const res = []
   while (root || q.length) {
     while (root) {
-      console.log('y', root.val)
       res.push(root.val)
       q.push(root)
       root = root.left
     }
-    while (q.length) {
-      const last = q.pop()
-      root = last.right
-      console.log('x', root && root.val)
-    }
+    const last = q.pop()
+    root = last.right
   }
   return res
 }
