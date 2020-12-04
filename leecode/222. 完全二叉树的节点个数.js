@@ -46,3 +46,32 @@ countNodes = function (root) {
 }
 
 // 二分
+countNodes = function (root) {
+  if (!root) return 0
+  const countDepth = (node) => {
+    let count = 0
+    while (node) {
+      count++
+      node = node.left
+    }
+    return count
+  }
+  const rootDepth = countDepth(root)
+  let [minC, maxC] = [1, Math.pow(2, rootDepth - 1)]
+
+  let traveled = 0
+  let curNode = root
+  while (minC !== maxC) {
+    const childDepth = countDepth(curNode.right)
+    traveled++
+    if (childDepth === rootDepth - traveled) {
+      curNode = curNode.right
+      minC = ((minC + maxC) >> 1) + 1
+    } else {
+      curNode = curNode.left
+      maxC = (minC + maxC) >> 1
+    }
+  }
+
+  return Math.pow(2, rootDepth - 1) - 1 + minC
+}
