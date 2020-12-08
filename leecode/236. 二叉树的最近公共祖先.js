@@ -11,24 +11,35 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
+
+// 回溯算法
 var lowestCommonAncestor = function (root, p, q) {
-  if (p.val === q.val) return p
-  let mark
-  let res = null
-  const helper = (node) => {
-    if (!node || res) return
-    helper(node.left)
-    if (mark && (node.val === q.val || node.val === p.val)) {
-      res = mark
-      return
+  const res = []
+  const helper = (node, arr) => {
+    if (node === p || node === q) {
+      res.push([...arr])
+      if (res.length === 2) {
+        return
+      }
     }
-    if (node.val === p.val || node.val === q.val) {
-      mark = node
-    } else if (node.left === mark || node.right === mark) {
-      mark = node
+    const temp = [node.left, node.right]
+    for (let i = 0; i < 2; i++) {
+      const c = temp[i]
+      if (!c) continue
+      arr.push(c)
+      helper(c, arr)
+      arr.pop()
     }
-    helper(node.right)
   }
-  helper(root)
-  return res
+  helper(root, [root])
+  const [a1, a2] = res
+  let n
+  for (let i = 0; i < a1.length; i++) {
+    if (a1[i] !== a2[i]) break
+    n = a1[i]
+  }
+  return n
 }
+
+// 后续遍历
+lowestCommonAncestor = function (root, p, q) {}
