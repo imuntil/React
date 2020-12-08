@@ -11,4 +11,19 @@
  * @param {number} k
  * @return {number}
  */
-var kthSmallest = function (root, k) {}
+var kthSmallest = function (root, k) {
+  let i = 0;
+  let res = null
+  const helper = node => {
+    if (!node || res) return
+    helper(node.left)
+    i++
+    if (i === k) {
+      res = node.val
+      return
+    }
+    helper(node.right)
+  }
+  helper(root)
+  return res
+}
