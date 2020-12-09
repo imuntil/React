@@ -42,4 +42,45 @@ var lowestCommonAncestor = function (root, p, q) {
 }
 
 // 后续遍历
-lowestCommonAncestor = function (root, p, q) {}
+lowestCommonAncestor = function (root, p, q) {
+  let res = null
+  const helper = (node) => {
+    if (!node) return
+    !res && helper(node.left)
+    !res && helper(node.right)
+    !node.c && (node.c = 0)
+    if (node === p || node === q) {
+      node.c++
+    }
+    if (node.left) {
+      node.c += node.left.c
+    }
+    if (node.right) {
+      node.c += node.right.c
+    }
+    if (node.c === 2 && !res) {
+      res = node
+    }
+  }
+  helper(root)
+  return res
+}
+
+// 后续遍历II
+lowestCommonAncestor = function (root, p, q) {
+  let res = null
+  const helper = (node) => {
+    if (!node) return false
+    const lson = helper(node.left)
+    const rson = helper(node.right)
+    if (
+      (lson && rson) ||
+      ((node.val === p.val || node.val === q.val) && (lson || rson))
+    ) {
+      res = node
+    }
+    return lson || rson || node.val === q.val || node.val === p.val
+  }
+  helper(root)
+  return res
+}
