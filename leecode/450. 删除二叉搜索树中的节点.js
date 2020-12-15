@@ -24,7 +24,9 @@ var deleteNode = function (root, key) {
     }
   }
   const { target, parent, direction } = find(root, null, '')
+  // 未找到
   if (!target) return root
+  // 叶节点
   if (!target.left && !target.right) {
     if (parent) {
       parent[direction] = null
@@ -32,12 +34,41 @@ var deleteNode = function (root, key) {
     }
     return null
   }
-  // 目标：返回被删除的最下节点，和删除最小节点后的树
-  const deleteMin = node => {
-    
-
+  // 只有左子节点
+  if (target.left && !target.right) {
+    if (parent) {
+      parent[direction] = target.left
+      return root
+    }
+    return target.left
   }
-  if (target.right) {
-
+  // 仅有右子节点
+  if (target.right && !target.left) {
+    if (parent) {
+      parent[direction] = target.right
+      return root
+    }
+    return target.right
   }
+  // 左右节点都存在
+  // 删除最小节点并返回 (右子树)
+  const deleteMin = (node) => {
+    let p = node.right
+    let n = node.right
+    while (n.left) {
+      p = n
+      n = n.left
+    }
+
+    if (p !== n) {
+      p.left = n.right
+      target.val = n.val
+      return root
+    } else {
+      node.right = p.right
+      target.val = n.val
+      return root
+    }
+  }
+  return deleteMin(target)
 }
