@@ -8,38 +8,41 @@
  */
 /**
  * @param {TreeNode} root
- * @return {number}
+ * @return {number[]}
  */
-var findBottomLeftValue = function (root) {
+var largestValues = function (root) {
+  if (!root) return []
   let q = [root]
-  let res
+  const res = []
+  let depth = 0
   while (q.length) {
     const temp = []
-    res = q[0]
     while (q.length) {
       const current = q.shift()
-      const { left, right } = current
+      const lineMax = res[depth]
+      const { left, right, val } = current
+      ;(val > lineMax || lineMax === undefined) && (res[depth] = val)
       left && temp.push(left)
       right && temp.push(right)
     }
+    depth++
     q = temp
   }
-  return res.val
+  return res
 }
 
-// dfs
-findBottomLeftValue = function (root) {
-  let res,
-    maxDepth = 0
+largestValues = function (root) {
+  if (!root) return []
+  const res = []
   const helper = (node, depth) => {
     if (!node) return
     helper(node.left, depth + 1)
     helper(node.right, depth + 1)
-    if (maxDepth < depth) {
-      maxDepth = depth
-      res = node
+    const rowMax = res[depth]
+    if (node.val > rowMax || rowMax === undefined) {
+      res[depth] = node.val
     }
   }
-  helper(root, 1)
-  return res.val
+  helper(root, 0)
+  return res
 }
