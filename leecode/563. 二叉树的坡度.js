@@ -10,6 +10,15 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var findTilt = function(root) {
-
-};
+var findTilt = function (root) {
+  let res = 0
+  const helper = (node) => {
+    if (!node) return 0
+    const lsum = helper(node.left)
+    const rsum = helper(node.right)
+    res += Math.abs(lsum - rsum)
+    return lsum + rsum + node.val
+  }
+  helper(root)
+  return res
+}
