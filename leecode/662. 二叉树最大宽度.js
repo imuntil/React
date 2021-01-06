@@ -17,32 +17,28 @@ var widthOfBinaryTree = function (root) {
   let res = 1
   while (q.length) {
     const temp = []
+    let startIx = null
     while (q.length) {
       const cur = q.shift()
       const { left, right, ix } = cur
+
       if (left) {
         temp.push(left)
-        left.ix = 2 * ix
+        if (startIx === null) {
+          startIx = 2 * ix
+        }
+        left.ix = 2 * ix - startIx
       }
       if (right) {
         temp.push(right)
-        right.ix = 2 * ix + 1
+        if (startIx === null) {
+          startIx = 2 * ix + 1
+        }
+        right.ix = 2 * ix + 1 - startIx
       }
     }
-    // console.log(temp)
-    let min = 0
-    let len = temp.length
-    for (let i = 0; i < len; i++) {
-      console.log(temp[i].val, temp[i].ix)
-      if (i === 0) {
-        min = temp[i].ix
-      }
-      if (min !== 0) {
-        temp[i].ix -= min
-      }
-      if (i === len - 1) {
-        res = Math.max(res, temp[i].ix + 1)
-      }
+    if (temp.length) {
+      res = Math.max(res, temp[temp.length - 1].ix + 1)
     }
     q = temp
   }
