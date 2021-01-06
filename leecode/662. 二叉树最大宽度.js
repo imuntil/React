@@ -40,7 +40,7 @@ var widthOfBinaryTree = function (root) {
       if (min !== 0) {
         temp[i].ix -= min
       }
-      if ((i = len - 1)) {
+      if (i === len - 1) {
         res = Math.max(res, temp[i].ix + 1)
       }
     }
@@ -48,6 +48,3 @@ var widthOfBinaryTree = function (root) {
   }
   return res
 }
-
-
-// [4,1,2,null,null,5,3]
