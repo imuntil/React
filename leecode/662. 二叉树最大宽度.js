@@ -44,3 +44,20 @@ var widthOfBinaryTree = function (root) {
   }
   return res
 }
+
+widthOfBinaryTree = function (root) {
+  const dp = {}
+  let res = 0
+  const helper = (node, depth, poi) => {
+    if (!node) return
+    if (dp[depth] === undefined) {
+      dp[depth] = poi
+    }
+    const offset = dp[depth]
+    res = Math.max(res, poi - offset + 1)
+    helper(node.left, depth + 1, poi * 2)
+    helper(node.right, depth + 1, poi * 2 + 1)
+  }
+  helper(root, 0, 0)
+  return res
+}
