@@ -36,7 +36,6 @@ function x416(nums) {
   return dp[len][sum]
 }
 
-
 /**
  * 给定数组nums, 目标和S，操作符+-，求有多少种方法得到S
  * 问题转化：根据+-操作符，将nums分为两部分
@@ -46,7 +45,7 @@ function x416(nums) {
  * 2 * sumA = S + sumB + sumA
  * 2 * sumA = S + sum(nums)
  * sumA = (S + sum(nums)) / 2
- * 
+ *
  * 状态：选择范围，前i个数字；以及sumA
  * dp表含义：dp[i][j] = x；前i个数字中，和为j的集合个数为x
  * 转移方程：
@@ -55,6 +54,30 @@ function x416(nums) {
  *            那么dp[i][j] = dp[i-1][j-x], 也就是前i个数字和为j的集合个数，等于前i-1个数字，和为j-x，也就是j-第i个数字的值)
  * base case：dp[i][0] = 1(全都不选，和即为0); dp[0][j] = 0 (没得选)
  */
-function x494() {
+function x494(nums, target) {
+  let sum = nums.reduce((x, y) => x + y)
+  if (sum < target) return 0
+  if ((target + sum) % 2 !== 0) return 0
+  sum = (target + sum) / 2
 
+  const len = nums.length
+  const dp = Array(len + 1)
+    .fill('')
+    .map(() =>
+      Array(sum + 1)
+        .fill(0)
+        .map((_, ix) => (ix === 0 ? 1 : 0))
+    )
+  for (let i = 1; i <= len; i++) {
+    for (let j = 1; j <= sum; j++) {
+      if (nums[i - 1] > j) {
+        // 装不下
+        dp[i][j] = dp[i - 1][j]
+      } else {
+        dp[i][j] = dp[i - 1][j] + dp[i - 1][j - nums[i - 1]]
+      }
+    }
+  }
+
+  return dp[len][sum]
 }
