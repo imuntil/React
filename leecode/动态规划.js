@@ -46,6 +46,14 @@ function x416(nums) {
  * 2 * sumA = S + sumB + sumA
  * 2 * sumA = S + sum(nums)
  * sumA = (S + sum(nums)) / 2
+ * 
+ * 状态：选择范围，前i个数字；以及sumA
+ * dp表含义：dp[i][j] = x；前i个数字中，和为j的集合个数为x
+ * 转移方程：
+ *    不选择：dp[i][j] = dp[i-1][j]（和为j时，不选择第i个数字，那可能的集合个数和前i-1个数字是一样的）
+ *    选 择:  dp[i][j] = dp[i-1][j-nums[i-1]] (设第i个数字，也就是nums[i-1]值为p，
+ *            那么dp[i][j] = dp[i-1][j-x], 也就是前i个数字和为j的集合个数，等于前i-1个数字，和为j-x，也就是j-第i个数字的值)
+ * base case：dp[i][0] = 1(全都不选，和即为0); dp[0][j] = 0 (没得选)
  */
 function x494() {
 
