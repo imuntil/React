@@ -26,3 +26,20 @@ var jump = function (nums) {
   }
   return dp(nums, 0)
 }
+
+// https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247485087&idx=1&sn=ddbed992e5ad8f1aa3b3d4afcb17889b&chksm=9bd7f897aca071817d3ea77acf4a8bc8e277bd38a43ebe2ceba2b42c3184886e07775a628fc7&scene=21#wechat_redirect
+jump = function (nums) {
+  const len = nums.length
+  let end = 0
+  let farthest = 0
+  let res = 0
+  // notice: i < len - 1
+  for (let i = 0; i < len - 1; i++) {
+    farthest = Math.max(farthest, i + nums[i])
+    if (i === end) {
+      end = farthest
+      res++
+    }
+  }
+  return res
+}
