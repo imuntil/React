@@ -27,8 +27,12 @@ function x(amount, coins) {
         // 放不下
         dp[i][j] = dp[i - 1][j]
       } else {
-        // dp[i][j] = dp[i-1][j] +
+        // 总方法 = 不装入 + 装入
+        // notice：dp[i][j - coins[i - 1]]
+        dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]]
       }
     }
   }
+
+  return dp[len][amount]
 }
