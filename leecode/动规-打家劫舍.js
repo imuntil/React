@@ -76,6 +76,7 @@ function rob3(nums) {
   let dp_i
   for (let i = nums.length - 1; i >= 0; i--) {
     dp_i = Math.max(dp_i_1, nums[i] + dp_i_2)
+    // i--,向前移动一位？？
     dp_i_2 = dp_i_1
     dp_i_1 = dp_i
   }
