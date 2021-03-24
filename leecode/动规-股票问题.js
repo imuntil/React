@@ -116,7 +116,23 @@ function xxx2x(prices) {
   // dp_i_2_0 = max(dp_i_2_0, dp_i_2_1 + prices[i])
   // dp_i_2_1 = max(dp_i_2_1, dp_i_1_0 - prices[i])
   // base case
-  // dp[-1][]
+  // dp[-1][k][0] = 0, dp[-1][k][1] = -infinity
+  let [dp_i_1_0, dp_i_1_1, dp_i_2_0, dp_i_2_1] = [
+    0,
+    Number.MIN_SAFE_INTEGER,
+    0,
+    Number.MIN_SAFE_INTEGER,
+  ]
+  for (let i = 0; i < prices.length; i++) {
+    const temp = dp_i_1_0
+    dp_i_1_0 = Math.max(dp_i_1_0, dp_i_1_1 + prices[i])
+    dp_i_1_1 = Math.max(dp_i_1_1, 0 - prices[i])
+
+    dp_i_2_0 = Math.max(dp_i_2_0, dp_i_2_1 + prices[i])
+    dp_i_2_1 = Math.max(dp_i_2_1, temp - prices[i])
+  }
+
+  return dp_i_2_0
 }
 
 // 交易任意次
@@ -137,3 +153,65 @@ function xxxInf(prices) {
   }
   return dp_i_0
 }
+
+// 手续费, 任意次，收益最高
+function xxxFee(prices, fee) {
+  let [dp_i_0, dp_i_1] = [0, Number.MIN_SAFE_INTEGER]
+  for (let i = 0; i < prices.length; i++) {
+    let temp = dp_i_0
+    // 相当于股票的收益减少了
+    dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i] - fee)
+    dp_i_1 = Math.max(dp_i_1, temp - prices[i])
+  }
+  return dp_i_0
+}
+
+// 1天冷却时间，任意次，收益最高
+function xxxCD(prices) {
+  let [dp_i_0, dp_i_1] = [0, Number.MIN_SAFE_INTEGER]
+  // dp[i-2][0]
+  let dp_i_pre_0 = 0
+  for (let i = 0; i < prices.length; i++) {
+    let temp = dp_i_0
+    dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i])
+    // 第i-1天持有，今天保持；第i-2天未持有，今天买入（1天的cd，卖出后至少需要隔一天才能买入）
+    dp_i_1 = Math.max(dp_i_1, dp_i_pre_0 - prices[i])
+    dp_i_pre_0 = temp
+  }
+  return dp_i_0
+}
+
+function xxxCD2(prices) {
+  // k无穷
+  const n = prices.length
+  const dp = Array(n)
+    .fill('')
+    .map(() => [0, 0])
+  // base case
+  // dp[-1][0] = 0
+  // dp[-1][1] = -infinity
+
+  // 状态转移
+  // dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+  // 第i-1天持有，今天保持；第i-2天未持有，今天买入（1天的cd，卖出后至少需要隔一天才能买入）
+  // dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i])
+  for (let i = 0; i < n; i++) {
+    if (i === 0) {
+      dp[i][0] = 0
+      dp[i][1] = -prices[i]
+      continue
+    }
+    if (i === 1) {
+      dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i])
+      dp[i][1] = Math.max(dp[i - 1][1], -prices[i])
+      continue
+    }
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i])
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 2][0] - prices[i])
+  }
+
+  return dp[n - 1][0]
+}
+
+// 给定最大交易次数，收益最高
+function xxxTimes(prices, K) {}
