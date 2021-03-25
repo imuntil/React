@@ -213,5 +213,49 @@ function xxxCD2(prices) {
   return dp[n - 1][0]
 }
 
-// 给定最大交易次数，收益最高
-function xxxTimes(prices, K) {}
+/**
+ * 给定最大交易次数，收益最高
+ * 一次交易（买入，卖出）至少需要两天，所以交易次数最多不会超过prices.length/2
+ * 当k >= prices.length/2 时，可认为是交易任意次: xxxInf
+ *
+ * @param {[number]} prices
+ * @param {numebr} K
+ */
+function xxxTimes(prices, K) {
+  const len = prices.length
+  if (K >= len >> 1) {
+    return xxxInf(prices)
+  }
+
+  const dp = Array(len)
+    .fill('')
+    .map(() =>
+      Array(K + 1)
+        .fill('')
+        .map(() => [0, 0])
+    )
+
+  // base case
+  // dp[-1][k][0] = 0; dp[-1][k][1] = -infinity
+  // dp[i][0][0] = 0; dp[i][0][1] = -infinity
+
+  for (let i = 0; i < len; i++) {
+    dp[i][0][0] = 0
+    dp[i][0][1] = Number.MIN_SAFE_INTEGER
+  }
+
+  for (let i = 0; i < len; i++) {
+    for (let k = 1; k <= K; k++) {
+      if (i === 0) {
+        // base case
+        dp[i][k][0] = 0
+        dp[i][k][1] = -prices[i]
+        continue
+      }
+      dp[i][k][0] = Math.max(dp[i - 1][k][0], dp[i - 1][k][1] + prices[i])
+      dp[i][k][1] = Math.max(dp[i - 1][k][1], dp[i - 1][k - 1][0] - prices[i])
+    }
+  }
+
+  return dp[len - 1][K][0]
+}
