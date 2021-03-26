@@ -16,6 +16,7 @@
  * 结束循环条件 left === right, [left, left), 区间为空
  * while: left < right
  *  if: arr[mid] === target
+ *    左边界，向左边收缩区间
  *    right = mid
  *  else if: arr[mid] > target
  *    right = mid
@@ -28,6 +29,7 @@
  * 结束循环条件 left === right, [left, left), 区间为空
  * while: left < right
  *  if: arr[mid] === target
+ *    有边界，向右边收缩区间
  *    left = mid + 1
  *  else if: arr[mid] > target
  *    right = mid
