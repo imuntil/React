@@ -59,6 +59,30 @@ function f4(n) {
 }
 
 // 字符串出现的不重复最长长度
+// 滑动窗口III.js
+// 15.实现 add(1)(2)(3)
+function f15() {
+  function sum(...args) {
+    return args.reduce((x, y) => x + y)
+  }
+
+  function curry(...args) {
+    let xargs = [...args]
+    function fn(...rest) {
+      xargs = xargs.concat(rest)
+      if (xargs.length === 3) {
+        return sum(...xargs)
+      } else {
+        return fn
+      }
+    }
+    return fn
+  }
+  curry(1)(2)(3)
+}
+
+// 23.介绍下 promise 的特性、优缺点，内部是如何实现的，动手实现 Promise
+// __todo
 
 // 24 promise.all
 const promiseAll = (promises) => {
@@ -77,4 +101,23 @@ const promiseAll = (promises) => {
     })
   })
 }
+
+// 29.手写数组转树
+// arr2Tree.js
+
+// 30.手写用 ES6proxy 如何实现 arr[-1] 的访问
+const arr = [1, 2, 3]
+const px = new Proxy(arr, {
+  // notice：key 为字符串
+  get(target, key, receiver) {
+    if (/-\d+/.test(key)) {
+      key = +key
+
+      while (key < 0) {
+        key += target.length
+      }
+    }
+    return Reflect.get(target, key, receiver)
+  },
+})
 
