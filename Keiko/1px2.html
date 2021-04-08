@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        display: block;
+        padding: 5px;
+        font-size: 12px;
+        margin: 10px;
+        border-radius: 5px;
+      }
+      /* 1px */
+      .px1 {
+        border: 1px solid #000;
+      }
+      /* 0.5px, 可根据dpr计算 */
+      .px0-5 {
+        border: 0.5px solid #000;
+      }
+      .scale::after {
+        content: '';
+        display: block;
+        border-bottom: 1px solid #000;
+        transform: scaleY(0.33333);
+      }
+      .linear::after {
+        display: block;
+        content: '';
+        height: 1px;
+        background: linear-gradient(0, #fff 66.66666%, #000);
+      }
+
+      .shadow {
+        /* 单边 */
+        /* box-shadow: 0 0.5px 0 0 #000; */
+        /* 多边 */
+        box-shadow: 0 -1px 1px -1px #000, 1px 0 1px -1px #000,
+          0 1px 1px -1px #000, -1px 0 1px -1px #000;
+      }
+      .shadow-2 {
+        box-shadow: 0 -0.5px 0 0 #000, 0.5px 0 0 0 #000, 0 0.5px 0 0 #000,
+          -0.5px 0 0 0 #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="px1">1px</div>
+    <div class="px0-5">0.5px</div>
+    <div class="scale">scale</div>
+    <div class="linear">linear-gradient</div>
+    <div class="shadow">box-shadow</div>
+    <div class="shadow-2">box-shadow2</div>
+
+    <button>set viewport</button>
+    <script>
+      function setViewPort() {
+        // const dpr = (window.devicePixelRatio || 1).toFixed(0)
+        // const docEl = document.documentElement
+        // // const fontEl = document.createElement('style')
+        // const metaEl = document.querySelector('meta[name="viewport"]')
+        // const scale = 1 / dpr
+        // metaEl.setAttribute(
+        //   'content',
+        //   'width=device-width' +
+        //     ',initial-scale=' +
+        //     scale +
+        //     ',maximum-scale=' +
+        //     scale +
+        //     ', minimum-scale=' +
+        //     scale +
+        //     ',user-scalable=no, viewport-fit=contain'
+        // )
+        // docEl.setAttribute('data-dpr', dpr)
+        // // docEl.firstElementChild.appendChild(fontEl)
+        // // fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}'
+        var dpr, rem, scale
+        var docEl = document.documentElement
+        var fontEl = document.createElement('style')
+        var metaEl = document.querySelector('meta[name="viewport"]')
+        dpr = (window.devicePixelRatio || 1).toFixed(1)
+        rem = (docEl.clientWidth * dpr) / 10
+        scale = 1 / dpr
+        metaEl.setAttribute(
+          'content',
+          'width=' +
+            dpr * docEl.clientWidth +
+            ',initial-scale=' +
+            scale +
+            ',maximum-scale=' +
+            scale +
+            ', minimum-scale=' +
+            scale +
+            ',user-scalable=no, viewport-fit=contain'
+        )
+        docEl.setAttribute('data-dpr', dpr)
+        docEl.firstElementChild.appendChild(fontEl)
+        fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}'
+      }
+      document
+        .querySelector('button')
+        .addEventListener('click', setViewPort, false)
+    </script>
+  </body>
+</html>
