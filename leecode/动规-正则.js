@@ -4,7 +4,7 @@
 function isMatch(text, pattern) {
   if (!pattern) return !text
   // 匹配第一个字符
-  const first = text && (text[0] === pattern[0] || text[0] === '.')
+  const first = text && (text[0] === pattern[0] || pattern[0] === '.')
   // 如果pattern中存在*，且在第二位
   if (pattern.length >= 2 && pattern[1] === '*') {
     return (
