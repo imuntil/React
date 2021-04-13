@@ -199,7 +199,7 @@ function myCreate(proto) {
 }
 
 function clone(source) {
-  const isObject = value => {
+  const isObject = (value) => {
     return typeof value === 'object' && value !== null
   }
 
@@ -229,4 +229,107 @@ function clone(source) {
     }
   }
   return root
+}
+
+Function.prototype.myCall2 = function (thisArg, ...rest) {
+  if (thisArg === undefined || thisArg === null) {
+    thisArg = window
+  } else {
+    thisArg = Object(thisArg)
+  }
+
+  const key = Symbol('this')
+  thisArg[key] = this
+  const res = thisArg[key](...rest)
+  delete thisArg[key]
+  return res
+}
+
+Function.prototype.myBind2 = function (thisArg, ...rest) {
+  const self = this
+  const fN = function () {}
+  const fBound = function (...args) {
+    const xargs = [...rest, ...args]
+    self.call(this instanceof fN ? this : thisArg, ...xargs)
+  }
+
+  fN.prototype = this.prototype
+  fBound.prototype = new fN()
+
+  return fBound
+}
+
+function parseUrl2(url) {
+  const [_, searchStr] = url.split('?')
+  if (!searchStr) return {}
+  const searchArr = searchStr.split('&')
+  const res = {}
+  searchArr.forEach((v) => {
+    if (v.indexOf('=') > -1) {
+      let [key, value] = v.split('=')
+      value = decodeURIComponent(value)
+      if (res.hasOwnProperty(key)) {
+        res[key] = [].concat(res[key], value)
+      } else {
+        res[key] = value
+      }
+    } else {
+      res[v] = true
+    }
+  })
+  return value
+}
+
+{
+  function Parent(name) {
+    this.name = name
+  }
+
+  Parent.prototype.say = function () {
+    console.log('my name is' + this.name)
+  }
+
+  function Child(name, age) {
+    Parent.call(this, name)
+    this.age = age
+  }
+
+  // Child.prototype = Object.create(Parent.prototype)
+  Child.prototype = new Parent()
+  Child.prototype.constructor = Child
+
+  Child.prototype.introduce = function () {
+    console.log(this.name, this.age)
+  }
+}
+
+function xcurry(fn, ...rest) {
+  let xargs = [...rest]
+  const len = fn.length
+  const cb = function (...args) {
+    xargs = [...xargs, ...args]
+    if (xargs.length === len) {
+      return fn.call(this, ...xargs)
+    }
+    return cb
+  }
+  return cb
+}
+
+function unix(arr) {
+  return arr.filter((v, ix, xarr) => xarr.indexOf(v) === ix)
+}
+
+function imgLazyload() {
+  const imgs = document.querySelector('[data-lazy]')
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((item) => {
+      if (item.isIntersecting) {
+        item.target.src = item.target.dataset.originUrl
+        observer.unobserve(item.target)
+      }
+    })
+  })
+
+  imgs.forEach((v) => observer.observe(v))
 }
