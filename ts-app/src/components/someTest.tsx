@@ -30,3 +30,13 @@ export interface NotOkay {
   [x: string]: Animal
   [x: number]: Dog
 }
+
+
+interface SearchFun {
+  (source: string, substr: string): boolean
+}
+
+let mySearch: SearchFun;
+mySearch = (a, b) => {
+  return a.indexOf(b) > -1
+}
