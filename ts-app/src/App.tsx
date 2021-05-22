@@ -3,7 +3,8 @@ import logo from './logo.svg'
 import BtnList from './components/BtnList'
 import alert from './components/Alert'
 import StudentCard from './components/StudentCard'
-import MobxComp from './xmobx/MboxComp'
+import UseObserverComp from './xmobx/UseObserverComp'
+import UseObserverHOC from './xmobx/UseObserverHoc'
 import './App.css'
 
 const list = [{ txt: 'abc' }, { txt: 'def', count: 100 }]
@@ -18,7 +19,9 @@ function App() {
     <div className="App">
       <BtnList groupName="btns list" list={list} />
       <StudentCard />
-      <MobxComp />
+      <UseObserverComp />
+      <hr />
+      <UseObserverHOC />
     </div>
   )
 }
