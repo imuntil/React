@@ -6,11 +6,14 @@ import reportWebVitals from './reportWebVitals'
 import 'antd-mobile/dist/antd-mobile.css'
 import Store from './store/root'
 import { Provider } from 'mobx-react'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={new Store()}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

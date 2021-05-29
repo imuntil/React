@@ -1,29 +1,40 @@
-import React, { useEffect } from 'react'
-import logo from './logo.svg'
-import BtnList from './components/BtnList'
-import alert from './components/Alert'
-import StudentCard from './components/StudentCard'
-import UseObserverComp from './xmobx/UseObserverComp'
-import UseObserverHOC from './xmobx/UseObserverHoc'
-import './App.css'
+import React from 'react'
+import { Switch, Link, Route } from 'react-router-dom'
+import routes from './routerConfig'
+import { useTransition, animated } from 'react-spring'
+import { useLocation } from 'react-router-dom'
 
-const list = [{ txt: 'abc' }, { txt: 'def', count: 100 }]
-function App() {
-  useEffect(() => {
-    setTimeout(() => {
-      alert('lalala', 'hello alert', [{ text: 'OK' }])
-    }, 1000)
-  }, [])
+interface Props {}
 
-  return (
-    <div className="App">
-      <BtnList groupName="btns list" list={list} />
-      <StudentCard />
-      <UseObserverComp />
-      <hr />
-      <UseObserverHOC />
-    </div>
-  )
+const Paths = ['/', '/demo1', '/react-spring', '/react-resize-aware']
+
+const App = (props: Props) => {
+  const location = useLocation()
+  console.log(`location`, location)
+  const transitions = useTransition(location, {
+    from: { opacity: 0, transform: 'translate(-20px, 20px)' },
+    enter: { opacity: 1, transform: 'translate(0px, 0px)' },
+    leave: { opacity: 0, transform: 'translate(20px, 20px)' },
+  })
+  // return transitions((props, item, t, i) => {
+  return transitions((props, item) => {
+    const ani = Paths.indexOf(item.pathname) > -1
+    return ani ? (
+      <animated.div style={props}>
+        <Switch location={item}>
+          {routes.map((v, index) => (
+            <Route key={index} {...v} />
+          ))}
+        </Switch>
+      </animated.div>
+    ) : (
+      <Switch>
+        {routes.map((v, index) => (
+          <Route key={index} {...v} />
+        ))}
+      </Switch>
+    )
+  })
 }
 
 export default App

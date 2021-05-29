@@ -1,0 +1,43 @@
+.com-1, .com-2 {
+  width: 200px;
+  height: 200px;
+  background: #000;
+}
+
+.com-2 {
+  background: green;
+}
+
+.btn {
+  margin-top: 250px;
+}
+
+.container {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 80vh;
+}
+
+.wrap {
+  width: 100px;
+  height: 500px;
+  background: #ddd;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.list-cell {
+  width: 100%;
+  padding: 5px 10px;
+  background: pink;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.list-cell:nth-child(2n) {
+  background: skyblue;
+}
