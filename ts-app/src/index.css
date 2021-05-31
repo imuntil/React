@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -12,11 +13,17 @@ code {
     monospace;
 }
 
+/* #root {
+  width: 100%;
+  overflow-x: hidden;
+} */
 #root > div {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding: 20px;
   box-sizing: border-box;
   background: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
 }
