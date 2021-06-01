@@ -1,6 +1,11 @@
 .spring-demo-box > div {
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   min-height: 50vh;
   background: #eee;
+}
+
+.spring-demo-box {
+  position: absolute;
+  width: 80%;
 }

@@ -16,25 +16,26 @@ const App = (props: Props) => {
     enter: { opacity: 1, transform: 'translate(0px, 0px)' },
     leave: { opacity: 0, transform: 'translate(20px, 20px)' },
   })
-  // return transitions((props, item, t, i) => {
-  return transitions((props, item) => {
-    const ani = Paths.indexOf(item.pathname) > -1
-    return ani ? (
-      <animated.div style={props}>
-        <Switch location={item}>
-          {routes.map((v, index) => (
-            <Route key={index} {...v} />
-          ))}
-        </Switch>
-      </animated.div>
-    ) : (
-      <Switch>
-        {routes.map((v, index) => (
-          <Route key={index} {...v} />
-        ))}
-      </Switch>
-    )
-  })
+  const needAni = !/^\/react-spring\/.+/.test(location.pathname)
+  return needAni ? (
+    transitions((props, item) => {
+      return (
+        <animated.div style={props}>
+          <Switch location={item}>
+            {routes.map((v, index) => (
+              <Route key={index} {...v} />
+            ))}
+          </Switch>
+        </animated.div>
+      )
+    })
+  ) : (
+    <Switch>
+      {routes.map((v, index) => (
+        <Route key={index} {...v} />
+      ))}
+    </Switch>
+  )
 }
 
 export default App
