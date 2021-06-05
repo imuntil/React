@@ -14,3 +14,18 @@ let nxn: NN = 'x' // ok
 nxn = 1 // ok
 // nxn = null // 不能将类型“null”分配给类型“NN”。
 // nxn = ['x'] //不能将类型“string[]”分配给类型“NN”。不能将类型“string[]”分配给类型“string”。
+
+
+function logIfHasName(something: { name?: string }) {
+  if (something.name) {
+    console.log(something.name);
+  }
+}
+
+const person = { name: 'matt', job: 'being awesome' };
+const animal = { name: 'cow', diet: 'vegan, but has milk of own species' };
+
+logIfHasName(person); // okay
+logIfHasName(animal); // okay
+
+// logIfHasName({ neme: 'I just misspelled name to neme' }); // Error: 对象字面量只能指定已知属性，`neme` 属性不存在。
