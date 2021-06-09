@@ -8,6 +8,8 @@ import Store from './store/root'
 import { Provider } from 'mobx-react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
+// test
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={new Store()}>
